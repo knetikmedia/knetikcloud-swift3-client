@@ -9,6 +9,7 @@ import Foundation
 
 
 open class RawEmailResource: JSONEncodable {
+
     /** The body of the outgoing message. */
     public var body: String?
     /** Address to attribute the outgoing message to. Optional if the config email.out_address is set. */
@@ -30,6 +31,7 @@ open class RawEmailResource: JSONEncodable {
         nillableDictionary["html"] = self.html
         nillableDictionary["recipients"] = self.recipients?.encodeToJSON()
         nillableDictionary["subject"] = self.subject
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

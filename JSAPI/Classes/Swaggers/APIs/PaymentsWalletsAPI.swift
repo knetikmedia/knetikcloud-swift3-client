@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -26,16 +27,16 @@ open class PaymentsWalletsAPI: APIBase {
 
     /**
      Returns the user's wallet for the given currency code
-     - GET /users/{userId}/wallets/{currencyCode}
+     - GET /users/{user_id}/wallets/{currency_code}
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "code" : "aeiou",
   "currency_name" : "aeiou",
-  "balance" : 6.732023843205588,
-  "user_id" : 5,
-  "id" : 8
+  "balance" : 0.8008281904610115,
+  "user_id" : 1,
+  "id" : 6
 }}]
      
      - parameter userId: (path) The ID of the user for whom wallet is being retrieved 
@@ -44,7 +45,7 @@ open class PaymentsWalletsAPI: APIBase {
      - returns: RequestBuilder<SimpleWallet> 
      */
     open class func getUserWalletWithRequestBuilder(userId: Int32, currencyCode: String) -> RequestBuilder<SimpleWallet> {
-        var path = "/users/{userId}/wallets/{currencyCode}"
+        var path = "/users/{user_id}/wallets/{currency_code}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{currency_code}", with: "\(currencyCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -81,15 +82,15 @@ open class PaymentsWalletsAPI: APIBase {
 
     /**
      Retrieve a user's wallet transactions
-     - GET /users/{userId}/wallets/{currencyCode}/transactions
+     - GET /users/{user_id}/wallets/{currency_code}/transactions
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 1,
+  "number" : 9,
   "last" : true,
-  "size" : 0,
-  "total_elements" : 6,
+  "size" : 2,
+  "total_elements" : 4,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -97,8 +98,8 @@ open class PaymentsWalletsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 1,
-  "number_of_elements" : 4,
+  "total_pages" : 7,
+  "number_of_elements" : 3,
   "content" : [ {
     "transaction_id" : "aeiou",
     "type_hint" : "aeiou",
@@ -106,20 +107,20 @@ open class PaymentsWalletsAPI: APIBase {
     "type" : "aeiou",
     "currency_code" : "aeiou",
     "is_refunded" : false,
-    "wallet_id" : 4,
-    "balance" : 3.4489058989247754,
+    "wallet_id" : 7,
+    "balance" : 0.8008281904610115,
     "response" : "aeiou",
-    "invoice_id" : 3,
+    "invoice_id" : 5,
     "details" : "aeiou",
-    "id" : 9,
+    "id" : 1,
     "create_date" : 6,
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 1,
+      "id" : 5,
       "display_name" : "aeiou",
       "username" : "aeiou"
     },
-    "value" : 5.384185196544222,
+    "value" : 2.3021358869347655,
     "successful" : false
   } ],
   "first" : true
@@ -138,7 +139,7 @@ open class PaymentsWalletsAPI: APIBase {
      - returns: RequestBuilder<PageResourceWalletTransactionResource> 
      */
     open class func getUserWalletTransactionsWithRequestBuilder(userId: Int32, currencyCode: String, filterType: String? = nil, filterMaxDate: Int64? = nil, filterMinDate: Int64? = nil, filterSign: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceWalletTransactionResource> {
-        var path = "/users/{userId}/wallets/{currencyCode}/transactions"
+        var path = "/users/{user_id}/wallets/{currency_code}/transactions"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{currency_code}", with: "\(currencyCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -176,16 +177,16 @@ open class PaymentsWalletsAPI: APIBase {
 
     /**
      List all of a user's wallets
-     - GET /users/{userId}/wallets
+     - GET /users/{user_id}/wallets
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
   "code" : "aeiou",
   "currency_name" : "aeiou",
-  "balance" : 5.267544880961363,
-  "user_id" : 9,
-  "id" : 4
+  "balance" : 0.8008281904610115,
+  "user_id" : 1,
+  "id" : 6
 } ]}]
      
      - parameter userId: (path) The ID of the user for whom wallets are being retrieved 
@@ -193,7 +194,7 @@ open class PaymentsWalletsAPI: APIBase {
      - returns: RequestBuilder<[SimpleWallet]> 
      */
     open class func getUserWalletsWithRequestBuilder(userId: Int32) -> RequestBuilder<[SimpleWallet]> {
-        var path = "/users/{userId}/wallets"
+        var path = "/users/{user_id}/wallets"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -225,10 +226,10 @@ open class PaymentsWalletsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 1,
+  "number" : 6,
   "last" : true,
-  "size" : 4,
-  "total_elements" : 1,
+  "size" : 5,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -236,10 +237,10 @@ open class PaymentsWalletsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 9,
-  "number_of_elements" : 5,
+  "total_pages" : 2,
+  "number_of_elements" : 1,
   "content" : [ {
-    "total" : 1.3732768158388442,
+    "total" : 0.8008281904610115,
     "currency_code" : "aeiou"
   } ],
   "first" : true
@@ -298,10 +299,10 @@ open class PaymentsWalletsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 9,
   "last" : true,
-  "size" : 7,
-  "total_elements" : 7,
+  "size" : 2,
+  "total_elements" : 4,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -309,8 +310,8 @@ open class PaymentsWalletsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 2,
-  "number_of_elements" : 1,
+  "total_pages" : 7,
+  "number_of_elements" : 3,
   "content" : [ {
     "transaction_id" : "aeiou",
     "type_hint" : "aeiou",
@@ -318,20 +319,20 @@ open class PaymentsWalletsAPI: APIBase {
     "type" : "aeiou",
     "currency_code" : "aeiou",
     "is_refunded" : false,
-    "wallet_id" : 0,
-    "balance" : 0.34575965304179057,
+    "wallet_id" : 7,
+    "balance" : 0.8008281904610115,
     "response" : "aeiou",
     "invoice_id" : 5,
     "details" : "aeiou",
-    "id" : 9,
-    "create_date" : 9,
+    "id" : 1,
+    "create_date" : 6,
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 8,
+      "id" : 5,
       "display_name" : "aeiou",
       "username" : "aeiou"
     },
-    "value" : 5.778926829775271,
+    "value" : 2.3021358869347655,
     "successful" : false
   } ],
   "first" : true
@@ -399,10 +400,10 @@ open class PaymentsWalletsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 0,
+  "number" : 5,
   "last" : true,
-  "size" : 4,
-  "total_elements" : 8,
+  "size" : 2,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -410,14 +411,14 @@ open class PaymentsWalletsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 6,
+  "total_pages" : 9,
   "number_of_elements" : 5,
   "content" : [ {
     "code" : "aeiou",
     "currency_name" : "aeiou",
-    "balance" : 8.726652086078666,
-    "user_id" : 9,
-    "id" : 3
+    "balance" : 0.8008281904610115,
+    "user_id" : 1,
+    "id" : 6
   } ],
   "first" : true
 }}]
@@ -463,7 +464,7 @@ open class PaymentsWalletsAPI: APIBase {
 
     /**
      Updates the balance for a user's wallet
-     - PUT /users/{userId}/wallets/{currencyCode}/balance
+     - PUT /users/{user_id}/wallets/{currency_code}/balance
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -474,20 +475,20 @@ open class PaymentsWalletsAPI: APIBase {
   "type" : "aeiou",
   "currency_code" : "aeiou",
   "is_refunded" : false,
-  "wallet_id" : 1,
-  "balance" : 1.4462749706997802,
+  "wallet_id" : 7,
+  "balance" : 0.8008281904610115,
   "response" : "aeiou",
   "invoice_id" : 5,
   "details" : "aeiou",
-  "id" : 6,
-  "create_date" : 3,
+  "id" : 1,
+  "create_date" : 6,
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 3,
+    "id" : 5,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
-  "value" : 6.916922083844986,
+  "value" : 2.3021358869347655,
   "successful" : false
 }}]
      
@@ -498,7 +499,7 @@ open class PaymentsWalletsAPI: APIBase {
      - returns: RequestBuilder<WalletTransactionResource> 
      */
     open class func updateWalletBalanceWithRequestBuilder(userId: Int32, currencyCode: String, request: WalletAlterRequest? = nil) -> RequestBuilder<WalletTransactionResource> {
-        var path = "/users/{userId}/wallets/{currencyCode}/balance"
+        var path = "/users/{user_id}/wallets/{currency_code}/balance"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{currency_code}", with: "\(currencyCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path

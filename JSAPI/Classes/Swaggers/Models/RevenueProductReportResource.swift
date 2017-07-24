@@ -9,6 +9,7 @@ import Foundation
 
 
 open class RevenueProductReportResource: JSONEncodable {
+
     public var itemId: Int32?
     public var itemName: String?
     public var revenue: Double?
@@ -23,6 +24,7 @@ open class RevenueProductReportResource: JSONEncodable {
         nillableDictionary["item_name"] = self.itemName
         nillableDictionary["revenue"] = self.revenue
         nillableDictionary["volume"] = self.volume?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

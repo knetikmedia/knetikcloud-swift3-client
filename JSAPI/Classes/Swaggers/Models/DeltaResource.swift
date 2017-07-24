@@ -9,6 +9,7 @@ import Foundation
 
 
 open class DeltaResource: JSONEncodable {
+
     public enum State: String { 
         case updated = "UPDATED"
         case removed = "REMOVED"
@@ -37,6 +38,7 @@ open class DeltaResource: JSONEncodable {
         nillableDictionary["state"] = self.state?.rawValue
         nillableDictionary["tags"] = self.tags?.encodeToJSON()
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

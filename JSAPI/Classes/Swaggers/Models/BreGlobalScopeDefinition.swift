@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BreGlobalScopeDefinition: JSONEncodable {
+
     /** The name of the scoping parameter. This is used as the unique identifier of this scope */
     public var name: String?
     /** The variable type of this scoping parameter. See Bre Variables endpoint for list */
@@ -21,6 +22,7 @@ open class BreGlobalScopeDefinition: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["name"] = self.name
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

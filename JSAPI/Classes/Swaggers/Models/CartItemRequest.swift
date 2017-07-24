@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CartItemRequest: JSONEncodable {
+
     /** The affiliate key of the item */
     public var affiliateKey: String?
     /** The catalog SKU of the item */
@@ -27,6 +28,7 @@ open class CartItemRequest: JSONEncodable {
         nillableDictionary["catalog_sku"] = self.catalogSku
         nillableDictionary["price_override"] = self.priceOverride
         nillableDictionary["quantity"] = self.quantity?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

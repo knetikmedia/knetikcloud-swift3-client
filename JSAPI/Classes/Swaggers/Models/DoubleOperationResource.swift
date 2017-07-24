@@ -9,6 +9,7 @@ import Foundation
 
 
 open class DoubleOperationResource: JSONEncodable {
+
     public var args: [ExpressionResource]?
     public var op: String?
     public var type: String?
@@ -21,6 +22,7 @@ open class DoubleOperationResource: JSONEncodable {
         nillableDictionary["args"] = self.args?.encodeToJSON()
         nillableDictionary["op"] = self.op
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

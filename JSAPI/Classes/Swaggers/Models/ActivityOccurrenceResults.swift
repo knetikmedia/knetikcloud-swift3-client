@@ -9,8 +9,9 @@ import Foundation
 
 
 open class ActivityOccurrenceResults: JSONEncodable {
+
     /** The game results for each user. Include all users that played (paid to get in) even if they were eliminated without a result. A null metric is allowed */
-    public var users: [UserActivityResultsResource]?
+    public var users: [UserActivityResults]?
 
     public init() {}
 
@@ -18,6 +19,7 @@ open class ActivityOccurrenceResults: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["users"] = self.users?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

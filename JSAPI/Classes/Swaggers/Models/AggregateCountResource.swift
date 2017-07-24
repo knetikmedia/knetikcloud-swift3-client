@@ -9,6 +9,7 @@ import Foundation
 
 
 open class AggregateCountResource: JSONEncodable {
+
     public var count: Int64?
     public var date: String?
 
@@ -19,6 +20,7 @@ open class AggregateCountResource: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["count"] = self.count?.encodeToJSON()
         nillableDictionary["date"] = self.date
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

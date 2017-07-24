@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -173,8 +174,8 @@ open class BRERuleEngineGlobalsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,
-  "size" : 0,
-  "total_elements" : 0,
+  "size" : 1,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -182,8 +183,8 @@ open class BRERuleEngineGlobalsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 0,
-  "number_of_elements" : 8,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ {
     "name" : "aeiou",
     "description" : "aeiou",

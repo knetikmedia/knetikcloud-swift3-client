@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SubscriptionResource: JSONEncodable {
+
     public enum Availability: String { 
         case all = "all"
         case newSubscribers = "new_subscribers"
@@ -83,6 +84,7 @@ open class SubscriptionResource: JSONEncodable {
         nillableDictionary["unique_key"] = self.uniqueKey
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
         nillableDictionary["vendor_id"] = self.vendorId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

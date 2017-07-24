@@ -9,6 +9,7 @@ import Foundation
 
 
 open class AudioPropertyDefinitionResource: PropertyDefinitionResource {
+
     /** If provided, a file type the property must match */
     public var fileType: String?
     /** If provided, the maximum length of the audio */
@@ -24,6 +25,7 @@ open class AudioPropertyDefinitionResource: PropertyDefinitionResource {
         nillableDictionary["file_type"] = self.fileType
         nillableDictionary["max_length"] = self.maxLength?.encodeToJSON()
         nillableDictionary["min_length"] = self.minLength?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

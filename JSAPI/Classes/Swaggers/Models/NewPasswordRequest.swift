@@ -9,6 +9,7 @@ import Foundation
 
 
 open class NewPasswordRequest: JSONEncodable {
+
     /** The new password in plain text */
     public var password: String?
     /** The secret provided after the password reset */
@@ -21,6 +22,7 @@ open class NewPasswordRequest: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["password"] = self.password
         nillableDictionary["secret"] = self.secret
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

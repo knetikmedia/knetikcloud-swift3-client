@@ -9,6 +9,7 @@ import Foundation
 
 
 open class GuestPlayable: Behavior {
+
     /** Whether guests are allowed to use items */
     public var allowed: Bool?
     /** Whether guests are allowed on the leaderboard */
@@ -21,6 +22,7 @@ open class GuestPlayable: Behavior {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["allowed"] = self.allowed
         nillableDictionary["leaderboard"] = self.leaderboard
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

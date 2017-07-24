@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ChallengeEventParticipantResource: JSONEncodable {
+
     /** The email address of the user */
     public var email: String?
     /** The full name of the user */
@@ -30,6 +31,7 @@ open class ChallengeEventParticipantResource: JSONEncodable {
         nillableDictionary["score"] = self.score?.encodeToJSON()
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
         nillableDictionary["username"] = self.username
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

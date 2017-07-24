@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -32,11 +33,11 @@ open class StoreSalesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "short_description" : "aeiou",
   "item" : 1,
-  "sale_end_date" : 9,
-  "vendor" : 0,
+  "sale_end_date" : 5,
+  "vendor" : 2,
   "name" : "aeiou",
-  "discount_value" : 1.9457995929486849,
-  "sale_start_date" : 7,
+  "discount_value" : 0.8008281904610115,
+  "sale_start_date" : 5,
   "id" : 6,
   "long_description" : "aeiou",
   "tag" : "aeiou",
@@ -121,12 +122,12 @@ open class StoreSalesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "short_description" : "aeiou",
   "item" : 1,
-  "sale_end_date" : 7,
-  "vendor" : 0,
+  "sale_end_date" : 5,
+  "vendor" : 2,
   "name" : "aeiou",
-  "discount_value" : 1.6977335124469162,
+  "discount_value" : 0.8008281904610115,
   "sale_start_date" : 5,
-  "id" : 4,
+  "id" : 6,
   "long_description" : "aeiou",
   "tag" : "aeiou",
   "discount_type" : "value",
@@ -173,10 +174,10 @@ open class StoreSalesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 2,
+  "number" : 7,
   "last" : true,
-  "size" : 0,
-  "total_elements" : 8,
+  "size" : 3,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -184,17 +185,17 @@ open class StoreSalesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 5,
-  "number_of_elements" : 1,
+  "total_pages" : 4,
+  "number_of_elements" : 9,
   "content" : [ {
     "short_description" : "aeiou",
-    "item" : 6,
-    "sale_end_date" : 1,
+    "item" : 1,
+    "sale_end_date" : 5,
     "vendor" : 2,
     "name" : "aeiou",
-    "discount_value" : 8.656887151470295,
-    "sale_start_date" : 8,
-    "id" : 5,
+    "discount_value" : 0.8008281904610115,
+    "sale_start_date" : 5,
+    "id" : 6,
     "long_description" : "aeiou",
     "tag" : "aeiou",
     "discount_type" : "value",
@@ -249,13 +250,13 @@ open class StoreSalesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "short_description" : "aeiou",
-  "item" : 8,
-  "sale_end_date" : 4,
+  "item" : 1,
+  "sale_end_date" : 5,
   "vendor" : 2,
   "name" : "aeiou",
-  "discount_value" : 2.5676648710797148,
+  "discount_value" : 0.8008281904610115,
   "sale_start_date" : 5,
-  "id" : 5,
+  "id" : 6,
   "long_description" : "aeiou",
   "tag" : "aeiou",
   "discount_type" : "value",

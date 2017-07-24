@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PageResourceStoreItemTemplateResource: JSONEncodable {
+
     public var content: [StoreItemTemplateResource]?
     public var first: Bool?
     public var last: Bool?
@@ -33,6 +34,7 @@ open class PageResourceStoreItemTemplateResource: JSONEncodable {
         nillableDictionary["sort"] = self.sort?.encodeToJSON()
         nillableDictionary["total_elements"] = self.totalElements?.encodeToJSON()
         nillableDictionary["total_pages"] = self.totalPages?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

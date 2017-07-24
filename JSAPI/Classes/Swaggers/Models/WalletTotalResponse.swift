@@ -9,6 +9,7 @@ import Foundation
 
 
 open class WalletTotalResponse: JSONEncodable {
+
     /** The currency code */
     public var currencyCode: String?
     /** The sum of all wallets in the system for this currency */
@@ -21,6 +22,7 @@ open class WalletTotalResponse: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["currency_code"] = self.currencyCode
         nillableDictionary["total"] = self.total
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

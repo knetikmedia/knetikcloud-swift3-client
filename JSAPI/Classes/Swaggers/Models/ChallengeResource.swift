@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ChallengeResource: JSONEncodable {
+
     /** The number of activities allowed to this challenge */
     public var activities: Int32?
     /** A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type */
@@ -69,6 +70,7 @@ open class ChallengeResource: JSONEncodable {
         nillableDictionary["start_date"] = self.startDate?.encodeToJSON()
         nillableDictionary["template"] = self.template
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

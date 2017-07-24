@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -16,7 +17,7 @@ open class ActivitiesAPI: APIBase {
      - parameter activityResource: (body) The activity resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createActivity(activityResource: RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc? = nil, completion: @escaping ((_ data: RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc?,_ error: Error?) -> Void)) {
+    open class func createActivity(activityResource: ActivityResource? = nil, completion: @escaping ((_ data: ActivityResource?,_ error: Error?) -> Void)) {
         createActivityWithRequestBuilder(activityResource: activityResource).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -31,8 +32,8 @@ open class ActivitiesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "entitlements" : [ {
-    "item_id" : 9,
-    "price" : 5.911228779492246,
+    "item_id" : 6,
+    "price" : 1.4658129805029452,
     "name" : "aeiou",
     "sku" : "aeiou",
     "currency_code" : "aeiou"
@@ -44,23 +45,23 @@ open class ActivitiesAPI: APIBase {
     "currency_rewards" : [ {
       "currency_name" : "aeiou",
       "max_rank" : 2,
-      "min_rank" : 9,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 8.738691415350498,
+      "value" : 9.301444243932576,
       "currency_code" : "aeiou"
     } ],
     "name" : "aeiou",
-    "created_date" : 3,
-    "id" : 0,
+    "created_date" : 5,
+    "id" : 3,
     "long_description" : "aeiou",
-    "max_placing" : 9,
-    "updated_date" : 6,
+    "max_placing" : 1,
+    "updated_date" : 1,
     "item_rewards" : [ {
-      "quantity" : 3,
+      "quantity" : 1,
       "item_id" : 2,
-      "max_rank" : 2,
+      "max_rank" : 4,
       "item_name" : "aeiou",
-      "min_rank" : 6
+      "min_rank" : 7
     } ]
   },
   "settings" : [ {
@@ -86,16 +87,16 @@ open class ActivitiesAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 1,
-  "id" : 6,
-  "updated_date" : 9
+  "created_date" : 0,
+  "id" : 5,
+  "updated_date" : 6
 }}]
      
      - parameter activityResource: (body) The activity resource object (optional)
 
-     - returns: RequestBuilder<RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc> 
+     - returns: RequestBuilder<ActivityResource> 
      */
-    open class func createActivityWithRequestBuilder(activityResource: RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc? = nil) -> RequestBuilder<RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc> {
+    open class func createActivityWithRequestBuilder(activityResource: ActivityResource? = nil) -> RequestBuilder<ActivityResource> {
         let path = "/activities"
         let URLString = JSAPIAPI.basePath + path
         let parameters = activityResource?.encodeToJSON() as? [String:AnyObject]
@@ -103,7 +104,7 @@ open class ActivitiesAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<ActivityResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
@@ -115,7 +116,7 @@ open class ActivitiesAPI: APIBase {
      - parameter activityOccurrenceResource: (body) The activity occurrence object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createActivityOccurrence(test: Bool? = nil, activityOccurrenceResource: AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings? = nil, completion: @escaping ((_ data: AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings?,_ error: Error?) -> Void)) {
+    open class func createActivityOccurrence(test: Bool? = nil, activityOccurrenceResource: ActivityOccurrenceResource? = nil, completion: @escaping ((_ data: ActivityOccurrenceResource?,_ error: Error?) -> Void)) {
         createActivityOccurrenceWithRequestBuilder(test: test, activityOccurrenceResource: activityOccurrenceResource).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -136,49 +137,49 @@ open class ActivitiesAPI: APIBase {
     "key" : "aeiou",
     "value_name" : "aeiou"
   } ],
-  "challenge_activity_id" : 2,
+  "challenge_activity_id" : 6,
   "simulated" : false,
   "entitlement" : {
-    "item_id" : 4,
-    "price" : 3.463475829591686,
+    "item_id" : 5,
+    "price" : 5.637376656633329,
     "name" : "aeiou",
     "sku" : "aeiou",
     "currency_code" : "aeiou"
   },
   "users" : [ {
-    "joined_date" : 1,
+    "joined_date" : 4,
     "metric" : {
-      "value" : 3,
-      "activity_occurence_id" : 0,
+      "value" : 1,
+      "activity_occurence_id" : 1,
       "tags" : [ "aeiou" ]
     },
     "host" : false,
-    "left_date" : 8,
-    "id" : 0,
+    "left_date" : 7,
+    "id" : 2,
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 4,
+      "id" : 1,
       "display_name" : "aeiou",
       "username" : "aeiou"
     },
     "status" : "present"
   } ],
-  "event_id" : 8,
-  "activity_id" : 6,
-  "created_date" : 6,
-  "id" : 5,
-  "updated_date" : 7,
+  "event_id" : 2,
+  "activity_id" : 0,
+  "created_date" : 1,
+  "id" : 7,
+  "updated_date" : 3,
   "reward_status" : "pending",
-  "start_date" : 1,
+  "start_date" : 9,
   "status" : "SETUP"
 }}]
      
      - parameter test: (query) if true, indicates that the occurrence should NOT be created. This can be used to test for eligibility and valid settings (optional, default to false)
      - parameter activityOccurrenceResource: (body) The activity occurrence object (optional)
 
-     - returns: RequestBuilder<AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings> 
+     - returns: RequestBuilder<ActivityOccurrenceResource> 
      */
-    open class func createActivityOccurrenceWithRequestBuilder(test: Bool? = nil, activityOccurrenceResource: AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings? = nil) -> RequestBuilder<AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings> {
+    open class func createActivityOccurrenceWithRequestBuilder(test: Bool? = nil, activityOccurrenceResource: ActivityOccurrenceResource? = nil) -> RequestBuilder<ActivityOccurrenceResource> {
         let path = "/activity-occurrences"
         let URLString = JSAPIAPI.basePath + path
         let parameters = activityOccurrenceResource?.encodeToJSON() as? [String:AnyObject]
@@ -189,7 +190,7 @@ open class ActivitiesAPI: APIBase {
         ])
         
 
-        let requestBuilder: RequestBuilder<AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<ActivityOccurrenceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
@@ -216,9 +217,9 @@ open class ActivitiesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 9,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 7,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -349,7 +350,7 @@ open class ActivitiesAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getActivities(filterTemplate: Bool? = nil, filterName: String? = nil, filterId: Object? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceBareActivityResource?,_ error: Error?) -> Void)) {
+    open class func getActivities(filterTemplate: Bool? = nil, filterName: String? = nil, filterId: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceBareActivityResource?,_ error: Error?) -> Void)) {
         getActivitiesWithRequestBuilder(filterTemplate: filterTemplate, filterName: filterName, filterId: filterId, size: size, page: page, order: order).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -360,10 +361,10 @@ open class ActivitiesAPI: APIBase {
      List activity definitions
      - GET /activities
      - examples: [{contentType=application/json, example={
-  "number" : 8,
+  "number" : 5,
   "last" : true,
-  "size" : 1,
-  "total_elements" : 5,
+  "size" : 2,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -371,18 +372,18 @@ open class ActivitiesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 2,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "template" : false,
     "short_description" : "aeiou",
     "unique_key" : "aeiou",
     "name" : "aeiou",
     "launch" : "aeiou",
-    "created_date" : 5,
-    "id" : 7,
+    "created_date" : 0,
+    "id" : 6,
     "long_description" : "aeiou",
-    "updated_date" : 6,
+    "updated_date" : 1,
     "type" : "aeiou"
   } ],
   "first" : true
@@ -397,7 +398,7 @@ open class ActivitiesAPI: APIBase {
 
      - returns: RequestBuilder<PageResourceBareActivityResource> 
      */
-    open class func getActivitiesWithRequestBuilder(filterTemplate: Bool? = nil, filterName: String? = nil, filterId: Object? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceBareActivityResource> {
+    open class func getActivitiesWithRequestBuilder(filterTemplate: Bool? = nil, filterName: String? = nil, filterId: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceBareActivityResource> {
         let path = "/activities"
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -424,7 +425,7 @@ open class ActivitiesAPI: APIBase {
      - parameter id: (path) The id of the activity 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getActivity(id: Int64, completion: @escaping ((_ data: RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc?,_ error: Error?) -> Void)) {
+    open class func getActivity(id: Int64, completion: @escaping ((_ data: ActivityResource?,_ error: Error?) -> Void)) {
         getActivityWithRequestBuilder(id: id).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -436,8 +437,8 @@ open class ActivitiesAPI: APIBase {
      - GET /activities/{id}
      - examples: [{contentType=application/json, example={
   "entitlements" : [ {
-    "item_id" : 8,
-    "price" : 6.877812752898242,
+    "item_id" : 6,
+    "price" : 1.4658129805029452,
     "name" : "aeiou",
     "sku" : "aeiou",
     "currency_code" : "aeiou"
@@ -448,24 +449,24 @@ open class ActivitiesAPI: APIBase {
     "unique_key" : "aeiou",
     "currency_rewards" : [ {
       "currency_name" : "aeiou",
-      "max_rank" : 4,
-      "min_rank" : 3,
+      "max_rank" : 2,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 9.4287197650989,
+      "value" : 9.301444243932576,
       "currency_code" : "aeiou"
     } ],
     "name" : "aeiou",
-    "created_date" : 1,
-    "id" : 2,
+    "created_date" : 5,
+    "id" : 3,
     "long_description" : "aeiou",
     "max_placing" : 1,
-    "updated_date" : 3,
+    "updated_date" : 1,
     "item_rewards" : [ {
-      "quantity" : 7,
-      "item_id" : 3,
-      "max_rank" : 1,
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
       "item_name" : "aeiou",
-      "min_rank" : 1
+      "min_rank" : 7
     } ]
   },
   "settings" : [ {
@@ -491,16 +492,16 @@ open class ActivitiesAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 1,
-  "id" : 9,
-  "updated_date" : 7
+  "created_date" : 0,
+  "id" : 5,
+  "updated_date" : 6
 }}]
      
      - parameter id: (path) The id of the activity 
 
-     - returns: RequestBuilder<RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc> 
+     - returns: RequestBuilder<ActivityResource> 
      */
-    open class func getActivityWithRequestBuilder(id: Int64) -> RequestBuilder<RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc> {
+    open class func getActivityWithRequestBuilder(id: Int64) -> RequestBuilder<ActivityResource> {
         var path = "/activities/{id}"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -509,7 +510,7 @@ open class ActivitiesAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<ActivityResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -535,7 +536,7 @@ open class ActivitiesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 4,
+  "created_date" : 0,
   "id" : "aeiou",
   "updated_date" : 6,
   "properties" : [ {
@@ -598,10 +599,10 @@ open class ActivitiesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 8,
+  "number" : 1,
   "last" : true,
-  "size" : 1,
-  "total_elements" : 0,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -609,13 +610,13 @@ open class ActivitiesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 9,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "name" : "aeiou",
-    "created_date" : 8,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 4,
+    "updated_date" : 6,
     "properties" : [ {
       "name" : "aeiou",
       "type" : "aeiou",
@@ -669,7 +670,7 @@ open class ActivitiesAPI: APIBase {
      - parameter activityOccurrenceResults: (body) The activity occurrence object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setActivityOccurrenceResults(activityOccurrenceId: Int64, activityOccurrenceResults: ActivityOccurrenceResults? = nil, completion: @escaping ((_ data: ActivityOccurrenceResults?,_ error: Error?) -> Void)) {
+    open class func setActivityOccurrenceResults(activityOccurrenceId: Int64, activityOccurrenceResults: ActivityOccurrenceResultsResource? = nil, completion: @escaping ((_ data: ActivityOccurrenceResults?,_ error: Error?) -> Void)) {
         setActivityOccurrenceResultsWithRequestBuilder(activityOccurrenceId: activityOccurrenceId, activityOccurrenceResults: activityOccurrenceResults).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -678,33 +679,34 @@ open class ActivitiesAPI: APIBase {
 
     /**
      Sets the status of an activity occurrence to FINISHED and logs metrics
-     - POST /activity-occurrences/{activityOccurrenceId}/results
+     - POST /activity-occurrences/{activity_occurrence_id}/results
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "users" : [ {
-    "score" : 6,
-    "ties" : 6,
+    "score" : 3,
+    "ties" : 2,
     "currency_rewards" : [ {
       "currency_name" : "aeiou",
-      "max_rank" : 3,
-      "min_rank" : 4,
+      "max_rank" : 0,
+      "min_rank" : 6,
       "percent" : false,
-      "value" : 4.170269142759709,
+      "value" : 1.4658129805029452,
       "currency_code" : "aeiou"
     } ],
-    "rank" : 5,
+    "rank" : 9,
+    "updated_date" : 4,
     "item_rewards" : [ {
-      "quantity" : 4,
-      "item_id" : 8,
-      "max_rank" : 7,
+      "quantity" : 7,
+      "item_id" : 5,
+      "max_rank" : 5,
       "item_name" : "aeiou",
-      "min_rank" : 3
+      "min_rank" : 2
     } ],
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 3,
+      "id" : 7,
       "display_name" : "aeiou",
       "username" : "aeiou"
     },
@@ -717,8 +719,8 @@ open class ActivitiesAPI: APIBase {
 
      - returns: RequestBuilder<ActivityOccurrenceResults> 
      */
-    open class func setActivityOccurrenceResultsWithRequestBuilder(activityOccurrenceId: Int64, activityOccurrenceResults: ActivityOccurrenceResults? = nil) -> RequestBuilder<ActivityOccurrenceResults> {
-        var path = "/activity-occurrences/{activityOccurrenceId}/results"
+    open class func setActivityOccurrenceResultsWithRequestBuilder(activityOccurrenceId: Int64, activityOccurrenceResults: ActivityOccurrenceResultsResource? = nil) -> RequestBuilder<ActivityOccurrenceResults> {
+        var path = "/activity-occurrences/{activity_occurrence_id}/results"
         path = path.replacingOccurrences(of: "{activity_occurrence_id}", with: "\(activityOccurrenceId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = activityOccurrenceResults?.encodeToJSON() as? [String:AnyObject]
@@ -738,7 +740,7 @@ open class ActivitiesAPI: APIBase {
      - parameter activityResource: (body) The activity resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateActivity(id: Int64, activityResource: RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc? = nil, completion: @escaping ((_ data: RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc?,_ error: Error?) -> Void)) {
+    open class func updateActivity(id: Int64, activityResource: ActivityResource? = nil, completion: @escaping ((_ data: ActivityResource?,_ error: Error?) -> Void)) {
         updateActivityWithRequestBuilder(id: id, activityResource: activityResource).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -753,8 +755,8 @@ open class ActivitiesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "entitlements" : [ {
-    "item_id" : 7,
-    "price" : 4.2876203352015,
+    "item_id" : 6,
+    "price" : 1.4658129805029452,
     "name" : "aeiou",
     "sku" : "aeiou",
     "currency_code" : "aeiou"
@@ -766,23 +768,23 @@ open class ActivitiesAPI: APIBase {
     "currency_rewards" : [ {
       "currency_name" : "aeiou",
       "max_rank" : 2,
-      "min_rank" : 3,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 6.98032139238276,
+      "value" : 9.301444243932576,
       "currency_code" : "aeiou"
     } ],
     "name" : "aeiou",
-    "created_date" : 6,
-    "id" : 0,
+    "created_date" : 5,
+    "id" : 3,
     "long_description" : "aeiou",
-    "max_placing" : 8,
-    "updated_date" : 4,
+    "max_placing" : 1,
+    "updated_date" : 1,
     "item_rewards" : [ {
-      "quantity" : 9,
-      "item_id" : 9,
-      "max_rank" : 0,
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
       "item_name" : "aeiou",
-      "min_rank" : 2
+      "min_rank" : 7
     } ]
   },
   "settings" : [ {
@@ -808,17 +810,17 @@ open class ActivitiesAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 3,
-  "id" : 9,
-  "updated_date" : 1
+  "created_date" : 0,
+  "id" : 5,
+  "updated_date" : 6
 }}]
      
      - parameter id: (path) The id of the activity 
      - parameter activityResource: (body) The activity resource object (optional)
 
-     - returns: RequestBuilder<RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc> 
+     - returns: RequestBuilder<ActivityResource> 
      */
-    open class func updateActivityWithRequestBuilder(id: Int64, activityResource: RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc? = nil) -> RequestBuilder<RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc> {
+    open class func updateActivityWithRequestBuilder(id: Int64, activityResource: ActivityResource? = nil) -> RequestBuilder<ActivityResource> {
         var path = "/activities/{id}"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -827,7 +829,7 @@ open class ActivitiesAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<ActivityResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
@@ -848,7 +850,7 @@ open class ActivitiesAPI: APIBase {
 
     /**
      Updated the status of an activity occurrence
-     - PUT /activity-occurrences/{activityOccurrenceId}/status
+     - PUT /activity-occurrences/{activity_occurrence_id}/status
      - If setting to 'FINISHED' you must POST to /results instead to record the metrics and get synchronous reward results
      - OAuth:
        - type: oauth2
@@ -860,7 +862,7 @@ open class ActivitiesAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func updateActivityOccurrenceWithRequestBuilder(activityOccurrenceId: Int64, activityCccurrenceStatus: String? = nil) -> RequestBuilder<Void> {
-        var path = "/activity-occurrences/{activityOccurrenceId}/status"
+        var path = "/activity-occurrences/{activity_occurrence_id}/status"
         path = path.replacingOccurrences(of: "{activity_occurrence_id}", with: "\(activityOccurrenceId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = activityCccurrenceStatus?.encodeToJSON() as? [String:AnyObject]
@@ -897,7 +899,7 @@ open class ActivitiesAPI: APIBase {
   "name" : "aeiou",
   "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 9,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

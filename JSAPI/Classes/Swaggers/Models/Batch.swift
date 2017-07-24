@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Batch: JSONEncodable {
+
     /** The list of batch requests */
     public var batch: [BatchRequest]?
     /** The amount of time before a request token is returned instead of the batch result.  Default is 60.  Range is 0-300 */
@@ -21,6 +22,7 @@ open class Batch: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["batch"] = self.batch?.encodeToJSON()
         nillableDictionary["timeout"] = self.timeout?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

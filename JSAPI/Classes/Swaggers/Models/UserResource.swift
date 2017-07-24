@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UserResource: JSONEncodable {
+
     /** A map of additional properties, keyed on the property name (private). Must match the names and types defined in the template for this user type, or be an extra not from the template */
     public var additionalProperties: [String:Property]?
     /** The first line of the user&#39;s address (private) */
@@ -43,6 +44,8 @@ open class UserResource: JSONEncodable {
     public var id: Int32?
     /** The ISO3 code for the user&#39;s currency (private) */
     public var languageCode: String?
+    /** The date the user last interacted with the API (private) */
+    public var lastActivity: Int64?
     /** The user&#39;s last name (private) */
     public var lastName: String?
     /** The date the user&#39;s info was last updated as a unix timestamp */
@@ -90,6 +93,7 @@ open class UserResource: JSONEncodable {
         nillableDictionary["gender"] = self.gender
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["language_code"] = self.languageCode
+        nillableDictionary["last_activity"] = self.lastActivity?.encodeToJSON()
         nillableDictionary["last_name"] = self.lastName
         nillableDictionary["last_updated"] = self.lastUpdated?.encodeToJSON()
         nillableDictionary["member_since"] = self.memberSince?.encodeToJSON()
@@ -102,6 +106,7 @@ open class UserResource: JSONEncodable {
         nillableDictionary["template"] = self.template
         nillableDictionary["timezone_code"] = self.timezoneCode
         nillableDictionary["username"] = self.username
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

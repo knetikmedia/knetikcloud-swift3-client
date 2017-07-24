@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ChallengeEventResource: JSONEncodable {
+
     public enum RewardStatus: String { 
         case pending = "pending"
         case failed = "failed"
@@ -36,6 +37,7 @@ open class ChallengeEventResource: JSONEncodable {
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["reward_status"] = self.rewardStatus?.rawValue
         nillableDictionary["start_date"] = self.startDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

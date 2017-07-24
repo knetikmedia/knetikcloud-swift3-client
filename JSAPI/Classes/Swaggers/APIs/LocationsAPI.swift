@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -99,7 +100,7 @@ open class LocationsAPI: APIBase {
   "country_code_iso3" : "aeiou",
   "code" : "aeiou",
   "name" : "aeiou",
-  "id" : 2
+  "id" : 0
 } ]}]
      
      - parameter countryCodeIso3: (path) The iso3 code of the country 
@@ -142,8 +143,8 @@ open class LocationsAPI: APIBase {
   "name" : "aeiou",
   "active" : false,
   "created_date" : 0,
-  "updated_date" : 7,
-  "factor" : 7.5867905626494645,
+  "updated_date" : 1,
+  "factor" : 6.027456183070403,
   "type" : "real"
 }}]
 

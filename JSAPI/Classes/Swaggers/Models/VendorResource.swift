@@ -9,6 +9,7 @@ import Foundation
 
 
 open class VendorResource: JSONEncodable {
+
     /** Whether the vendor is active.  Default &#x3D; true */
     public var active: Bool?
     /** A map of additional properties, keyed on the property name (private). Must match the names and types defined in the template for this user type, or be an extra not from the template */
@@ -63,6 +64,7 @@ open class VendorResource: JSONEncodable {
         nillableDictionary["template"] = self.template
         nillableDictionary["update_date"] = self.updateDate?.encodeToJSON()
         nillableDictionary["url"] = self.url
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

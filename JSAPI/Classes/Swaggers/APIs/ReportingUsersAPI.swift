@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -51,7 +52,7 @@ open class ReportingUsersAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
-  "size" : 3,
+  "size" : 5,
   "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
@@ -60,11 +61,11 @@ open class ReportingUsersAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 1,
-  "number_of_elements" : 3,
+  "total_pages" : 2,
+  "number_of_elements" : 1,
   "content" : [ {
     "date" : "aeiou",
-    "count" : 3
+    "count" : 0
   } ],
   "first" : true
 }}]

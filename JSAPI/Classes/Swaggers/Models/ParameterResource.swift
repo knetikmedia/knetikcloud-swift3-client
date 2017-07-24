@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ParameterResource: JSONEncodable {
+
     public var of: String?
     public var type: String?
     public var value: Any?
@@ -21,6 +22,7 @@ open class ParameterResource: JSONEncodable {
         nillableDictionary["of"] = self.of
         nillableDictionary["type"] = self.type
         nillableDictionary["value"] = self.value
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

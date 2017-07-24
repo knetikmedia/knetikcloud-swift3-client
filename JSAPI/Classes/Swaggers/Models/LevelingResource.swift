@@ -9,6 +9,7 @@ import Foundation
 
 
 open class LevelingResource: JSONEncodable {
+
     /** A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type */
     public var additionalProperties: [String:Property]?
     /** The date the leveling schema was created */
@@ -33,6 +34,7 @@ open class LevelingResource: JSONEncodable {
         nillableDictionary["name"] = self.name
         nillableDictionary["tiers"] = self.tiers?.encodeToJSON()
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

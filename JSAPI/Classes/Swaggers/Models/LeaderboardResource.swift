@@ -9,6 +9,7 @@ import Foundation
 
 
 open class LeaderboardResource: JSONEncodable {
+
     /** The paginated list of user results, in order from best to worst */
     public var entries: [LeaderboardEntryResource]?
     /** The id of the leaderboard */
@@ -24,6 +25,7 @@ open class LeaderboardResource: JSONEncodable {
         nillableDictionary["entries"] = self.entries?.encodeToJSON()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["strategy"] = self.strategy
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

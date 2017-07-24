@@ -9,6 +9,8 @@ import Foundation
 
 
 open class TokenDetailsResource: JSONEncodable {
+
+    public var clientId: String?
     public var roles: [String]?
     public var userId: Int32?
 
@@ -17,8 +19,10 @@ open class TokenDetailsResource: JSONEncodable {
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
+        nillableDictionary["client_id"] = self.clientId
         nillableDictionary["roles"] = self.roles?.encodeToJSON()
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

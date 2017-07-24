@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -35,8 +36,8 @@ open class CurrenciesAPI: APIBase {
   "name" : "aeiou",
   "active" : false,
   "created_date" : 0,
-  "updated_date" : 7,
-  "factor" : 8.226321164403453,
+  "updated_date" : 1,
+  "factor" : 6.027456183070403,
   "type" : "real"
 }}]
      
@@ -116,9 +117,9 @@ open class CurrenciesAPI: APIBase {
      List and search currencies
      - GET /currencies
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 5,
   "last" : true,
-  "size" : 7,
+  "size" : 2,
   "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
@@ -127,16 +128,16 @@ open class CurrenciesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 2,
-  "number_of_elements" : 4,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "code" : "aeiou",
     "icon" : "aeiou",
     "name" : "aeiou",
     "active" : false,
-    "created_date" : 2,
-    "updated_date" : 5,
-    "factor" : 7.414089625828875,
+    "created_date" : 0,
+    "updated_date" : 1,
+    "factor" : 6.027456183070403,
     "type" : "real"
   } ],
   "first" : true
@@ -191,9 +192,9 @@ open class CurrenciesAPI: APIBase {
   "icon" : "aeiou",
   "name" : "aeiou",
   "active" : false,
-  "created_date" : 1,
-  "updated_date" : 5,
-  "factor" : 5.980394575517922,
+  "created_date" : 0,
+  "updated_date" : 1,
+  "factor" : 6.027456183070403,
   "type" : "real"
 }}]
      

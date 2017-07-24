@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CreateBillingAgreementRequest: JSONEncodable {
+
     /** The endpoint URL to which PayPal should forward the user if they cancel (do not accept) the agreement */
     public var cancelUrl: String?
     /** The endpoint URL to which PayPal should forward the user after they accept the agreement. This endpoint will receive information needed for the next step */
@@ -24,6 +25,7 @@ open class CreateBillingAgreementRequest: JSONEncodable {
         nillableDictionary["cancel_url"] = self.cancelUrl
         nillableDictionary["return_url"] = self.returnUrl
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

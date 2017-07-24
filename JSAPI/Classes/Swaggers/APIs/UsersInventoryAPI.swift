@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -34,19 +35,19 @@ open class UsersInventoryAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "shipping_city_name" : "aeiou",
   "order_notes" : "aeiou",
-  "parent_invoice_id" : 8,
-  "discount" : 0.8701042554801752,
-  "state_tax" : 4.740413016175542,
+  "parent_invoice_id" : 1,
+  "discount" : 6.027456183070403,
+  "state_tax" : 4.965218492984954,
   "cart_id" : "aeiou",
   "name_prefix" : "aeiou",
   "billing_postal_code" : "aeiou",
-  "shipping" : 7.390633620766064,
+  "shipping" : 7.457744773683766,
   "billing_state_name" : "aeiou",
   "billing_country_name" : "aeiou",
   "currency" : "aeiou",
   "current_fulfillment_status" : "aeiou",
-  "grand_total" : 6.7512366105381165,
-  "id" : 3,
+  "grand_total" : 5.962133916683182,
+  "id" : 5,
   "current_payment_status" : "aeiou",
   "billing_address1" : "aeiou",
   "invoice_number" : "aeiou",
@@ -54,44 +55,43 @@ open class UsersInventoryAPI: APIBase {
   "email" : "aeiou",
   "vendor_name" : "aeiou",
   "billing_full_name" : "aeiou",
-  "sort" : 5,
+  "sort" : 1,
   "shipping_full_name" : "aeiou",
-  "fed_tax" : 7.904474400016039,
-  "payment_method_id" : 4,
+  "fed_tax" : 1.4658129805029452,
+  "payment_method_id" : 6,
   "phone" : "aeiou",
   "external_ref" : "aeiou",
   "shipping_address2" : "aeiou",
-  "subtotal" : 2.6003190413854638,
+  "subtotal" : 5.025004791520295,
   "shipping_address1" : "aeiou",
   "vendor_id" : 6,
   "shipping_state_name" : "aeiou",
   "billing_city_name" : "aeiou",
   "phone_number" : "aeiou",
-  "created_date" : 3,
+  "created_date" : 0,
   "shipping_country_name" : "aeiou",
-  "updated_date" : 3,
+  "updated_date" : 9,
   "items" : [ {
     "type_hint" : "aeiou",
-    "total_price" : 9.627571172700577,
-    "affiliate_id" : 5,
-    "item_id" : 3,
-    "system_price" : 4.745301316520844,
+    "total_price" : 1.2315135367772556,
+    "item_id" : 9,
+    "system_price" : 7.386281948385884,
     "item_name" : "aeiou",
-    "original_unit_price" : 7.639874035834927,
-    "unit_price" : 7.001036193569003,
-    "qty" : 2,
-    "invoice_id" : 5,
+    "original_unit_price" : 2.027123023002322,
+    "unit_price" : 1.0246457001441578,
+    "qty" : 4,
+    "invoice_id" : 7,
     "current_fulfillment_status" : "aeiou",
-    "id" : 1,
+    "id" : 2,
     "sale_name" : "aeiou",
     "bundle_sku" : "aeiou",
-    "original_total_price" : 2.408786142169006,
+    "original_total_price" : 3.616076749251911,
     "sku" : "aeiou",
     "sku_description" : "aeiou"
   } ],
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 5,
+    "id" : 9,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
@@ -134,7 +134,7 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Check for access to an item without consuming
-     - GET /users/{userId}/entitlements/{itemId}/check
+     - GET /users/{user_id}/entitlements/{item_id}/check
      - Useful for pre-check and accounts for all various buisness rules
      - OAuth:
        - type: oauth2
@@ -147,7 +147,7 @@ open class UsersInventoryAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func checkUserEntitlementItemWithRequestBuilder(userId: String, itemId: Int32, sku: String? = nil) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/entitlements/{itemId}/check"
+        var path = "/users/{user_id}/entitlements/{item_id}/check"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{item_id}", with: "\(itemId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -237,7 +237,7 @@ open class UsersInventoryAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 4,
+  "created_date" : 0,
   "id" : "aeiou",
   "updated_date" : 6,
   "properties" : [ {
@@ -292,7 +292,7 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Delete an entitlement item
-     - DELETE /entitlements/{entitlementId}
+     - DELETE /entitlements/{entitlement_id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -302,7 +302,7 @@ open class UsersInventoryAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteEntitlementItemWithRequestBuilder(entitlementId: Int32) -> RequestBuilder<Void> {
-        var path = "/entitlements/{entitlementId}"
+        var path = "/entitlements/{entitlement_id}"
         path = path.replacingOccurrences(of: "{entitlement_id}", with: "\(entitlementId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -374,7 +374,7 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Get a single entitlement item
-     - GET /entitlements/{entitlementId}
+     - GET /entitlements/{entitlement_id}
      - examples: [{contentType=application/json, example=""}]
      
      - parameter entitlementId: (path) The id of the entitlement 
@@ -382,7 +382,7 @@ open class UsersInventoryAPI: APIBase {
      - returns: RequestBuilder<EntitlementItem> 
      */
     open class func getEntitlementItemWithRequestBuilder(entitlementId: Int32) -> RequestBuilder<EntitlementItem> {
-        var path = "/entitlements/{entitlementId}"
+        var path = "/entitlements/{entitlement_id}"
         path = path.replacingOccurrences(of: "{entitlement_id}", with: "\(entitlementId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -414,10 +414,10 @@ open class UsersInventoryAPI: APIBase {
      List and search entitlement items
      - GET /entitlements
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 0,
   "last" : true,
-  "size" : 0,
-  "total_elements" : 6,
+  "size" : 1,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -425,8 +425,8 @@ open class UsersInventoryAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 9,
-  "number_of_elements" : 4,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ "" ],
   "first" : true
 }}]
@@ -484,9 +484,9 @@ open class UsersInventoryAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 5,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 1,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -547,10 +547,10 @@ open class UsersInventoryAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 2,
+  "number" : 1,
   "last" : true,
-  "size" : 7,
-  "total_elements" : 5,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -558,8 +558,8 @@ open class UsersInventoryAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 0,
-  "number_of_elements" : 8,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "behaviors" : [ {
       "behavior" : {
@@ -570,7 +570,7 @@ open class UsersInventoryAPI: APIBase {
       "required" : false
     } ],
     "name" : "aeiou",
-    "created_date" : 6,
+    "created_date" : 0,
     "id" : "aeiou",
     "updated_date" : 6,
     "properties" : [ {
@@ -647,10 +647,10 @@ open class UsersInventoryAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 2,
+  "number" : 9,
   "last" : true,
-  "size" : 6,
-  "total_elements" : 7,
+  "size" : 2,
+  "total_elements" : 4,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -658,21 +658,21 @@ open class UsersInventoryAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 1,
-  "number_of_elements" : 2,
+  "total_pages" : 7,
+  "number_of_elements" : 3,
   "content" : [ {
     "behavior_data" : "{}",
-    "expires" : 0,
-    "item_id" : 2,
-    "invoice_id" : 4,
+    "expires" : 6,
+    "item_id" : 5,
+    "invoice_id" : 5,
     "item_name" : "aeiou",
-    "created_date" : 8,
-    "id" : 2,
-    "updated_date" : 6,
+    "created_date" : 0,
+    "id" : 1,
+    "updated_date" : 2,
     "item_type_hint" : "aeiou",
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 9,
+      "id" : 7,
       "display_name" : "aeiou",
       "username" : "aeiou"
     },
@@ -733,23 +733,23 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Get an inventory entry
-     - GET /users/{userId}/inventory/{id}
+     - GET /users/{user_id}/inventory/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "behavior_data" : "{}",
-  "expires" : 4,
-  "item_id" : 4,
-  "invoice_id" : 3,
+  "expires" : 6,
+  "item_id" : 5,
+  "invoice_id" : 5,
   "item_name" : "aeiou",
   "created_date" : 0,
-  "id" : 5,
+  "id" : 1,
   "updated_date" : 2,
   "item_type_hint" : "aeiou",
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 4,
+    "id" : 7,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
@@ -762,7 +762,7 @@ open class UsersInventoryAPI: APIBase {
      - returns: RequestBuilder<UserInventoryResource> 
      */
     open class func getUserInventoryWithRequestBuilder(userId: Int32, id: Int32) -> RequestBuilder<UserInventoryResource> {
-        var path = "/users/{userId}/inventory/{id}"
+        var path = "/users/{user_id}/inventory/{id}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -794,15 +794,15 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      List the log entries for this inventory entry
-     - GET /users/{userId}/inventory/{id}/log
+     - GET /users/{user_id}/inventory/{id}/log
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 2,
   "last" : true,
-  "size" : 1,
-  "total_elements" : 5,
+  "size" : 9,
+  "total_elements" : 3,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -810,24 +810,24 @@ open class UsersInventoryAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 8,
+  "total_pages" : 2,
+  "number_of_elements" : 7,
   "content" : [ {
     "item" : {
       "name" : "aeiou",
-      "id" : 2
+      "id" : 6
     },
-    "log_date" : 3,
-    "id" : 8,
+    "log_date" : 1,
+    "id" : 0,
     "type" : "aeiou",
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 6,
+      "id" : 5,
       "display_name" : "aeiou",
       "username" : "aeiou"
     },
     "info" : "aeiou",
-    "user_inventory" : 6
+    "user_inventory" : 5
   } ],
   "first" : true
 }}]
@@ -840,7 +840,7 @@ open class UsersInventoryAPI: APIBase {
      - returns: RequestBuilder<PageResourceUserItemLogResource> 
      */
     open class func getUserInventoryLogWithRequestBuilder(userId: String, id: Int32, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUserItemLogResource> {
-        var path = "/users/{userId}/inventory/{id}/log"
+        var path = "/users/{user_id}/inventory/{id}/log"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -885,10 +885,10 @@ open class UsersInventoryAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 9,
   "last" : true,
-  "size" : 3,
-  "total_elements" : 5,
+  "size" : 2,
+  "total_elements" : 4,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -896,21 +896,21 @@ open class UsersInventoryAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 9,
-  "number_of_elements" : 7,
+  "total_pages" : 7,
+  "number_of_elements" : 3,
   "content" : [ {
     "behavior_data" : "{}",
-    "expires" : 2,
-    "item_id" : 4,
-    "invoice_id" : 8,
+    "expires" : 6,
+    "item_id" : 5,
+    "invoice_id" : 5,
     "item_name" : "aeiou",
-    "created_date" : 4,
-    "id" : 8,
-    "updated_date" : 1,
+    "created_date" : 0,
+    "id" : 1,
+    "updated_date" : 2,
     "item_type_hint" : "aeiou",
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 6,
+      "id" : 7,
       "display_name" : "aeiou",
       "username" : "aeiou"
     },
@@ -969,7 +969,7 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Grant an entitlement
-     - POST /users/{userId}/entitlements
+     - POST /users/{user_id}/entitlements
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -980,7 +980,7 @@ open class UsersInventoryAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func grantUserEntitlementWithRequestBuilder(userId: Int32, grantRequest: EntitlementGrantRequest) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/entitlements"
+        var path = "/users/{user_id}/entitlements"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = grantRequest.encodeToJSON() as? [String:AnyObject]
@@ -1010,7 +1010,7 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Update an entitlement item
-     - PUT /entitlements/{entitlementId}
+     - PUT /entitlements/{entitlement_id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -1022,7 +1022,7 @@ open class UsersInventoryAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func updateEntitlementItemWithRequestBuilder(entitlementId: Int32, cascade: Bool? = nil, entitlementItem: EntitlementItem? = nil) -> RequestBuilder<Void> {
-        var path = "/entitlements/{entitlementId}"
+        var path = "/entitlements/{entitlement_id}"
         path = path.replacingOccurrences(of: "{entitlement_id}", with: "\(entitlementId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = entitlementItem?.encodeToJSON() as? [String:AnyObject]
@@ -1068,9 +1068,9 @@ open class UsersInventoryAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 2,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 2,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -1127,7 +1127,7 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Set the behavior data for an inventory entry
-     - PUT /users/{userId}/inventory/{id}/behavior-data
+     - PUT /users/{user_id}/inventory/{id}/behavior-data
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -1139,7 +1139,7 @@ open class UsersInventoryAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func updateUserInventoryBehaviorDataWithRequestBuilder(userId: Int32, id: Int32, data: Any? = nil) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/inventory/{id}/behavior-data"
+        var path = "/users/{user_id}/inventory/{id}/behavior-data"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -1170,7 +1170,7 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Set the expiration date
-     - PUT /users/{userId}/inventory/{id}/expires
+     - PUT /users/{user_id}/inventory/{id}/expires
      - Will change the current grace period for a subscription but not the bill date (possibly even ending before having the chance to re-bill)
      - OAuth:
        - type: oauth2
@@ -1183,7 +1183,7 @@ open class UsersInventoryAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func updateUserInventoryExpiresWithRequestBuilder(userId: Int32, id: Int32, timestamp: Int64? = nil) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/inventory/{id}/expires"
+        var path = "/users/{user_id}/inventory/{id}/expires"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -1214,7 +1214,7 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Set the status for an inventory entry
-     - PUT /users/{userId}/inventory/{id}/status
+     - PUT /users/{user_id}/inventory/{id}/status
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -1226,7 +1226,7 @@ open class UsersInventoryAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func updateUserInventoryStatusWithRequestBuilder(userId: Int32, id: Int32, inventoryStatus: String? = nil) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/inventory/{id}/status"
+        var path = "/users/{user_id}/inventory/{id}/status"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -1258,7 +1258,7 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Use an item
-     - POST /users/{userId}/entitlements/{itemId}/use
+     - POST /users/{user_id}/entitlements/{item_id}/use
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -1271,7 +1271,7 @@ open class UsersInventoryAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func useUserEntitlementItemWithRequestBuilder(userId: String, itemId: Int32, sku: String? = nil, info: String? = nil) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/entitlements/{itemId}/use"
+        var path = "/users/{user_id}/entitlements/{item_id}/use"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{item_id}", with: "\(itemId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path

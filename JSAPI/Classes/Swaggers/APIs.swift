@@ -10,7 +10,7 @@ open class JSAPIAPI {
     open static var basePath = "https://sandbox.knetikcloud.com"
     open static var credential: URLCredential?
     open static var customHeaders: [String:String] = [:]
-    static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
+    open static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
 }
 
 open class APIBase {

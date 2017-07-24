@@ -9,6 +9,7 @@ import Foundation
 
 
 open class TemplateResource: JSONEncodable {
+
     /** The date/time this resource was created in seconds since unix epoch */
     public var createdDate: Int64?
     /** The id of the template */
@@ -30,6 +31,7 @@ open class TemplateResource: JSONEncodable {
         nillableDictionary["name"] = self.name
         nillableDictionary["properties"] = self.properties?.encodeToJSON()
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

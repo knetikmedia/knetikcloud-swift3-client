@@ -9,6 +9,7 @@ import Foundation
 
 
 open class AmazonS3Activity: JSONEncodable {
+
     /** S3 action (i.e., &#39;PUT&#39;) associated with the activity */
     public var action: String?
     /** Date the resource was created in S3 */
@@ -36,6 +37,7 @@ open class AmazonS3Activity: JSONEncodable {
         nillableDictionary["object_key"] = self.objectKey
         nillableDictionary["url"] = self.url
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

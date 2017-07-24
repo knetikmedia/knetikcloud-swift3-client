@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ImportJobOutputResource: JSONEncodable {
+
     /** The description of the import job */
     public var description: String?
     /** The line number of the import job */
@@ -21,6 +22,7 @@ open class ImportJobOutputResource: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["description"] = self.description
         nillableDictionary["line_number"] = self.lineNumber?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

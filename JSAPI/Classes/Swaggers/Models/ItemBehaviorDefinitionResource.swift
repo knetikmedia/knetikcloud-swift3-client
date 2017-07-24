@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ItemBehaviorDefinitionResource: JSONEncodable {
+
     /** The default version of the behavior */
     public var behavior: Behavior?
     /** Whether the behavior&#39;s values can be modified */
@@ -24,6 +25,7 @@ open class ItemBehaviorDefinitionResource: JSONEncodable {
         nillableDictionary["behavior"] = self.behavior?.encodeToJSON()
         nillableDictionary["modifiable"] = self.modifiable
         nillableDictionary["required"] = self._required
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

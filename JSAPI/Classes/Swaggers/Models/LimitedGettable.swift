@@ -9,6 +9,7 @@ import Foundation
 
 
 open class LimitedGettable: Behavior {
+
     public var group: LimitedGettableGroup?
 
     
@@ -17,6 +18,7 @@ open class LimitedGettable: Behavior {
     override open func encodeToJSON() -> Any {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["group"] = self.group?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

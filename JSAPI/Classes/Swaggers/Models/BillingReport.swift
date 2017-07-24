@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BillingReport: JSONEncodable {
+
     public var created: Int64?
     public var id: String?
     public var lastKnownFailures: [String]?
@@ -23,6 +24,7 @@ open class BillingReport: JSONEncodable {
         nillableDictionary["id"] = self.id
         nillableDictionary["last_known_failures"] = self.lastKnownFailures?.encodeToJSON()
         nillableDictionary["statistics"] = self.statistics?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class AchievementDefinitionResource: JSONEncodable {
+
     /** A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this resource type */
     public var additionalProperties: [String:Property]?
     /** The date/time this resource was created in seconds since unix epoch */
@@ -48,6 +49,7 @@ open class AchievementDefinitionResource: JSONEncodable {
         nillableDictionary["template"] = self.template
         nillableDictionary["trigger_event_name"] = self.triggerEventName
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PredicateOperation: JSONEncodable {
+
     public var args: [Expressionobject]?
     public var _operator: Operator?
 
@@ -19,6 +20,7 @@ open class PredicateOperation: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["args"] = self.args?.encodeToJSON()
         nillableDictionary["operator"] = self._operator?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

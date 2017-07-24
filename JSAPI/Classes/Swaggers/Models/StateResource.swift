@@ -9,6 +9,7 @@ import Foundation
 
 
 open class StateResource: JSONEncodable {
+
     /** The code of the state */
     public var code: String?
     /** The iso3 of the country this state is in */
@@ -27,6 +28,7 @@ open class StateResource: JSONEncodable {
         nillableDictionary["country_code_iso3"] = self.countryCodeIso3
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["name"] = self.name
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

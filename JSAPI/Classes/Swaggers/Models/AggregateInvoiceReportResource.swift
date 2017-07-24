@@ -9,6 +9,7 @@ import Foundation
 
 
 open class AggregateInvoiceReportResource: JSONEncodable {
+
     public var count: Int64?
     public var date: String?
     public var revenue: Double?
@@ -23,6 +24,7 @@ open class AggregateInvoiceReportResource: JSONEncodable {
         nillableDictionary["date"] = self.date
         nillableDictionary["revenue"] = self.revenue
         nillableDictionary["user_count"] = self.userCount?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

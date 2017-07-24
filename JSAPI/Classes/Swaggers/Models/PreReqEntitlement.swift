@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PreReqEntitlement: Behavior {
+
     /** The item ids that must already be in the user&#39;s inventory */
     public var itemIds: [Int32]?
 
@@ -18,6 +19,7 @@ open class PreReqEntitlement: Behavior {
     override open func encodeToJSON() -> Any {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["item_ids"] = self.itemIds?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

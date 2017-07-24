@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PageResourceBreTriggerResource: JSONEncodable {
+
     public var content: [BreTriggerResource]?
     public var first: Bool?
     public var last: Bool?
@@ -33,6 +34,7 @@ open class PageResourceBreTriggerResource: JSONEncodable {
         nillableDictionary["sort"] = self.sort?.encodeToJSON()
         nillableDictionary["total_elements"] = self.totalElements?.encodeToJSON()
         nillableDictionary["total_pages"] = self.totalPages?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class FlagReportResource: JSONEncodable {
+
     public enum Resolution: String { 
         case banned = "banned"
         case ignored = "ignored"
@@ -43,6 +44,7 @@ open class FlagReportResource: JSONEncodable {
         nillableDictionary["resolution"] = self.resolution?.rawValue
         nillableDictionary["resolved"] = self.resolved?.encodeToJSON()
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class IntegerPropertyDefinitionResource: PropertyDefinitionResource {
+
     /** If provided, the maximum value */
     public var max: Int32?
     /** If provided, the minimum value */
@@ -21,6 +22,7 @@ open class IntegerPropertyDefinitionResource: PropertyDefinitionResource {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["max"] = self.max?.encodeToJSON()
         nillableDictionary["min"] = self.min?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

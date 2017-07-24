@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Property: JSONEncodable {
+
     /** The type of the property. Used for polymorphic type recognition and thus must match an expected type with additional properties. */
     public var type: String?
 
@@ -18,6 +19,7 @@ open class Property: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

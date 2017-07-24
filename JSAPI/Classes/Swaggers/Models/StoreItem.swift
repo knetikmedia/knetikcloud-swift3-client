@@ -9,6 +9,7 @@ import Foundation
 
 
 open class StoreItem: Item {
+
     public enum GeoPolicyType: String { 
         case whitelist = "whitelist"
         case blacklist = "blacklist"
@@ -43,6 +44,7 @@ open class StoreItem: Item {
         nillableDictionary["store_end"] = self.storeEnd?.encodeToJSON()
         nillableDictionary["store_start"] = self.storeStart?.encodeToJSON()
         nillableDictionary["vendor_id"] = self.vendorId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

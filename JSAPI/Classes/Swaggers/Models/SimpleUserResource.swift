@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SimpleUserResource: JSONEncodable {
+
     /** The url of the user&#39;s avatar image */
     public var avatarUrl: String?
     /** The public username of the user */
@@ -27,6 +28,7 @@ open class SimpleUserResource: JSONEncodable {
         nillableDictionary["display_name"] = self.displayName
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["username"] = self.username
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

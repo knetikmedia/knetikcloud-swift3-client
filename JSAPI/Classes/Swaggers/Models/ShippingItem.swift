@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ShippingItem: StoreItem {
+
     /** A unique list of country iso3 codes that allow the shipping option */
     public var countries: [String]?
     /** An abstract max value that the values of item&#39;s shipping_tier work against to decide whether an order can be fulfilled */
@@ -24,6 +25,7 @@ open class ShippingItem: StoreItem {
         nillableDictionary["countries"] = self.countries?.encodeToJSON()
         nillableDictionary["max_tier_total"] = self.maxTierTotal?.encodeToJSON()
         nillableDictionary["taxable"] = self.taxable
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

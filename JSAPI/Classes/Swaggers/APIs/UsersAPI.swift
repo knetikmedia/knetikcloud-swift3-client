@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -26,7 +27,7 @@ open class UsersAPI: APIBase {
 
     /**
      Add a tag to a user
-     - POST /users/{userId}/tags
+     - POST /users/{user_id}/tags
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -37,7 +38,7 @@ open class UsersAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func addUserTagWithRequestBuilder(userId: Int32, tag: String) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/tags"
+        var path = "/users/{user_id}/tags"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = tag.encodeToJSON() as? [String:AnyObject]
@@ -72,9 +73,9 @@ open class UsersAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 4,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 4,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -177,20 +178,21 @@ open class UsersAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "member_since" : 4,
+  "member_since" : 7,
   "template" : "aeiou",
   "gender" : "aeiou",
   "city" : "aeiou",
-  "date_of_birth" : 3,
+  "date_of_birth" : 1,
   "description" : "aeiou",
   "currency_code" : "aeiou",
   "language_code" : "aeiou",
   "password" : "aeiou",
+  "last_activity" : 5,
   "children" : [ {
     "avatar_url" : "aeiou",
     "context" : "aeiou",
-    "relationship_id" : 5,
-    "id" : 3,
+    "relationship_id" : 6,
+    "id" : 0,
     "display_name" : "aeiou",
     "username" : "aeiou"
   } ],
@@ -199,11 +201,11 @@ open class UsersAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "id" : 2,
+  "id" : 5,
   "state" : "aeiou",
   "first_name" : "aeiou",
   "email" : "aeiou",
-  "last_updated" : 7,
+  "last_updated" : 2,
   "address" : "aeiou",
   "address2" : "aeiou",
   "last_name" : "aeiou",
@@ -252,7 +254,7 @@ open class UsersAPI: APIBase {
 
     /**
      List tags for a user
-     - GET /users/{userId}/tags
+     - GET /users/{user_id}/tags
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -263,7 +265,7 @@ open class UsersAPI: APIBase {
      - returns: RequestBuilder<[String]> 
      */
     open class func getUserTagsWithRequestBuilder(userId: Int32) -> RequestBuilder<[String]> {
-        var path = "/users/{userId}/tags"
+        var path = "/users/{user_id}/tags"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -297,9 +299,9 @@ open class UsersAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 1,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 2,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -360,10 +362,10 @@ open class UsersAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 1,
   "last" : true,
-  "size" : 0,
-  "total_elements" : 1,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -371,11 +373,11 @@ open class UsersAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 3,
-  "number_of_elements" : 4,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "name" : "aeiou",
-    "created_date" : 2,
+    "created_date" : 0,
     "id" : "aeiou",
     "updated_date" : 6,
     "properties" : [ {
@@ -457,10 +459,10 @@ open class UsersAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 2,
+  "number" : 5,
   "last" : true,
-  "size" : 5,
-  "total_elements" : 7,
+  "size" : 7,
+  "total_elements" : 9,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -468,11 +470,12 @@ open class UsersAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 4,
+  "total_pages" : 3,
+  "number_of_elements" : 2,
   "content" : [ {
-    "member_since" : 0,
-    "last_updated" : 7,
+    "member_since" : 5,
+    "last_updated" : 1,
+    "last_activity" : 6,
     "avatar_url" : "aeiou",
     "fullname" : "aeiou",
     "id" : 0,
@@ -583,20 +586,21 @@ open class UsersAPI: APIBase {
      - POST /users
      - Password should be in plain text and will be encrypted on receipt. Use SSL for security
      - examples: [{contentType=application/json, example={
-  "member_since" : 4,
+  "member_since" : 7,
   "template" : "aeiou",
   "gender" : "aeiou",
   "city" : "aeiou",
-  "date_of_birth" : 6,
+  "date_of_birth" : 1,
   "description" : "aeiou",
   "currency_code" : "aeiou",
   "language_code" : "aeiou",
   "password" : "aeiou",
+  "last_activity" : 5,
   "children" : [ {
     "avatar_url" : "aeiou",
     "context" : "aeiou",
-    "relationship_id" : 1,
-    "id" : 5,
+    "relationship_id" : 6,
+    "id" : 0,
     "display_name" : "aeiou",
     "username" : "aeiou"
   } ],
@@ -605,11 +609,11 @@ open class UsersAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "id" : 7,
+  "id" : 5,
   "state" : "aeiou",
   "first_name" : "aeiou",
   "email" : "aeiou",
-  "last_updated" : 5,
+  "last_updated" : 2,
   "address" : "aeiou",
   "address2" : "aeiou",
   "last_name" : "aeiou",
@@ -658,7 +662,7 @@ open class UsersAPI: APIBase {
 
     /**
      Remove a tag from a user
-     - DELETE /users/{userId}/tags/{tag}
+     - DELETE /users/{user_id}/tags/{tag}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -669,7 +673,7 @@ open class UsersAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func removeUserTagWithRequestBuilder(userId: Int32, tag: String) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/tags/{tag}"
+        var path = "/users/{user_id}/tags/{tag}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{tag}", with: "\(tag)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -766,7 +770,7 @@ open class UsersAPI: APIBase {
      - parameter passwordReset: (body) An object containing one of three methods to look up a user (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func submitPasswordReset(passwordReset: ARequestToResetAUsersPasswordByUsingAKnownUserProperty? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func submitPasswordReset(passwordReset: PasswordResetRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
         submitPasswordResetWithRequestBuilder(passwordReset: passwordReset).execute { (response, error) -> Void in
             completion(error);
         }
@@ -782,7 +786,7 @@ open class UsersAPI: APIBase {
 
      - returns: RequestBuilder<Void> 
      */
-    open class func submitPasswordResetWithRequestBuilder(passwordReset: ARequestToResetAUsersPasswordByUsingAKnownUserProperty? = nil) -> RequestBuilder<Void> {
+    open class func submitPasswordResetWithRequestBuilder(passwordReset: PasswordResetRequest? = nil) -> RequestBuilder<Void> {
         let path = "/users/password-reset"
         let URLString = JSAPIAPI.basePath + path
         let parameters = passwordReset?.encodeToJSON() as? [String:AnyObject]
@@ -858,9 +862,9 @@ open class UsersAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 4,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 4,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SimpleReferenceResourcelong: JSONEncodable {
+
     /** The id of the referenced object */
     public var id: Int64?
     /** The name of the referenced object */
@@ -21,6 +22,7 @@ open class SimpleReferenceResourcelong: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["name"] = self.name
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

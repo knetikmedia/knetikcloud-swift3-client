@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -34,10 +35,10 @@ open class UtilSecurityAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 3,
+  "number" : 6,
   "last" : true,
-  "size" : 4,
-  "total_elements" : 0,
+  "size" : 5,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -45,12 +46,12 @@ open class UtilSecurityAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 6,
+  "total_pages" : 2,
   "number_of_elements" : 1,
   "content" : [ {
     "country" : "aeiou",
     "ip" : "aeiou",
-    "time" : 4
+    "time" : 0
   } ],
   "first" : true
 }}]
@@ -100,8 +101,9 @@ open class UtilSecurityAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "user_id" : 8,
-  "roles" : [ "aeiou" ]
+  "user_id" : 0,
+  "roles" : [ "aeiou" ],
+  "client_id" : "aeiou"
 }}]
 
      - returns: RequestBuilder<TokenDetailsResource> 

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Consumable: Behavior {
+
     /** The maximum number of times an item can be used */
     public var maxUse: Int32?
 
@@ -18,6 +19,7 @@ open class Consumable: Behavior {
     override open func encodeToJSON() -> Any {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["max_use"] = self.maxUse?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

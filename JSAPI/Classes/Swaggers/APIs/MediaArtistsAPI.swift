@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -31,18 +32,18 @@ open class MediaArtistsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "contribution_count" : 2,
+  "contribution_count" : 0,
   "template" : "aeiou",
   "short_description" : "aeiou",
   "born" : "aeiou",
   "died" : "aeiou",
   "long_description" : "aeiou",
-  "priority" : 6,
+  "priority" : 5,
   "contributions" : [ {
     "role" : "aeiou",
     "artist" : {
       "name" : "aeiou",
-      "id" : 5
+      "id" : 6
     },
     "media" : ""
   } ],
@@ -52,9 +53,9 @@ open class MediaArtistsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 4,
-  "id" : 4,
-  "updated_date" : 6
+  "created_date" : 1,
+  "id" : 5,
+  "updated_date" : 2
 }}]
      
      - parameter artistResource: (body) The new artist (optional)
@@ -96,9 +97,9 @@ open class MediaArtistsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 6,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 5,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -236,18 +237,18 @@ open class MediaArtistsAPI: APIBase {
      Loads a specific artist details
      - GET /media/artists/{id}
      - examples: [{contentType=application/json, example={
-  "contribution_count" : 9,
+  "contribution_count" : 0,
   "template" : "aeiou",
   "short_description" : "aeiou",
   "born" : "aeiou",
   "died" : "aeiou",
   "long_description" : "aeiou",
-  "priority" : 8,
+  "priority" : 5,
   "contributions" : [ {
     "role" : "aeiou",
     "artist" : {
       "name" : "aeiou",
-      "id" : 7
+      "id" : 6
     },
     "media" : ""
   } ],
@@ -257,9 +258,9 @@ open class MediaArtistsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 2,
-  "id" : 0,
-  "updated_date" : 4
+  "created_date" : 1,
+  "id" : 5,
+  "updated_date" : 2
 }}]
      
      - parameter id: (path) The artist id 
@@ -305,9 +306,9 @@ open class MediaArtistsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 4,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 0,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -368,10 +369,10 @@ open class MediaArtistsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 2,
+  "number" : 1,
   "last" : true,
-  "size" : 0,
-  "total_elements" : 5,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -379,13 +380,13 @@ open class MediaArtistsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 6,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "name" : "aeiou",
-    "created_date" : 2,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 2,
+    "updated_date" : 6,
     "properties" : [ {
       "name" : "aeiou",
       "type" : "aeiou",
@@ -452,10 +453,10 @@ open class MediaArtistsAPI: APIBase {
      Search for artists
      - GET /media/artists
      - examples: [{contentType=application/json, example={
-  "number" : 5,
+  "number" : 7,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 7,
+  "size" : 3,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -463,21 +464,21 @@ open class MediaArtistsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 2,
-  "number_of_elements" : 7,
+  "total_pages" : 4,
+  "number_of_elements" : 9,
   "content" : [ {
-    "contribution_count" : 5,
+    "contribution_count" : 0,
     "template" : "aeiou",
     "short_description" : "aeiou",
     "born" : "aeiou",
     "died" : "aeiou",
     "long_description" : "aeiou",
-    "priority" : 6,
+    "priority" : 5,
     "contributions" : [ {
       "role" : "aeiou",
       "artist" : {
         "name" : "aeiou",
-        "id" : 2
+        "id" : 6
       },
       "media" : ""
     } ],
@@ -487,9 +488,9 @@ open class MediaArtistsAPI: APIBase {
         "type" : "aeiou"
       }
     },
-    "created_date" : 3,
-    "id" : 0,
-    "updated_date" : 7
+    "created_date" : 1,
+    "id" : 5,
+    "updated_date" : 2
   } ],
   "first" : true
 }}]
@@ -582,9 +583,9 @@ open class MediaArtistsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 1,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 7,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

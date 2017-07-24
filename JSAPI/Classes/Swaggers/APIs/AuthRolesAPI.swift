@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -31,18 +32,18 @@ open class AuthRolesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "role" : "aeiou",
-  "user_count" : 7,
+  "user_count" : 5,
   "name" : "aeiou",
   "role_permission" : [ {
     "parent" : "aeiou",
     "name" : "aeiou",
     "description" : "aeiou",
     "permission" : "aeiou",
-    "created_date" : 9,
-    "updated_date" : 1,
+    "created_date" : 1,
+    "updated_date" : 5,
     "locked" : false
   } ],
-  "created_date" : 3,
+  "created_date" : 6,
   "locked" : false,
   "client_count" : 0
 }}]
@@ -122,26 +123,26 @@ open class AuthRolesAPI: APIBase {
 
     /**
      Get roles for a client
-     - GET /auth/clients/{clientKey}/roles
+     - GET /auth/clients/{client_key}/roles
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
   "role" : "aeiou",
-  "user_count" : 0,
+  "user_count" : 5,
   "name" : "aeiou",
   "role_permission" : [ {
     "parent" : "aeiou",
     "name" : "aeiou",
     "description" : "aeiou",
     "permission" : "aeiou",
-    "created_date" : 5,
-    "updated_date" : 0,
+    "created_date" : 1,
+    "updated_date" : 5,
     "locked" : false
   } ],
-  "created_date" : 8,
+  "created_date" : 6,
   "locked" : false,
-  "client_count" : 7
+  "client_count" : 0
 } ]}]
      
      - parameter clientKey: (path) The client key 
@@ -149,7 +150,7 @@ open class AuthRolesAPI: APIBase {
      - returns: RequestBuilder<[RoleResource]> 
      */
     open class func getClientRolesWithRequestBuilder(clientKey: String) -> RequestBuilder<[RoleResource]> {
-        var path = "/auth/clients/{clientKey}/roles"
+        var path = "/auth/clients/{client_key}/roles"
         path = path.replacingOccurrences(of: "{client_key}", with: "\(clientKey)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -183,20 +184,20 @@ open class AuthRolesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "role" : "aeiou",
-  "user_count" : 9,
+  "user_count" : 5,
   "name" : "aeiou",
   "role_permission" : [ {
     "parent" : "aeiou",
     "name" : "aeiou",
     "description" : "aeiou",
     "permission" : "aeiou",
-    "created_date" : 3,
-    "updated_date" : 4,
+    "created_date" : 1,
+    "updated_date" : 5,
     "locked" : false
   } ],
-  "created_date" : 9,
+  "created_date" : 6,
   "locked" : false,
-  "client_count" : 5
+  "client_count" : 0
 }}]
      
      - parameter role: (path) The role value 
@@ -239,10 +240,10 @@ open class AuthRolesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 4,
+  "number" : 2,
   "last" : true,
-  "size" : 3,
-  "total_elements" : 5,
+  "size" : 9,
+  "total_elements" : 3,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -250,11 +251,11 @@ open class AuthRolesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
+  "total_pages" : 2,
   "number_of_elements" : 7,
   "content" : [ {
     "role" : "aeiou",
-    "user_count" : 3,
+    "user_count" : 5,
     "name" : "aeiou",
     "role_permission" : [ {
       "parent" : "aeiou",
@@ -262,12 +263,12 @@ open class AuthRolesAPI: APIBase {
       "description" : "aeiou",
       "permission" : "aeiou",
       "created_date" : 1,
-      "updated_date" : 0,
+      "updated_date" : 5,
       "locked" : false
     } ],
-    "created_date" : 4,
+    "created_date" : 6,
     "locked" : false,
-    "client_count" : 6
+    "client_count" : 0
   } ],
   "first" : true
 }}]
@@ -311,26 +312,26 @@ open class AuthRolesAPI: APIBase {
 
     /**
      Get roles for a user
-     - GET /auth/users/{userId}/roles
+     - GET /auth/users/{user_id}/roles
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
   "role" : "aeiou",
-  "user_count" : 2,
+  "user_count" : 5,
   "name" : "aeiou",
   "role_permission" : [ {
     "parent" : "aeiou",
     "name" : "aeiou",
     "description" : "aeiou",
     "permission" : "aeiou",
-    "created_date" : 5,
-    "updated_date" : 2,
+    "created_date" : 1,
+    "updated_date" : 5,
     "locked" : false
   } ],
-  "created_date" : 0,
+  "created_date" : 6,
   "locked" : false,
-  "client_count" : 7
+  "client_count" : 0
 } ]}]
      
      - parameter userId: (path) The user&#39;s id 
@@ -338,7 +339,7 @@ open class AuthRolesAPI: APIBase {
      - returns: RequestBuilder<[RoleResource]> 
      */
     open class func getUserRolesWithRequestBuilder(userId: Int32) -> RequestBuilder<[RoleResource]> {
-        var path = "/auth/users/{userId}/roles"
+        var path = "/auth/users/{user_id}/roles"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -367,7 +368,7 @@ open class AuthRolesAPI: APIBase {
 
     /**
      Set roles for a client
-     - PUT /auth/clients/{clientKey}/roles
+     - PUT /auth/clients/{client_key}/roles
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -376,12 +377,12 @@ open class AuthRolesAPI: APIBase {
   "grant_types" : [ "aeiou" ],
   "is_public" : false,
   "name" : "aeiou",
-  "id" : 4,
+  "id" : 6,
   "redirect_uris" : [ "aeiou" ],
   "secret" : "aeiou",
   "locked" : false,
-  "access_token_validity_seconds" : 6,
-  "refresh_token_validity_seconds" : 9
+  "access_token_validity_seconds" : 0,
+  "refresh_token_validity_seconds" : 1
 }}]
      
      - parameter clientKey: (path) The client key 
@@ -390,7 +391,7 @@ open class AuthRolesAPI: APIBase {
      - returns: RequestBuilder<ClientResource> 
      */
     open class func setClientRolesWithRequestBuilder(clientKey: String, rolesList: [String]? = nil) -> RequestBuilder<ClientResource> {
-        var path = "/auth/clients/{clientKey}/roles"
+        var path = "/auth/clients/{client_key}/roles"
         path = path.replacingOccurrences(of: "{client_key}", with: "\(clientKey)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = rolesList?.encodeToJSON() as? [String:AnyObject]
@@ -425,20 +426,20 @@ open class AuthRolesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "role" : "aeiou",
-  "user_count" : 4,
+  "user_count" : 5,
   "name" : "aeiou",
   "role_permission" : [ {
     "parent" : "aeiou",
     "name" : "aeiou",
     "description" : "aeiou",
     "permission" : "aeiou",
-    "created_date" : 6,
-    "updated_date" : 3,
+    "created_date" : 1,
+    "updated_date" : 5,
     "locked" : false
   } ],
-  "created_date" : 2,
+  "created_date" : 6,
   "locked" : false,
-  "client_count" : 7
+  "client_count" : 0
 }}]
      
      - parameter role: (path) The role value 
@@ -476,25 +477,26 @@ open class AuthRolesAPI: APIBase {
 
     /**
      Set roles for a user
-     - PUT /auth/users/{userId}/roles
+     - PUT /auth/users/{user_id}/roles
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "member_since" : 9,
+  "member_since" : 7,
   "template" : "aeiou",
   "gender" : "aeiou",
   "city" : "aeiou",
-  "date_of_birth" : 9,
+  "date_of_birth" : 1,
   "description" : "aeiou",
   "currency_code" : "aeiou",
   "language_code" : "aeiou",
   "password" : "aeiou",
+  "last_activity" : 5,
   "children" : [ {
     "avatar_url" : "aeiou",
     "context" : "aeiou",
-    "relationship_id" : 4,
-    "id" : 4,
+    "relationship_id" : 6,
+    "id" : 0,
     "display_name" : "aeiou",
     "username" : "aeiou"
   } ],
@@ -503,11 +505,11 @@ open class AuthRolesAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "id" : 9,
+  "id" : 5,
   "state" : "aeiou",
   "first_name" : "aeiou",
   "email" : "aeiou",
-  "last_updated" : 9,
+  "last_updated" : 2,
   "address" : "aeiou",
   "address2" : "aeiou",
   "last_name" : "aeiou",
@@ -529,7 +531,7 @@ open class AuthRolesAPI: APIBase {
      - returns: RequestBuilder<UserResource> 
      */
     open class func setUserRolesWithRequestBuilder(userId: Int32, rolesList: [String]? = nil) -> RequestBuilder<UserResource> {
-        var path = "/auth/users/{userId}/roles"
+        var path = "/auth/users/{user_id}/roles"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = rolesList?.encodeToJSON() as? [String:AnyObject]
@@ -564,20 +566,20 @@ open class AuthRolesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "role" : "aeiou",
-  "user_count" : 9,
+  "user_count" : 5,
   "name" : "aeiou",
   "role_permission" : [ {
     "parent" : "aeiou",
     "name" : "aeiou",
     "description" : "aeiou",
     "permission" : "aeiou",
-    "created_date" : 4,
-    "updated_date" : 6,
+    "created_date" : 1,
+    "updated_date" : 5,
     "locked" : false
   } ],
-  "created_date" : 7,
+  "created_date" : 6,
   "locked" : false,
-  "client_count" : 5
+  "client_count" : 0
 }}]
      
      - parameter role: (path) The role value 

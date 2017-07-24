@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -26,7 +27,7 @@ open class UsersFriendshipsAPI: APIBase {
 
     /**
      Add a friend
-     - POST /users/{userId}/friends/{id}
+     - POST /users/{user_id}/friends/{id}
      - As a user, either creates or confirm a pending request. As an admin, call this endpoint twice while inverting the IDs to create a confirmed friendship.
      - OAuth:
        - type: oauth2
@@ -38,7 +39,7 @@ open class UsersFriendshipsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func addFriendWithRequestBuilder(userId: String, id: Int32) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/friends/{id}"
+        var path = "/users/{user_id}/friends/{id}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -69,15 +70,15 @@ open class UsersFriendshipsAPI: APIBase {
 
     /**
      Get friends list
-     - GET /users/{userId}/friends
+     - GET /users/{user_id}/friends
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 8,
+  "number" : 6,
   "last" : true,
-  "size" : 3,
-  "total_elements" : 6,
+  "size" : 5,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -86,10 +87,10 @@ open class UsersFriendshipsAPI: APIBase {
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
-  "number_of_elements" : 9,
+  "number_of_elements" : 1,
   "content" : [ {
     "avatar_url" : "aeiou",
-    "id" : 7,
+    "id" : 0,
     "display_name" : "aeiou",
     "username" : "aeiou"
   } ],
@@ -103,7 +104,7 @@ open class UsersFriendshipsAPI: APIBase {
      - returns: RequestBuilder<PageResourceSimpleUserResource> 
      */
     open class func getFriendsWithRequestBuilder(userId: String, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceSimpleUserResource> {
-        var path = "/users/{userId}/friends"
+        var path = "/users/{user_id}/friends"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -135,7 +136,7 @@ open class UsersFriendshipsAPI: APIBase {
 
     /**
      Returns the invite token
-     - GET /users/{userId}/invite-token
+     - GET /users/{user_id}/invite-token
      - This is a unique invite token that allows direct connection to the request user.  Exposing that token presents privacy issues if the token is leaked. Use friend request flow instead if confirmation is required
      - OAuth:
        - type: oauth2
@@ -147,7 +148,7 @@ open class UsersFriendshipsAPI: APIBase {
      - returns: RequestBuilder<String> 
      */
     open class func getInviteTokenWithRequestBuilder(userId: String) -> RequestBuilder<String> {
-        var path = "/users/{userId}/invite-token"
+        var path = "/users/{user_id}/invite-token"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -177,16 +178,16 @@ open class UsersFriendshipsAPI: APIBase {
 
     /**
      Get pending invites
-     - GET /users/{userId}/invites
+     - GET /users/{user_id}/invites
      - Invites that the specified user received
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 0,
+  "number" : 6,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 9,
+  "size" : 5,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -194,11 +195,11 @@ open class UsersFriendshipsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 0,
-  "number_of_elements" : 6,
+  "total_pages" : 2,
+  "number_of_elements" : 1,
   "content" : [ {
     "avatar_url" : "aeiou",
-    "id" : 4,
+    "id" : 0,
     "display_name" : "aeiou",
     "username" : "aeiou"
   } ],
@@ -212,7 +213,7 @@ open class UsersFriendshipsAPI: APIBase {
      - returns: RequestBuilder<PageResourceSimpleUserResource> 
      */
     open class func getInvitesWithRequestBuilder(userId: String, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceSimpleUserResource> {
-        var path = "/users/{userId}/invites"
+        var path = "/users/{user_id}/invites"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -245,7 +246,7 @@ open class UsersFriendshipsAPI: APIBase {
 
     /**
      Redeem friendship token
-     - POST /users/{userId}/friends/tokens
+     - POST /users/{user_id}/friends/tokens
      - Immediately connects the requested user with the user mapped by the provided invite token
      - OAuth:
        - type: oauth2
@@ -257,7 +258,7 @@ open class UsersFriendshipsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func redeemFriendshipTokenWithRequestBuilder(userId: String, token: String? = nil) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/friends/tokens"
+        var path = "/users/{user_id}/friends/tokens"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = token?.encodeToJSON() as? [String:AnyObject]
@@ -286,7 +287,7 @@ open class UsersFriendshipsAPI: APIBase {
 
     /**
      Remove or decline a friend
-     - DELETE /users/{userId}/friends/{id}
+     - DELETE /users/{user_id}/friends/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -297,7 +298,7 @@ open class UsersFriendshipsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func removeOrDeclineFriendWithRequestBuilder(userId: String, id: Int32) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/friends/{id}"
+        var path = "/users/{user_id}/friends/{id}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path

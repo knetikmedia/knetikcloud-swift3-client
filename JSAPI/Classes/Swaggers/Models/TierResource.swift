@@ -9,6 +9,7 @@ import Foundation
 
 
 open class TierResource: JSONEncodable {
+
     /** A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type */
     public var additionalProperties: [String:Property]?
     /** The name of the tier */
@@ -27,6 +28,7 @@ open class TierResource: JSONEncodable {
         nillableDictionary["name"] = self.name
         nillableDictionary["required_progress"] = self.requiredProgress?.encodeToJSON()
         nillableDictionary["trigger_event_name"] = self.triggerEventName
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

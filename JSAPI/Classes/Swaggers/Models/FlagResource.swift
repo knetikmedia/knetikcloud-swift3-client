@@ -9,6 +9,7 @@ import Foundation
 
 
 open class FlagResource: JSONEncodable {
+
     /** The context of that resource */
     public var context: String?
     /** The context_id of that resource */
@@ -36,6 +37,7 @@ open class FlagResource: JSONEncodable {
         nillableDictionary["reason"] = self.reason
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
         nillableDictionary["user"] = self.user?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

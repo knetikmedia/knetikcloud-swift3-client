@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Schedule: JSONEncodable {
+
     public enum DurationUnit: String { 
         case millisecond = "millisecond"
         case second = "second"
@@ -38,6 +39,7 @@ open class Schedule: JSONEncodable {
         nillableDictionary["duration"] = self.duration?.encodeToJSON()
         nillableDictionary["duration_unit"] = self.durationUnit?.rawValue
         nillableDictionary["repeat"] = self.repeat?.rawValue
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

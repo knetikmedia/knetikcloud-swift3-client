@@ -9,6 +9,7 @@ import Foundation
 
 
 open class VariableTypeResource: JSONEncodable {
+
     public enum Base: String { 
         case number = "NUMBER"
         case integer = "INTEGER"
@@ -31,6 +32,7 @@ open class VariableTypeResource: JSONEncodable {
         nillableDictionary["base"] = self.base?.rawValue
         nillableDictionary["enumerable"] = self.enumerable
         nillableDictionary["name"] = self.name
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

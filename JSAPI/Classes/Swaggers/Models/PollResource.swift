@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PollResource: JSONEncodable {
+
     public enum ModelType: String { 
         case text = "TEXT"
         case image = "IMAGE"
@@ -54,6 +55,7 @@ open class PollResource: JSONEncodable {
         nillableDictionary["text"] = self.text
         nillableDictionary["type"] = self.type?.rawValue
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

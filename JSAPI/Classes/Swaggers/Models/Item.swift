@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Item: JSONEncodable {
+
     /** A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type, or be an extra not from the template */
     public var additionalProperties: [String:Property]?
     /** The behaviors linked to the item, describing various options and interactions. May not be included in item lists */
@@ -57,6 +58,7 @@ open class Item: JSONEncodable {
         nillableDictionary["type_hint"] = self.typeHint
         nillableDictionary["unique_key"] = self.uniqueKey
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ActionVariableResource: JSONEncodable {
+
     /** The name of the variable */
     public var name: String?
     /** Whether this variable is optional and can be left out/null */
@@ -24,6 +25,7 @@ open class ActionVariableResource: JSONEncodable {
         nillableDictionary["name"] = self.name
         nillableDictionary["optional"] = self._optional
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

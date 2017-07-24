@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -31,7 +32,7 @@ open class TaxesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
-  "rate" : 6.179689667137781,
+  "rate" : 0.8008281904610115,
   "name" : "aeiou",
   "country_iso3" : "aeiou"
 }}]
@@ -75,7 +76,7 @@ open class TaxesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
-  "rate" : 2.1969733332404506,
+  "rate" : 0.8008281904610115,
   "federally_exempt" : false,
   "name" : "aeiou",
   "state_code" : "aeiou",
@@ -155,7 +156,7 @@ open class TaxesAPI: APIBase {
 
     /**
      Delete an existing state tax
-     - DELETE /tax/countries/{country_code_iso3}/states/{stateCode}
+     - DELETE /tax/countries/{country_code_iso3}/states/{state_code}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -166,7 +167,7 @@ open class TaxesAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteStateTaxWithRequestBuilder(countryCodeIso3: String, stateCode: String) -> RequestBuilder<Void> {
-        var path = "/tax/countries/{country_code_iso3}/states/{stateCode}"
+        var path = "/tax/countries/{country_code_iso3}/states/{state_code}"
         path = path.replacingOccurrences(of: "{country_code_iso3}", with: "\(countryCodeIso3)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{state_code}", with: "\(stateCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -198,7 +199,7 @@ open class TaxesAPI: APIBase {
      - GET /tax/countries/{country_code_iso3}
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
-  "rate" : 7.227166463879202,
+  "rate" : 0.8008281904610115,
   "name" : "aeiou",
   "country_iso3" : "aeiou"
 }}]
@@ -241,10 +242,10 @@ open class TaxesAPI: APIBase {
      - GET /tax/countries
      - Get a list of taxes
      - examples: [{contentType=application/json, example={
-  "number" : 4,
+  "number" : 6,
   "last" : true,
-  "size" : 7,
-  "total_elements" : 9,
+  "size" : 5,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -252,11 +253,11 @@ open class TaxesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 2,
+  "total_pages" : 2,
+  "number_of_elements" : 1,
   "content" : [ {
     "tax_shipping" : false,
-    "rate" : 0.09840544227419423,
+    "rate" : 0.8008281904610115,
     "name" : "aeiou",
     "country_iso3" : "aeiou"
   } ],
@@ -303,10 +304,10 @@ open class TaxesAPI: APIBase {
 
     /**
      Get a single state tax
-     - GET /tax/countries/{country_code_iso3}/states/{stateCode}
+     - GET /tax/countries/{country_code_iso3}/states/{state_code}
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
-  "rate" : 5.658529772960007,
+  "rate" : 0.8008281904610115,
   "federally_exempt" : false,
   "name" : "aeiou",
   "state_code" : "aeiou",
@@ -319,7 +320,7 @@ open class TaxesAPI: APIBase {
      - returns: RequestBuilder<StateTaxResource> 
      */
     open class func getStateTaxWithRequestBuilder(countryCodeIso3: String, stateCode: String) -> RequestBuilder<StateTaxResource> {
-        var path = "/tax/countries/{country_code_iso3}/states/{stateCode}"
+        var path = "/tax/countries/{country_code_iso3}/states/{state_code}"
         path = path.replacingOccurrences(of: "{country_code_iso3}", with: "\(countryCodeIso3)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{state_code}", with: "\(stateCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -353,10 +354,10 @@ open class TaxesAPI: APIBase {
      - GET /tax/states
      - Get a list of taxes
      - examples: [{contentType=application/json, example={
-  "number" : 5,
+  "number" : 6,
   "last" : true,
-  "size" : 4,
-  "total_elements" : 4,
+  "size" : 5,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -364,11 +365,11 @@ open class TaxesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 6,
+  "total_pages" : 2,
   "number_of_elements" : 1,
   "content" : [ {
     "tax_shipping" : false,
-    "rate" : 2.2682213991687017,
+    "rate" : 0.8008281904610115,
     "federally_exempt" : false,
     "name" : "aeiou",
     "state_code" : "aeiou",
@@ -424,7 +425,7 @@ open class TaxesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
-  "size" : 3,
+  "size" : 5,
   "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
@@ -433,11 +434,11 @@ open class TaxesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 9,
-  "number_of_elements" : 7,
+  "total_pages" : 2,
+  "number_of_elements" : 1,
   "content" : [ {
     "tax_shipping" : false,
-    "rate" : 5.44761478172579,
+    "rate" : 0.8008281904610115,
     "federally_exempt" : false,
     "name" : "aeiou",
     "state_code" : "aeiou",
@@ -494,7 +495,7 @@ open class TaxesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
-  "rate" : 4.591455947477531,
+  "rate" : 0.8008281904610115,
   "name" : "aeiou",
   "country_iso3" : "aeiou"
 }}]
@@ -535,13 +536,13 @@ open class TaxesAPI: APIBase {
 
     /**
      Create or update a state tax
-     - PUT /tax/countries/{country_code_iso3}/states/{stateCode}
+     - PUT /tax/countries/{country_code_iso3}/states/{state_code}
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
-  "rate" : 9.09906120892132,
+  "rate" : 0.8008281904610115,
   "federally_exempt" : false,
   "name" : "aeiou",
   "state_code" : "aeiou",
@@ -555,7 +556,7 @@ open class TaxesAPI: APIBase {
      - returns: RequestBuilder<StateTaxResource> 
      */
     open class func updateStateTaxWithRequestBuilder(countryCodeIso3: String, stateCode: String, taxResource: StateTaxResource? = nil) -> RequestBuilder<StateTaxResource> {
-        var path = "/tax/countries/{country_code_iso3}/states/{stateCode}"
+        var path = "/tax/countries/{country_code_iso3}/states/{state_code}"
         path = path.replacingOccurrences(of: "{country_code_iso3}", with: "\(countryCodeIso3)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{state_code}", with: "\(stateCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path

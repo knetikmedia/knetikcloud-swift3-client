@@ -9,6 +9,7 @@ import Foundation
 
 
 open class VideoRelationshipResource: JSONEncodable {
+
     /** The owner of the relationship */
     public var from: SimpleReferenceResourcelong?
     /** The id of the relationship */
@@ -27,6 +28,7 @@ open class VideoRelationshipResource: JSONEncodable {
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["relationship_details"] = self.relationshipDetails
         nillableDictionary["to"] = self.to?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

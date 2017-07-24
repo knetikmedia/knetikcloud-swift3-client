@@ -9,6 +9,7 @@ import Foundation
 
 
 open class EventContextResource: JSONEncodable {
+
     public var eventName: String?
     public var parameters: [String:ExpressionResource]?
     public var type: String?
@@ -21,6 +22,7 @@ open class EventContextResource: JSONEncodable {
         nillableDictionary["event_name"] = self.eventName
         nillableDictionary["parameters"] = self.parameters?.encodeToJSON()
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

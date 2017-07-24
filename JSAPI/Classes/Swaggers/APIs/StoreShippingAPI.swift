@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -84,9 +85,9 @@ open class StoreShippingAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 5,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 1,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -271,9 +272,9 @@ open class StoreShippingAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 7,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 3,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -334,9 +335,9 @@ open class StoreShippingAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 8,
+  "number" : 1,
   "last" : true,
-  "size" : 0,
+  "size" : 5,
   "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
@@ -345,8 +346,8 @@ open class StoreShippingAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 5,
-  "number_of_elements" : 3,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "behaviors" : [ {
       "behavior" : {
@@ -357,9 +358,9 @@ open class StoreShippingAPI: APIBase {
       "required" : false
     } ],
     "name" : "aeiou",
-    "created_date" : 3,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 0,
+    "updated_date" : 6,
     "properties" : [ {
       "name" : "aeiou",
       "type" : "aeiou",
@@ -484,7 +485,7 @@ open class StoreShippingAPI: APIBase {
   "name" : "aeiou",
   "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 8,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

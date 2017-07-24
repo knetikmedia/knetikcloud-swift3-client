@@ -9,6 +9,7 @@ import Foundation
 
 
 open class OptimalPaymentRequest: JSONEncodable {
+
     /** The email address of the user */
     public var email: String?
     /** The first name of the user */
@@ -36,6 +37,7 @@ open class OptimalPaymentRequest: JSONEncodable {
         nillableDictionary["on_decline"] = self.onDecline
         nillableDictionary["on_error"] = self.onError
         nillableDictionary["on_success"] = self.onSuccess
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CreatePayPalPaymentRequest: JSONEncodable {
+
     /** The endpoint URL to which PayPal should forward the user to if they cancel the checkout process */
     public var cancelUrl: String?
     /** The ID of an invoice to pay */
@@ -24,6 +25,7 @@ open class CreatePayPalPaymentRequest: JSONEncodable {
         nillableDictionary["cancel_url"] = self.cancelUrl
         nillableDictionary["invoice_id"] = self.invoiceId?.encodeToJSON()
         nillableDictionary["return_url"] = self.returnUrl
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

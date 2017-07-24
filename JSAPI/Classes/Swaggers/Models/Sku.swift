@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Sku: JSONEncodable {
+
     /** A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type, or be an extra not from the template */
     public var additionalProperties: [String:Property]?
     /** The currency code for the SKU, a three letter string (ISO3) */
@@ -54,6 +55,7 @@ open class Sku: JSONEncodable {
         nillableDictionary["sku"] = self.sku
         nillableDictionary["start_date"] = self.startDate?.encodeToJSON()
         nillableDictionary["stop_date"] = self.stopDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

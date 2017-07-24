@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CartSummary: JSONEncodable {
+
     public enum Status: String { 
         case active = "active"
         case processing = "processing"
@@ -45,6 +46,7 @@ open class CartSummary: JSONEncodable {
         nillableDictionary["items_in_cart"] = self.itemsInCart?.encodeToJSON()
         nillableDictionary["status"] = self.status?.rawValue
         nillableDictionary["subtotal"] = self.subtotal
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

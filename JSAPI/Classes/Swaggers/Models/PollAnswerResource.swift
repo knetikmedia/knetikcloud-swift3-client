@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PollAnswerResource: JSONEncodable {
+
     /** The number of users that selected this answer */
     public var count: Int32?
     /** The key to the answer (for code reference) */
@@ -24,6 +25,7 @@ open class PollAnswerResource: JSONEncodable {
         nillableDictionary["count"] = self.count?.encodeToJSON()
         nillableDictionary["key"] = self.key
         nillableDictionary["text"] = self.text
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

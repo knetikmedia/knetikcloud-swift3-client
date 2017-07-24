@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CartShippableResponse: JSONEncodable {
+
     /** The id of the cart */
     public var cartId: Int32?
     /** Whether the item is shippable */
@@ -21,6 +22,7 @@ open class CartShippableResponse: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["cart_id"] = self.cartId?.encodeToJSON()
         nillableDictionary["shippable"] = self.shippable
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

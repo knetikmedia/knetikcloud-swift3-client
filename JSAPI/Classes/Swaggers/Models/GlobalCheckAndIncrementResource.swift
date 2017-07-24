@@ -9,6 +9,7 @@ import Foundation
 
 
 open class GlobalCheckAndIncrementResource: JSONEncodable {
+
     public var checkValueResource: ExpressionResource?
     public var globalResource: ExpressionResource?
     public var type: String?
@@ -21,6 +22,7 @@ open class GlobalCheckAndIncrementResource: JSONEncodable {
         nillableDictionary["check_value_resource"] = self.checkValueResource?.encodeToJSON()
         nillableDictionary["global_resource"] = self.globalResource?.encodeToJSON()
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

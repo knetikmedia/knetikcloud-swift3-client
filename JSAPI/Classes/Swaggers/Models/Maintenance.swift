@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Maintenance: JSONEncodable {
+
     /** Whether access to the system has been locked */
     public var accessLocked: Bool?
     /** A simple object of any schema for client side use and processing */
@@ -24,6 +25,7 @@ open class Maintenance: JSONEncodable {
         nillableDictionary["access_locked"] = self.accessLocked
         nillableDictionary["details"] = self.details
         nillableDictionary["message"] = self.message
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

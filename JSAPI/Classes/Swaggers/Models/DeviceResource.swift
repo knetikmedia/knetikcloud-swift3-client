@@ -9,6 +9,7 @@ import Foundation
 
 
 open class DeviceResource: JSONEncodable {
+
     public enum Condition: String { 
         case new = "New"
         case defective = "Defective"
@@ -80,6 +81,7 @@ open class DeviceResource: JSONEncodable {
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
         nillableDictionary["user"] = self.user?.encodeToJSON()
         nillableDictionary["users"] = self.users?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

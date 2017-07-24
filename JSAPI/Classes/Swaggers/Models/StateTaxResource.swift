@@ -9,6 +9,7 @@ import Foundation
 
 
 open class StateTaxResource: JSONEncodable {
+
     /** The iso3 code of the country, cannot be changed */
     public var countryIso3: String?
     /** Whether the state is exempt from paying the country tax */
@@ -33,6 +34,7 @@ open class StateTaxResource: JSONEncodable {
         nillableDictionary["rate"] = self.rate
         nillableDictionary["state_code"] = self.stateCode
         nillableDictionary["tax_shipping"] = self.taxShipping
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

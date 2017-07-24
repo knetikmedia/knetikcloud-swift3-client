@@ -9,6 +9,7 @@ import Foundation
 
 
 open class S3Config: JSONEncodable {
+
     public var bucketName: String?
     public var cdnUrl: String?
     public var region: String?
@@ -23,6 +24,7 @@ open class S3Config: JSONEncodable {
         nillableDictionary["cdn_url"] = self.cdnUrl
         nillableDictionary["region"] = self.region
         nillableDictionary["upload_prefix"] = self.uploadPrefix
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

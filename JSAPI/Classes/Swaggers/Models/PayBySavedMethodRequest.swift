@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PayBySavedMethodRequest: JSONEncodable {
+
     /** The id of the payment method to use. Must belong to the caller, be public or have PAYMENTS_ADMIN permission */
     public var paymentMethod: Int32?
 
@@ -18,6 +19,7 @@ open class PayBySavedMethodRequest: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["payment_method"] = self.paymentMethod?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

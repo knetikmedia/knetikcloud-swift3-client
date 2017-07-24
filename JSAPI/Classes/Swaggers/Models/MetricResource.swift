@@ -9,6 +9,7 @@ import Foundation
 
 
 open class MetricResource: JSONEncodable {
+
     /** The id of the activity occurence where this score/metric occurred */
     public var activityOccurenceId: Int64?
     /** Any tags for the metric. Each unique tag will translate into a unique leaderboard. Maximum 5 tags and 50 characters each */
@@ -24,6 +25,7 @@ open class MetricResource: JSONEncodable {
         nillableDictionary["activity_occurence_id"] = self.activityOccurenceId?.encodeToJSON()
         nillableDictionary["tags"] = self.tags?.encodeToJSON()
         nillableDictionary["value"] = self.value?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

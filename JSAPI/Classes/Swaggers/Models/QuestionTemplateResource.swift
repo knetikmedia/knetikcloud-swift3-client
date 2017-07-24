@@ -9,6 +9,7 @@ import Foundation
 
 
 open class QuestionTemplateResource: JSONEncodable {
+
     /** A property definition for all answers. If included each answer must match this definition&#39;s type and be valid */
     public var answerProperty: PropertyDefinitionResource?
     /** The date/time this resource was created in seconds since unix epoch */
@@ -36,6 +37,7 @@ open class QuestionTemplateResource: JSONEncodable {
         nillableDictionary["properties"] = self.properties?.encodeToJSON()
         nillableDictionary["question_property"] = self.questionProperty?.encodeToJSON()
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

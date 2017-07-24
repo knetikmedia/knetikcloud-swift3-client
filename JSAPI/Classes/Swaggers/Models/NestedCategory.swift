@@ -9,6 +9,7 @@ import Foundation
 
 
 open class NestedCategory: JSONEncodable {
+
     /** Whether the category is active */
     public var active: Bool?
     /** The id of the category */
@@ -24,6 +25,7 @@ open class NestedCategory: JSONEncodable {
         nillableDictionary["active"] = self.active
         nillableDictionary["id"] = self.id
         nillableDictionary["name"] = self.name
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

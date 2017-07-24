@@ -9,6 +9,7 @@ import Foundation
 
 
 open class RefundResource: JSONEncodable {
+
     /** The amount refunded */
     public var amount: Double?
     /** The id of the refund transaction */
@@ -24,6 +25,7 @@ open class RefundResource: JSONEncodable {
         nillableDictionary["amount"] = self.amount
         nillableDictionary["refund_transaction_id"] = self.refundTransactionId?.encodeToJSON()
         nillableDictionary["transaction_id"] = self.transactionId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

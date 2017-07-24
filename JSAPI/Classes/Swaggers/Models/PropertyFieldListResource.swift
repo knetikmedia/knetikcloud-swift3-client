@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PropertyFieldListResource: JSONEncodable {
+
     /** A list of fields for the property definition. */
     public var propertyDefinitionFields: [PropertyFieldResource]?
     /** A list of fields for the property. */
@@ -24,6 +25,7 @@ open class PropertyFieldListResource: JSONEncodable {
         nillableDictionary["property_definition_fields"] = self.propertyDefinitionFields?.encodeToJSON()
         nillableDictionary["property_fields"] = self.propertyFields?.encodeToJSON()
         nillableDictionary["property_type"] = self.propertyType
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

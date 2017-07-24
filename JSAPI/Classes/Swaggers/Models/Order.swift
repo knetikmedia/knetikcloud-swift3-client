@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Order: JSONEncodable {
+
     public enum Direction: String { 
         case asc = "ASC"
         case desc = "DESC"
@@ -34,6 +35,7 @@ open class Order: JSONEncodable {
         nillableDictionary["ignore_case"] = self.ignoreCase
         nillableDictionary["null_handling"] = self.nullHandling?.rawValue
         nillableDictionary["property"] = self.property
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

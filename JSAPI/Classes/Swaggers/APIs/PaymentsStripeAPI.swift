@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -33,26 +34,24 @@ open class PaymentsStripeAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
     "name" : "aeiou",
-    "id" : 7
+    "id" : 2
   },
   "last4" : "aeiou",
-  "short_description" : "aeiou",
   "unique_key" : "aeiou",
   "verified" : true,
-  "long_description" : "aeiou",
-  "sort" : 4,
-  "expiration_date" : 5,
+  "sort" : 7,
+  "expiration_date" : 6,
   "token" : "aeiou",
-  "expiration_year" : 2,
+  "expiration_year" : 5,
   "default" : true,
   "payment_type" : "card",
-  "user_id" : 7,
-  "expiration_month" : 0,
+  "user_id" : 3,
+  "expiration_month" : 1,
   "name" : "aeiou",
   "disabled" : false,
-  "created_date" : 5,
-  "id" : 8,
-  "updated_date" : 3
+  "created_date" : 0,
+  "id" : 5,
+  "updated_date" : 9
 }}]
      
      - parameter request: (body) The request to create a Stripe customer with payment info (optional)

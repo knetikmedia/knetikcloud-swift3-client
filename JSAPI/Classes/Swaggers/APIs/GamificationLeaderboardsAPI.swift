@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -29,20 +30,21 @@ open class GamificationLeaderboardsAPI: APIBase {
 
     /**
      Retrieves leaderboard details and paginated entries
-     - GET /leaderboards/{contextType}/{contextId}
+     - GET /leaderboards/{context_type}/{context_id}
      - The context type identifies the type of entity (i.e., 'activity') being tracked on the leaderboard. The context ID is the unique ID of the actual entity tracked by the leaderboard. Sorting is based on the fields of LeaderboardEntryResource rather than the returned LeaderboardResource.
      - examples: [{contentType=application/json, example={
   "entries" : [ {
-    "score" : 3,
-    "rank" : 6,
+    "score" : 6,
+    "rank" : 0,
+    "updated_date" : 1,
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 4,
+      "id" : 5,
       "display_name" : "aeiou",
       "username" : "aeiou"
     }
   } ],
-  "id" : 4,
+  "id" : 5,
   "strategy" : "aeiou"
 }}]
      
@@ -55,7 +57,7 @@ open class GamificationLeaderboardsAPI: APIBase {
      - returns: RequestBuilder<LeaderboardResource> 
      */
     open class func getLeaderboardWithRequestBuilder(contextType: String, contextId: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<LeaderboardResource> {
-        var path = "/leaderboards/{contextType}/{contextId}"
+        var path = "/leaderboards/{context_type}/{context_id}"
         path = path.replacingOccurrences(of: "{context_type}", with: "\(contextType)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{context_id}", with: "\(contextId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -91,17 +93,18 @@ open class GamificationLeaderboardsAPI: APIBase {
 
     /**
      Retrieves a specific user entry with rank
-     - GET /leaderboards/{contextType}/{contextId}/users/{id}/rank
+     - GET /leaderboards/{context_type}/{context_id}/users/{id}/rank
      - The context type identifies the type of entity (i.e., 'activity') being tracked on the leaderboard. The context ID is the unique ID of the actual entity tracked by the leaderboard
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "score" : 0,
-  "rank" : 8,
+  "score" : 6,
+  "rank" : 0,
+  "updated_date" : 1,
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 7,
+    "id" : 5,
     "display_name" : "aeiou",
     "username" : "aeiou"
   }
@@ -114,7 +117,7 @@ open class GamificationLeaderboardsAPI: APIBase {
      - returns: RequestBuilder<LeaderboardEntryResource> 
      */
     open class func getLeaderboardRankWithRequestBuilder(contextType: String, contextId: String, id: String) -> RequestBuilder<LeaderboardEntryResource> {
-        var path = "/leaderboards/{contextType}/{contextId}/users/{id}/rank"
+        var path = "/leaderboards/{context_type}/{context_id}/users/{id}/rank"
         path = path.replacingOccurrences(of: "{context_type}", with: "\(contextType)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{context_id}", with: "\(contextId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)

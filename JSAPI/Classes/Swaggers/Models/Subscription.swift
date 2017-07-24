@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Subscription: StoreItem {
+
     public enum Availability: String { 
         case all = "all"
         case newSubscribers = "new_subscribers"
@@ -25,6 +26,7 @@ open class Subscription: StoreItem {
         nillableDictionary["availability"] = self.availability?.rawValue
         nillableDictionary["consolidation_day_of_month"] = self.consolidationDayOfMonth?.encodeToJSON()
         nillableDictionary["subscription_plans"] = self.subscriptionPlans?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

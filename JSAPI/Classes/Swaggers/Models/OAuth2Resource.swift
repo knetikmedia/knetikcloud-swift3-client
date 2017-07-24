@@ -9,6 +9,7 @@ import Foundation
 
 
 open class OAuth2Resource: JSONEncodable {
+
     /** The access token issued by the authorization server */
     public var accessToken: String?
     /** The lifetime in seconds of the access token */
@@ -27,6 +28,7 @@ open class OAuth2Resource: JSONEncodable {
         nillableDictionary["expires_in"] = self.expiresIn
         nillableDictionary["scope"] = self.scope
         nillableDictionary["token_type"] = self.tokenType
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

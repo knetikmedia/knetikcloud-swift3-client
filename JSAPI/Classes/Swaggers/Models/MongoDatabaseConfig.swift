@@ -9,6 +9,7 @@ import Foundation
 
 
 open class MongoDatabaseConfig: JSONEncodable {
+
     public var dbName: String?
     public var options: String?
     public var password: String?
@@ -25,6 +26,7 @@ open class MongoDatabaseConfig: JSONEncodable {
         nillableDictionary["password"] = self.password
         nillableDictionary["servers"] = self.servers
         nillableDictionary["username"] = self.username
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SubscriptionPlanResource: JSONEncodable {
+
     public enum BillingCycleUnit: String { 
         case millisecond = "millisecond"
         case second = "second"
@@ -113,6 +114,7 @@ open class SubscriptionPlanResource: JSONEncodable {
         nillableDictionary["recurring_fee"] = self.recurringFee
         nillableDictionary["recurring_sku"] = self.recurringSku
         nillableDictionary["start_date"] = self.startDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class RawSMSResource: JSONEncodable {
+
     /** The phone number to attribute the outgoing message to. Optional if the config text.out_number is set. */
     public var from: String?
     /** A list of user ids to send the message to. */
@@ -24,6 +25,7 @@ open class RawSMSResource: JSONEncodable {
         nillableDictionary["from"] = self.from
         nillableDictionary["recipients"] = self.recipients?.encodeToJSON()
         nillableDictionary["text"] = self.text
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

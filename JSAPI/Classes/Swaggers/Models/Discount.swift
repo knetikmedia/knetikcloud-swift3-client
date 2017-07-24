@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Discount: JSONEncodable {
+
     public var description: String?
     public var name: String?
     public var sku: String?
@@ -25,6 +26,7 @@ open class Discount: JSONEncodable {
         nillableDictionary["sku"] = self.sku
         nillableDictionary["unique_key"] = self.uniqueKey
         nillableDictionary["value"] = self.value
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

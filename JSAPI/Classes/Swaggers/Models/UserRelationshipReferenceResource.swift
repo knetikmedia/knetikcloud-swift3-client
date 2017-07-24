@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UserRelationshipReferenceResource: JSONEncodable {
+
     /** The url of the user&#39;s avatar image */
     public var avatarUrl: String?
     /** The context of the relationship */
@@ -33,6 +34,7 @@ open class UserRelationshipReferenceResource: JSONEncodable {
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["relationship_id"] = self.relationshipId?.encodeToJSON()
         nillableDictionary["username"] = self.username
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PermissionResource: JSONEncodable {
+
     /** The date the permission was added. Unix timestamp in seconds */
     public var createdDate: Int64?
     /** The description of the permission */
@@ -36,6 +37,7 @@ open class PermissionResource: JSONEncodable {
         nillableDictionary["parent"] = self.parent
         nillableDictionary["permission"] = self.permission
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

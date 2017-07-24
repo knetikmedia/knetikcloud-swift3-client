@@ -9,6 +9,7 @@ import Foundation
 
 
 open class NewCustomerEvent: BroadcastableEvent {
+
     public var customerConfig: CustomerConfig?
 
     
@@ -17,6 +18,7 @@ open class NewCustomerEvent: BroadcastableEvent {
     override open func encodeToJSON() -> Any {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["customer_config"] = self.customerConfig?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

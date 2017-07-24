@@ -9,6 +9,7 @@ import Foundation
 
 
 open class MapResource: JSONEncodable {
+
     public var map: [String:ExpressionResource]?
     public var type: String?
 
@@ -19,6 +20,7 @@ open class MapResource: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["map"] = self.map?.encodeToJSON()
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

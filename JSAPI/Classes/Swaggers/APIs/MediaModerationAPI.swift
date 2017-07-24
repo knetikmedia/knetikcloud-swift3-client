@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -33,11 +34,11 @@ open class MediaModerationAPI: APIBase {
   "reason" : "aeiou",
   "context" : "aeiou",
   "context_id" : "aeiou",
-  "created_date" : 3,
-  "id" : 8,
-  "updated_date" : 1,
+  "created_date" : 0,
+  "id" : 6,
+  "updated_date" : 5,
   "resolution" : "banned",
-  "resolved" : 0
+  "resolved" : 1
 }}]
      
      - parameter id: (path) The flag report id 
@@ -82,10 +83,10 @@ open class MediaModerationAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 4,
+  "number" : 5,
   "last" : true,
-  "size" : 4,
-  "total_elements" : 3,
+  "size" : 7,
+  "total_elements" : 9,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -93,17 +94,17 @@ open class MediaModerationAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 9,
-  "number_of_elements" : 3,
+  "total_pages" : 3,
+  "number_of_elements" : 2,
   "content" : [ {
     "reason" : "aeiou",
     "context" : "aeiou",
     "context_id" : "aeiou",
-    "created_date" : 9,
-    "id" : 0,
-    "updated_date" : 4,
+    "created_date" : 0,
+    "id" : 6,
+    "updated_date" : 5,
     "resolution" : "banned",
-    "resolved" : 9
+    "resolved" : 1
   } ],
   "first" : true
 }}]

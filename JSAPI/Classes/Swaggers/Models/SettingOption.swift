@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SettingOption: JSONEncodable {
+
     /** The textual name of the option: Ex: Hard (level 10) */
     public var name: String?
     /** The unique ID for the option. Ex: 10 */
@@ -21,6 +22,7 @@ open class SettingOption: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["name"] = self.name
         nillableDictionary["value"] = self.value
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

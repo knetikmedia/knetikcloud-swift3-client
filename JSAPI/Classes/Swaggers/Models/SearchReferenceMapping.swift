@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SearchReferenceMapping: JSONEncodable {
+
     /** Unique identifier for the mapping to protect against duplicates */
     public var id: String?
     /** The field within the type that contains the id from the refType */
@@ -30,6 +31,7 @@ open class SearchReferenceMapping: JSONEncodable {
         nillableDictionary["ref_type"] = self.refType
         nillableDictionary["source_field_to_destination_field"] = self.sourceFieldToDestinationField?.encodeToJSON()
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

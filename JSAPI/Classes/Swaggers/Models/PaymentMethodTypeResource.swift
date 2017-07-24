@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PaymentMethodTypeResource: JSONEncodable {
+
     /** The id of the payment method type */
     public var id: Int32?
     /** The name of the payment method type */
@@ -21,6 +22,7 @@ open class PaymentMethodTypeResource: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["name"] = self.name
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

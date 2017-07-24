@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PollResponseResource: JSONEncodable {
+
     /** The answer to the poll */
     public var answer: String?
     /** The date the poll was answered, in seconds since unix epoc */
@@ -30,6 +31,7 @@ open class PollResponseResource: JSONEncodable {
         nillableDictionary["id"] = self.id
         nillableDictionary["poll_id"] = self.pollId
         nillableDictionary["user"] = self.user?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class InvoiceResource: JSONEncodable {
+
     /** Line one of the customer&#39;s billing address */
     public var billingAddress1: String?
     /** Line two of the customer&#39;s billing address */
@@ -138,6 +139,7 @@ open class InvoiceResource: JSONEncodable {
         nillableDictionary["user"] = self.user?.encodeToJSON()
         nillableDictionary["vendor_id"] = self.vendorId?.encodeToJSON()
         nillableDictionary["vendor_name"] = self.vendorName
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

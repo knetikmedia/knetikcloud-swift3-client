@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SimpleWallet: JSONEncodable {
+
     /** The current balance of the wallet */
     public var balance: Double?
     /** The ISO currency code for the wallet */
@@ -30,6 +31,7 @@ open class SimpleWallet: JSONEncodable {
         nillableDictionary["currency_name"] = self.currencyName
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -27,16 +28,16 @@ open class ReportingRevenueAPI: APIBase {
 
     /**
      Get item revenue info
-     - GET /reporting/revenue/item-sales/{currencyCode}
+     - GET /reporting/revenue/item-sales/{currency_code}
      - Get basic info about revenue from sales of items and bundles (not subscriptions, shipping, etc), summed up within a time range
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "sales_average" : 1.851526262536417,
-  "sale_count" : 1,
-  "sales_total" : 4.460344007101802,
-  "customer_count" : 8
+  "sales_average" : 1.4658129805029452,
+  "sale_count" : 6,
+  "sales_total" : 5.962133916683182,
+  "customer_count" : 0
 }}]
      
      - parameter currencyCode: (path) The code for a currency to get sales data for 
@@ -46,7 +47,7 @@ open class ReportingRevenueAPI: APIBase {
      - returns: RequestBuilder<RevenueReportResource> 
      */
     open class func getItemRevenueWithRequestBuilder(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil) -> RequestBuilder<RevenueReportResource> {
-        var path = "/reporting/revenue/item-sales/{currencyCode}"
+        var path = "/reporting/revenue/item-sales/{currency_code}"
         path = path.replacingOccurrences(of: "{currency_code}", with: "\(currencyCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -80,16 +81,16 @@ open class ReportingRevenueAPI: APIBase {
 
     /**
      Get refund revenue info
-     - GET /reporting/revenue/refunds/{currencyCode}
+     - GET /reporting/revenue/refunds/{currency_code}
      - Get basic info about revenue loss from refunds (for all item types), summed up within a time range.
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "sales_average" : 0.16977432645649104,
-  "sale_count" : 0,
-  "sales_total" : 9.275444004489485,
-  "customer_count" : 3
+  "sales_average" : 1.4658129805029452,
+  "sale_count" : 6,
+  "sales_total" : 5.962133916683182,
+  "customer_count" : 0
 }}]
      
      - parameter currencyCode: (path) The code for a currency to get refund data for 
@@ -99,7 +100,7 @@ open class ReportingRevenueAPI: APIBase {
      - returns: RequestBuilder<RevenueReportResource> 
      */
     open class func getRefundRevenueWithRequestBuilder(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil) -> RequestBuilder<RevenueReportResource> {
-        var path = "/reporting/revenue/refunds/{currencyCode}"
+        var path = "/reporting/revenue/refunds/{currency_code}"
         path = path.replacingOccurrences(of: "{currency_code}", with: "\(currencyCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -135,16 +136,16 @@ open class ReportingRevenueAPI: APIBase {
 
     /**
      Get revenue info by country
-     - GET /reporting/revenue/countries/{currencyCode}
+     - GET /reporting/revenue/countries/{currency_code}
      - Get basic info about revenue from sales of all types, summed up within a time range and split out by country. Sorted for largest revenue at the top
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 0,
+  "number" : 1,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 6,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -152,12 +153,12 @@ open class ReportingRevenueAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 2,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
-    "volume" : 7,
+    "volume" : 6,
     "country" : "aeiou",
-    "revenue" : 1.9007209332093589
+    "revenue" : 0.8008281904610115
   } ],
   "first" : true
 }}]
@@ -171,7 +172,7 @@ open class ReportingRevenueAPI: APIBase {
      - returns: RequestBuilder<PageResourceRevenueCountryReportResource> 
      */
     open class func getRevenueByCountryWithRequestBuilder(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceRevenueCountryReportResource> {
-        var path = "/reporting/revenue/countries/{currencyCode}"
+        var path = "/reporting/revenue/countries/{currency_code}"
         path = path.replacingOccurrences(of: "{currency_code}", with: "\(currencyCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -209,7 +210,7 @@ open class ReportingRevenueAPI: APIBase {
 
     /**
      Get revenue info by item
-     - GET /reporting/revenue/products/{currencyCode}
+     - GET /reporting/revenue/products/{currency_code}
      - Get basic info about revenue from sales of all types, summed up within a time range and split out by specific item. Sorted for largest revenue at the top
      - OAuth:
        - type: oauth2
@@ -217,7 +218,7 @@ open class ReportingRevenueAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
-  "size" : 8,
+  "size" : 2,
   "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
@@ -226,12 +227,12 @@ open class ReportingRevenueAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 3,
-  "number_of_elements" : 3,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "volume" : 1,
-    "revenue" : 2.1327919123193717,
-    "item_id" : 1,
+    "revenue" : 6.027456183070403,
+    "item_id" : 0,
     "item_name" : "aeiou"
   } ],
   "first" : true
@@ -246,7 +247,7 @@ open class ReportingRevenueAPI: APIBase {
      - returns: RequestBuilder<PageResourceRevenueProductReportResource> 
      */
     open class func getRevenueByItemWithRequestBuilder(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceRevenueProductReportResource> {
-        var path = "/reporting/revenue/products/{currencyCode}"
+        var path = "/reporting/revenue/products/{currency_code}"
         path = path.replacingOccurrences(of: "{currency_code}", with: "\(currencyCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -282,16 +283,16 @@ open class ReportingRevenueAPI: APIBase {
 
     /**
      Get subscription revenue info
-     - GET /reporting/revenue/subscription-sales/{currencyCode}
+     - GET /reporting/revenue/subscription-sales/{currency_code}
      - Get basic info about revenue from sales of new subscriptions as well as recurring payemnts, summed up within a time range
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "sales_average" : 4.603832527988597,
-  "sale_count" : 5,
-  "sales_total" : 8.344306586221606,
-  "customer_count" : 5
+  "sales_average" : 1.4658129805029452,
+  "sale_count" : 6,
+  "sales_total" : 5.962133916683182,
+  "customer_count" : 0
 }}]
      
      - parameter currencyCode: (path) The code for a currency to get sales data for 
@@ -301,7 +302,7 @@ open class ReportingRevenueAPI: APIBase {
      - returns: RequestBuilder<RevenueReportResource> 
      */
     open class func getSubscriptionRevenueWithRequestBuilder(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil) -> RequestBuilder<RevenueReportResource> {
-        var path = "/reporting/revenue/subscription-sales/{currencyCode}"
+        var path = "/reporting/revenue/subscription-sales/{currency_code}"
         path = path.replacingOccurrences(of: "{currency_code}", with: "\(currencyCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil

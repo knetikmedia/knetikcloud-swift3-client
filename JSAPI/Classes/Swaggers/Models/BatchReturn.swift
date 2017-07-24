@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BatchReturn: JSONEncodable {
+
     /** The result body */
     public var body: Any?
     /** The HTTP response code */
@@ -24,6 +25,7 @@ open class BatchReturn: JSONEncodable {
         nillableDictionary["body"] = self.body
         nillableDictionary["code"] = self.code?.encodeToJSON()
         nillableDictionary["uri"] = self.uri
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

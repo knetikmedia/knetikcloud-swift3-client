@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UserActionLog: JSONEncodable {
+
     /** A description of the action taken */
     public var actionDescription: String?
     /** The name of the action taken */
@@ -36,6 +37,7 @@ open class UserActionLog: JSONEncodable {
         nillableDictionary["id"] = self.id
         nillableDictionary["request_id"] = self.requestId
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

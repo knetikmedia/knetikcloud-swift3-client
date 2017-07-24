@@ -9,6 +9,7 @@ import Foundation
 
 
 open class FulfillmentType: JSONEncodable {
+
     /** Whether the type is core and cannot be altered/deleted, read-only */
     public var core: Bool?
     /** A description of the type */
@@ -27,6 +28,7 @@ open class FulfillmentType: JSONEncodable {
         nillableDictionary["description"] = self.description
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["name"] = self.name
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

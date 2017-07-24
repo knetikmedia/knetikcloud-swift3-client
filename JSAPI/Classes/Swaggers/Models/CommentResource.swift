@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CommentResource: JSONEncodable {
+
     /** The comment content of that resource */
     public var content: String?
     /** The type of object this comment applies to (ex: video, article, etc). Required when passed to /comments */
@@ -39,6 +40,7 @@ open class CommentResource: JSONEncodable {
         nillableDictionary["summary"] = self.summary
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
         nillableDictionary["user"] = self.user?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

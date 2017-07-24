@@ -9,6 +9,7 @@ import Foundation
 
 
 open class RewardCurrencyResource: JSONEncodable {
+
     /** The code of the currency type to give */
     public var currencyCode: String?
     /** The name of the currency reward to give.  Set by currency_code) */
@@ -33,6 +34,7 @@ open class RewardCurrencyResource: JSONEncodable {
         nillableDictionary["min_rank"] = self.minRank?.encodeToJSON()
         nillableDictionary["percent"] = self.percent
         nillableDictionary["value"] = self.value
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

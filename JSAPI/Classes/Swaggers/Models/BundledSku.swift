@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BundledSku: JSONEncodable {
+
     /** The amount this item will cost inside the bundle instead of its regular price */
     public var priceOverride: Double?
     /** The quantity of this item within the bundle */
@@ -24,6 +25,7 @@ open class BundledSku: JSONEncodable {
         nillableDictionary["price_override"] = self.priceOverride
         nillableDictionary["quantity"] = self.quantity?.encodeToJSON()
         nillableDictionary["sku"] = self.sku
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

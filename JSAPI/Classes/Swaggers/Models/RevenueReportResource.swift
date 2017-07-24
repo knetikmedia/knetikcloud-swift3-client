@@ -9,6 +9,7 @@ import Foundation
 
 
 open class RevenueReportResource: JSONEncodable {
+
     public var customerCount: Int64?
     public var saleCount: Int64?
     public var salesAverage: Double?
@@ -23,6 +24,7 @@ open class RevenueReportResource: JSONEncodable {
         nillableDictionary["sale_count"] = self.saleCount?.encodeToJSON()
         nillableDictionary["sales_average"] = self.salesAverage
         nillableDictionary["sales_total"] = self.salesTotal
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

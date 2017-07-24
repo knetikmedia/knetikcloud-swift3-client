@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -80,9 +81,9 @@ open class CategoriesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 5,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 8,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -223,10 +224,10 @@ open class CategoriesAPI: APIBase {
      List and search categories with optional filters
      - GET /categories
      - examples: [{contentType=application/json, example={
-  "number" : 8,
+  "number" : 0,
   "last" : true,
-  "size" : 5,
-  "total_elements" : 7,
+  "size" : 1,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -234,8 +235,8 @@ open class CategoriesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 0,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ {
     "template" : "aeiou",
     "name" : "aeiou",
@@ -345,9 +346,9 @@ open class CategoriesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 2,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 4,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -408,10 +409,10 @@ open class CategoriesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 2,
+  "number" : 1,
   "last" : true,
-  "size" : 0,
-  "total_elements" : 8,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -419,13 +420,13 @@ open class CategoriesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 0,
-  "number_of_elements" : 3,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "name" : "aeiou",
-    "created_date" : 1,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 7,
+    "updated_date" : 6,
     "properties" : [ {
       "name" : "aeiou",
       "type" : "aeiou",
@@ -490,10 +491,10 @@ open class CategoriesAPI: APIBase {
      List all trivia tags in the system
      - GET /tags
      - examples: [{contentType=application/json, example={
-  "number" : 4,
+  "number" : 0,
   "last" : true,
   "size" : 1,
-  "total_elements" : 6,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -501,7 +502,7 @@ open class CategoriesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
+  "total_pages" : 5,
   "number_of_elements" : 6,
   "content" : [ "aeiou" ],
   "first" : true
@@ -602,9 +603,9 @@ open class CategoriesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 9,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 4,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

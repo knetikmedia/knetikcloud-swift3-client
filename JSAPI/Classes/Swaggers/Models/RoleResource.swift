@@ -9,6 +9,7 @@ import Foundation
 
 
 open class RoleResource: JSONEncodable {
+
     /** The number of clients this role is assigned to */
     public var clientCount: Int32?
     /** The date the role was added. Unix timestamp in seconds */
@@ -36,6 +37,7 @@ open class RoleResource: JSONEncodable {
         nillableDictionary["role"] = self.role
         nillableDictionary["role_permission"] = self.rolePermission?.encodeToJSON()
         nillableDictionary["user_count"] = self.userCount?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ArtistResource: JSONEncodable {
+
     /** A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type */
     public var additionalProperties: [String:Property]?
     /** YYYY/MM/DD when this artist was born */
@@ -54,6 +55,7 @@ open class ArtistResource: JSONEncodable {
         nillableDictionary["short_description"] = self.shortDescription
         nillableDictionary["template"] = self.template
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

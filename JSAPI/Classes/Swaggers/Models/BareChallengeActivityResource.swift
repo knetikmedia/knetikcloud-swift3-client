@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BareChallengeActivityResource: JSONEncodable {
+
     /** The id of the activity */
     public var activityId: Int64?
     /** The id of the challenge */
@@ -24,6 +25,7 @@ open class BareChallengeActivityResource: JSONEncodable {
         nillableDictionary["activity_id"] = self.activityId?.encodeToJSON()
         nillableDictionary["challenge_id"] = self.challengeId?.encodeToJSON()
         nillableDictionary["id"] = self.id?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

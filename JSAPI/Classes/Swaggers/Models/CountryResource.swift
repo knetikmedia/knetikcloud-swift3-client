@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CountryResource: JSONEncodable {
+
     /** The iso2 of the country */
     public var iso2: String?
     /** The iso3 of the country */
@@ -24,6 +25,7 @@ open class CountryResource: JSONEncodable {
         nillableDictionary["iso2"] = self.iso2
         nillableDictionary["iso3"] = self.iso3
         nillableDictionary["name"] = self.name
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

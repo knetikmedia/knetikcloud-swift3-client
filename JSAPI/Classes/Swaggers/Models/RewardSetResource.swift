@@ -9,6 +9,7 @@ import Foundation
 
 
 open class RewardSetResource: JSONEncodable {
+
     /** The date/time this resource was created in seconds since unix epoch */
     public var createdDate: Int64?
     /** The currency to give as rewards */
@@ -45,6 +46,7 @@ open class RewardSetResource: JSONEncodable {
         nillableDictionary["short_description"] = self.shortDescription
         nillableDictionary["unique_key"] = self.uniqueKey
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class TimePeriodUsable: Behavior {
+
     /** The amount of times it can be used */
     public var maxUse: Int32?
     /** The length of time */
@@ -24,6 +25,7 @@ open class TimePeriodUsable: Behavior {
         nillableDictionary["max_use"] = self.maxUse?.encodeToJSON()
         nillableDictionary["time_length"] = self.timeLength?.encodeToJSON()
         nillableDictionary["unit_of_time"] = self.unitOfTime
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

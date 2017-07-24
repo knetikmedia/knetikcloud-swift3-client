@@ -9,6 +9,7 @@ import Foundation
 
 
 open class RewardItemResource: JSONEncodable {
+
     /** The id of the item to reward */
     public var itemId: Int32?
     /** The name of the item to reward (read only, set by id) */
@@ -30,6 +31,7 @@ open class RewardItemResource: JSONEncodable {
         nillableDictionary["max_rank"] = self.maxRank?.encodeToJSON()
         nillableDictionary["min_rank"] = self.minRank?.encodeToJSON()
         nillableDictionary["quantity"] = self.quantity?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class FacebookToken: JSONEncodable {
+
     /** A valid access token from facebook. See facebook documention for how to obtain one. */
     public var accessToken: String?
 
@@ -18,6 +19,7 @@ open class FacebookToken: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["access_token"] = self.accessToken
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

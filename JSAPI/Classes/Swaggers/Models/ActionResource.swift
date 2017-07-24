@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ActionResource: JSONEncodable {
+
     public enum Category: String { 
         case achievement = "achievement"
         case behavior = "behavior"
@@ -54,6 +55,7 @@ open class ActionResource: JSONEncodable {
         nillableDictionary["name"] = self.name
         nillableDictionary["tags"] = self.tags?.encodeToJSON()
         nillableDictionary["variables"] = self.variables?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

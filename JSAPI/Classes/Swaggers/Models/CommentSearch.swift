@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CommentSearch: JSONEncodable {
+
     public var content: String?
     public var context: String?
     public var contextId: Int32?
@@ -27,6 +28,7 @@ open class CommentSearch: JSONEncodable {
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["owner_id"] = self.ownerId?.encodeToJSON()
         nillableDictionary["owner_username"] = self.ownerUsername
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -34,8 +35,8 @@ open class AuthPermissionsAPI: APIBase {
   "name" : "aeiou",
   "description" : "aeiou",
   "permission" : "aeiou",
-  "created_date" : 7,
-  "updated_date" : 1,
+  "created_date" : 0,
+  "updated_date" : 6,
   "locked" : false
 }}]
      
@@ -123,8 +124,8 @@ open class AuthPermissionsAPI: APIBase {
   "name" : "aeiou",
   "description" : "aeiou",
   "permission" : "aeiou",
-  "created_date" : 1,
-  "updated_date" : 3,
+  "created_date" : 0,
+  "updated_date" : 6,
   "locked" : false
 }}]
      
@@ -168,10 +169,10 @@ open class AuthPermissionsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 1,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 8,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -179,15 +180,15 @@ open class AuthPermissionsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 6,
-  "number_of_elements" : 1,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "parent" : "aeiou",
     "name" : "aeiou",
     "description" : "aeiou",
     "permission" : "aeiou",
-    "created_date" : 7,
-    "updated_date" : 0,
+    "created_date" : 0,
+    "updated_date" : 6,
     "locked" : false
   } ],
   "first" : true
@@ -242,8 +243,8 @@ open class AuthPermissionsAPI: APIBase {
   "name" : "aeiou",
   "description" : "aeiou",
   "permission" : "aeiou",
-  "created_date" : 3,
-  "updated_date" : 0,
+  "created_date" : 0,
+  "updated_date" : 6,
   "locked" : false
 }}]
      

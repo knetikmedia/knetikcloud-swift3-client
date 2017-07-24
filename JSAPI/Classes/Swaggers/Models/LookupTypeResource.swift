@@ -9,6 +9,7 @@ import Foundation
 
 
 open class LookupTypeResource: JSONEncodable {
+
     /** The description of the expression type */
     public var description: String?
     /** The variable type the key expression must be, or null if it&#39;s dependent (see description for explanation in this case) */
@@ -27,6 +28,7 @@ open class LookupTypeResource: JSONEncodable {
         nillableDictionary["key_type"] = self.keyType
         nillableDictionary["name"] = self.name
         nillableDictionary["value_type"] = self.valueType
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BreRule: JSONEncodable {
+
     /** A list of actions to execute, and the mapping for their parameters, when the rule runs. Minimum 1 */
     public var actions: ActionResource?
     /** A condition expression that must be met in a given event for the rule to run. Empty to always run */
@@ -51,6 +52,7 @@ open class BreRule: JSONEncodable {
         nillableDictionary["sort"] = self.sort?.encodeToJSON()
         nillableDictionary["start_date"] = self.startDate?.encodeToJSON()
         nillableDictionary["system_rule"] = self.systemRule
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BareActivityResource: JSONEncodable {
+
     /** The date/time this resource was created in seconds since unix epoch */
     public var createdDate: Int64?
     /** The unique ID for that resource */
@@ -45,6 +46,7 @@ open class BareActivityResource: JSONEncodable {
         nillableDictionary["type"] = self.type
         nillableDictionary["unique_key"] = self.uniqueKey
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

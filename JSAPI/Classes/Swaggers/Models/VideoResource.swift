@@ -9,6 +9,7 @@ import Foundation
 
 
 open class VideoResource: JSONEncodable {
+
     public enum Privacy: String { 
         case _private = "private"
         case friends = "friends"
@@ -104,6 +105,7 @@ open class VideoResource: JSONEncodable {
         nillableDictionary["uploader"] = self.uploader?.encodeToJSON()
         nillableDictionary["views"] = self.views?.encodeToJSON()
         nillableDictionary["width"] = self.width?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class AudioGroupPropertyDefinitionResource: FileGroupPropertyDefinitionResource {
+
     /** If provided, the maximum length of the audio */
     public var maxLength: Int32?
     /** If provided, the minimum length of the audio */
@@ -21,6 +22,7 @@ open class AudioGroupPropertyDefinitionResource: FileGroupPropertyDefinitionReso
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["max_length"] = self.maxLength?.encodeToJSON()
         nillableDictionary["min_length"] = self.minLength?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

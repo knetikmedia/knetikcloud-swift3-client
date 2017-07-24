@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -72,14 +73,14 @@ open class LogsAPI: APIBase {
   "rules" : [ {
     "rule_id" : "aeiou",
     "reason" : "aeiou",
-    "rule_end_date" : 1,
+    "rule_end_date" : 6,
     "rule_name" : "aeiou",
-    "rule_start_date" : 7,
+    "rule_start_date" : 1,
     "ran" : false
   } ],
   "id" : "aeiou",
   "parameters" : "{}",
-  "event_start_date" : 5,
+  "event_start_date" : 0,
   "customer" : "aeiou"
 }}]
      
@@ -126,10 +127,10 @@ open class LogsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 0,
+  "number" : 5,
   "last" : true,
-  "size" : 8,
-  "total_elements" : 4,
+  "size" : 2,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -137,22 +138,22 @@ open class LogsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 6,
-  "number_of_elements" : 0,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "event_id" : "aeiou",
     "event_name" : "aeiou",
     "rules" : [ {
       "rule_id" : "aeiou",
       "reason" : "aeiou",
-      "rule_end_date" : 4,
+      "rule_end_date" : 6,
       "rule_name" : "aeiou",
-      "rule_start_date" : 0,
+      "rule_start_date" : 1,
       "ran" : false
     } ],
     "id" : "aeiou",
     "parameters" : "{}",
-    "event_start_date" : 5,
+    "event_start_date" : 0,
     "customer" : "aeiou"
   } ],
   "first" : true
@@ -210,13 +211,13 @@ open class LogsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "end_date" : 0,
   "error_msg" : "aeiou",
-  "http_status_code" : 8,
+  "http_status_code" : 6,
   "payload" : "{}",
   "response" : "aeiou",
-  "retry_count" : 7,
+  "retry_count" : 1,
   "id" : "aeiou",
   "url" : "aeiou",
-  "start_date" : 8
+  "start_date" : 5
 }}]
      
      - parameter id: (path) The forward log entry id 
@@ -262,10 +263,10 @@ open class LogsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 7,
+  "number" : 5,
   "last" : true,
-  "size" : 2,
-  "total_elements" : 6,
+  "size" : 7,
+  "total_elements" : 9,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -273,18 +274,18 @@ open class LogsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 1,
-  "number_of_elements" : 7,
+  "total_pages" : 3,
+  "number_of_elements" : 2,
   "content" : [ {
-    "end_date" : 9,
+    "end_date" : 0,
     "error_msg" : "aeiou",
-    "http_status_code" : 0,
+    "http_status_code" : 6,
     "payload" : "{}",
     "response" : "aeiou",
-    "retry_count" : 6,
+    "retry_count" : 1,
     "id" : "aeiou",
     "url" : "aeiou",
-    "start_date" : 0
+    "start_date" : 5
   } ],
   "first" : true
 }}]
@@ -340,12 +341,12 @@ open class LogsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "action_description" : "aeiou",
-  "user_id" : 9,
+  "user_id" : 6,
   "action_name" : "aeiou",
   "details" : {
     "key" : "aeiou"
   },
-  "created_date" : 6,
+  "created_date" : 0,
   "id" : "aeiou",
   "request_id" : "aeiou"
 }}]
@@ -392,10 +393,10 @@ open class LogsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 1,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 1,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -403,16 +404,16 @@ open class LogsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 2,
-  "number_of_elements" : 6,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "action_description" : "aeiou",
-    "user_id" : 7,
+    "user_id" : 6,
     "action_name" : "aeiou",
     "details" : {
       "key" : "aeiou"
     },
-    "created_date" : 6,
+    "created_date" : 0,
     "id" : "aeiou",
     "request_id" : "aeiou"
   } ],

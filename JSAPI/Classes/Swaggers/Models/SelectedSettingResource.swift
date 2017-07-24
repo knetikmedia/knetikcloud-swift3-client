@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SelectedSettingResource: JSONEncodable {
+
     /** The unique ID for the setting */
     public var key: String?
     /** The textual name of the setting */
@@ -27,6 +28,7 @@ open class SelectedSettingResource: JSONEncodable {
         nillableDictionary["key_name"] = self.keyName
         nillableDictionary["value"] = self.value
         nillableDictionary["value_name"] = self.valueName
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

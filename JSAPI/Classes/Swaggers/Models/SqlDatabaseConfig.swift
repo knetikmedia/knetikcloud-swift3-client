@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SqlDatabaseConfig: JSONEncodable {
+
     public var connectionPoolSize: Int32?
     public var dbName: String?
     public var hostname: String?
@@ -27,6 +28,7 @@ open class SqlDatabaseConfig: JSONEncodable {
         nillableDictionary["password"] = self.password
         nillableDictionary["port"] = self.port?.encodeToJSON()
         nillableDictionary["username"] = self.username
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

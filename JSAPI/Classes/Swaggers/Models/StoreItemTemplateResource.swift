@@ -9,6 +9,7 @@ import Foundation
 
 
 open class StoreItemTemplateResource: JSONEncodable {
+
     /** The customized behaviors that are required or default for this type of item */
     public var behaviors: [ItemBehaviorDefinitionResource]?
     /** The date/time this resource was created in seconds since unix epoch */
@@ -36,6 +37,7 @@ open class StoreItemTemplateResource: JSONEncodable {
         nillableDictionary["properties"] = self.properties?.encodeToJSON()
         nillableDictionary["sku_template"] = self.skuTemplate?.encodeToJSON()
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

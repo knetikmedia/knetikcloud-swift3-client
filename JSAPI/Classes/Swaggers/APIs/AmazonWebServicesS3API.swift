@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -34,10 +35,10 @@ open class AmazonWebServicesS3API: APIBase {
      - examples: [{contentType=application/json, example={
   "filename" : "aeiou",
   "object_key" : "aeiou",
-  "user_id" : 6,
+  "user_id" : 1,
   "action" : "aeiou",
-  "created_date" : 2,
-  "id" : 4,
+  "created_date" : 0,
+  "id" : 6,
   "url" : "aeiou"
 }}]
      

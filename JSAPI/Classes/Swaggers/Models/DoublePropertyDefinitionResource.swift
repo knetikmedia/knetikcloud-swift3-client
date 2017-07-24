@@ -9,6 +9,7 @@ import Foundation
 
 
 open class DoublePropertyDefinitionResource: PropertyDefinitionResource {
+
     /** If provided, the maximum value */
     public var max: Double?
     /** If provided, the minimum value */
@@ -21,6 +22,7 @@ open class DoublePropertyDefinitionResource: PropertyDefinitionResource {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["max"] = self.max
         nillableDictionary["min"] = self.min
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

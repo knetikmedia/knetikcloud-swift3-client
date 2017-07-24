@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BatchResult: JSONEncodable {
+
     /** List of batch responses.  Returns in the order requested */
     public var batchReturn: [BatchReturn]?
     /** The date the batch call started processing */
@@ -27,6 +28,7 @@ open class BatchResult: JSONEncodable {
         nillableDictionary["created_date"] = self.createdDate?.encodeToJSON()
         nillableDictionary["id"] = self.id
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

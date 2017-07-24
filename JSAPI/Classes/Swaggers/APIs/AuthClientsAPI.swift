@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -34,12 +35,12 @@ open class AuthClientsAPI: APIBase {
   "grant_types" : [ "aeiou" ],
   "is_public" : false,
   "name" : "aeiou",
-  "id" : 5,
+  "id" : 6,
   "redirect_uris" : [ "aeiou" ],
   "secret" : "aeiou",
   "locked" : false,
-  "access_token_validity_seconds" : 5,
-  "refresh_token_validity_seconds" : 7
+  "access_token_validity_seconds" : 0,
+  "refresh_token_validity_seconds" : 1
 }}]
      
      - parameter clientResource: (body) The client resource object (optional)
@@ -74,7 +75,7 @@ open class AuthClientsAPI: APIBase {
 
     /**
      Delete a client
-     - DELETE /auth/clients/{clientKey}
+     - DELETE /auth/clients/{client_key}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -84,7 +85,7 @@ open class AuthClientsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteClientWithRequestBuilder(clientKey: String) -> RequestBuilder<Void> {
-        var path = "/auth/clients/{clientKey}"
+        var path = "/auth/clients/{client_key}"
         path = path.replacingOccurrences(of: "{client_key}", with: "\(clientKey)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -112,7 +113,7 @@ open class AuthClientsAPI: APIBase {
 
     /**
      Get a single client
-     - GET /auth/clients/{clientKey}
+     - GET /auth/clients/{client_key}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -121,12 +122,12 @@ open class AuthClientsAPI: APIBase {
   "grant_types" : [ "aeiou" ],
   "is_public" : false,
   "name" : "aeiou",
-  "id" : 1,
+  "id" : 6,
   "redirect_uris" : [ "aeiou" ],
   "secret" : "aeiou",
   "locked" : false,
-  "access_token_validity_seconds" : 8,
-  "refresh_token_validity_seconds" : 9
+  "access_token_validity_seconds" : 0,
+  "refresh_token_validity_seconds" : 1
 }}]
      
      - parameter clientKey: (path) The key of the client 
@@ -134,7 +135,7 @@ open class AuthClientsAPI: APIBase {
      - returns: RequestBuilder<ClientResource> 
      */
     open class func getClientWithRequestBuilder(clientKey: String) -> RequestBuilder<ClientResource> {
-        var path = "/auth/clients/{clientKey}"
+        var path = "/auth/clients/{client_key}"
         path = path.replacingOccurrences(of: "{client_key}", with: "\(clientKey)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -209,8 +210,8 @@ open class AuthClientsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
-  "size" : 1,
-  "total_elements" : 4,
+  "size" : 2,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -218,19 +219,19 @@ open class AuthClientsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 2,
-  "number_of_elements" : 4,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "client_key" : "aeiou",
     "grant_types" : [ "aeiou" ],
     "is_public" : false,
     "name" : "aeiou",
-    "id" : 1,
+    "id" : 6,
     "redirect_uris" : [ "aeiou" ],
     "secret" : "aeiou",
     "locked" : false,
-    "access_token_validity_seconds" : 9,
-    "refresh_token_validity_seconds" : 0
+    "access_token_validity_seconds" : 0,
+    "refresh_token_validity_seconds" : 1
   } ],
   "first" : true
 }}]
@@ -275,7 +276,7 @@ open class AuthClientsAPI: APIBase {
 
     /**
      Set grant types for a client
-     - PUT /auth/clients/{clientKey}/grant-types
+     - PUT /auth/clients/{client_key}/grant-types
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -286,7 +287,7 @@ open class AuthClientsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func setClientGrantTypesWithRequestBuilder(clientKey: String, grantList: [String]? = nil) -> RequestBuilder<Void> {
-        var path = "/auth/clients/{clientKey}/grant-types"
+        var path = "/auth/clients/{client_key}/grant-types"
         path = path.replacingOccurrences(of: "{client_key}", with: "\(clientKey)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = grantList?.encodeToJSON() as? [String:AnyObject]
@@ -315,7 +316,7 @@ open class AuthClientsAPI: APIBase {
 
     /**
      Set redirect uris for a client
-     - PUT /auth/clients/{clientKey}/redirect-uris
+     - PUT /auth/clients/{client_key}/redirect-uris
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -326,7 +327,7 @@ open class AuthClientsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func setClientRedirectUrisWithRequestBuilder(clientKey: String, redirectList: [String]? = nil) -> RequestBuilder<Void> {
-        var path = "/auth/clients/{clientKey}/redirect-uris"
+        var path = "/auth/clients/{client_key}/redirect-uris"
         path = path.replacingOccurrences(of: "{client_key}", with: "\(clientKey)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = redirectList?.encodeToJSON() as? [String:AnyObject]
@@ -355,7 +356,7 @@ open class AuthClientsAPI: APIBase {
 
     /**
      Update a client
-     - PUT /auth/clients/{clientKey}
+     - PUT /auth/clients/{client_key}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -364,12 +365,12 @@ open class AuthClientsAPI: APIBase {
   "grant_types" : [ "aeiou" ],
   "is_public" : false,
   "name" : "aeiou",
-  "id" : 4,
+  "id" : 6,
   "redirect_uris" : [ "aeiou" ],
   "secret" : "aeiou",
   "locked" : false,
-  "access_token_validity_seconds" : 1,
-  "refresh_token_validity_seconds" : 6
+  "access_token_validity_seconds" : 0,
+  "refresh_token_validity_seconds" : 1
 }}]
      
      - parameter clientKey: (path) The key of the client 
@@ -378,7 +379,7 @@ open class AuthClientsAPI: APIBase {
      - returns: RequestBuilder<ClientResource> 
      */
     open class func updateClientWithRequestBuilder(clientKey: String, clientResource: ClientResource? = nil) -> RequestBuilder<ClientResource> {
-        var path = "/auth/clients/{clientKey}"
+        var path = "/auth/clients/{client_key}"
         path = path.replacingOccurrences(of: "{client_key}", with: "\(clientKey)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = clientResource?.encodeToJSON() as? [String:AnyObject]

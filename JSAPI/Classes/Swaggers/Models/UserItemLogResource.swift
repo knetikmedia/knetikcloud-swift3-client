@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UserItemLogResource: JSONEncodable {
+
     /** The log entry id */
     public var id: Int32?
     /** Additional information defined by the type */
@@ -36,6 +37,7 @@ open class UserItemLogResource: JSONEncodable {
         nillableDictionary["type"] = self.type
         nillableDictionary["user"] = self.user?.encodeToJSON()
         nillableDictionary["user_inventory"] = self.userInventory?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

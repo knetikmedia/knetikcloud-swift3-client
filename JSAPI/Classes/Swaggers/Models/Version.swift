@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Version: JSONEncodable {
+
     public var version: String?
 
     public init() {}
@@ -17,6 +18,7 @@ open class Version: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["version"] = self.version
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UserAchievementResource: JSONEncodable {
+
     /** Flag indicating whether the user has earned the achievement */
     public var achieved: Bool?
     /** The achievement being tracked.  If used for Leveling, this represents the tier name */
@@ -30,6 +31,7 @@ open class UserAchievementResource: JSONEncodable {
         nillableDictionary["created_date"] = self.createdDate?.encodeToJSON()
         nillableDictionary["earned_date"] = self.earnedDate?.encodeToJSON()
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

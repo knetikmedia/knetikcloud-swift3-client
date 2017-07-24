@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -33,7 +34,7 @@ open class FulfillmentAPI: APIBase {
   "core" : false,
   "name" : "aeiou",
   "description" : "aeiou",
-  "id" : 6
+  "id" : 0
 }}]
      
      - parameter type: (body) The fulfillment type (optional)
@@ -111,7 +112,7 @@ open class FulfillmentAPI: APIBase {
   "core" : false,
   "name" : "aeiou",
   "description" : "aeiou",
-  "id" : 1
+  "id" : 0
 }}]
      
      - parameter id: (path) The id 
@@ -151,10 +152,10 @@ open class FulfillmentAPI: APIBase {
      List and search fulfillment types
      - GET /store/fulfillment/types
      - examples: [{contentType=application/json, example={
-  "number" : 2,
+  "number" : 6,
   "last" : true,
-  "size" : 0,
-  "total_elements" : 2,
+  "size" : 5,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -162,13 +163,13 @@ open class FulfillmentAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 0,
-  "number_of_elements" : 9,
+  "total_pages" : 2,
+  "number_of_elements" : 1,
   "content" : [ {
     "core" : false,
     "name" : "aeiou",
     "description" : "aeiou",
-    "id" : 8
+    "id" : 0
   } ],
   "first" : true
 }}]

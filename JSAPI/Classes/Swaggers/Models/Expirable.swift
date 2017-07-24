@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Expirable: Behavior {
+
     /** The length of time */
     public var timeLength: Int32?
     /** The unit of time */
@@ -21,6 +22,7 @@ open class Expirable: Behavior {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["time_length"] = self.timeLength?.encodeToJSON()
         nillableDictionary["unit_of_time"] = self.unitOfTime
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

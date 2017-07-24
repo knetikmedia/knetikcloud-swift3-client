@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CouponItem: StoreItem {
+
     public enum CouponTypeHint: String { 
         case cart = "coupon_cart"
         case singleItem = "coupon_single_item"
@@ -56,6 +57,7 @@ open class CouponItem: StoreItem {
         nillableDictionary["max_quantity"] = self.maxQuantity?.encodeToJSON()
         nillableDictionary["self_exclusive"] = self.selfExclusive
         nillableDictionary["valid_for_tags"] = self.validForTags?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

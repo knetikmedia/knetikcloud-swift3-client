@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UserRelationshipResource: JSONEncodable {
+
     /** The child in the relationship */
     public var child: SimpleUserResource?
     /** Context about the relationship or its type */
@@ -27,6 +28,7 @@ open class UserRelationshipResource: JSONEncodable {
         nillableDictionary["context"] = self.context
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["parent"] = self.parent?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

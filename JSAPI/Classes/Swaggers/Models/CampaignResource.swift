@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CampaignResource: JSONEncodable {
+
     public enum RewardStatus: String { 
         case pending = "pending"
         case failed = "failed"
@@ -63,6 +64,7 @@ open class CampaignResource: JSONEncodable {
         nillableDictionary["short_description"] = self.shortDescription
         nillableDictionary["template"] = self.template
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

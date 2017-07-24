@@ -9,6 +9,7 @@ import Foundation
 
 
 open class IntegerProperty: Property {
+
     /** The value */
     public var value: Int32?
 
@@ -18,6 +19,7 @@ open class IntegerProperty: Property {
     override open func encodeToJSON() -> Any {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["value"] = self.value?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

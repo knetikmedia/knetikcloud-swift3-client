@@ -9,6 +9,7 @@ import Foundation
 
 
 open class TemplateSMSResource: JSONEncodable {
+
     /** The phone number to attribute the outgoing message to. Optional if the config text.out_number is set. */
     public var from: String?
     public var localizer: Localizer?
@@ -29,6 +30,7 @@ open class TemplateSMSResource: JSONEncodable {
         nillableDictionary["recipients"] = self.recipients?.encodeToJSON()
         nillableDictionary["template_key"] = self.templateKey
         nillableDictionary["template_vars"] = self.templateVars?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

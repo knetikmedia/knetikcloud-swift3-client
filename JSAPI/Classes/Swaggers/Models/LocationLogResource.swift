@@ -9,6 +9,7 @@ import Foundation
 
 
 open class LocationLogResource: JSONEncodable {
+
     public var country: String?
     public var ip: String?
     public var time: Int64?
@@ -21,6 +22,7 @@ open class LocationLogResource: JSONEncodable {
         nillableDictionary["country"] = self.country
         nillableDictionary["ip"] = self.ip
         nillableDictionary["time"] = self.time?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

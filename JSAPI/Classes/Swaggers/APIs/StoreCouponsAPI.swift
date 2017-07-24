@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -84,9 +85,9 @@ open class StoreCouponsAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 9,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 9,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -276,7 +277,7 @@ open class StoreCouponsAPI: APIBase {
   "name" : "aeiou",
   "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 0,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -339,8 +340,8 @@ open class StoreCouponsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
-  "size" : 2,
-  "total_elements" : 6,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -348,8 +349,8 @@ open class StoreCouponsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 5,
-  "number_of_elements" : 9,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "behaviors" : [ {
       "behavior" : {
@@ -360,9 +361,9 @@ open class StoreCouponsAPI: APIBase {
       "required" : false
     } ],
     "name" : "aeiou",
-    "created_date" : 5,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 0,
+    "updated_date" : 6,
     "properties" : [ {
       "name" : "aeiou",
       "type" : "aeiou",
@@ -485,9 +486,9 @@ open class StoreCouponsAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 2,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 0,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

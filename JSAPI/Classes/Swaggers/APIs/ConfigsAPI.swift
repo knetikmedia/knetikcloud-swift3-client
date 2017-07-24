@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -159,10 +160,10 @@ open class ConfigsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 0,
   "last" : true,
-  "size" : 5,
-  "total_elements" : 1,
+  "size" : 1,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -170,8 +171,8 @@ open class ConfigsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 7,
-  "number_of_elements" : 9,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ {
     "public_read" : false,
     "name" : "aeiou",

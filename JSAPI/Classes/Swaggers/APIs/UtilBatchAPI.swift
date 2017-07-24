@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -28,7 +29,7 @@ open class UtilBatchAPI: APIBase {
      - GET /batch/{token}
      - Tokens expire in 24 hours
      - examples: [{contentType=application/json, example=[ {
-  "code" : 7,
+  "code" : 0,
   "body" : "{}",
   "uri" : "aeiou"
 } ]}]
@@ -69,7 +70,7 @@ open class UtilBatchAPI: APIBase {
      - POST /batch
      - Should the request take longer than one of the alloted timeout parameters, a token will be returned instead, which can be used on the token endpoint in this service
      - examples: [{contentType=application/json, example=[ {
-  "code" : 6,
+  "code" : 0,
   "body" : "{}",
   "uri" : "aeiou"
 } ]}]

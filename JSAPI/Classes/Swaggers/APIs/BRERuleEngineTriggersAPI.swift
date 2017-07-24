@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -37,6 +38,7 @@ open class BRERuleEngineTriggersAPI: APIBase {
   "category" : "achievement",
   "parameters" : [ {
     "name" : "aeiou",
+    "optional" : false,
     "type" : "aeiou"
   } ],
   "tags" : [ "aeiou" ],
@@ -75,7 +77,7 @@ open class BRERuleEngineTriggersAPI: APIBase {
 
     /**
      Delete a trigger
-     - DELETE /bre/triggers/{eventName}
+     - DELETE /bre/triggers/{event_name}
      - May fail if there are existing rules against it. Cannot delete core triggers
      - OAuth:
        - type: oauth2
@@ -86,7 +88,7 @@ open class BRERuleEngineTriggersAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteBRETriggerWithRequestBuilder(eventName: String) -> RequestBuilder<Void> {
-        var path = "/bre/triggers/{eventName}"
+        var path = "/bre/triggers/{event_name}"
         path = path.replacingOccurrences(of: "{event_name}", with: "\(eventName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -114,7 +116,7 @@ open class BRERuleEngineTriggersAPI: APIBase {
 
     /**
      Get a single trigger
-     - GET /bre/triggers/{eventName}
+     - GET /bre/triggers/{event_name}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -125,6 +127,7 @@ open class BRERuleEngineTriggersAPI: APIBase {
   "category" : "achievement",
   "parameters" : [ {
     "name" : "aeiou",
+    "optional" : false,
     "type" : "aeiou"
   } ],
   "tags" : [ "aeiou" ],
@@ -136,7 +139,7 @@ open class BRERuleEngineTriggersAPI: APIBase {
      - returns: RequestBuilder<BreTriggerResource> 
      */
     open class func getBRETriggerWithRequestBuilder(eventName: String) -> RequestBuilder<BreTriggerResource> {
-        var path = "/bre/triggers/{eventName}"
+        var path = "/bre/triggers/{event_name}"
         path = path.replacingOccurrences(of: "{event_name}", with: "\(eventName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -203,10 +206,10 @@ open class BRERuleEngineTriggersAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 7,
+  "number" : 0,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 3,
+  "size" : 1,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -214,8 +217,8 @@ open class BRERuleEngineTriggersAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 9,
-  "number_of_elements" : 5,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ {
     "trigger_name" : "aeiou",
     "system_trigger" : false,
@@ -223,6 +226,7 @@ open class BRERuleEngineTriggersAPI: APIBase {
     "category" : "achievement",
     "parameters" : [ {
       "name" : "aeiou",
+      "optional" : false,
       "type" : "aeiou"
     } ],
     "tags" : [ "aeiou" ],
@@ -279,7 +283,7 @@ open class BRERuleEngineTriggersAPI: APIBase {
 
     /**
      Update a trigger
-     - PUT /bre/triggers/{eventName}
+     - PUT /bre/triggers/{event_name}
      - May fail if new parameters mismatch requirements of existing rules. Cannot update core triggers
      - OAuth:
        - type: oauth2
@@ -291,6 +295,7 @@ open class BRERuleEngineTriggersAPI: APIBase {
   "category" : "achievement",
   "parameters" : [ {
     "name" : "aeiou",
+    "optional" : false,
     "type" : "aeiou"
   } ],
   "tags" : [ "aeiou" ],
@@ -303,7 +308,7 @@ open class BRERuleEngineTriggersAPI: APIBase {
      - returns: RequestBuilder<BreTriggerResource> 
      */
     open class func updateBRETriggerWithRequestBuilder(eventName: String, breTriggerResource: BreTriggerResource? = nil) -> RequestBuilder<BreTriggerResource> {
-        var path = "/bre/triggers/{eventName}"
+        var path = "/bre/triggers/{event_name}"
         path = path.replacingOccurrences(of: "{event_name}", with: "\(eventName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = breTriggerResource?.encodeToJSON() as? [String:AnyObject]

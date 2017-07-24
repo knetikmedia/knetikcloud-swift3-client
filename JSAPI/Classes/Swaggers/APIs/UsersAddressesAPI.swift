@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -26,7 +27,7 @@ open class UsersAddressesAPI: APIBase {
 
     /**
      Create a new address
-     - POST /users/{userId}/addresses
+     - POST /users/{user_id}/addresses
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -40,7 +41,7 @@ open class UsersAddressesAPI: APIBase {
   "country_code" : "aeiou",
   "default" : true,
   "name" : "aeiou",
-  "id" : 2,
+  "id" : 0,
   "postal_code" : "aeiou",
   "state_code" : "aeiou",
   "first_name" : "aeiou"
@@ -52,7 +53,7 @@ open class UsersAddressesAPI: APIBase {
      - returns: RequestBuilder<SavedAddressResource> 
      */
     open class func createAddressWithRequestBuilder(userId: String, savedAddressResource: SavedAddressResource? = nil) -> RequestBuilder<SavedAddressResource> {
-        var path = "/users/{userId}/addresses"
+        var path = "/users/{user_id}/addresses"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = savedAddressResource?.encodeToJSON() as? [String:AnyObject]
@@ -81,7 +82,7 @@ open class UsersAddressesAPI: APIBase {
 
     /**
      Delete an address
-     - DELETE /users/{userId}/addresses/{id}
+     - DELETE /users/{user_id}/addresses/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -92,7 +93,7 @@ open class UsersAddressesAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteAddressWithRequestBuilder(userId: String, id: Int32) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/addresses/{id}"
+        var path = "/users/{user_id}/addresses/{id}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -122,7 +123,7 @@ open class UsersAddressesAPI: APIBase {
 
     /**
      Get a single address
-     - GET /users/{userId}/addresses/{id}
+     - GET /users/{user_id}/addresses/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -136,7 +137,7 @@ open class UsersAddressesAPI: APIBase {
   "country_code" : "aeiou",
   "default" : true,
   "name" : "aeiou",
-  "id" : 2,
+  "id" : 0,
   "postal_code" : "aeiou",
   "state_code" : "aeiou",
   "first_name" : "aeiou"
@@ -148,7 +149,7 @@ open class UsersAddressesAPI: APIBase {
      - returns: RequestBuilder<SavedAddressResource> 
      */
     open class func getAddressWithRequestBuilder(userId: String, id: Int32) -> RequestBuilder<SavedAddressResource> {
-        var path = "/users/{userId}/addresses/{id}"
+        var path = "/users/{user_id}/addresses/{id}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -180,14 +181,14 @@ open class UsersAddressesAPI: APIBase {
 
     /**
      List and search addresses
-     - GET /users/{userId}/addresses
+     - GET /users/{user_id}/addresses
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 5,
+  "number" : 6,
   "last" : true,
-  "size" : 2,
+  "size" : 5,
   "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
@@ -196,8 +197,8 @@ open class UsersAddressesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 6,
+  "total_pages" : 2,
+  "number_of_elements" : 1,
   "content" : [ {
     "address2" : "aeiou",
     "city" : "aeiou",
@@ -208,7 +209,7 @@ open class UsersAddressesAPI: APIBase {
     "country_code" : "aeiou",
     "default" : true,
     "name" : "aeiou",
-    "id" : 4,
+    "id" : 0,
     "postal_code" : "aeiou",
     "state_code" : "aeiou",
     "first_name" : "aeiou"
@@ -224,7 +225,7 @@ open class UsersAddressesAPI: APIBase {
      - returns: RequestBuilder<PageResourceSavedAddressResource> 
      */
     open class func getAddressesWithRequestBuilder(userId: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceSavedAddressResource> {
-        var path = "/users/{userId}/addresses"
+        var path = "/users/{user_id}/addresses"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -259,7 +260,7 @@ open class UsersAddressesAPI: APIBase {
 
     /**
      Update an address
-     - PUT /users/{userId}/addresses/{id}
+     - PUT /users/{user_id}/addresses/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -273,7 +274,7 @@ open class UsersAddressesAPI: APIBase {
   "country_code" : "aeiou",
   "default" : true,
   "name" : "aeiou",
-  "id" : 3,
+  "id" : 0,
   "postal_code" : "aeiou",
   "state_code" : "aeiou",
   "first_name" : "aeiou"
@@ -286,7 +287,7 @@ open class UsersAddressesAPI: APIBase {
      - returns: RequestBuilder<SavedAddressResource> 
      */
     open class func updateAddressWithRequestBuilder(userId: String, id: Int32, savedAddressResource: SavedAddressResource? = nil) -> RequestBuilder<SavedAddressResource> {
-        var path = "/users/{userId}/addresses/{id}"
+        var path = "/users/{user_id}/addresses/{id}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path

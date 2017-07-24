@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PaymentAuthorizationResource: JSONEncodable {
+
     /** Whether this authorization has been captured */
     public var captured: Bool?
     /** The date this authorization was received, unix timestamp in seconds */
@@ -33,6 +34,7 @@ open class PaymentAuthorizationResource: JSONEncodable {
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["invoice"] = self.invoice?.encodeToJSON()
         nillableDictionary["payment_type"] = self.paymentType?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

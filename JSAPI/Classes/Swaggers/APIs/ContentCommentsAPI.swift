@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -32,13 +33,13 @@ open class ContentCommentsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "summary" : "aeiou",
   "context" : "aeiou",
-  "context_id" : 8,
-  "created_date" : 9,
-  "id" : 0,
-  "updated_date" : 7,
+  "context_id" : 0,
+  "created_date" : 6,
+  "id" : 1,
+  "updated_date" : 5,
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 3,
+    "id" : 5,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
@@ -119,13 +120,13 @@ open class ContentCommentsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "summary" : "aeiou",
   "context" : "aeiou",
-  "context_id" : 2,
-  "created_date" : 5,
-  "id" : 0,
-  "updated_date" : 2,
+  "context_id" : 0,
+  "created_date" : 6,
+  "id" : 1,
+  "updated_date" : 5,
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 8,
+    "id" : 5,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
@@ -170,10 +171,10 @@ open class ContentCommentsAPI: APIBase {
      Returns a page of comments
      - GET /comments
      - examples: [{contentType=application/json, example={
-  "number" : 0,
+  "number" : 2,
   "last" : true,
-  "size" : 1,
-  "total_elements" : 9,
+  "size" : 9,
+  "total_elements" : 3,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -181,18 +182,18 @@ open class ContentCommentsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 4,
+  "total_pages" : 2,
+  "number_of_elements" : 7,
   "content" : [ {
     "summary" : "aeiou",
     "context" : "aeiou",
-    "context_id" : 6,
+    "context_id" : 0,
     "created_date" : 6,
-    "id" : 9,
-    "updated_date" : 6,
+    "id" : 1,
+    "updated_date" : 5,
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 9,
+      "id" : 5,
       "display_name" : "aeiou",
       "username" : "aeiou"
     },
@@ -247,11 +248,11 @@ open class ContentCommentsAPI: APIBase {
      - POST /comments/search
      - The body is an ElasticSearch query json. Please see their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html'>documentation</a> for details on the format and search options
      - examples: [{contentType=application/json, example={
-  "owner_id" : 5,
+  "owner_id" : 1,
   "owner_username" : "aeiou",
   "context" : "aeiou",
-  "context_id" : 6,
-  "id" : 8,
+  "context_id" : 0,
+  "id" : 6,
   "content" : "aeiou"
 }}]
      

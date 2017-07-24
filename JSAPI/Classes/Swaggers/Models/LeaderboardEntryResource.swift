@@ -9,10 +9,13 @@ import Foundation
 
 
 open class LeaderboardEntryResource: JSONEncodable {
+
     /** The position of the user in the leaderboard. Null means non-compete or disqualification */
     public var rank: Int64?
     /** The raw score in this leaderboard. Null means non-compete or disqualification */
     public var score: Int64?
+    /** The date this score was recorded or updated. Unix timestamp in seconds */
+    public var updatedDate: Int64?
     /** The player for this entry */
     public var user: SimpleUserResource?
 
@@ -23,7 +26,9 @@ open class LeaderboardEntryResource: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["rank"] = self.rank?.encodeToJSON()
         nillableDictionary["score"] = self.score?.encodeToJSON()
+        nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
         nillableDictionary["user"] = self.user?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

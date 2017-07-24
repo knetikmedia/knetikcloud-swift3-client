@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ImagePropertyDefinitionResource: PropertyDefinitionResource {
+
     /** If provided, a file type that the property must match */
     public var fileType: String?
     /** If provided, the maximum height of the image */
@@ -30,6 +31,7 @@ open class ImagePropertyDefinitionResource: PropertyDefinitionResource {
         nillableDictionary["max_width"] = self.maxWidth?.encodeToJSON()
         nillableDictionary["min_height"] = self.minHeight?.encodeToJSON()
         nillableDictionary["min_width"] = self.minWidth?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Result: JSONEncodable {
+
     /** The JSAPI error code */
     public var code: Int32?
     /** The id used for debugging lookup */
@@ -24,6 +25,7 @@ open class Result: JSONEncodable {
         nillableDictionary["code"] = self.code?.encodeToJSON()
         nillableDictionary["request_id"] = self.requestId
         nillableDictionary["result"] = self.result?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

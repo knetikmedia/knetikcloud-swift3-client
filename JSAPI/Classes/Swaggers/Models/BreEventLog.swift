@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BreEventLog: JSONEncodable {
+
     /** The customer of the BRE event log */
     public var customer: String?
     /** The event id of the BRE event log */
@@ -36,6 +37,7 @@ open class BreEventLog: JSONEncodable {
         nillableDictionary["id"] = self.id
         nillableDictionary["parameters"] = self.parameters
         nillableDictionary["rules"] = self.rules?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SubscriptionPlan: JSONEncodable {
+
     public enum Availability: String { 
         case all = "all"
         case newSubscribers = "new_subscribers"
@@ -79,6 +80,7 @@ open class SubscriptionPlan: JSONEncodable {
         nillableDictionary["renew_period"] = self.renewPeriod?.encodeToJSON()
         nillableDictionary["renew_period_unit_of_time"] = self.renewPeriodUnitOfTime?.rawValue
         nillableDictionary["subscription_id"] = self.subscriptionId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

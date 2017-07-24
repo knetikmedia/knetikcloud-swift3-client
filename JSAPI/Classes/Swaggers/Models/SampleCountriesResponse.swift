@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SampleCountriesResponse: JSONEncodable {
+
     public var vendorId1: [Country]?
     public var vendorId2: [Country]?
 
@@ -19,6 +20,7 @@ open class SampleCountriesResponse: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["vendor_id1"] = self.vendorId1?.encodeToJSON()
         nillableDictionary["vendor_id2"] = self.vendorId2?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

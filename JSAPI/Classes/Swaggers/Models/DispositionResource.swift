@@ -9,6 +9,7 @@ import Foundation
 
 
 open class DispositionResource: JSONEncodable {
+
     /** The context of that resource. Required when passed to /dispositions rather than context specific endpoint */
     public var context: String?
     /** The context_id of that resource. Required when passed to /dispositions rather than context specific endpoint */
@@ -33,6 +34,7 @@ open class DispositionResource: JSONEncodable {
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["name"] = self.name
         nillableDictionary["user"] = self.user?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

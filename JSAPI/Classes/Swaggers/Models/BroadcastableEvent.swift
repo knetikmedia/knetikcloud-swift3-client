@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BroadcastableEvent: JSONEncodable {
+
     public var client: String?
     public var customer: String?
     public var doNotBroadcast: Bool?
@@ -34,6 +35,7 @@ open class BroadcastableEvent: JSONEncodable {
         nillableDictionary["synchronous"] = self.synchronous
         nillableDictionary["timestamp"] = self.timestamp?.encodeToJSON()
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

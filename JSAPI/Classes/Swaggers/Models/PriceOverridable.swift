@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PriceOverridable: Behavior {
+
     /** The maximum price allowed */
     public var maxPrice: Int32?
     /** The minimum price allowed */
@@ -21,6 +22,7 @@ open class PriceOverridable: Behavior {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["max_price"] = self.maxPrice?.encodeToJSON()
         nillableDictionary["min_price"] = self.minPrice?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ImportJobResource: JSONEncodable {
+
     public enum Status: String { 
         case pendingValidation = "PENDING_VALIDATION"
         case validating = "VALIDATING"
@@ -55,6 +56,7 @@ open class ImportJobResource: JSONEncodable {
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
         nillableDictionary["url"] = self.url
         nillableDictionary["vendor"] = self.vendor
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

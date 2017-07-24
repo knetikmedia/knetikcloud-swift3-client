@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UserAchievementGroupResource: JSONEncodable {
+
     /** The list of achievements associated with the group */
     public var achievements: [UserAchievementResource]?
     /** The name of the group.  If used by Leveling, this will represent the level name */
@@ -30,6 +31,7 @@ open class UserAchievementGroupResource: JSONEncodable {
         nillableDictionary["id"] = self.id
         nillableDictionary["progress"] = self.progress?.encodeToJSON()
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -37,7 +38,7 @@ open class ContentPollsAPI: APIBase {
   "id" : "aeiou",
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 5,
+    "id" : 6,
     "display_name" : "aeiou",
     "username" : "aeiou"
   }
@@ -95,10 +96,10 @@ open class ContentPollsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 9,
+  "created_date" : 6,
   "id" : "aeiou",
   "text" : "aeiou",
-  "updated_date" : 4,
+  "updated_date" : 1,
   "category" : {
     "name" : "aeiou",
     "active" : false,
@@ -147,9 +148,9 @@ open class ContentPollsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 7,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 8,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -288,7 +289,7 @@ open class ContentPollsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "template" : "aeiou",
   "answers" : [ {
-    "count" : 5,
+    "count" : 0,
     "text" : "aeiou",
     "key" : "aeiou"
   } ],
@@ -298,10 +299,10 @@ open class ContentPollsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 8,
+  "created_date" : 6,
   "id" : "aeiou",
   "text" : "aeiou",
-  "updated_date" : 9,
+  "updated_date" : 1,
   "category" : {
     "name" : "aeiou",
     "active" : false,
@@ -349,13 +350,13 @@ open class ContentPollsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "answered_date" : 2,
+  "answered_date" : 0,
   "poll_id" : "aeiou",
   "answer" : "aeiou",
   "id" : "aeiou",
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 5,
+    "id" : 6,
     "display_name" : "aeiou",
     "username" : "aeiou"
   }
@@ -400,9 +401,9 @@ open class ContentPollsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 2,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 3,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -463,10 +464,10 @@ open class ContentPollsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 5,
+  "number" : 1,
   "last" : true,
-  "size" : 1,
-  "total_elements" : 8,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -474,13 +475,13 @@ open class ContentPollsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 3,
-  "number_of_elements" : 9,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "name" : "aeiou",
     "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 0,
+    "updated_date" : 6,
     "properties" : [ {
       "name" : "aeiou",
       "type" : "aeiou",
@@ -550,10 +551,10 @@ open class ContentPollsAPI: APIBase {
      - GET /media/polls
      - Get a list of polls with optional filtering. Assets will not be filled in on the resources returned. Use 'Get a single poll' to retrieve the full resource with assets for a given item as needed.
      - examples: [{contentType=application/json, example={
-  "number" : 3,
+  "number" : 5,
   "last" : true,
-  "size" : 3,
-  "total_elements" : 8,
+  "size" : 2,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -561,12 +562,12 @@ open class ContentPollsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 7,
-  "number_of_elements" : 4,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "template" : "aeiou",
     "answers" : [ {
-      "count" : 3,
+      "count" : 0,
       "text" : "aeiou",
       "key" : "aeiou"
     } ],
@@ -576,10 +577,10 @@ open class ContentPollsAPI: APIBase {
         "type" : "aeiou"
       }
     },
-    "created_date" : 8,
+    "created_date" : 6,
     "id" : "aeiou",
     "text" : "aeiou",
-    "updated_date" : 7,
+    "updated_date" : 1,
     "category" : {
       "name" : "aeiou",
       "active" : false,
@@ -644,7 +645,7 @@ open class ContentPollsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "template" : "aeiou",
   "answers" : [ {
-    "count" : 5,
+    "count" : 0,
     "text" : "aeiou",
     "key" : "aeiou"
   } ],
@@ -654,10 +655,10 @@ open class ContentPollsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 5,
+  "created_date" : 6,
   "id" : "aeiou",
   "text" : "aeiou",
-  "updated_date" : 0,
+  "updated_date" : 1,
   "category" : {
     "name" : "aeiou",
     "active" : false,
@@ -708,9 +709,9 @@ open class ContentPollsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 4,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 9,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

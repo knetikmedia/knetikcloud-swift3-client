@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -26,13 +27,13 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Adds a new member to the group
-     - POST /users/groups/{uniqueName}/members
+     - POST /users/groups/{unique_name}/members
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "avatar_url" : "aeiou",
-  "id" : 4,
+  "id" : 0,
   "display_name" : "aeiou",
   "status" : "moderator",
   "username" : "aeiou"
@@ -44,7 +45,7 @@ open class UsersGroupsAPI: APIBase {
      - returns: RequestBuilder<GroupMemberResource> 
      */
     open class func addMemberToGroupWithRequestBuilder(uniqueName: String, user: GroupMemberResource) -> RequestBuilder<GroupMemberResource> {
-        var path = "/users/groups/{uniqueName}/members"
+        var path = "/users/groups/{unique_name}/members"
         path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = user.encodeToJSON() as? [String:AnyObject]
@@ -73,13 +74,13 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Adds multiple members to the group
-     - POST /users/groups/{uniqueName}/members/batch-add
+     - POST /users/groups/{unique_name}/members/batch-add
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
   "avatar_url" : "aeiou",
-  "id" : 6,
+  "id" : 0,
   "display_name" : "aeiou",
   "status" : "moderator",
   "username" : "aeiou"
@@ -91,7 +92,7 @@ open class UsersGroupsAPI: APIBase {
      - returns: RequestBuilder<[GroupMemberResource]> 
      */
     open class func addMembersToGroupWithRequestBuilder(uniqueName: String, users: [GroupMemberResource]) -> RequestBuilder<[GroupMemberResource]> {
-        var path = "/users/groups/{uniqueName}/members/batch-add"
+        var path = "/users/groups/{unique_name}/members/batch-add"
         path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = users.encodeToJSON() as? [String:AnyObject]
@@ -126,7 +127,7 @@ open class UsersGroupsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "template" : "aeiou",
   "parent" : "aeiou",
-  "sub_member_count" : 3,
+  "sub_member_count" : 6,
   "unique_name" : "aeiou",
   "name" : "aeiou",
   "description" : "aeiou",
@@ -135,7 +136,7 @@ open class UsersGroupsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "member_count" : 3,
+  "member_count" : 0,
   "message_of_the_day" : "aeiou",
   "status" : "open"
 }}]
@@ -179,9 +180,9 @@ open class UsersGroupsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 1,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 8,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -234,7 +235,7 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Removes a group from the system IF no resources are attached to it
-     - DELETE /users/groups/{uniqueName}
+     - DELETE /users/groups/{unique_name}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -244,7 +245,7 @@ open class UsersGroupsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteGroupWithRequestBuilder(uniqueName: String) -> RequestBuilder<Void> {
-        var path = "/users/groups/{uniqueName}"
+        var path = "/users/groups/{unique_name}"
         path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -316,11 +317,11 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Loads a specific group's details
-     - GET /users/groups/{uniqueName}
+     - GET /users/groups/{unique_name}
      - examples: [{contentType=application/json, example={
   "template" : "aeiou",
   "parent" : "aeiou",
-  "sub_member_count" : 1,
+  "sub_member_count" : 6,
   "unique_name" : "aeiou",
   "name" : "aeiou",
   "description" : "aeiou",
@@ -329,7 +330,7 @@ open class UsersGroupsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "member_count" : 5,
+  "member_count" : 0,
   "message_of_the_day" : "aeiou",
   "status" : "open"
 }}]
@@ -339,7 +340,7 @@ open class UsersGroupsAPI: APIBase {
      - returns: RequestBuilder<GroupResource> 
      */
     open class func getGroupWithRequestBuilder(uniqueName: String) -> RequestBuilder<GroupResource> {
-        var path = "/users/groups/{uniqueName}"
+        var path = "/users/groups/{unique_name}"
         path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -368,10 +369,10 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Get a user from a group
-     - GET /users/groups/{uniqueName}/members/{userId}
+     - GET /users/groups/{unique_name}/members/{user_id}
      - examples: [{contentType=application/json, example={
   "avatar_url" : "aeiou",
-  "id" : 2,
+  "id" : 0,
   "display_name" : "aeiou",
   "status" : "moderator",
   "username" : "aeiou"
@@ -383,7 +384,7 @@ open class UsersGroupsAPI: APIBase {
      - returns: RequestBuilder<GroupMemberResource> 
      */
     open class func getGroupMemberWithRequestBuilder(uniqueName: String, userId: Int32) -> RequestBuilder<GroupMemberResource> {
-        var path = "/users/groups/{uniqueName}/members/{userId}"
+        var path = "/users/groups/{unique_name}/members/{user_id}"
         path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -415,12 +416,12 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Lists members of the group
-     - GET /users/groups/{uniqueName}/members
+     - GET /users/groups/{unique_name}/members
      - examples: [{contentType=application/json, example={
-  "number" : 5,
+  "number" : 6,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 2,
+  "size" : 5,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -428,8 +429,8 @@ open class UsersGroupsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 6,
-  "number_of_elements" : 4,
+  "total_pages" : 2,
+  "number_of_elements" : 1,
   "content" : [ {
     "avatar_url" : "aeiou",
     "id" : 0,
@@ -448,7 +449,7 @@ open class UsersGroupsAPI: APIBase {
      - returns: RequestBuilder<PageResourceGroupMemberResource> 
      */
     open class func getGroupMembersWithRequestBuilder(uniqueName: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceGroupMemberResource> {
-        var path = "/users/groups/{uniqueName}/members"
+        var path = "/users/groups/{unique_name}/members"
         path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -487,9 +488,9 @@ open class UsersGroupsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 2,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 1,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -550,10 +551,10 @@ open class UsersGroupsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 1,
   "last" : true,
-  "size" : 6,
-  "total_elements" : 8,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -561,11 +562,11 @@ open class UsersGroupsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 9,
-  "number_of_elements" : 2,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "name" : "aeiou",
-    "created_date" : 6,
+    "created_date" : 0,
     "id" : "aeiou",
     "updated_date" : 6,
     "properties" : [ {
@@ -629,7 +630,7 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      List groups a user is in
-     - GET /users/{userId}/groups
+     - GET /users/{user_id}/groups
      - examples: [{contentType=application/json, example=[ "aeiou" ]}]
      
      - parameter userId: (path) The id of the user 
@@ -637,7 +638,7 @@ open class UsersGroupsAPI: APIBase {
      - returns: RequestBuilder<[String]> 
      */
     open class func getGroupsForUserWithRequestBuilder(userId: Int32) -> RequestBuilder<[String]> {
-        var path = "/users/{userId}/groups"
+        var path = "/users/{user_id}/groups"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -666,7 +667,7 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Removes a user from a group
-     - DELETE /users/groups/{uniqueName}/members/{userId}
+     - DELETE /users/groups/{unique_name}/members/{user_id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -677,7 +678,7 @@ open class UsersGroupsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func removeGroupMemberWithRequestBuilder(uniqueName: String, userId: Int32) -> RequestBuilder<Void> {
-        var path = "/users/groups/{uniqueName}/members/{userId}"
+        var path = "/users/groups/{unique_name}/members/{user_id}"
         path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -707,7 +708,7 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Update a group
-     - PUT /users/groups/{uniqueName}
+     - PUT /users/groups/{unique_name}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -718,7 +719,7 @@ open class UsersGroupsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func updateGroupWithRequestBuilder(uniqueName: String, groupResource: GroupResource? = nil) -> RequestBuilder<Void> {
-        var path = "/users/groups/{uniqueName}"
+        var path = "/users/groups/{unique_name}"
         path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = groupResource?.encodeToJSON() as? [String:AnyObject]
@@ -748,7 +749,7 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Change a user's status
-     - PUT /users/groups/{uniqueName}/members/{userId}/status
+     - PUT /users/groups/{unique_name}/members/{user_id}/status
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -760,7 +761,7 @@ open class UsersGroupsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func updateGroupMemberStatusWithRequestBuilder(uniqueName: String, userId: Int32, status: String) -> RequestBuilder<Void> {
-        var path = "/users/groups/{uniqueName}/members/{userId}/status"
+        var path = "/users/groups/{unique_name}/members/{user_id}/status"
         path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -796,9 +797,9 @@ open class UsersGroupsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 7,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 3,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -871,10 +872,10 @@ open class UsersGroupsAPI: APIBase {
      List and search groups
      - GET /users/groups
      - examples: [{contentType=application/json, example={
-  "number" : 7,
+  "number" : 1,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 7,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -882,12 +883,12 @@ open class UsersGroupsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 2,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "template" : "aeiou",
     "parent" : "aeiou",
-    "sub_member_count" : 8,
+    "sub_member_count" : 6,
     "unique_name" : "aeiou",
     "name" : "aeiou",
     "description" : "aeiou",
@@ -896,7 +897,7 @@ open class UsersGroupsAPI: APIBase {
         "type" : "aeiou"
       }
     },
-    "member_count" : 8,
+    "member_count" : 0,
     "message_of_the_day" : "aeiou",
     "status" : "open"
   } ],

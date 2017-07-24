@@ -9,6 +9,7 @@ import Foundation
 
 
 open class TimePeriodGettable: Behavior {
+
     /** The time period limit */
     public var getLimit: Int32?
     /** The name of a group of items. Multiple items with the same group name will be limited together, leave null to be assigned a random unique name. It is typical that the other properties here will be the same for all, but this is not enforced and the item being recieved will use its settings. */
@@ -27,6 +28,7 @@ open class TimePeriodGettable: Behavior {
         nillableDictionary["group_name"] = self.groupName
         nillableDictionary["time_length"] = self.timeLength?.encodeToJSON()
         nillableDictionary["unit_of_time"] = self.unitOfTime
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

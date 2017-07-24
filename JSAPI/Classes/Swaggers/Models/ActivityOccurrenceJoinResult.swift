@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ActivityOccurrenceJoinResult: JSONEncodable {
+
     /** The details on the entitlement object needed to enter the occurrence (if any) */
     public var entitlement: ActivityEntitlementResource?
     /** Zero if the user was/could be added to the occurrence. Jsapi error code indicating the reason of the failure otherwise */
@@ -27,6 +28,7 @@ open class ActivityOccurrenceJoinResult: JSONEncodable {
         nillableDictionary["error_code"] = self.errorCode?.encodeToJSON()
         nillableDictionary["message"] = self.message
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

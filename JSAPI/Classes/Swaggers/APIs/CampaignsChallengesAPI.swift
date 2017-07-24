@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -31,45 +32,45 @@ open class CampaignsChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "end_date" : 4,
+  "end_date" : 5,
   "template" : "aeiou",
   "reward_set" : {
     "short_description" : "aeiou",
     "unique_key" : "aeiou",
     "currency_rewards" : [ {
       "currency_name" : "aeiou",
-      "max_rank" : 9,
-      "min_rank" : 1,
+      "max_rank" : 2,
+      "min_rank" : 4,
       "percent" : false,
-      "value" : 6.281914223402451,
+      "value" : 7.386281948385884,
       "currency_code" : "aeiou"
     } ],
     "name" : "aeiou",
-    "created_date" : 6,
-    "id" : 8,
+    "created_date" : 3,
+    "id" : 1,
     "long_description" : "aeiou",
-    "max_placing" : 8,
-    "updated_date" : 6,
+    "max_placing" : 1,
+    "updated_date" : 4,
     "item_rewards" : [ {
-      "quantity" : 0,
+      "quantity" : 7,
       "item_id" : 1,
-      "max_rank" : 4,
+      "max_rank" : 1,
       "item_name" : "aeiou",
-      "min_rank" : 4
+      "min_rank" : 6
     } ]
   },
   "short_description" : "aeiou",
-  "next_event_date" : 1,
+  "next_event_date" : 7,
   "long_description" : "aeiou",
-  "reward_lag_minutes" : 7,
+  "reward_lag_minutes" : 9,
   "leaderboard_strategy" : "aeiou",
   "schedule" : {
-    "duration" : 7,
+    "duration" : 5,
     "repeat" : "DAILY",
     "duration_unit" : "millisecond"
   },
-  "copy_of" : 9,
-  "activities" : 6,
+  "copy_of" : 1,
+  "activities" : 0,
   "name" : "aeiou",
   "additional_properties" : {
     "key" : {
@@ -77,10 +78,10 @@ open class CampaignsChallengesAPI: APIBase {
     }
   },
   "created_date" : 5,
-  "id" : 3,
-  "updated_date" : 7,
+  "id" : 2,
+  "updated_date" : 9,
   "campaign_id" : 6,
-  "start_date" : 4
+  "start_date" : 9
 }}]
      
      - parameter challengeResource: (body) The challenge resource object (optional)
@@ -117,7 +118,7 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Create a challenge activity
-     - POST /challenges/{challengeId}/activities
+     - POST /challenges/{challenge_id}/activities
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -128,24 +129,24 @@ open class CampaignsChallengesAPI: APIBase {
     "unique_key" : "aeiou",
     "currency_rewards" : [ {
       "currency_name" : "aeiou",
-      "max_rank" : 3,
-      "min_rank" : 7,
+      "max_rank" : 7,
+      "min_rank" : 9,
       "percent" : false,
-      "value" : 1.7790266389240272,
+      "value" : 3.616076749251911,
       "currency_code" : "aeiou"
     } ],
     "name" : "aeiou",
-    "created_date" : 3,
-    "id" : 3,
+    "created_date" : 2,
+    "id" : 2,
     "long_description" : "aeiou",
     "max_placing" : 1,
-    "updated_date" : 5,
+    "updated_date" : 6,
     "item_rewards" : [ {
-      "quantity" : 2,
-      "item_id" : 6,
-      "max_rank" : 1,
+      "quantity" : 1,
+      "item_id" : 4,
+      "max_rank" : 7,
       "item_name" : "aeiou",
-      "min_rank" : 4
+      "min_rank" : 1
     } ]
   },
   "settings" : [ {
@@ -154,11 +155,11 @@ open class CampaignsChallengesAPI: APIBase {
     "key" : "aeiou",
     "value_name" : "aeiou"
   } ],
-  "challenge_id" : 1,
-  "activity_id" : 9,
+  "challenge_id" : 6,
+  "activity_id" : 0,
   "entitlement" : {
-    "item_id" : 5,
-    "price" : 8.81763831730865,
+    "item_id" : 1,
+    "price" : 5.962133916683182,
     "name" : "aeiou",
     "sku" : "aeiou",
     "currency_code" : "aeiou"
@@ -168,7 +169,7 @@ open class CampaignsChallengesAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "id" : 1
+  "id" : 5
 }}]
      
      - parameter challengeId: (path) The challenge id 
@@ -178,7 +179,7 @@ open class CampaignsChallengesAPI: APIBase {
      - returns: RequestBuilder<ChallengeActivityResource> 
      */
     open class func createChallengeActivityWithRequestBuilder(challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil, validateSettings: Bool? = nil) -> RequestBuilder<ChallengeActivityResource> {
-        var path = "/challenges/{challengeId}/activities"
+        var path = "/challenges/{challenge_id}/activities"
         path = path.replacingOccurrences(of: "{challenge_id}", with: "\(challengeId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = challengeActivityResource?.encodeToJSON() as? [String:AnyObject]
@@ -216,9 +217,9 @@ open class CampaignsChallengesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 7,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 7,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -278,9 +279,9 @@ open class CampaignsChallengesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 9,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 7,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -359,12 +360,12 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Delete a challenge activity
      
-     - parameter activityId: (path) The activity id 
+     - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteChallengeActivity(activityId: Int64, challengeId: Int64, completion: @escaping ((_ error: Error?) -> Void)) {
-        deleteChallengeActivityWithRequestBuilder(activityId: activityId, challengeId: challengeId).execute { (response, error) -> Void in
+    open class func deleteChallengeActivity(id: Int64, challengeId: Int64, completion: @escaping ((_ error: Error?) -> Void)) {
+        deleteChallengeActivityWithRequestBuilder(id: id, challengeId: challengeId).execute { (response, error) -> Void in
             completion(error);
         }
     }
@@ -372,19 +373,20 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Delete a challenge activity
-     - DELETE /challenges/{challengeId}/activities/{activityId}
+     - DELETE /challenges/{challenge_id}/activities/{id}
+     - A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
      - OAuth:
        - type: oauth2
        - name: OAuth2
      
-     - parameter activityId: (path) The activity id 
+     - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
 
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteChallengeActivityWithRequestBuilder(activityId: Int64, challengeId: Int64) -> RequestBuilder<Void> {
-        var path = "/challenges/{challengeId}/activities/{activityId}"
-        path = path.replacingOccurrences(of: "{activity_id}", with: "\(activityId)", options: .literal, range: nil)
+    open class func deleteChallengeActivityWithRequestBuilder(id: Int64, challengeId: Int64) -> RequestBuilder<Void> {
+        var path = "/challenges/{challenge_id}/activities/{id}"
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{challenge_id}", with: "\(challengeId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -540,56 +542,56 @@ open class CampaignsChallengesAPI: APIBase {
      Retrieve a challenge
      - GET /challenges/{id}
      - examples: [{contentType=application/json, example={
-  "end_date" : 9,
+  "end_date" : 5,
   "template" : "aeiou",
   "reward_set" : {
     "short_description" : "aeiou",
     "unique_key" : "aeiou",
     "currency_rewards" : [ {
       "currency_name" : "aeiou",
-      "max_rank" : 8,
-      "min_rank" : 7,
+      "max_rank" : 2,
+      "min_rank" : 4,
       "percent" : false,
-      "value" : 9.10162730558987,
+      "value" : 7.386281948385884,
       "currency_code" : "aeiou"
     } ],
     "name" : "aeiou",
-    "created_date" : 9,
-    "id" : 2,
+    "created_date" : 3,
+    "id" : 1,
     "long_description" : "aeiou",
-    "max_placing" : 0,
-    "updated_date" : 1,
+    "max_placing" : 1,
+    "updated_date" : 4,
     "item_rewards" : [ {
-      "quantity" : 6,
-      "item_id" : 6,
-      "max_rank" : 8,
+      "quantity" : 7,
+      "item_id" : 1,
+      "max_rank" : 1,
       "item_name" : "aeiou",
-      "min_rank" : 0
+      "min_rank" : 6
     } ]
   },
   "short_description" : "aeiou",
-  "next_event_date" : 5,
+  "next_event_date" : 7,
   "long_description" : "aeiou",
-  "reward_lag_minutes" : 4,
+  "reward_lag_minutes" : 9,
   "leaderboard_strategy" : "aeiou",
   "schedule" : {
-    "duration" : 3,
+    "duration" : 5,
     "repeat" : "DAILY",
     "duration_unit" : "millisecond"
   },
-  "copy_of" : 0,
-  "activities" : 7,
+  "copy_of" : 1,
+  "activities" : 0,
   "name" : "aeiou",
   "additional_properties" : {
     "key" : {
       "type" : "aeiou"
     }
   },
-  "created_date" : 7,
-  "id" : 1,
-  "updated_date" : 6,
+  "created_date" : 5,
+  "id" : 2,
+  "updated_date" : 9,
   "campaign_id" : 6,
-  "start_date" : 5
+  "start_date" : 9
 }}]
      
      - parameter id: (path) The challenge id 
@@ -628,12 +630,12 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      List and search challenge activities
-     - GET /challenges/{challengeId}/activities
+     - GET /challenges/{challenge_id}/activities
      - examples: [{contentType=application/json, example={
-  "number" : 4,
+  "number" : 5,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 5,
+  "size" : 2,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -641,12 +643,12 @@ open class CampaignsChallengesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 8,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
-    "challenge_id" : 2,
+    "challenge_id" : 6,
     "activity_id" : 0,
-    "id" : 7
+    "id" : 1
   } ],
   "first" : true
 }}]
@@ -659,7 +661,7 @@ open class CampaignsChallengesAPI: APIBase {
      - returns: RequestBuilder<PageResourceBareChallengeActivityResource> 
      */
     open class func getChallengeActivitiesWithRequestBuilder(challengeId: Int64, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceBareChallengeActivityResource> {
-        var path = "/challenges/{challengeId}/activities"
+        var path = "/challenges/{challenge_id}/activities"
         path = path.replacingOccurrences(of: "{challenge_id}", with: "\(challengeId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -680,11 +682,12 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Get a single challenge activity
      
-     - parameter activityId: (path) The activity id 
+     - parameter id: (path) The challenge_activity id 
+     - parameter challengeId: (path) The challenge id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallengeActivity(activityId: Int64, completion: @escaping ((_ data: ChallengeActivityResource?,_ error: Error?) -> Void)) {
-        getChallengeActivityWithRequestBuilder(activityId: activityId).execute { (response, error) -> Void in
+    open class func getChallengeActivity(id: Int64, challengeId: Int64, completion: @escaping ((_ data: ChallengeActivityResource?,_ error: Error?) -> Void)) {
+        getChallengeActivityWithRequestBuilder(id: id, challengeId: challengeId).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -692,7 +695,8 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Get a single challenge activity
-     - GET /challenges/{challengeId}/activities/{activityId}
+     - GET /challenges/{challenge_id}/activities/{id}
+     - A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
      - examples: [{contentType=application/json, example={
   "template" : "aeiou",
   "reward_set" : {
@@ -700,24 +704,24 @@ open class CampaignsChallengesAPI: APIBase {
     "unique_key" : "aeiou",
     "currency_rewards" : [ {
       "currency_name" : "aeiou",
-      "max_rank" : 0,
-      "min_rank" : 4,
+      "max_rank" : 7,
+      "min_rank" : 9,
       "percent" : false,
-      "value" : 0.8869344260695344,
+      "value" : 3.616076749251911,
       "currency_code" : "aeiou"
     } ],
     "name" : "aeiou",
-    "created_date" : 4,
-    "id" : 6,
+    "created_date" : 2,
+    "id" : 2,
     "long_description" : "aeiou",
-    "max_placing" : 5,
-    "updated_date" : 9,
+    "max_placing" : 1,
+    "updated_date" : 6,
     "item_rewards" : [ {
-      "quantity" : 6,
-      "item_id" : 9,
-      "max_rank" : 0,
+      "quantity" : 1,
+      "item_id" : 4,
+      "max_rank" : 7,
       "item_name" : "aeiou",
-      "min_rank" : 6
+      "min_rank" : 1
     } ]
   },
   "settings" : [ {
@@ -726,11 +730,11 @@ open class CampaignsChallengesAPI: APIBase {
     "key" : "aeiou",
     "value_name" : "aeiou"
   } ],
-  "challenge_id" : 4,
-  "activity_id" : 8,
+  "challenge_id" : 6,
+  "activity_id" : 0,
   "entitlement" : {
-    "item_id" : 9,
-    "price" : 9.627551728168859,
+    "item_id" : 1,
+    "price" : 5.962133916683182,
     "name" : "aeiou",
     "sku" : "aeiou",
     "currency_code" : "aeiou"
@@ -740,16 +744,18 @@ open class CampaignsChallengesAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "id" : 2
+  "id" : 5
 }}]
      
-     - parameter activityId: (path) The activity id 
+     - parameter id: (path) The challenge_activity id 
+     - parameter challengeId: (path) The challenge id 
 
      - returns: RequestBuilder<ChallengeActivityResource> 
      */
-    open class func getChallengeActivityWithRequestBuilder(activityId: Int64) -> RequestBuilder<ChallengeActivityResource> {
-        var path = "/challenges/{challengeId}/activities/{activityId}"
-        path = path.replacingOccurrences(of: "{activity_id}", with: "\(activityId)", options: .literal, range: nil)
+    open class func getChallengeActivityWithRequestBuilder(id: Int64, challengeId: Int64) -> RequestBuilder<ChallengeActivityResource> {
+        var path = "/challenges/{challenge_id}/activities/{id}"
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{challenge_id}", with: "\(challengeId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
 
@@ -782,9 +788,9 @@ open class CampaignsChallengesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 3,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 2,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -847,8 +853,8 @@ open class CampaignsChallengesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
-  "size" : 2,
-  "total_elements" : 3,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -857,12 +863,12 @@ open class CampaignsChallengesAPI: APIBase {
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
-  "number_of_elements" : 6,
+  "number_of_elements" : 5,
   "content" : [ {
     "name" : "aeiou",
-    "created_date" : 5,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 7,
+    "updated_date" : 6,
     "properties" : [ {
       "name" : "aeiou",
       "type" : "aeiou",
@@ -926,11 +932,11 @@ open class CampaignsChallengesAPI: APIBase {
      Retrieve a single challenge event details
      - GET /challenges/events/{id}
      - examples: [{contentType=application/json, example={
-  "end_date" : 7,
-  "challenge_id" : 3,
-  "id" : 0,
+  "end_date" : 6,
+  "challenge_id" : 0,
+  "id" : 1,
   "reward_status" : "pending",
-  "start_date" : 0
+  "start_date" : 5
 }}]
      
      - parameter id: (path) The challenge event id 
@@ -974,10 +980,10 @@ open class CampaignsChallengesAPI: APIBase {
      Retrieve a list of challenge events
      - GET /challenges/events
      - examples: [{contentType=application/json, example={
-  "number" : 3,
+  "number" : 5,
   "last" : true,
-  "size" : 4,
-  "total_elements" : 4,
+  "size" : 7,
+  "total_elements" : 9,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -985,14 +991,14 @@ open class CampaignsChallengesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 7,
+  "total_pages" : 3,
+  "number_of_elements" : 2,
   "content" : [ {
-    "end_date" : 9,
-    "challenge_id" : 2,
-    "id" : 7,
+    "end_date" : 6,
+    "challenge_id" : 0,
+    "id" : 1,
     "reward_status" : "pending",
-    "start_date" : 6
+    "start_date" : 5
   } ],
   "first" : true
 }}]
@@ -1050,9 +1056,9 @@ open class CampaignsChallengesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 5,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 8,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -1113,10 +1119,10 @@ open class CampaignsChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 7,
+  "number" : 1,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 3,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -1124,13 +1130,13 @@ open class CampaignsChallengesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 5,
-  "number_of_elements" : 7,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "name" : "aeiou",
-    "created_date" : 1,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 1,
+    "updated_date" : 6,
     "properties" : [ {
       "name" : "aeiou",
       "type" : "aeiou",
@@ -1202,8 +1208,8 @@ open class CampaignsChallengesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
-  "size" : 2,
-  "total_elements" : 9,
+  "size" : 9,
+  "total_elements" : 6,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -1211,59 +1217,59 @@ open class CampaignsChallengesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 0,
-  "number_of_elements" : 0,
+  "total_pages" : 3,
+  "number_of_elements" : 8,
   "content" : [ {
-    "end_date" : 3,
+    "end_date" : 5,
     "template" : "aeiou",
     "reward_set" : {
       "short_description" : "aeiou",
       "unique_key" : "aeiou",
       "currency_rewards" : [ {
         "currency_name" : "aeiou",
-        "max_rank" : 3,
+        "max_rank" : 2,
         "min_rank" : 4,
         "percent" : false,
-        "value" : 8.26746318782204,
+        "value" : 7.386281948385884,
         "currency_code" : "aeiou"
       } ],
       "name" : "aeiou",
-      "created_date" : 4,
-      "id" : 4,
+      "created_date" : 3,
+      "id" : 1,
       "long_description" : "aeiou",
-      "max_placing" : 4,
-      "updated_date" : 9,
+      "max_placing" : 1,
+      "updated_date" : 4,
       "item_rewards" : [ {
-        "quantity" : 9,
-        "item_id" : 2,
-        "max_rank" : 0,
+        "quantity" : 7,
+        "item_id" : 1,
+        "max_rank" : 1,
         "item_name" : "aeiou",
-        "min_rank" : 0
+        "min_rank" : 6
       } ]
     },
     "short_description" : "aeiou",
-    "next_event_date" : 6,
+    "next_event_date" : 7,
     "long_description" : "aeiou",
-    "reward_lag_minutes" : 1,
+    "reward_lag_minutes" : 9,
     "leaderboard_strategy" : "aeiou",
     "schedule" : {
-      "duration" : 0,
+      "duration" : 5,
       "repeat" : "DAILY",
       "duration_unit" : "millisecond"
     },
-    "copy_of" : 3,
-    "activities" : 6,
+    "copy_of" : 1,
+    "activities" : 0,
     "name" : "aeiou",
     "additional_properties" : {
       "key" : {
         "type" : "aeiou"
       }
     },
-    "created_date" : 8,
-    "id" : 8,
-    "updated_date" : 0,
-    "campaign_id" : 3,
-    "start_date" : 6
+    "created_date" : 5,
+    "id" : 2,
+    "updated_date" : 9,
+    "campaign_id" : 6,
+    "start_date" : 9
   } ],
   "first" : true
 }}]
@@ -1322,56 +1328,56 @@ open class CampaignsChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "end_date" : 1,
+  "end_date" : 5,
   "template" : "aeiou",
   "reward_set" : {
     "short_description" : "aeiou",
     "unique_key" : "aeiou",
     "currency_rewards" : [ {
       "currency_name" : "aeiou",
-      "max_rank" : 3,
-      "min_rank" : 3,
+      "max_rank" : 2,
+      "min_rank" : 4,
       "percent" : false,
-      "value" : 4.365030724167807,
+      "value" : 7.386281948385884,
       "currency_code" : "aeiou"
     } ],
     "name" : "aeiou",
-    "created_date" : 7,
-    "id" : 7,
+    "created_date" : 3,
+    "id" : 1,
     "long_description" : "aeiou",
     "max_placing" : 1,
-    "updated_date" : 6,
+    "updated_date" : 4,
     "item_rewards" : [ {
-      "quantity" : 4,
-      "item_id" : 8,
-      "max_rank" : 7,
+      "quantity" : 7,
+      "item_id" : 1,
+      "max_rank" : 1,
       "item_name" : "aeiou",
-      "min_rank" : 8
+      "min_rank" : 6
     } ]
   },
   "short_description" : "aeiou",
-  "next_event_date" : 2,
+  "next_event_date" : 7,
   "long_description" : "aeiou",
-  "reward_lag_minutes" : 7,
+  "reward_lag_minutes" : 9,
   "leaderboard_strategy" : "aeiou",
   "schedule" : {
-    "duration" : 1,
+    "duration" : 5,
     "repeat" : "DAILY",
     "duration_unit" : "millisecond"
   },
-  "copy_of" : 8,
-  "activities" : 2,
+  "copy_of" : 1,
+  "activities" : 0,
   "name" : "aeiou",
   "additional_properties" : {
     "key" : {
       "type" : "aeiou"
     }
   },
-  "created_date" : 2,
-  "id" : 4,
-  "updated_date" : 4,
-  "campaign_id" : 1,
-  "start_date" : 8
+  "created_date" : 5,
+  "id" : 2,
+  "updated_date" : 9,
+  "campaign_id" : 6,
+  "start_date" : 9
 }}]
      
      - parameter id: (path) The challenge id 
@@ -1396,13 +1402,13 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Update a challenge activity
      
-     - parameter activityId: (path) The activity id 
+     - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
      - parameter challengeActivityResource: (body) The challenge activity resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateChallengeActivity(activityId: Int64, challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil, completion: @escaping ((_ data: ChallengeActivityResource?,_ error: Error?) -> Void)) {
-        updateChallengeActivityWithRequestBuilder(activityId: activityId, challengeId: challengeId, challengeActivityResource: challengeActivityResource).execute { (response, error) -> Void in
+    open class func updateChallengeActivity(id: Int64, challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil, completion: @escaping ((_ data: ChallengeActivityResource?,_ error: Error?) -> Void)) {
+        updateChallengeActivityWithRequestBuilder(id: id, challengeId: challengeId, challengeActivityResource: challengeActivityResource).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -1410,7 +1416,8 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Update a challenge activity
-     - PUT /challenges/{challengeId}/activities/{activityId}
+     - PUT /challenges/{challenge_id}/activities/{id}
+     - A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -1421,24 +1428,24 @@ open class CampaignsChallengesAPI: APIBase {
     "unique_key" : "aeiou",
     "currency_rewards" : [ {
       "currency_name" : "aeiou",
-      "max_rank" : 3,
-      "min_rank" : 2,
+      "max_rank" : 7,
+      "min_rank" : 9,
       "percent" : false,
-      "value" : 7.809147418840675,
+      "value" : 3.616076749251911,
       "currency_code" : "aeiou"
     } ],
     "name" : "aeiou",
-    "created_date" : 0,
-    "id" : 1,
+    "created_date" : 2,
+    "id" : 2,
     "long_description" : "aeiou",
-    "max_placing" : 3,
-    "updated_date" : 5,
+    "max_placing" : 1,
+    "updated_date" : 6,
     "item_rewards" : [ {
-      "quantity" : 6,
-      "item_id" : 6,
-      "max_rank" : 1,
+      "quantity" : 1,
+      "item_id" : 4,
+      "max_rank" : 7,
       "item_name" : "aeiou",
-      "min_rank" : 7
+      "min_rank" : 1
     } ]
   },
   "settings" : [ {
@@ -1450,8 +1457,8 @@ open class CampaignsChallengesAPI: APIBase {
   "challenge_id" : 6,
   "activity_id" : 0,
   "entitlement" : {
-    "item_id" : 8,
-    "price" : 5.031799241162636,
+    "item_id" : 1,
+    "price" : 5.962133916683182,
     "name" : "aeiou",
     "sku" : "aeiou",
     "currency_code" : "aeiou"
@@ -1461,18 +1468,18 @@ open class CampaignsChallengesAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "id" : 1
+  "id" : 5
 }}]
      
-     - parameter activityId: (path) The activity id 
+     - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
      - parameter challengeActivityResource: (body) The challenge activity resource object (optional)
 
      - returns: RequestBuilder<ChallengeActivityResource> 
      */
-    open class func updateChallengeActivityWithRequestBuilder(activityId: Int64, challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil) -> RequestBuilder<ChallengeActivityResource> {
-        var path = "/challenges/{challengeId}/activities/{activityId}"
-        path = path.replacingOccurrences(of: "{activity_id}", with: "\(activityId)", options: .literal, range: nil)
+    open class func updateChallengeActivityWithRequestBuilder(id: Int64, challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil) -> RequestBuilder<ChallengeActivityResource> {
+        var path = "/challenges/{challenge_id}/activities/{id}"
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{challenge_id}", with: "\(challengeId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = challengeActivityResource?.encodeToJSON() as? [String:AnyObject]
@@ -1507,9 +1514,9 @@ open class CampaignsChallengesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 3,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 1,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -1571,9 +1578,9 @@ open class CampaignsChallengesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 7,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 8,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

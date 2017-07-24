@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -26,7 +27,7 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Add an answer to a question
-     - POST /trivia/questions/{questionId}/answers
+     - POST /trivia/questions/{question_id}/answers
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -44,7 +45,7 @@ open class GamificationTriviaAPI: APIBase {
      - returns: RequestBuilder<AnswerResource> 
      */
     open class func addQuestionAnswersWithRequestBuilder(questionId: String, answer: AnswerResource? = nil) -> RequestBuilder<AnswerResource> {
-        var path = "/trivia/questions/{questionId}/answers"
+        var path = "/trivia/questions/{question_id}/answers"
         path = path.replacingOccurrences(of: "{question_id}", with: "\(questionId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = answer?.encodeToJSON() as? [String:AnyObject]
@@ -135,7 +136,7 @@ open class GamificationTriviaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example=7}]
+     - examples: [{contentType=application/json, example=0}]
      
      - parameter tag: (body) The tag to add (optional)
      - parameter filterSearch: (query) Filter for documents whose question, answers or tags contains provided string (optional)
@@ -194,16 +195,16 @@ open class GamificationTriviaAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "output" : [ {
-    "line_number" : 6,
+    "line_number" : 1,
     "description" : "aeiou"
   } ],
-  "record_count" : 7,
+  "record_count" : 5,
   "category_id" : "aeiou",
   "vendor" : "aeiou",
   "name" : "aeiou",
-  "created_date" : 6,
+  "created_date" : 0,
   "id" : 6,
-  "updated_date" : 2,
+  "updated_date" : 5,
   "url" : "aeiou",
   "status" : "PENDING_VALIDATION"
 }}]
@@ -247,7 +248,7 @@ open class GamificationTriviaAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "template" : "aeiou",
   "question" : "",
-  "import_id" : 3,
+  "import_id" : 1,
   "answers" : [ {
     "answer" : "",
     "correct" : false,
@@ -256,22 +257,22 @@ open class GamificationTriviaAPI: APIBase {
   "source1" : "aeiou",
   "source2" : "aeiou",
   "tags" : [ "aeiou" ],
-  "difficulty" : 7,
+  "difficulty" : 6,
   "vendor" : "aeiou",
   "additional_properties" : {
     "key" : {
       "type" : "aeiou"
     }
   },
-  "created_date" : 8,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 7,
+  "updated_date" : 5,
   "category" : {
     "name" : "aeiou",
     "active" : false,
     "id" : "aeiou"
   },
-  "published_date" : 2
+  "published_date" : 5
 }}]
      
      - parameter question: (body) The new question (optional)
@@ -334,7 +335,7 @@ open class GamificationTriviaAPI: APIBase {
   "name" : "aeiou",
   "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 3,
+  "updated_date" : 6,
   "properties" : [ "" ]
 }}]
      
@@ -448,7 +449,7 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Remove an answer from a question
-     - DELETE /trivia/questions/{questionId}/answers/{id}
+     - DELETE /trivia/questions/{question_id}/answers/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -459,7 +460,7 @@ open class GamificationTriviaAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteQuestionAnswersWithRequestBuilder(questionId: String, id: String) -> RequestBuilder<Void> {
-        var path = "/trivia/questions/{questionId}/answers/{id}"
+        var path = "/trivia/questions/{question_id}/answers/{id}"
         path = path.replacingOccurrences(of: "{question_id}", with: "\(questionId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -538,16 +539,16 @@ open class GamificationTriviaAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "output" : [ {
-    "line_number" : 2,
+    "line_number" : 1,
     "description" : "aeiou"
   } ],
-  "record_count" : 1,
+  "record_count" : 5,
   "category_id" : "aeiou",
   "vendor" : "aeiou",
   "name" : "aeiou",
-  "created_date" : 5,
-  "id" : 8,
-  "updated_date" : 3,
+  "created_date" : 0,
+  "id" : 6,
+  "updated_date" : 5,
   "url" : "aeiou",
   "status" : "PENDING_VALIDATION"
 }}]
@@ -596,7 +597,7 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 1,
+  "number" : 2,
   "last" : true,
   "size" : 9,
   "total_elements" : 3,
@@ -608,19 +609,19 @@ open class GamificationTriviaAPI: APIBase {
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
-  "number_of_elements" : 9,
+  "number_of_elements" : 7,
   "content" : [ {
     "output" : [ {
-      "line_number" : 3,
+      "line_number" : 1,
       "description" : "aeiou"
     } ],
     "record_count" : 5,
     "category_id" : "aeiou",
     "vendor" : "aeiou",
     "name" : "aeiou",
-    "created_date" : 4,
-    "id" : 5,
-    "updated_date" : 2,
+    "created_date" : 0,
+    "id" : 6,
+    "updated_date" : 5,
     "url" : "aeiou",
     "status" : "PENDING_VALIDATION"
   } ],
@@ -681,7 +682,7 @@ open class GamificationTriviaAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "template" : "aeiou",
   "question" : "",
-  "import_id" : 4,
+  "import_id" : 1,
   "answers" : [ {
     "answer" : "",
     "correct" : false,
@@ -690,14 +691,14 @@ open class GamificationTriviaAPI: APIBase {
   "source1" : "aeiou",
   "source2" : "aeiou",
   "tags" : [ "aeiou" ],
-  "difficulty" : 5,
+  "difficulty" : 6,
   "vendor" : "aeiou",
   "additional_properties" : {
     "key" : {
       "type" : "aeiou"
     }
   },
-  "created_date" : 9,
+  "created_date" : 0,
   "id" : "aeiou",
   "updated_date" : 5,
   "category" : {
@@ -705,7 +706,7 @@ open class GamificationTriviaAPI: APIBase {
     "active" : false,
     "id" : "aeiou"
   },
-  "published_date" : 7
+  "published_date" : 5
 }}]
      
      - parameter id: (path) The id of the question 
@@ -742,7 +743,7 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Get an answer for a question
-     - GET /trivia/questions/{questionId}/answers/{id}
+     - GET /trivia/questions/{question_id}/answers/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -760,7 +761,7 @@ open class GamificationTriviaAPI: APIBase {
      - returns: RequestBuilder<AnswerResource> 
      */
     open class func getQuestionAnswerWithRequestBuilder(questionId: String, id: String) -> RequestBuilder<AnswerResource> {
-        var path = "/trivia/questions/{questionId}/answers/{id}"
+        var path = "/trivia/questions/{question_id}/answers/{id}"
         path = path.replacingOccurrences(of: "{question_id}", with: "\(questionId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -789,7 +790,7 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      List the answers available for a question
-     - GET /trivia/questions/{questionId}/answers
+     - GET /trivia/questions/{question_id}/answers
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -806,7 +807,7 @@ open class GamificationTriviaAPI: APIBase {
      - returns: RequestBuilder<[AnswerResource]> 
      */
     open class func getQuestionAnswersWithRequestBuilder(questionId: String) -> RequestBuilder<[AnswerResource]> {
-        var path = "/trivia/questions/{questionId}/answers"
+        var path = "/trivia/questions/{question_id}/answers"
         path = path.replacingOccurrences(of: "{question_id}", with: "\(questionId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -843,7 +844,7 @@ open class GamificationTriviaAPI: APIBase {
   "category_id" : "aeiou",
   "media_type" : "aeiou",
   "state" : "UPDATED",
-  "updated_date" : 6,
+  "updated_date" : 0,
   "question_id" : "aeiou",
   "tags" : [ "aeiou" ]
 } ]}]
@@ -947,9 +948,9 @@ open class GamificationTriviaAPI: APIBase {
     "required" : false
   },
   "name" : "aeiou",
-  "created_date" : 1,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 9,
+  "updated_date" : 6,
   "properties" : [ "" ]
 }}]
      
@@ -993,10 +994,10 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 5,
+  "number" : 1,
   "last" : true,
-  "size" : 4,
-  "total_elements" : 9,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -1004,8 +1005,8 @@ open class GamificationTriviaAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 6,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "question_property" : "",
     "answer_property" : {
@@ -1027,7 +1028,7 @@ open class GamificationTriviaAPI: APIBase {
       "required" : false
     },
     "name" : "aeiou",
-    "created_date" : 6,
+    "created_date" : 0,
     "id" : "aeiou",
     "updated_date" : 6,
     "properties" : [ "" ]
@@ -1091,8 +1092,8 @@ open class GamificationTriviaAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 2,
   "last" : true,
-  "size" : 3,
-  "total_elements" : 9,
+  "size" : 9,
+  "total_elements" : 3,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -1100,12 +1101,12 @@ open class GamificationTriviaAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 0,
-  "number_of_elements" : 2,
+  "total_pages" : 2,
+  "number_of_elements" : 7,
   "content" : [ {
     "template" : "aeiou",
     "question" : "",
-    "import_id" : 5,
+    "import_id" : 1,
     "answers" : [ {
       "answer" : "",
       "correct" : false,
@@ -1114,22 +1115,22 @@ open class GamificationTriviaAPI: APIBase {
     "source1" : "aeiou",
     "source2" : "aeiou",
     "tags" : [ "aeiou" ],
-    "difficulty" : 3,
+    "difficulty" : 6,
     "vendor" : "aeiou",
     "additional_properties" : {
       "key" : {
         "type" : "aeiou"
       }
     },
-    "created_date" : 7,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 9,
+    "updated_date" : 5,
     "category" : {
       "name" : "aeiou",
       "active" : false,
       "id" : "aeiou"
     },
-    "published_date" : 7
+    "published_date" : 5
   } ],
   "first" : true
 }}]
@@ -1200,7 +1201,7 @@ open class GamificationTriviaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example=6}]
+     - examples: [{contentType=application/json, example=0}]
      
      - parameter filterSearch: (query) Filter for documents whose question, answers or tags contains provided string (optional)
      - parameter filterIdset: (query) Filter for documents whose id is in the comma separated list provided (optional)
@@ -1257,16 +1258,16 @@ open class GamificationTriviaAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "output" : [ {
-    "line_number" : 4,
+    "line_number" : 1,
     "description" : "aeiou"
   } ],
   "record_count" : 5,
   "category_id" : "aeiou",
   "vendor" : "aeiou",
   "name" : "aeiou",
-  "created_date" : 2,
-  "id" : 1,
-  "updated_date" : 4,
+  "created_date" : 0,
+  "id" : 6,
+  "updated_date" : 5,
   "url" : "aeiou",
   "status" : "PENDING_VALIDATION"
 }}]
@@ -1362,7 +1363,7 @@ open class GamificationTriviaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example=9}]
+     - examples: [{contentType=application/json, example=0}]
      
      - parameter tag: (path) The tag to remove 
      - parameter filterSearch: (query) Filter for documents whose question, answers or tags contains provided string (optional)
@@ -1471,16 +1472,16 @@ open class GamificationTriviaAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "output" : [ {
-    "line_number" : 5,
+    "line_number" : 1,
     "description" : "aeiou"
   } ],
-  "record_count" : 7,
+  "record_count" : 5,
   "category_id" : "aeiou",
   "vendor" : "aeiou",
   "name" : "aeiou",
-  "created_date" : 2,
-  "id" : 2,
-  "updated_date" : 0,
+  "created_date" : 0,
+  "id" : 6,
+  "updated_date" : 5,
   "url" : "aeiou",
   "status" : "PENDING_VALIDATION"
 }}]
@@ -1527,7 +1528,7 @@ open class GamificationTriviaAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "template" : "aeiou",
   "question" : "",
-  "import_id" : 5,
+  "import_id" : 1,
   "answers" : [ {
     "answer" : "",
     "correct" : false,
@@ -1536,22 +1537,22 @@ open class GamificationTriviaAPI: APIBase {
   "source1" : "aeiou",
   "source2" : "aeiou",
   "tags" : [ "aeiou" ],
-  "difficulty" : 8,
+  "difficulty" : 6,
   "vendor" : "aeiou",
   "additional_properties" : {
     "key" : {
       "type" : "aeiou"
     }
   },
-  "created_date" : 2,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 4,
+  "updated_date" : 5,
   "category" : {
     "name" : "aeiou",
     "active" : false,
     "id" : "aeiou"
   },
-  "published_date" : 9
+  "published_date" : 5
 }}]
      
      - parameter id: (path) The id of the question 
@@ -1590,7 +1591,7 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Update an answer for a question
-     - PUT /trivia/questions/{questionId}/answers/{id}
+     - PUT /trivia/questions/{question_id}/answers/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -1602,7 +1603,7 @@ open class GamificationTriviaAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func updateQuestionAnswerWithRequestBuilder(questionId: String, id: String, answer: AnswerResource? = nil) -> RequestBuilder<Void> {
-        var path = "/trivia/questions/{questionId}/answers/{id}"
+        var path = "/trivia/questions/{question_id}/answers/{id}"
         path = path.replacingOccurrences(of: "{question_id}", with: "\(questionId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -1659,7 +1660,7 @@ open class GamificationTriviaAPI: APIBase {
   "name" : "aeiou",
   "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 3,
+  "updated_date" : 6,
   "properties" : [ "" ]
 }}]
      

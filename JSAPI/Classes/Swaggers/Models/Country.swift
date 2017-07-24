@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Country: JSONEncodable {
+
     public var id: Int32?
     public var iso2: String?
     public var iso3: String?
@@ -23,6 +24,7 @@ open class Country: JSONEncodable {
         nillableDictionary["iso2"] = self.iso2
         nillableDictionary["iso3"] = self.iso3
         nillableDictionary["name"] = self.name
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

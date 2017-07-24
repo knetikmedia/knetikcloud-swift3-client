@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UsageInfo: JSONEncodable {
+
     /** The number of requests within the range */
     public var count: Int64?
     /** The date at the start of the range (see granularity) */
@@ -27,6 +28,7 @@ open class UsageInfo: JSONEncodable {
         nillableDictionary["date"] = self.date?.encodeToJSON()
         nillableDictionary["method"] = self.method
         nillableDictionary["url"] = self.url
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

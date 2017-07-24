@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -47,8 +48,8 @@ open class StoreVendorsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "id" : 9,
-  "create_date" : 1,
+  "id" : 6,
+  "create_date" : 0,
   "manual_approval" : false
 }}]
      
@@ -99,9 +100,9 @@ open class StoreVendorsAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 8,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 5,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -244,7 +245,7 @@ open class StoreVendorsAPI: APIBase {
   "description" : "aeiou",
   "primary_contact_name" : "aeiou",
   "primary_contact_phone" : "aeiou",
-  "update_date" : 7,
+  "update_date" : 1,
   "url" : "aeiou",
   "support_email" : "aeiou",
   "name" : "aeiou",
@@ -254,8 +255,8 @@ open class StoreVendorsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "id" : 9,
-  "create_date" : 5,
+  "id" : 6,
+  "create_date" : 0,
   "manual_approval" : false
 }}]
      
@@ -307,9 +308,9 @@ open class StoreVendorsAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 9,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 5,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -372,8 +373,8 @@ open class StoreVendorsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
-  "size" : 7,
-  "total_elements" : 9,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -381,8 +382,8 @@ open class StoreVendorsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 9,
-  "number_of_elements" : 3,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "behaviors" : [ {
       "behavior" : {
@@ -393,7 +394,7 @@ open class StoreVendorsAPI: APIBase {
       "required" : false
     } ],
     "name" : "aeiou",
-    "created_date" : 4,
+    "created_date" : 0,
     "id" : "aeiou",
     "updated_date" : 6,
     "properties" : [ {
@@ -462,10 +463,10 @@ open class StoreVendorsAPI: APIBase {
      List and search vendors
      - GET /vendors
      - examples: [{contentType=application/json, example={
-  "number" : 0,
+  "number" : 5,
   "last" : true,
-  "size" : 8,
-  "total_elements" : 5,
+  "size" : 2,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -473,8 +474,8 @@ open class StoreVendorsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 2,
-  "number_of_elements" : 2,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "template" : "aeiou",
     "primary_contact_email" : "aeiou",
@@ -483,7 +484,7 @@ open class StoreVendorsAPI: APIBase {
     "description" : "aeiou",
     "primary_contact_name" : "aeiou",
     "primary_contact_phone" : "aeiou",
-    "update_date" : 8,
+    "update_date" : 1,
     "url" : "aeiou",
     "support_email" : "aeiou",
     "name" : "aeiou",
@@ -493,8 +494,8 @@ open class StoreVendorsAPI: APIBase {
         "type" : "aeiou"
       }
     },
-    "id" : 9,
-    "create_date" : 1,
+    "id" : 6,
+    "create_date" : 0,
     "manual_approval" : false
   } ],
   "first" : true
@@ -564,8 +565,8 @@ open class StoreVendorsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "id" : 1,
-  "create_date" : 5,
+  "id" : 6,
+  "create_date" : 0,
   "manual_approval" : false
 }}]
      
@@ -618,9 +619,9 @@ open class StoreVendorsAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 9,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 5,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

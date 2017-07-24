@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -45,13 +46,13 @@ open class DevicesAPI: APIBase {
   "name" : "aeiou",
   "location" : "aeiou",
   "model" : "aeiou",
-  "created_date" : 8,
-  "id" : 3,
-  "updated_date" : 4,
+  "created_date" : 0,
+  "id" : 6,
+  "updated_date" : 1,
   "make" : "aeiou",
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 1,
+    "id" : 5,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
@@ -112,12 +113,12 @@ open class DevicesAPI: APIBase {
   "location" : "aeiou",
   "model" : "aeiou",
   "created_date" : 0,
-  "id" : 1,
-  "updated_date" : 3,
+  "id" : 6,
+  "updated_date" : 1,
   "make" : "aeiou",
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 4,
+    "id" : 5,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
@@ -195,7 +196,7 @@ open class DevicesAPI: APIBase {
 
     /**
      Delete a device user
-     - DELETE /devices/{id}/users/{userId}
+     - DELETE /devices/{id}/users/{user_id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -206,7 +207,7 @@ open class DevicesAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteDeviceUserWithRequestBuilder(id: Int32, userId: Int32) -> RequestBuilder<Void> {
-        var path = "/devices/{id}/users/{userId}"
+        var path = "/devices/{id}/users/{user_id}"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -297,13 +298,13 @@ open class DevicesAPI: APIBase {
   "name" : "aeiou",
   "location" : "aeiou",
   "model" : "aeiou",
-  "created_date" : 4,
-  "id" : 3,
-  "updated_date" : 9,
+  "created_date" : 0,
+  "id" : 6,
+  "updated_date" : 1,
   "make" : "aeiou",
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 8,
+    "id" : 5,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
@@ -353,10 +354,10 @@ open class DevicesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 3,
+  "number" : 5,
   "last" : true,
-  "size" : 5,
-  "total_elements" : 4,
+  "size" : 7,
+  "total_elements" : 9,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -364,8 +365,8 @@ open class DevicesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 0,
+  "total_pages" : 3,
+  "number_of_elements" : 2,
   "content" : [ {
     "data" : {
       "key" : "aeiou"
@@ -381,9 +382,9 @@ open class DevicesAPI: APIBase {
     "name" : "aeiou",
     "location" : "aeiou",
     "model" : "aeiou",
-    "created_date" : 8,
-    "id" : 0,
-    "updated_date" : 6,
+    "created_date" : 0,
+    "id" : 6,
+    "updated_date" : 1,
     "make" : "aeiou",
     "user" : {
       "avatar_url" : "aeiou",
@@ -459,13 +460,13 @@ open class DevicesAPI: APIBase {
   "name" : "aeiou",
   "location" : "aeiou",
   "model" : "aeiou",
-  "created_date" : 7,
-  "id" : 2,
-  "updated_date" : 7,
+  "created_date" : 0,
+  "id" : 6,
+  "updated_date" : 1,
   "make" : "aeiou",
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 0,
+    "id" : 5,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },

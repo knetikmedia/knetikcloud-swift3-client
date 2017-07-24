@@ -9,12 +9,13 @@ import Foundation
 
 
 open class BehaviorDefinitionResource: JSONEncodable {
+
     /** Description of the behavior */
     public var description: String?
     /** Pre-requisite behaviors that an item must have in order to also have this behavior */
     public var prerequisiteBehaviors: [Behavior]?
     /** Configurable properties of the behavior */
-    public var properties: [PropertyDefinitionResource]?
+    public var properties: [PropertyFieldResource]?
     /** The behavior type */
     public var typeHint: String?
 
@@ -27,6 +28,7 @@ open class BehaviorDefinitionResource: JSONEncodable {
         nillableDictionary["prerequisite_behaviors"] = self.prerequisiteBehaviors?.encodeToJSON()
         nillableDictionary["properties"] = self.properties?.encodeToJSON()
         nillableDictionary["type_hint"] = self.typeHint
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

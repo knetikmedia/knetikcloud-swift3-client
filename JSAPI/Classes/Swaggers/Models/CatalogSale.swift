@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CatalogSale: JSONEncodable {
+
     public enum DiscountType: String { 
         case value = "value"
         case percentage = "percentage"
@@ -55,6 +56,7 @@ open class CatalogSale: JSONEncodable {
         nillableDictionary["short_description"] = self.shortDescription
         nillableDictionary["tag"] = self.tag
         nillableDictionary["vendor"] = self.vendor?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ActivityUserResource: JSONEncodable {
+
     public enum Status: String { 
         case present = "present"
         case ready = "ready"
@@ -43,6 +44,7 @@ open class ActivityUserResource: JSONEncodable {
         nillableDictionary["metric"] = self.metric?.encodeToJSON()
         nillableDictionary["status"] = self.status?.rawValue
         nillableDictionary["user"] = self.user?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

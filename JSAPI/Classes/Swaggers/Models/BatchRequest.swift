@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BatchRequest: JSONEncodable {
+
     /** The request body as would be passed to the URI */
     public var body: Any?
     /** Content type used, Ex:(application/json) */
@@ -33,6 +34,7 @@ open class BatchRequest: JSONEncodable {
         nillableDictionary["timeout"] = self.timeout?.encodeToJSON()
         nillableDictionary["token"] = self.token
         nillableDictionary["uri"] = self.uri
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

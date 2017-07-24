@@ -9,6 +9,7 @@ import Foundation
 
 
 open class GroupMemberResource: JSONEncodable {
+
     public enum Status: String { 
         case moderator = "moderator"
         case member = "member"
@@ -34,6 +35,7 @@ open class GroupMemberResource: JSONEncodable {
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["status"] = self.status?.rawValue
         nillableDictionary["username"] = self.username
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

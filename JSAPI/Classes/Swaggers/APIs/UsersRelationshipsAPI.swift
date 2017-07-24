@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -32,7 +33,7 @@ open class UsersRelationshipsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "parent" : "",
   "context" : "aeiou",
-  "id" : 7,
+  "id" : 6,
   "child" : {
     "avatar_url" : "aeiou",
     "id" : 0,
@@ -118,10 +119,10 @@ open class UsersRelationshipsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "parent" : "",
   "context" : "aeiou",
-  "id" : 0,
+  "id" : 6,
   "child" : {
     "avatar_url" : "aeiou",
-    "id" : 4,
+    "id" : 0,
     "display_name" : "aeiou",
     "username" : "aeiou"
   }
@@ -167,10 +168,10 @@ open class UsersRelationshipsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 8,
+  "number" : 1,
   "last" : true,
   "size" : 5,
-  "total_elements" : 3,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -178,15 +179,15 @@ open class UsersRelationshipsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 0,
-  "number_of_elements" : 9,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "parent" : "",
     "context" : "aeiou",
-    "id" : 9,
+    "id" : 6,
     "child" : {
       "avatar_url" : "aeiou",
-      "id" : 5,
+      "id" : 0,
       "display_name" : "aeiou",
       "username" : "aeiou"
     }
@@ -241,10 +242,10 @@ open class UsersRelationshipsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "parent" : "",
   "context" : "aeiou",
-  "id" : 3,
+  "id" : 6,
   "child" : {
     "avatar_url" : "aeiou",
-    "id" : 9,
+    "id" : 0,
     "display_name" : "aeiou",
     "username" : "aeiou"
   }

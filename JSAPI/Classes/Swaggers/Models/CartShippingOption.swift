@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CartShippingOption: JSONEncodable {
+
     public var currencyCode: String?
     public var description: String?
     public var name: String?
@@ -35,6 +36,7 @@ open class CartShippingOption: JSONEncodable {
         nillableDictionary["taxable"] = self.taxable
         nillableDictionary["vendor_id"] = self.vendorId?.encodeToJSON()
         nillableDictionary["vendor_name"] = self.vendorName
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

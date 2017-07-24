@@ -9,6 +9,7 @@ import Foundation
 
 
 open class StripeCreatePaymentMethod: JSONEncodable {
+
     /** A token from Stripe to identify payment info to be tied to the customer */
     public var token: String?
     /** The id of the user, if null the logged in user is used. Admin privilege need to specify other users */
@@ -21,6 +22,7 @@ open class StripeCreatePaymentMethod: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["token"] = self.token
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

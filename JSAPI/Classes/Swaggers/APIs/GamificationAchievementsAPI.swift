@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -41,10 +42,10 @@ open class GamificationAchievementsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 7,
-  "required_progress" : 3,
+  "created_date" : 0,
+  "required_progress" : 6,
   "trigger_event_name" : "aeiou",
-  "updated_date" : 2,
+  "updated_date" : 1,
   "tags" : [ "aeiou" ]
 }}]
      
@@ -87,9 +88,9 @@ open class GamificationAchievementsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 5,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 4,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -240,10 +241,10 @@ open class GamificationAchievementsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 8,
-  "required_progress" : 4,
+  "created_date" : 0,
+  "required_progress" : 6,
   "trigger_event_name" : "aeiou",
-  "updated_date" : 7,
+  "updated_date" : 1,
   "tags" : [ "aeiou" ]
 }}]
      
@@ -286,9 +287,9 @@ open class GamificationAchievementsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 9,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 1,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -352,7 +353,7 @@ open class GamificationAchievementsAPI: APIBase {
   "number" : 1,
   "last" : true,
   "size" : 5,
-  "total_elements" : 6,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -360,13 +361,13 @@ open class GamificationAchievementsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 2,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "name" : "aeiou",
-    "created_date" : 8,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 9,
+    "updated_date" : 6,
     "properties" : [ {
       "name" : "aeiou",
       "type" : "aeiou",
@@ -438,6 +439,7 @@ open class GamificationAchievementsAPI: APIBase {
   "category" : "achievement",
   "parameters" : [ {
     "name" : "aeiou",
+    "optional" : false,
     "type" : "aeiou"
   } ],
   "tags" : [ "aeiou" ],
@@ -485,10 +487,10 @@ open class GamificationAchievementsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 5,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 4,
+  "size" : 2,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -496,8 +498,8 @@ open class GamificationAchievementsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 6,
-  "number_of_elements" : 9,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "rule_id" : "aeiou",
     "template" : "aeiou",
@@ -509,8 +511,8 @@ open class GamificationAchievementsAPI: APIBase {
         "type" : "aeiou"
       }
     },
-    "created_date" : 3,
-    "required_progress" : 8,
+    "created_date" : 0,
+    "required_progress" : 6,
     "trigger_event_name" : "aeiou",
     "updated_date" : 1,
     "tags" : [ "aeiou" ]
@@ -581,10 +583,10 @@ open class GamificationAchievementsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 9,
-  "required_progress" : 3,
+  "created_date" : 0,
+  "required_progress" : 6,
   "trigger_event_name" : "aeiou",
-  "updated_date" : 5,
+  "updated_date" : 1,
   "tags" : [ "aeiou" ]
 } ]}]
      
@@ -622,7 +624,7 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Retrieve progress on a given achievement for a given user
-     - GET /users/{userId}/achievements/{achievementName}
+     - GET /users/{user_id}/achievements/{achievement_name}
      - Assets will not be filled in on the resources returned. Use 'Get a single poll' to retrieve the full resource with assets for a given item as needed.
      - OAuth:
        - type: oauth2
@@ -631,13 +633,13 @@ open class GamificationAchievementsAPI: APIBase {
   "achievements" : [ {
     "achievement_name" : "aeiou",
     "achieved" : false,
-    "earned_date" : 8,
-    "created_date" : 3,
-    "updated_date" : 4
+    "earned_date" : 6,
+    "created_date" : 0,
+    "updated_date" : 1
   } ],
   "group_name" : "aeiou",
-  "user_id" : 6,
-  "progress" : 3,
+  "user_id" : 5,
+  "progress" : 5,
   "id" : "aeiou"
 }}]
      
@@ -647,7 +649,7 @@ open class GamificationAchievementsAPI: APIBase {
      - returns: RequestBuilder<UserAchievementGroupResource> 
      */
     open class func getUserAchievementProgressWithRequestBuilder(userId: Int32, achievementName: String) -> RequestBuilder<UserAchievementGroupResource> {
-        var path = "/users/{userId}/achievements/{achievementName}"
+        var path = "/users/{user_id}/achievements/{achievement_name}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{achievement_name}", with: "\(achievementName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -681,7 +683,7 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Retrieve progress on achievements for a given user
-     - GET /users/{userId}/achievements
+     - GET /users/{user_id}/achievements
      - Assets will not be filled in on the resources returned. Use 'Get a single poll' to retrieve the full resource with assets for a given item as needed.
      - OAuth:
        - type: oauth2
@@ -689,8 +691,8 @@ open class GamificationAchievementsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 2,
   "last" : true,
-  "size" : 0,
-  "total_elements" : 8,
+  "size" : 9,
+  "total_elements" : 3,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -698,19 +700,19 @@ open class GamificationAchievementsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 9,
+  "total_pages" : 2,
+  "number_of_elements" : 7,
   "content" : [ {
     "achievements" : [ {
       "achievement_name" : "aeiou",
       "achieved" : false,
-      "earned_date" : 1,
-      "created_date" : 7,
-      "updated_date" : 0
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
     } ],
     "group_name" : "aeiou",
-    "user_id" : 1,
-    "progress" : 1,
+    "user_id" : 5,
+    "progress" : 5,
     "id" : "aeiou"
   } ],
   "first" : true
@@ -726,7 +728,7 @@ open class GamificationAchievementsAPI: APIBase {
      - returns: RequestBuilder<PageResourceUserAchievementGroupResource> 
      */
     open class func getUserAchievementsProgressWithRequestBuilder(userId: Int32, filterAchievementDerived: Bool? = nil, filterAchievementTagset: String? = nil, filterAchievementName: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUserAchievementGroupResource> {
-        var path = "/users/{userId}/achievements"
+        var path = "/users/{user_id}/achievements"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -766,16 +768,16 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Retrieve progress on a given achievement for all users
-     - GET /users/achievements/{achievementName}
+     - GET /users/achievements/{achievement_name}
      - Assets will not be filled in on the resources returned. Use 'Get single achievement progress for user' to retrieve the full resource with assets for a given user as needed.
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 1,
+  "number" : 2,
   "last" : true,
   "size" : 9,
-  "total_elements" : 2,
+  "total_elements" : 3,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -783,19 +785,19 @@ open class GamificationAchievementsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 1,
+  "total_pages" : 2,
+  "number_of_elements" : 7,
   "content" : [ {
     "achievements" : [ {
       "achievement_name" : "aeiou",
       "achieved" : false,
-      "earned_date" : 9,
-      "created_date" : 4,
-      "updated_date" : 8
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
     } ],
     "group_name" : "aeiou",
-    "user_id" : 0,
-    "progress" : 9,
+    "user_id" : 5,
+    "progress" : 5,
     "id" : "aeiou"
   } ],
   "first" : true
@@ -811,7 +813,7 @@ open class GamificationAchievementsAPI: APIBase {
      - returns: RequestBuilder<PageResourceUserAchievementGroupResource> 
      */
     open class func getUsersAchievementProgressWithRequestBuilder(achievementName: String, filterAchievementDerived: Bool? = nil, filterAchievementTagset: String? = nil, filterAchievementName: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUserAchievementGroupResource> {
-        var path = "/users/achievements/{achievementName}"
+        var path = "/users/achievements/{achievement_name}"
         path = path.replacingOccurrences(of: "{achievement_name}", with: "\(achievementName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -856,10 +858,10 @@ open class GamificationAchievementsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 7,
+  "number" : 2,
   "last" : true,
-  "size" : 3,
-  "total_elements" : 7,
+  "size" : 9,
+  "total_elements" : 3,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -867,19 +869,19 @@ open class GamificationAchievementsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 1,
-  "number_of_elements" : 5,
+  "total_pages" : 2,
+  "number_of_elements" : 7,
   "content" : [ {
     "achievements" : [ {
       "achievement_name" : "aeiou",
       "achieved" : false,
-      "earned_date" : 5,
-      "created_date" : 3,
-      "updated_date" : 5
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
     } ],
     "group_name" : "aeiou",
-    "user_id" : 4,
-    "progress" : 0,
+    "user_id" : 5,
+    "progress" : 5,
     "id" : "aeiou"
   } ],
   "first" : true
@@ -930,7 +932,7 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Increment an achievement progress record for a user
-     - POST /users/{userId}/achievements/{achievementName}/progress
+     - POST /users/{user_id}/achievements/{achievement_name}/progress
      - If no progress record yet exists for the user, it will be created. Otherwise it will be updated and the provided value added to the existing progress. May be negative. If progress meets or exceeds the achievement's max_value it will be marked as earned and a BRE event will be triggered for the <code>BreAchievementEarnedTrigger</code>.
      - OAuth:
        - type: oauth2
@@ -939,13 +941,13 @@ open class GamificationAchievementsAPI: APIBase {
   "achievements" : [ {
     "achievement_name" : "aeiou",
     "achieved" : false,
-    "earned_date" : 5,
-    "created_date" : 2,
-    "updated_date" : 7
+    "earned_date" : 6,
+    "created_date" : 0,
+    "updated_date" : 1
   } ],
   "group_name" : "aeiou",
-  "user_id" : 2,
-  "progress" : 7,
+  "user_id" : 5,
+  "progress" : 5,
   "id" : "aeiou"
 }}]
      
@@ -956,7 +958,7 @@ open class GamificationAchievementsAPI: APIBase {
      - returns: RequestBuilder<UserAchievementGroupResource> 
      */
     open class func incrementAchievementProgressWithRequestBuilder(userId: Int32, achievementName: String, progress: Int32? = nil) -> RequestBuilder<UserAchievementGroupResource> {
-        var path = "/users/{userId}/achievements/{achievementName}/progress"
+        var path = "/users/{user_id}/achievements/{achievement_name}/progress"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{achievement_name}", with: "\(achievementName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -987,7 +989,7 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Set an achievement progress record for a user
-     - PUT /users/{userId}/achievements/{achievementName}/progress
+     - PUT /users/{user_id}/achievements/{achievement_name}/progress
      - If no progress record yet exists for the user, it will be created. Otherwise it will be updated and progress set to the provided value. If progress meets or exceeds the achievement's max_value it will be marked as earned and a BRE event will be triggered for the <code>BreAchievementEarnedTrigger</code>.
      - OAuth:
        - type: oauth2
@@ -996,13 +998,13 @@ open class GamificationAchievementsAPI: APIBase {
   "achievements" : [ {
     "achievement_name" : "aeiou",
     "achieved" : false,
-    "earned_date" : 0,
-    "created_date" : 2,
-    "updated_date" : 4
+    "earned_date" : 6,
+    "created_date" : 0,
+    "updated_date" : 1
   } ],
   "group_name" : "aeiou",
-  "user_id" : 6,
-  "progress" : 4,
+  "user_id" : 5,
+  "progress" : 5,
   "id" : "aeiou"
 }}]
      
@@ -1013,7 +1015,7 @@ open class GamificationAchievementsAPI: APIBase {
      - returns: RequestBuilder<UserAchievementGroupResource> 
      */
     open class func setAchievementProgressWithRequestBuilder(userId: Int32, achievementName: String, progress: Int32? = nil) -> RequestBuilder<UserAchievementGroupResource> {
-        var path = "/users/{userId}/achievements/{achievementName}/progress"
+        var path = "/users/{user_id}/achievements/{achievement_name}/progress"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{achievement_name}", with: "\(achievementName)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -1059,10 +1061,10 @@ open class GamificationAchievementsAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 1,
-  "required_progress" : 5,
+  "created_date" : 0,
+  "required_progress" : 6,
   "trigger_event_name" : "aeiou",
-  "updated_date" : 0,
+  "updated_date" : 1,
   "tags" : [ "aeiou" ]
 }}]
      
@@ -1107,9 +1109,9 @@ open class GamificationAchievementsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 4,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 8,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

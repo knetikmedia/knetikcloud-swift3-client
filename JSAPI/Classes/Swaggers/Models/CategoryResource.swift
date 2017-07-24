@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CategoryResource: JSONEncodable {
+
     /** Whether the category is currently active. If not, it and its questions will be filtered out. */
     public var active: Bool?
     /** A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type */
@@ -30,6 +31,7 @@ open class CategoryResource: JSONEncodable {
         nillableDictionary["id"] = self.id
         nillableDictionary["name"] = self.name
         nillableDictionary["template"] = self.template
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

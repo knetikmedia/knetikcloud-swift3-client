@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UserBaseResource: JSONEncodable {
+
     /** The url of the user&#39;s avatar image */
     public var avatarUrl: String?
     /** The chosen display name of the user, defaults to username if not present */
@@ -19,6 +20,8 @@ open class UserBaseResource: JSONEncodable {
     public var fullname: String?
     /** The id of the user */
     public var id: Int32?
+    /** The date the user last interacted with the API (private) */
+    public var lastActivity: Int64?
     /** The date the user&#39;s info was last updated as a unix timestamp */
     public var lastUpdated: Int64?
     /** The user&#39;s date of registration as a unix timestamp */
@@ -36,9 +39,11 @@ open class UserBaseResource: JSONEncodable {
         nillableDictionary["email"] = self.email
         nillableDictionary["fullname"] = self.fullname
         nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["last_activity"] = self.lastActivity?.encodeToJSON()
         nillableDictionary["last_updated"] = self.lastUpdated?.encodeToJSON()
         nillableDictionary["member_since"] = self.memberSince?.encodeToJSON()
         nillableDictionary["username"] = self.username
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

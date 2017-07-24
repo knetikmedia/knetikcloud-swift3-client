@@ -9,6 +9,7 @@ import Foundation
 
 
 open class VideoPropertyDefinitionResource: PropertyDefinitionResource {
+
     /** If provided, a file type that teh property must match */
     public var fileType: String?
     /** If provided, the maximum height of the video */
@@ -36,6 +37,7 @@ open class VideoPropertyDefinitionResource: PropertyDefinitionResource {
         nillableDictionary["min_height"] = self.minHeight?.encodeToJSON()
         nillableDictionary["min_length"] = self.minLength?.encodeToJSON()
         nillableDictionary["min_width"] = self.minWidth?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

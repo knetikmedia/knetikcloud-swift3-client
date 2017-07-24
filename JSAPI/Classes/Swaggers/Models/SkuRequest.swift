@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SkuRequest: JSONEncodable {
+
     /** SKU code of the item */
     public var sku: String?
 
@@ -18,6 +19,7 @@ open class SkuRequest: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["sku"] = self.sku
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

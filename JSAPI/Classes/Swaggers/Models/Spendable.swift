@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Spendable: Behavior {
+
     /** The code of the currency */
     public var currencyCode: String?
     /** The spendable value */
@@ -21,6 +22,7 @@ open class Spendable: Behavior {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["currency_code"] = self.currencyCode
         nillableDictionary["value"] = self.value?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

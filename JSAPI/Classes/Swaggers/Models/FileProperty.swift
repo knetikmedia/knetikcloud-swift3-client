@@ -9,6 +9,7 @@ import Foundation
 
 
 open class FileProperty: Property {
+
     /** A crc value for file integrity verification */
     public var crc: String?
     /** A description of the file */
@@ -27,6 +28,7 @@ open class FileProperty: Property {
         nillableDictionary["description"] = self.description
         nillableDictionary["file_type"] = self.fileType
         nillableDictionary["url"] = self.url
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

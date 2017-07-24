@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ErrorResource: JSONEncodable {
+
     /** Extra details about the error, if needed */
     public var details: Any?
     /** The JSON key the message pertains to */
@@ -24,6 +25,7 @@ open class ErrorResource: JSONEncodable {
         nillableDictionary["details"] = self.details
         nillableDictionary["field"] = self.field
         nillableDictionary["message"] = self.message
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

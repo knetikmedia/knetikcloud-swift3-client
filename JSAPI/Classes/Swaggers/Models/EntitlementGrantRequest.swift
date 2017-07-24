@@ -9,6 +9,7 @@ import Foundation
 
 
 open class EntitlementGrantRequest: JSONEncodable {
+
     /** The ID of the entitlement item to grant */
     public var entitlementId: Int32?
 
@@ -18,6 +19,7 @@ open class EntitlementGrantRequest: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["entitlement_id"] = self.entitlementId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

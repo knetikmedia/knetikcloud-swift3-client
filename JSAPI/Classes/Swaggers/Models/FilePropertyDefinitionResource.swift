@@ -9,6 +9,7 @@ import Foundation
 
 
 open class FilePropertyDefinitionResource: PropertyDefinitionResource {
+
     /** If provided, a file type that the property must match */
     public var fileType: String?
     /** If provided, the maximum allowed file size in bytes */
@@ -21,6 +22,7 @@ open class FilePropertyDefinitionResource: PropertyDefinitionResource {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["file_type"] = self.fileType
         nillableDictionary["max_file_size"] = self.maxFileSize?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

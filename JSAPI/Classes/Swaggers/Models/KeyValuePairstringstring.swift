@@ -9,6 +9,7 @@ import Foundation
 
 
 open class KeyValuePairstringstring: JSONEncodable {
+
     public var key: String?
     public var value: String?
 
@@ -19,6 +20,7 @@ open class KeyValuePairstringstring: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["key"] = self.key
         nillableDictionary["value"] = self.value
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

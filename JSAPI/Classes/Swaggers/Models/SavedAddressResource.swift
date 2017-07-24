@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SavedAddressResource: JSONEncodable {
+
     /** The first line of the address */
     public var address1: String?
     /** A second line of the address */
@@ -53,6 +54,7 @@ open class SavedAddressResource: JSONEncodable {
         nillableDictionary["phone2"] = self.phone2
         nillableDictionary["postal_code"] = self.postalCode
         nillableDictionary["state_code"] = self.stateCode
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

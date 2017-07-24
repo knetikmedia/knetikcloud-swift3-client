@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ContributionResource: JSONEncodable {
+
     /** A reference to the contributing artist */
     public var artist: SimpleReferenceResourcelong?
     /** A reference to the media being contributed to */
@@ -24,6 +25,7 @@ open class ContributionResource: JSONEncodable {
         nillableDictionary["artist"] = self.artist?.encodeToJSON()
         nillableDictionary["media"] = self.media?.encodeToJSON()
         nillableDictionary["role"] = self.role
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

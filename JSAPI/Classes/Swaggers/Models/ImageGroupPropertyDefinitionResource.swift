@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ImageGroupPropertyDefinitionResource: FileGroupPropertyDefinitionResource {
+
     /** If provided, the maximum height of each image */
     public var maxHeight: Int32?
     /** If provided, the maximum width of each image */
@@ -27,6 +28,7 @@ open class ImageGroupPropertyDefinitionResource: FileGroupPropertyDefinitionReso
         nillableDictionary["max_width"] = self.maxWidth?.encodeToJSON()
         nillableDictionary["min_height"] = self.minHeight?.encodeToJSON()
         nillableDictionary["min_width"] = self.minWidth?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

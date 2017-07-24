@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ArticleResource: JSONEncodable {
+
     /** Whether the article is active */
     public var active: Bool?
     /** A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type */
@@ -45,6 +46,7 @@ open class ArticleResource: JSONEncodable {
         nillableDictionary["template"] = self.template
         nillableDictionary["title"] = self.title
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CartLineItem: JSONEncodable {
+
     public var currencyCode: String?
     public var description: String?
     public var discount: Discount?
@@ -51,6 +52,7 @@ open class CartLineItem: JSONEncodable {
         nillableDictionary["unit_price"] = self.unitPrice
         nillableDictionary["vendor_id"] = self.vendorId?.encodeToJSON()
         nillableDictionary["vendor_name"] = self.vendorName
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

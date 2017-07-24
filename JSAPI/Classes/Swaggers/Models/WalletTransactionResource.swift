@@ -9,6 +9,7 @@ import Foundation
 
 
 open class WalletTransactionResource: JSONEncodable {
+
     public enum Source: String { 
         case digital = "digital"
         case physical = "physical"
@@ -67,6 +68,7 @@ open class WalletTransactionResource: JSONEncodable {
         nillableDictionary["user"] = self.user?.encodeToJSON()
         nillableDictionary["value"] = self.value
         nillableDictionary["wallet_id"] = self.walletId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

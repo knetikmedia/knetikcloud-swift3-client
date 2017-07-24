@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PaymentMethodResource: JSONEncodable {
+
     public enum PaymentType: String { 
         case card = "card"
         case bankAccount = "bank_account"
@@ -24,20 +25,16 @@ open class PaymentMethodResource: JSONEncodable {
     public var expirationMonth: Int32?
     /** The expiration year for the payment method. Typically used for credit card payment methods */
     public var expirationYear: Int32?
-    /** The unique ID for that resource */
+    /** The unique ID of the resource */
     public var id: Int64?
     /** The last 4 digits of the account number for the payment method. Typically used for credit card payment methods */
     public var last4: String?
-    /** The user friendly name of that resource. Defaults to blank string */
-    public var longDescription: String?
-    /** The user friendly name of that resource */
+    /** The user friendly name of the resource */
     public var name: String?
     /** The type of payment method. Must be a pre-existing value */
     public var paymentMethodType: PaymentMethodTypeResource?
     /** The generic payment type. Default is card */
     public var paymentType: PaymentType?
-    /** The user friendly name of that resource. Defaults to blank string */
-    public var shortDescription: String?
     /** The sort value for the payment method */
     public var sort: Int32?
     /** The unique token for the payment method */
@@ -63,17 +60,16 @@ open class PaymentMethodResource: JSONEncodable {
         nillableDictionary["expiration_year"] = self.expirationYear?.encodeToJSON()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["last4"] = self.last4
-        nillableDictionary["long_description"] = self.longDescription
         nillableDictionary["name"] = self.name
         nillableDictionary["payment_method_type"] = self.paymentMethodType?.encodeToJSON()
         nillableDictionary["payment_type"] = self.paymentType?.rawValue
-        nillableDictionary["short_description"] = self.shortDescription
         nillableDictionary["sort"] = self.sort?.encodeToJSON()
         nillableDictionary["token"] = self.token
         nillableDictionary["unique_key"] = self.uniqueKey
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
         nillableDictionary["verified"] = self.verified
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

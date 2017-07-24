@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UserLevelingResource: JSONEncodable {
+
     /** The name of the last tier the user has qualified for */
     public var lastTierName: String?
     /** The progress level of the last tier the user has qualified for */
@@ -39,6 +40,7 @@ open class UserLevelingResource: JSONEncodable {
         nillableDictionary["progress"] = self.progress?.encodeToJSON()
         nillableDictionary["tier_names"] = self.tierNames?.encodeToJSON()
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

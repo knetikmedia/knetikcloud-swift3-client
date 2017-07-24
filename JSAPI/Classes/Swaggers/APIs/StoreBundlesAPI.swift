@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -84,9 +85,9 @@ open class StoreBundlesAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 1,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 2,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -268,9 +269,9 @@ open class StoreBundlesAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 1,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 7,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -330,8 +331,8 @@ open class StoreBundlesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
-  "size" : 4,
-  "total_elements" : 3,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -339,8 +340,8 @@ open class StoreBundlesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 5,
-  "number_of_elements" : 9,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "behaviors" : [ {
       "behavior" : {
@@ -351,9 +352,9 @@ open class StoreBundlesAPI: APIBase {
       "required" : false
     } ],
     "name" : "aeiou",
-    "created_date" : 6,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 4,
+    "updated_date" : 6,
     "properties" : [ {
       "name" : "aeiou",
       "type" : "aeiou",
@@ -476,9 +477,9 @@ open class StoreBundlesAPI: APIBase {
     "required" : false
   } ],
   "name" : "aeiou",
-  "created_date" : 3,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 0,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

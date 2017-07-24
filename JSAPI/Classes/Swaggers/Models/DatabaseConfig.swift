@@ -9,6 +9,7 @@ import Foundation
 
 
 open class DatabaseConfig: JSONEncodable {
+
     public var mongo: MongoDatabaseConfig?
     public var sql: SqlDatabaseConfig?
 
@@ -19,6 +20,7 @@ open class DatabaseConfig: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["mongo"] = self.mongo?.encodeToJSON()
         nillableDictionary["sql"] = self.sql?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

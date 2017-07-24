@@ -9,6 +9,7 @@ import Foundation
 
 
 open class RevenueCountryReportResource: JSONEncodable {
+
     public var country: String?
     public var revenue: Double?
     public var volume: Int64?
@@ -21,6 +22,7 @@ open class RevenueCountryReportResource: JSONEncodable {
         nillableDictionary["country"] = self.country
         nillableDictionary["revenue"] = self.revenue
         nillableDictionary["volume"] = self.volume?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

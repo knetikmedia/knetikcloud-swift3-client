@@ -9,6 +9,7 @@ import Foundation
 
 
 open class InvoiceLogEntry: JSONEncodable {
+
     /** The date this event occurred as a unix timestamp in seconds */
     public var date: Int64?
     /** The ID of the invoice */
@@ -27,6 +28,7 @@ open class InvoiceLogEntry: JSONEncodable {
         nillableDictionary["invoice_id"] = self.invoiceId?.encodeToJSON()
         nillableDictionary["message"] = self.message
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

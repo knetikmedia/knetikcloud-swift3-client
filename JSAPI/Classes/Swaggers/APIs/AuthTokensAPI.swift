@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -69,7 +70,7 @@ open class AuthTokensAPI: APIBase {
 
     /**
      Get a single token by username and client id
-     - GET /auth/tokens/{username}/{clientId}
+     - GET /auth/tokens/{username}/{client_id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -85,7 +86,7 @@ open class AuthTokensAPI: APIBase {
      - returns: RequestBuilder<OauthAccessTokenResource> 
      */
     open class func getTokenWithRequestBuilder(username: String, clientId: String) -> RequestBuilder<OauthAccessTokenResource> {
-        var path = "/auth/tokens/{username}/{clientId}"
+        var path = "/auth/tokens/{username}/{client_id}"
         path = path.replacingOccurrences(of: "{username}", with: "\(username)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{client_id}", with: "\(clientId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -124,10 +125,10 @@ open class AuthTokensAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 0,
   "last" : true,
-  "size" : 3,
-  "total_elements" : 0,
+  "size" : 1,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -135,8 +136,8 @@ open class AuthTokensAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 2,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ {
     "client_id" : "aeiou",
     "token" : "aeiou",

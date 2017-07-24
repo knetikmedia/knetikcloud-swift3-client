@@ -9,6 +9,7 @@ import Foundation
 
 
 open class GroupResource: JSONEncodable {
+
     public enum Status: String { 
         case open = "open"
         case closed = "closed"
@@ -49,6 +50,7 @@ open class GroupResource: JSONEncodable {
         nillableDictionary["sub_member_count"] = self.subMemberCount?.encodeToJSON()
         nillableDictionary["template"] = self.template
         nillableDictionary["unique_name"] = self.uniqueName
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

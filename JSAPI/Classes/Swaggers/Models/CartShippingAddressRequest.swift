@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CartShippingAddressRequest: JSONEncodable {
+
     /** The city of the user */
     public var city: String?
     /** The country code of the user */
@@ -50,6 +51,7 @@ open class CartShippingAddressRequest: JSONEncodable {
         nillableDictionary["shipping_address_line1"] = self.shippingAddressLine1
         nillableDictionary["shipping_address_line2"] = self.shippingAddressLine2
         nillableDictionary["zip"] = self.zip
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

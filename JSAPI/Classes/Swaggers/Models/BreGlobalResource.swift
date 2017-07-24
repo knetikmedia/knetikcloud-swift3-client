@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BreGlobalResource: JSONEncodable {
+
     /** A human readable description for display in admin pages */
     public var description: String?
     /** The id of the global definition. Default is a random guid. Cannot be updated */
@@ -36,6 +37,7 @@ open class BreGlobalResource: JSONEncodable {
         nillableDictionary["scopes"] = self.scopes?.encodeToJSON()
         nillableDictionary["system_global"] = self.systemGlobal
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

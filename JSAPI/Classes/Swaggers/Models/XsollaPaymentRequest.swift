@@ -9,6 +9,7 @@ import Foundation
 
 
 open class XsollaPaymentRequest: JSONEncodable {
+
     /** The id of an invoice to pay */
     public var invoiceId: Int32?
     /** The endpoint URL xsolla should forward the user to after they pay */
@@ -21,6 +22,7 @@ open class XsollaPaymentRequest: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["invoice_id"] = self.invoiceId?.encodeToJSON()
         nillableDictionary["return_url"] = self.returnUrl
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -26,33 +27,31 @@ open class PaymentsAPI: APIBase {
 
     /**
      Create a new payment method for a user
-     - POST /users/{userId}/payment-methods
+     - POST /users/{user_id}/payment-methods
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
     "name" : "aeiou",
-    "id" : 6
+    "id" : 2
   },
   "last4" : "aeiou",
-  "short_description" : "aeiou",
   "unique_key" : "aeiou",
   "verified" : true,
-  "long_description" : "aeiou",
-  "sort" : 5,
+  "sort" : 7,
   "expiration_date" : 6,
   "token" : "aeiou",
-  "expiration_year" : 8,
+  "expiration_year" : 5,
   "default" : true,
   "payment_type" : "card",
-  "user_id" : 2,
-  "expiration_month" : 2,
+  "user_id" : 3,
+  "expiration_month" : 1,
   "name" : "aeiou",
   "disabled" : false,
-  "created_date" : 2,
-  "id" : 6,
-  "updated_date" : 4
+  "created_date" : 0,
+  "id" : 5,
+  "updated_date" : 9
 }}]
      
      - parameter userId: (path) ID of the user for whom the payment method is being created 
@@ -61,7 +60,7 @@ open class PaymentsAPI: APIBase {
      - returns: RequestBuilder<PaymentMethodResource> 
      */
     open class func createPaymentMethodWithRequestBuilder(userId: Int32, paymentMethod: PaymentMethodResource? = nil) -> RequestBuilder<PaymentMethodResource> {
-        var path = "/users/{userId}/payment-methods"
+        var path = "/users/{user_id}/payment-methods"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = paymentMethod?.encodeToJSON() as? [String:AnyObject]
@@ -90,7 +89,7 @@ open class PaymentsAPI: APIBase {
 
     /**
      Delete an existing payment method for a user
-     - DELETE /users/{userId}/payment-methods/{id}
+     - DELETE /users/{user_id}/payment-methods/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -101,7 +100,7 @@ open class PaymentsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deletePaymentMethodWithRequestBuilder(userId: Int32, id: Int32) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/payment-methods/{id}"
+        var path = "/users/{user_id}/payment-methods/{id}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -131,32 +130,30 @@ open class PaymentsAPI: APIBase {
 
     /**
      Get a single payment method for a user
-     - GET /users/{userId}/payment-methods/{id}
+     - GET /users/{user_id}/payment-methods/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
     "name" : "aeiou",
-    "id" : 7
+    "id" : 2
   },
   "last4" : "aeiou",
-  "short_description" : "aeiou",
   "unique_key" : "aeiou",
   "verified" : true,
-  "long_description" : "aeiou",
-  "sort" : 6,
-  "expiration_date" : 7,
+  "sort" : 7,
+  "expiration_date" : 6,
   "token" : "aeiou",
-  "expiration_year" : 0,
+  "expiration_year" : 5,
   "default" : true,
   "payment_type" : "card",
-  "user_id" : 0,
-  "expiration_month" : 7,
+  "user_id" : 3,
+  "expiration_month" : 1,
   "name" : "aeiou",
   "disabled" : false,
-  "created_date" : 7,
-  "id" : 7,
+  "created_date" : 0,
+  "id" : 5,
   "updated_date" : 9
 }}]
      
@@ -166,7 +163,7 @@ open class PaymentsAPI: APIBase {
      - returns: RequestBuilder<PaymentMethodResource> 
      */
     open class func getPaymentMethodWithRequestBuilder(userId: Int32, id: Int32) -> RequestBuilder<PaymentMethodResource> {
-        var path = "/users/{userId}/payment-methods/{id}"
+        var path = "/users/{user_id}/payment-methods/{id}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -181,16 +178,28 @@ open class PaymentsAPI: APIBase {
     }
 
     /**
+     * enum for parameter filterPaymentType
+     */
+    public enum FilterPaymentType_getPaymentMethods: String { 
+        case card = "card"
+        case bankAccount = "bank_account"
+    }
+
+    /**
      Get all payment methods for a user
      
      - parameter userId: (path) ID of the user for whom the payment methods are being retrieved 
+     - parameter filterName: (query) Filter for payment methods whose name starts with a given string (optional)
+     - parameter filterPaymentType: (query) Filter for payment methods with a specific payment type (optional)
+     - parameter filterPaymentMethodTypeId: (query) Filter for payment methods with a specific payment method type by id (optional)
+     - parameter filterPaymentMethodTypeName: (query) Filter for payment methods whose payment method type name starts with a given string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getPaymentMethods(userId: Int32, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: [PaymentMethodResource]?,_ error: Error?) -> Void)) {
-        getPaymentMethodsWithRequestBuilder(userId: userId, size: size, page: page, order: order).execute { (response, error) -> Void in
+    open class func getPaymentMethods(userId: Int32, filterName: String? = nil, filterPaymentType: FilterPaymentType_getPaymentMethods? = nil, filterPaymentMethodTypeId: Int32? = nil, filterPaymentMethodTypeName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: [PaymentMethodResource]?,_ error: Error?) -> Void)) {
+        getPaymentMethodsWithRequestBuilder(userId: userId, filterName: filterName, filterPaymentType: filterPaymentType, filterPaymentMethodTypeId: filterPaymentMethodTypeId, filterPaymentMethodTypeName: filterPaymentMethodTypeName, size: size, page: page, order: order).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -198,50 +207,56 @@ open class PaymentsAPI: APIBase {
 
     /**
      Get all payment methods for a user
-     - GET /users/{userId}/payment-methods
+     - GET /users/{user_id}/payment-methods
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
   "payment_method_type" : {
     "name" : "aeiou",
-    "id" : 8
+    "id" : 2
   },
   "last4" : "aeiou",
-  "short_description" : "aeiou",
   "unique_key" : "aeiou",
   "verified" : true,
-  "long_description" : "aeiou",
-  "sort" : 2,
-  "expiration_date" : 7,
+  "sort" : 7,
+  "expiration_date" : 6,
   "token" : "aeiou",
   "expiration_year" : 5,
   "default" : true,
   "payment_type" : "card",
-  "user_id" : 6,
-  "expiration_month" : 6,
+  "user_id" : 3,
+  "expiration_month" : 1,
   "name" : "aeiou",
   "disabled" : false,
-  "created_date" : 2,
-  "id" : 3,
-  "updated_date" : 8
+  "created_date" : 0,
+  "id" : 5,
+  "updated_date" : 9
 } ]}]
      
      - parameter userId: (path) ID of the user for whom the payment methods are being retrieved 
+     - parameter filterName: (query) Filter for payment methods whose name starts with a given string (optional)
+     - parameter filterPaymentType: (query) Filter for payment methods with a specific payment type (optional)
+     - parameter filterPaymentMethodTypeId: (query) Filter for payment methods with a specific payment method type by id (optional)
+     - parameter filterPaymentMethodTypeName: (query) Filter for payment methods whose payment method type name starts with a given string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
 
      - returns: RequestBuilder<[PaymentMethodResource]> 
      */
-    open class func getPaymentMethodsWithRequestBuilder(userId: Int32, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<[PaymentMethodResource]> {
-        var path = "/users/{userId}/payment-methods"
+    open class func getPaymentMethodsWithRequestBuilder(userId: Int32, filterName: String? = nil, filterPaymentType: FilterPaymentType_getPaymentMethods? = nil, filterPaymentMethodTypeId: Int32? = nil, filterPaymentMethodTypeName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<[PaymentMethodResource]> {
+        var path = "/users/{user_id}/payment-methods"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+            "filter_name": filterName, 
+            "filter_payment_type": filterPaymentType?.rawValue, 
+            "filter_payment_method_type_id": filterPaymentMethodTypeId?.encodeToJSON(), 
+            "filter_payment_method_type_name": filterPaymentMethodTypeName, 
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON(), 
             "order": order
@@ -275,13 +290,13 @@ open class PaymentsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "payment_type" : {
     "name" : "aeiou",
-    "id" : 0
+    "id" : 5
   },
-  "created" : 6,
+  "created" : 0,
   "captured" : false,
   "details" : "{}",
   "id" : 6,
-  "invoice" : 8
+  "invoice" : 1
 }}]
      
      - parameter request: (body) Payment authorization request (optional)
@@ -356,33 +371,31 @@ open class PaymentsAPI: APIBase {
 
     /**
      Update an existing payment method for a user
-     - PUT /users/{userId}/payment-methods/{id}
+     - PUT /users/{user_id}/payment-methods/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
     "name" : "aeiou",
-    "id" : 5
+    "id" : 2
   },
   "last4" : "aeiou",
-  "short_description" : "aeiou",
   "unique_key" : "aeiou",
   "verified" : true,
-  "long_description" : "aeiou",
-  "sort" : 2,
-  "expiration_date" : 2,
+  "sort" : 7,
+  "expiration_date" : 6,
   "token" : "aeiou",
-  "expiration_year" : 4,
+  "expiration_year" : 5,
   "default" : true,
   "payment_type" : "card",
-  "user_id" : 7,
-  "expiration_month" : 7,
+  "user_id" : 3,
+  "expiration_month" : 1,
   "name" : "aeiou",
   "disabled" : false,
-  "created_date" : 2,
-  "id" : 2,
-  "updated_date" : 5
+  "created_date" : 0,
+  "id" : 5,
+  "updated_date" : 9
 }}]
      
      - parameter userId: (path) ID of the user for whom the payment method is being updated 
@@ -392,7 +405,7 @@ open class PaymentsAPI: APIBase {
      - returns: RequestBuilder<PaymentMethodResource> 
      */
     open class func updatePaymentMethodWithRequestBuilder(userId: Int32, id: Int32, paymentMethod: PaymentMethodResource? = nil) -> RequestBuilder<PaymentMethodResource> {
-        var path = "/users/{userId}/payment-methods/{id}"
+        var path = "/users/{user_id}/payment-methods/{id}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path

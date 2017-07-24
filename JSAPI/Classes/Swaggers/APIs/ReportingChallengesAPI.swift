@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -34,10 +35,10 @@ open class ReportingChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 4,
+  "number" : 1,
   "last" : true,
-  "size" : 3,
-  "total_elements" : 7,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -46,10 +47,10 @@ open class ReportingChallengesAPI: APIBase {
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
-  "number_of_elements" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "score" : 0,
-    "user_id" : 4,
+    "user_id" : 6,
     "fullname" : "aeiou",
     "email" : "aeiou",
     "username" : "aeiou"
@@ -107,10 +108,10 @@ open class ReportingChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 4,
+  "number" : 1,
   "last" : true,
-  "size" : 3,
-  "total_elements" : 1,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -118,10 +119,10 @@ open class ReportingChallengesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 5,
-  "number_of_elements" : 9,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
-    "score" : 1,
+    "score" : 0,
     "user_id" : 6,
     "fullname" : "aeiou",
     "email" : "aeiou",

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BreTriggerResource: JSONEncodable {
+
     public enum Category: String { 
         case achievement = "achievement"
         case behavior = "behavior"
@@ -60,6 +61,7 @@ open class BreTriggerResource: JSONEncodable {
         nillableDictionary["tags"] = self.tags?.encodeToJSON()
         nillableDictionary["trigger_description"] = self.triggerDescription
         nillableDictionary["trigger_name"] = self.triggerName
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class FileGroupPropertyDefinitionResource: PropertyDefinitionResource {
+
     /** If provided, a file type that the property must match */
     public var fileType: String?
     /** If provided, the maximum number of files in the group */
@@ -27,6 +28,7 @@ open class FileGroupPropertyDefinitionResource: PropertyDefinitionResource {
         nillableDictionary["max_count"] = self.maxCount?.encodeToJSON()
         nillableDictionary["max_file_size"] = self.maxFileSize?.encodeToJSON()
         nillableDictionary["min_count"] = self.minCount?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class TransactionResource: JSONEncodable {
+
     public enum Source: String { 
         case digital = "digital"
         case physical = "physical"
@@ -58,6 +59,7 @@ open class TransactionResource: JSONEncodable {
         nillableDictionary["type"] = self.type
         nillableDictionary["type_hint"] = self.typeHint
         nillableDictionary["value"] = self.value
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

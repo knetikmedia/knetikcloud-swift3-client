@@ -9,6 +9,7 @@ import Foundation
 
 
 open class GrantTypeResource: JSONEncodable {
+
     /** The description of the grant type */
     public var description: String?
     /** The name of the grant type */
@@ -21,6 +22,7 @@ open class GrantTypeResource: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["description"] = self.description
         nillableDictionary["name"] = self.name
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

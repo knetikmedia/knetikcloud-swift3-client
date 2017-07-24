@@ -5,40 +5,41 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
 
 open class SocialGoogleAPI: APIBase {
     /**
-     Link facebook account
+     Link google account
      
-     - parameter facebookToken: (body) The token from facebook (optional)
+     - parameter googleToken: (body) The token from google (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func linkAccounts1(facebookToken: GoogleToken? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
-        linkAccounts1WithRequestBuilder(facebookToken: facebookToken).execute { (response, error) -> Void in
+    open class func linkAccounts1(googleToken: GoogleToken? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+        linkAccounts1WithRequestBuilder(googleToken: googleToken).execute { (response, error) -> Void in
             completion(error);
         }
     }
 
 
     /**
-     Link facebook account
+     Link google account
      - POST /social/google/users
-     - Links the current user account to a facebook account, using the acccess token from facebook. Can also be used to update the access token after it has expired.
+     - Links the current user account to a google account, using the acccess token from google. Can also be used to update the access token after it has expired.
      - OAuth:
        - type: oauth2
        - name: OAuth2
      
-     - parameter facebookToken: (body) The token from facebook (optional)
+     - parameter googleToken: (body) The token from google (optional)
 
      - returns: RequestBuilder<Void> 
      */
-    open class func linkAccounts1WithRequestBuilder(facebookToken: GoogleToken? = nil) -> RequestBuilder<Void> {
+    open class func linkAccounts1WithRequestBuilder(googleToken: GoogleToken? = nil) -> RequestBuilder<Void> {
         let path = "/social/google/users"
         let URLString = JSAPIAPI.basePath + path
-        let parameters = facebookToken?.encodeToJSON() as? [String:AnyObject]
+        let parameters = googleToken?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
 

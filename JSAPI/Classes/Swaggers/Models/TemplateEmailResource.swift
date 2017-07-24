@@ -9,6 +9,7 @@ import Foundation
 
 
 open class TemplateEmailResource: JSONEncodable {
+
     /** Address to attribute the outgoing message to. Optional if the config email.out_address is set. */
     public var from: String?
     /** A list of user ids to send the message to. */
@@ -27,6 +28,7 @@ open class TemplateEmailResource: JSONEncodable {
         nillableDictionary["recipients"] = self.recipients?.encodeToJSON()
         nillableDictionary["template_key"] = self.templateKey
         nillableDictionary["template_vars"] = self.templateVars?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

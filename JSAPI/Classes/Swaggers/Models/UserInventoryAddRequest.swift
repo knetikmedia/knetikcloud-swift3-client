@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UserInventoryAddRequest: JSONEncodable {
+
     /** A note to be passed to the invoice or transaction */
     public var note: String?
     /** A list of behaviors to ignore explicitely.  Ex: &#39;limited_gettable&#39; */
@@ -27,6 +28,7 @@ open class UserInventoryAddRequest: JSONEncodable {
         nillableDictionary["overrides"] = self.overrides?.encodeToJSON()
         nillableDictionary["skip_invoice"] = self.skipInvoice
         nillableDictionary["sku"] = self.sku
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

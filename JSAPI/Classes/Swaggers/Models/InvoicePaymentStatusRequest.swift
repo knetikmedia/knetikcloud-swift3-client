@@ -9,6 +9,7 @@ import Foundation
 
 
 open class InvoicePaymentStatusRequest: JSONEncodable {
+
     /** If included, will set the payment method used on the invoice */
     public var paymentMethodId: Int32?
     /** The new status for the invoice. Additional options may be available based on configuration.  Allowable values: &#39;new&#39;, &#39;paid&#39;, &#39;hold&#39;, &#39;canceled&#39;, &#39;payment failed&#39;, &#39;partial refund&#39;, &#39;refund&#39; */
@@ -21,6 +22,7 @@ open class InvoicePaymentStatusRequest: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["payment_method_id"] = self.paymentMethodId?.encodeToJSON()
         nillableDictionary["status"] = self.status
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

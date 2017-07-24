@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -46,15 +47,15 @@ open class ReportingOrdersAPI: APIBase {
 
     /**
      Retrieve invoice counts aggregated by time ranges
-     - GET /reporting/orders/count/{currencyCode}
+     - GET /reporting/orders/count/{currency_code}
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 2,
+  "number" : 5,
   "last" : true,
   "size" : 2,
-  "total_elements" : 5,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -62,13 +63,13 @@ open class ReportingOrdersAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 0,
-  "number_of_elements" : 8,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "date" : "aeiou",
-    "revenue" : 5.531806351402425,
-    "user_count" : 9,
-    "count" : 4
+    "revenue" : 6.027456183070403,
+    "user_count" : 1,
+    "count" : 0
   } ],
   "first" : true
 }}]
@@ -85,7 +86,7 @@ open class ReportingOrdersAPI: APIBase {
      - returns: RequestBuilder<PageResourceAggregateInvoiceReportResource> 
      */
     open class func getInvoiceReportsWithRequestBuilder(currencyCode: String, granularity: Granularity_getInvoiceReports? = nil, filterPaymentStatus: String? = nil, filterFulfillmentStatus: String? = nil, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceAggregateInvoiceReportResource> {
-        var path = "/reporting/orders/count/{currencyCode}"
+        var path = "/reporting/orders/count/{currency_code}"
         path = path.replacingOccurrences(of: "{currency_code}", with: "\(currencyCode)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil

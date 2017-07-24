@@ -9,6 +9,7 @@ import Foundation
 
 
 open class InvoiceCreateRequest: JSONEncodable {
+
     /** The guid of a cart to create a new invoice for */
     public var cartGuid: String?
 
@@ -18,6 +19,7 @@ open class InvoiceCreateRequest: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["cart_guid"] = self.cartGuid
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

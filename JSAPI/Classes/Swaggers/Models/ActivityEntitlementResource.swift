@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ActivityEntitlementResource: JSONEncodable {
+
     /** The ISO3 currency code the price is in, if available */
     public var currencyCode: String?
     /** The id of the entitlement item */
@@ -30,6 +31,7 @@ open class ActivityEntitlementResource: JSONEncodable {
         nillableDictionary["name"] = self.name
         nillableDictionary["price"] = self.price
         nillableDictionary["sku"] = self.sku
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

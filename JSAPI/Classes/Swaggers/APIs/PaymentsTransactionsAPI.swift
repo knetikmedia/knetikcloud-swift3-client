@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -37,11 +38,11 @@ open class PaymentsTransactionsAPI: APIBase {
   "currency_code" : "aeiou",
   "is_refunded" : false,
   "response" : "aeiou",
-  "invoice_id" : 6,
+  "invoice_id" : 1,
   "details" : "aeiou",
-  "id" : 3,
-  "create_date" : 5,
-  "value" : 5.7251597904587905,
+  "id" : 6,
+  "create_date" : 0,
+  "value" : 5.962133916683182,
   "successful" : false
 }}]
      
@@ -86,10 +87,10 @@ open class PaymentsTransactionsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 0,
+  "number" : 5,
   "last" : true,
-  "size" : 8,
-  "total_elements" : 4,
+  "size" : 7,
+  "total_elements" : 9,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -97,8 +98,8 @@ open class PaymentsTransactionsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 3,
+  "total_pages" : 3,
+  "number_of_elements" : 2,
   "content" : [ {
     "transaction_id" : "aeiou",
     "type_hint" : "aeiou",
@@ -107,11 +108,11 @@ open class PaymentsTransactionsAPI: APIBase {
     "currency_code" : "aeiou",
     "is_refunded" : false,
     "response" : "aeiou",
-    "invoice_id" : 6,
+    "invoice_id" : 1,
     "details" : "aeiou",
     "id" : 6,
-    "create_date" : 4,
-    "value" : 1.7496415888144035,
+    "create_date" : 0,
+    "value" : 5.962133916683182,
     "successful" : false
   } ],
   "first" : true
@@ -166,8 +167,8 @@ open class PaymentsTransactionsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "transaction_id" : 1,
-  "amount" : 0.9596939831630491,
-  "refund_transaction_id" : 9
+  "amount" : 0.8008281904610115,
+  "refund_transaction_id" : 6
 }}]
      
      - parameter id: (path) The id of the transaction to refund 

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ActivityOccurrenceCreationFailure: JSONEncodable {
+
     /** The details of each user&#39;s entry, or just the current user&#39;s if not run with ACTIVITIES_ADMIN permission */
     public var userResults: [ActivityOccurrenceJoinResult]?
 
@@ -18,6 +19,7 @@ open class ActivityOccurrenceCreationFailure: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["user_results"] = self.userResults?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class VideoGroupPropertyDefinitionResource: FileGroupPropertyDefinitionResource {
+
     /** If provided, the maximum height of each video */
     public var maxHeight: Int32?
     /** If provided, the maximum length of each video */
@@ -33,6 +34,7 @@ open class VideoGroupPropertyDefinitionResource: FileGroupPropertyDefinitionReso
         nillableDictionary["min_height"] = self.minHeight?.encodeToJSON()
         nillableDictionary["min_length"] = self.minLength?.encodeToJSON()
         nillableDictionary["min_width"] = self.minWidth?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

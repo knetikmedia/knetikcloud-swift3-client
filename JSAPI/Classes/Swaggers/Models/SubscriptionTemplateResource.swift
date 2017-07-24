@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SubscriptionTemplateResource: JSONEncodable {
+
     /** The date/time this resource was created in seconds since unix epoch */
     public var createdDate: Int64?
     /** The id of the template */
@@ -33,6 +34,7 @@ open class SubscriptionTemplateResource: JSONEncodable {
         nillableDictionary["plan_template"] = self.planTemplate?.encodeToJSON()
         nillableDictionary["properties"] = self.properties?.encodeToJSON()
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

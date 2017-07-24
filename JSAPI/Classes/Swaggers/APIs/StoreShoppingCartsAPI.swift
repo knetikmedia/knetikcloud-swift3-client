@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -196,37 +197,37 @@ open class StoreShoppingCartsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "country_tax" : 9.079759517043037,
+  "country_tax" : 5.637376656633329,
   "error_message" : "aeiou",
-  "owner" : 5,
-  "discount_total" : 0.1450887095862785,
-  "shipping_cost" : 1.9213034262858841,
+  "owner" : 9,
+  "discount_total" : 1.2315135367772556,
+  "shipping_cost" : 6.438423552598547,
   "created" : 7,
-  "state_tax" : 5.1795650572819865,
+  "state_tax" : 3.5571952270680973,
   "currency_code" : "aeiou",
   "selected_shipping_options" : [ "" ],
   "shippable" : true,
   "coupons" : [ {
     "code" : "aeiou",
-    "max_quantity" : 6,
+    "max_quantity" : 7,
     "unique_key" : "aeiou",
     "self_exclusive" : false,
     "description" : "aeiou",
-    "target_item_id" : 2,
+    "target_item_id" : 3,
     "valid_for_tags" : [ "aeiou" ],
     "discount_type" : "value",
     "type" : "coupon_cart",
-    "min_cart_total" : 8.042827225359003,
-    "vendor_id" : 6,
+    "min_cart_total" : 9.301444243932576,
+    "vendor_id" : 4,
     "name" : "aeiou",
     "exclusive" : false,
-    "max_discount" : 8.813326243769865,
-    "value" : 9.067437840195053
+    "max_discount" : 2.3021358869347655,
+    "value" : 2.027123023002322
   } ],
-  "subtotal" : 3.767540915750436,
-  "invoice_id" : 2.8308830423219,
+  "subtotal" : 6.965117697638846,
+  "invoice_id" : 6.84685269835264,
   "error_code" : 1,
-  "grand_total" : 0.686647003128732,
+  "grand_total" : 1.4894159098541704,
   "id" : "aeiou",
   "shipping_address" : {
     "zip" : "aeiou",
@@ -243,11 +244,11 @@ open class StoreShoppingCartsAPI: APIBase {
     "email" : "aeiou"
   },
   "available_shipping_options" : [ {
-    "original_price" : 3.8462739871252305,
+    "original_price" : 0.8008281904610115,
     "taxable" : true,
-    "shipping_item_id" : 8,
-    "price" : 7.9625049591808565,
-    "vendor_id" : 4,
+    "shipping_item_id" : 1,
+    "price" : 6.027456183070403,
+    "vendor_id" : 5,
     "name" : "aeiou",
     "description" : "aeiou",
     "vendor_name" : "aeiou",
@@ -256,7 +257,7 @@ open class StoreShoppingCartsAPI: APIBase {
   } ],
   "items" : [ {
     "thumb_url" : "aeiou",
-    "store_item_id" : 8,
+    "store_item_id" : 9,
     "unique_key" : "aeiou",
     "description" : "aeiou",
     "discount" : {
@@ -264,23 +265,23 @@ open class StoreShoppingCartsAPI: APIBase {
       "name" : "aeiou",
       "description" : "aeiou",
       "sku" : "aeiou",
-      "value" : 4.254261433074513
+      "value" : 7.457744773683766
     },
     "vendor_name" : "aeiou",
-    "original_unit_price" : 5.915758722778824,
-    "original_line_total" : 9.580538094657863,
-    "unit_price" : 0.6547322528702959,
+    "original_unit_price" : 5.025004791520295,
+    "original_line_total" : 4.965218492984954,
+    "unit_price" : 6.683562403749608,
     "currency_code" : "aeiou",
-    "line_total" : 7.357694371327468,
+    "line_total" : 1.1730742509559433,
     "tags" : [ "aeiou" ],
-    "qty" : 8,
-    "vendor_id" : 6,
+    "qty" : 9,
+    "vendor_id" : 8,
     "name" : "aeiou",
     "sale_name" : "aeiou",
     "sku" : "aeiou",
     "sku_description" : "aeiou"
   } ],
-  "updated" : 0,
+  "updated" : 1,
   "status" : "active"
 }}]
      
@@ -325,7 +326,7 @@ open class StoreShoppingCartsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 2,
   "last" : true,
   "size" : 9,
   "total_elements" : 3,
@@ -336,15 +337,15 @@ open class StoreShoppingCartsAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 0,
+  "total_pages" : 2,
+  "number_of_elements" : 7,
   "content" : [ {
-    "subtotal" : 8.354313289262807,
-    "invoice_id" : 3.285179667920828,
-    "created_date" : 6,
-    "grand_total" : 5.46187883883414,
+    "subtotal" : 5.637376656633329,
+    "invoice_id" : 1.4658129805029452,
+    "created_date" : 0,
+    "grand_total" : 6.027456183070403,
     "id" : "aeiou",
-    "items_in_cart" : 9,
+    "items_in_cart" : 5,
     "currency_code" : "aeiou",
     "status" : "active"
   } ],
@@ -397,7 +398,7 @@ open class StoreShoppingCartsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "cart_id" : 2,
+  "cart_id" : 0,
   "shippable" : false
 }}]
      
@@ -443,7 +444,7 @@ open class StoreShoppingCartsAPI: APIBase {
   "vendor_id2" : [ "" ],
   "vendor_id1" : [ {
     "name" : "aeiou",
-    "id" : 8,
+    "id" : 0,
     "iso2" : "aeiou",
     "iso3" : "aeiou"
   } ]

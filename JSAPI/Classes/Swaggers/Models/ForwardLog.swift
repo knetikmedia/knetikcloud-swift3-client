@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ForwardLog: JSONEncodable {
+
     /** The end date of the forward log entry */
     public var endDate: Int64?
     public var errorMsg: String?
@@ -41,6 +42,7 @@ open class ForwardLog: JSONEncodable {
         nillableDictionary["retry_count"] = self.retryCount?.encodeToJSON()
         nillableDictionary["start_date"] = self.startDate?.encodeToJSON()
         nillableDictionary["url"] = self.url
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

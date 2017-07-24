@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -71,27 +72,27 @@ open class MediaVideosAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "authored" : 5,
+  "authored" : 6,
   "short_description" : "aeiou",
   "extension" : "aeiou",
   "privacy" : "private",
   "uploader" : "",
   "banned" : false,
   "embed" : "aeiou",
-  "id" : 6,
-  "views" : 7,
-  "height" : 1,
+  "id" : 2,
+  "views" : 1,
+  "height" : 3,
   "thumbnail" : "aeiou",
   "comments" : [ {
     "summary" : "aeiou",
     "context" : "aeiou",
-    "context_id" : 0,
-    "created_date" : 3,
-    "id" : 0,
-    "updated_date" : 1,
+    "context_id" : 1,
+    "created_date" : 5,
+    "id" : 5,
+    "updated_date" : 2,
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 0,
+      "id" : 7,
       "display_name" : "aeiou",
       "username" : "aeiou"
     },
@@ -99,26 +100,26 @@ open class MediaVideosAPI: APIBase {
   } ],
   "author" : {
     "name" : "aeiou",
-    "id" : 8
+    "id" : 0
   },
-  "length" : 3,
+  "length" : 4,
   "active" : false,
   "long_description" : "aeiou",
   "published" : false,
-  "priority" : 5,
+  "priority" : 7,
   "tags" : [ "aeiou" ],
-  "size" : 5,
+  "size" : 1,
   "mime_type" : "aeiou",
   "name" : "aeiou",
-  "width" : 5,
+  "width" : 6,
   "location" : "aeiou",
   "contributors" : [ {
     "role" : "aeiou",
     "artist" : "",
     "media" : ""
   } ],
-  "created_date" : 1,
-  "updated_date" : 8,
+  "created_date" : 9,
+  "updated_date" : 1,
   "category" : {
     "name" : "aeiou",
     "id" : "aeiou"
@@ -158,20 +159,20 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Add a new video comment
-     - POST /media/videos/{videoId}/comments
+     - POST /media/videos/{video_id}/comments
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "summary" : "aeiou",
   "context" : "aeiou",
-  "context_id" : 3,
-  "created_date" : 9,
-  "id" : 8,
-  "updated_date" : 3,
+  "context_id" : 0,
+  "created_date" : 6,
+  "id" : 1,
+  "updated_date" : 5,
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 4,
+    "id" : 5,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
@@ -184,7 +185,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<CommentResource> 
      */
     open class func addVideoCommentWithRequestBuilder(videoId: Int32, commentResource: CommentResource? = nil) -> RequestBuilder<CommentResource> {
-        var path = "/media/videos/{videoId}/comments"
+        var path = "/media/videos/{video_id}/comments"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = commentResource?.encodeToJSON() as? [String:AnyObject]
@@ -213,7 +214,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Adds a contributor to a video
-     - POST /media/videos/{videoId}/contributors
+     - POST /media/videos/{video_id}/contributors
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -224,7 +225,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func addVideoContributorWithRequestBuilder(videoId: Int64, contributionResource: ContributionResource? = nil) -> RequestBuilder<Void> {
-        var path = "/media/videos/{videoId}/contributors"
+        var path = "/media/videos/{video_id}/contributors"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = contributionResource?.encodeToJSON() as? [String:AnyObject]
@@ -253,7 +254,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Add a new flag
-     - POST /media/videos/{videoId}/moderation
+     - POST /media/videos/{video_id}/moderation
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -261,9 +262,9 @@ open class MediaVideosAPI: APIBase {
   "reason" : "aeiou",
   "context" : "aeiou",
   "context_id" : "aeiou",
-  "created_date" : 3,
+  "created_date" : 0,
   "id" : 6,
-  "updated_date" : 7,
+  "updated_date" : 1,
   "user" : {
     "avatar_url" : "aeiou",
     "id" : 5,
@@ -278,7 +279,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<FlagResource> 
      */
     open class func addVideoFlagWithRequestBuilder(videoId: Int64, reason: String? = nil) -> RequestBuilder<FlagResource> {
-        var path = "/media/videos/{videoId}/moderation"
+        var path = "/media/videos/{video_id}/moderation"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = reason?.encodeToJSON() as? [String:AnyObject]
@@ -307,7 +308,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Adds one or more existing videos as related to this one
-     - POST /media/videos/{videoId}/related
+     - POST /media/videos/{video_id}/related
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -315,9 +316,9 @@ open class MediaVideosAPI: APIBase {
   "relationship_details" : "aeiou",
   "from" : {
     "name" : "aeiou",
-    "id" : 2
+    "id" : 0
   },
-  "id" : 0,
+  "id" : 6,
   "to" : ""
 }}]
      
@@ -327,7 +328,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<VideoRelationshipResource> 
      */
     open class func addVideoRelationshipsWithRequestBuilder(videoId: Int64, videoRelationshipResource: VideoRelationshipResource? = nil) -> RequestBuilder<VideoRelationshipResource> {
-        var path = "/media/videos/{videoId}/related"
+        var path = "/media/videos/{video_id}/related"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = videoRelationshipResource?.encodeToJSON() as? [String:AnyObject]
@@ -356,7 +357,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Create a video disposition
-     - POST /media/videos/{videoId}/dispositions
+     - POST /media/videos/{video_id}/dispositions
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -364,8 +365,8 @@ open class MediaVideosAPI: APIBase {
   "context" : "aeiou",
   "name" : "aeiou",
   "context_id" : "aeiou",
-  "created_date" : 9,
-  "id" : 1,
+  "created_date" : 0,
+  "id" : 6,
   "user" : {
     "avatar_url" : "aeiou",
     "id" : 1,
@@ -380,7 +381,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<DispositionResource> 
      */
     open class func createVideoDispositionWithRequestBuilder(videoId: Int32, dispositionResource: DispositionResource? = nil) -> RequestBuilder<DispositionResource> {
-        var path = "/media/videos/{videoId}/dispositions"
+        var path = "/media/videos/{video_id}/dispositions"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = dispositionResource?.encodeToJSON() as? [String:AnyObject]
@@ -447,7 +448,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Delete a video comment
-     - DELETE /media/videos/{videoId}/comments/{id}
+     - DELETE /media/videos/{video_id}/comments/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -458,7 +459,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteVideoCommentWithRequestBuilder(videoId: Int64, id: Int64) -> RequestBuilder<Void> {
-        var path = "/media/videos/{videoId}/comments/{id}"
+        var path = "/media/videos/{video_id}/comments/{id}"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -487,7 +488,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Delete a video disposition
-     - DELETE /media/videos/{videoId}/dispositions/{dispositionId}
+     - DELETE /media/videos/{video_id}/dispositions/{disposition_id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -497,7 +498,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteVideoDispositionWithRequestBuilder(dispositionId: Int64) -> RequestBuilder<Void> {
-        var path = "/media/videos/{videoId}/dispositions/{dispositionId}"
+        var path = "/media/videos/{video_id}/dispositions/{disposition_id}"
         path = path.replacingOccurrences(of: "{disposition_id}", with: "\(dispositionId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -525,7 +526,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Delete a flag
-     - DELETE /media/videos/{videoId}/moderation
+     - DELETE /media/videos/{video_id}/moderation
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -535,7 +536,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteVideoFlagWithRequestBuilder(videoId: Int64) -> RequestBuilder<Void> {
-        var path = "/media/videos/{videoId}/moderation"
+        var path = "/media/videos/{video_id}/moderation"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -564,7 +565,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Delete a video's relationship
-     - DELETE /media/videos/{videoId}/related/{id}
+     - DELETE /media/videos/{video_id}/related/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -575,7 +576,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteVideoRelationshipWithRequestBuilder(videoId: Int64, id: Int64) -> RequestBuilder<Void> {
-        var path = "/media/videos/{videoId}/related/{id}"
+        var path = "/media/videos/{video_id}/related/{id}"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -607,15 +608,15 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Get user videos
-     - GET /users/{userId}/videos
+     - GET /users/{user_id}/videos
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 2,
+  "number" : 7,
   "last" : true,
-  "size" : 7,
-  "total_elements" : 2,
+  "size" : 4,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -623,30 +624,30 @@ open class MediaVideosAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 5,
+  "total_pages" : 9,
+  "number_of_elements" : 1,
   "content" : [ {
-    "authored" : 3,
+    "authored" : 6,
     "short_description" : "aeiou",
     "extension" : "aeiou",
     "privacy" : "private",
     "uploader" : "",
     "banned" : false,
     "embed" : "aeiou",
-    "id" : 5,
-    "views" : 5,
-    "height" : 7,
+    "id" : 2,
+    "views" : 1,
+    "height" : 3,
     "thumbnail" : "aeiou",
     "comments" : [ {
       "summary" : "aeiou",
       "context" : "aeiou",
-      "context_id" : 9,
-      "created_date" : 3,
-      "id" : 3,
-      "updated_date" : 0,
+      "context_id" : 1,
+      "created_date" : 5,
+      "id" : 5,
+      "updated_date" : 2,
       "user" : {
         "avatar_url" : "aeiou",
-        "id" : 8,
+        "id" : 7,
         "display_name" : "aeiou",
         "username" : "aeiou"
       },
@@ -654,26 +655,26 @@ open class MediaVideosAPI: APIBase {
     } ],
     "author" : {
       "name" : "aeiou",
-      "id" : 5
+      "id" : 0
     },
-    "length" : 0,
+    "length" : 4,
     "active" : false,
     "long_description" : "aeiou",
     "published" : false,
-    "priority" : 5,
+    "priority" : 7,
     "tags" : [ "aeiou" ],
-    "size" : 4,
+    "size" : 1,
     "mime_type" : "aeiou",
     "name" : "aeiou",
-    "width" : 1,
+    "width" : 6,
     "location" : "aeiou",
     "contributors" : [ {
       "role" : "aeiou",
       "artist" : "",
       "media" : ""
     } ],
-    "created_date" : 6,
-    "updated_date" : 7,
+    "created_date" : 9,
+    "updated_date" : 1,
     "category" : {
       "name" : "aeiou",
       "id" : "aeiou"
@@ -690,7 +691,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<PageResourceVideoResource> 
      */
     open class func getUserVideosWithRequestBuilder(userId: Int32, excludeFlagged: Bool? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceVideoResource> {
-        var path = "/users/{userId}/videos"
+        var path = "/users/{user_id}/videos"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -728,27 +729,27 @@ open class MediaVideosAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "authored" : 5,
+  "authored" : 6,
   "short_description" : "aeiou",
   "extension" : "aeiou",
   "privacy" : "private",
   "uploader" : "",
   "banned" : false,
   "embed" : "aeiou",
-  "id" : 3,
-  "views" : 5,
-  "height" : 6,
+  "id" : 2,
+  "views" : 1,
+  "height" : 3,
   "thumbnail" : "aeiou",
   "comments" : [ {
     "summary" : "aeiou",
     "context" : "aeiou",
-    "context_id" : 5,
-    "created_date" : 1,
-    "id" : 3,
-    "updated_date" : 4,
+    "context_id" : 1,
+    "created_date" : 5,
+    "id" : 5,
+    "updated_date" : 2,
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 3,
+      "id" : 7,
       "display_name" : "aeiou",
       "username" : "aeiou"
     },
@@ -756,26 +757,26 @@ open class MediaVideosAPI: APIBase {
   } ],
   "author" : {
     "name" : "aeiou",
-    "id" : 7
+    "id" : 0
   },
-  "length" : 8,
+  "length" : 4,
   "active" : false,
   "long_description" : "aeiou",
   "published" : false,
-  "priority" : 2,
+  "priority" : 7,
   "tags" : [ "aeiou" ],
-  "size" : 5,
+  "size" : 1,
   "mime_type" : "aeiou",
   "name" : "aeiou",
-  "width" : 7,
+  "width" : 6,
   "location" : "aeiou",
   "contributors" : [ {
     "role" : "aeiou",
     "artist" : "",
     "media" : ""
   } ],
-  "created_date" : 3,
-  "updated_date" : 6,
+  "created_date" : 9,
+  "updated_date" : 1,
   "category" : {
     "name" : "aeiou",
     "id" : "aeiou"
@@ -817,11 +818,11 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Returns a page of comments for a video
-     - GET /media/videos/{videoId}/comments
+     - GET /media/videos/{video_id}/comments
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 2,
   "last" : true,
-  "size" : 5,
+  "size" : 9,
   "total_elements" : 3,
   "sort" : [ {
     "ignore_case" : true,
@@ -830,18 +831,18 @@ open class MediaVideosAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 1,
+  "total_pages" : 2,
   "number_of_elements" : 7,
   "content" : [ {
     "summary" : "aeiou",
     "context" : "aeiou",
-    "context_id" : 3,
-    "created_date" : 3,
-    "id" : 6,
-    "updated_date" : 2,
+    "context_id" : 0,
+    "created_date" : 6,
+    "id" : 1,
+    "updated_date" : 5,
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 3,
+      "id" : 5,
       "display_name" : "aeiou",
       "username" : "aeiou"
     },
@@ -857,7 +858,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<PageResourceCommentResource> 
      */
     open class func getVideoCommentsWithRequestBuilder(videoId: Int32, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceCommentResource> {
-        var path = "/media/videos/{videoId}/comments"
+        var path = "/media/videos/{video_id}/comments"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -891,11 +892,11 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Returns a page of dispositions for a video
-     - GET /media/videos/{videoId}/dispositions
+     - GET /media/videos/{video_id}/dispositions
      - examples: [{contentType=application/json, example={
-  "number" : 4,
+  "number" : 5,
   "last" : true,
-  "size" : 9,
+  "size" : 2,
   "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
@@ -904,17 +905,17 @@ open class MediaVideosAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 5,
-  "number_of_elements" : 2,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "context" : "aeiou",
     "name" : "aeiou",
     "context_id" : "aeiou",
-    "created_date" : 8,
-    "id" : 3,
+    "created_date" : 0,
+    "id" : 6,
     "user" : {
       "avatar_url" : "aeiou",
-      "id" : 9,
+      "id" : 1,
       "display_name" : "aeiou",
       "username" : "aeiou"
     }
@@ -929,7 +930,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<PageResourceDispositionResource> 
      */
     open class func getVideoDispositionsWithRequestBuilder(videoId: Int32, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceDispositionResource> {
-        var path = "/media/videos/{videoId}/dispositions"
+        var path = "/media/videos/{video_id}/dispositions"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -963,11 +964,11 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Returns a page of video relationships
-     - GET /media/videos/{videoId}/related
+     - GET /media/videos/{video_id}/related
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 1,
   "last" : true,
-  "size" : 2,
+  "size" : 5,
   "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
@@ -976,15 +977,15 @@ open class MediaVideosAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 9,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "relationship_details" : "aeiou",
     "from" : {
       "name" : "aeiou",
-      "id" : 1
+      "id" : 0
     },
-    "id" : 0,
+    "id" : 6,
     "to" : ""
   } ],
   "first" : true
@@ -997,7 +998,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<PageResourceVideoRelationshipResource> 
      */
     open class func getVideoRelationshipsWithRequestBuilder(videoId: Int64, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceVideoRelationshipResource> {
-        var path = "/media/videos/{videoId}/related"
+        var path = "/media/videos/{video_id}/related"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -1034,7 +1035,7 @@ open class MediaVideosAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to author:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getVideos(excludeFlagged: Bool? = nil, filterVideosByUploader: Object? = nil, filterCategory: String? = nil, filterTagset: String? = nil, filterVideosByName: String? = nil, filterVideosByContributor: Object? = nil, filterVideosByAuthor: Object? = nil, filterHasAuthor: Bool? = nil, filterHasUploader: Bool? = nil, filterRelatedTo: String? = nil, filterFriends: Bool? = nil, filterDisposition: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceVideoResource?,_ error: Error?) -> Void)) {
+    open class func getVideos(excludeFlagged: Bool? = nil, filterVideosByUploader: Int32? = nil, filterCategory: String? = nil, filterTagset: String? = nil, filterVideosByName: String? = nil, filterVideosByContributor: Int32? = nil, filterVideosByAuthor: Int32? = nil, filterHasAuthor: Bool? = nil, filterHasUploader: Bool? = nil, filterRelatedTo: String? = nil, filterFriends: Bool? = nil, filterDisposition: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceVideoResource?,_ error: Error?) -> Void)) {
         getVideosWithRequestBuilder(excludeFlagged: excludeFlagged, filterVideosByUploader: filterVideosByUploader, filterCategory: filterCategory, filterTagset: filterTagset, filterVideosByName: filterVideosByName, filterVideosByContributor: filterVideosByContributor, filterVideosByAuthor: filterVideosByAuthor, filterHasAuthor: filterHasAuthor, filterHasUploader: filterHasUploader, filterRelatedTo: filterRelatedTo, filterFriends: filterFriends, filterDisposition: filterDisposition, size: size, page: page, order: order).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -1045,10 +1046,10 @@ open class MediaVideosAPI: APIBase {
      Search videos using the documented filters
      - GET /media/videos
      - examples: [{contentType=application/json, example={
-  "number" : 2,
+  "number" : 7,
   "last" : true,
-  "size" : 2,
-  "total_elements" : 1,
+  "size" : 4,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -1056,30 +1057,30 @@ open class MediaVideosAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 3,
-  "number_of_elements" : 3,
+  "total_pages" : 9,
+  "number_of_elements" : 1,
   "content" : [ {
-    "authored" : 3,
+    "authored" : 6,
     "short_description" : "aeiou",
     "extension" : "aeiou",
     "privacy" : "private",
     "uploader" : "",
     "banned" : false,
     "embed" : "aeiou",
-    "id" : 6,
-    "views" : 9,
-    "height" : 1,
+    "id" : 2,
+    "views" : 1,
+    "height" : 3,
     "thumbnail" : "aeiou",
     "comments" : [ {
       "summary" : "aeiou",
       "context" : "aeiou",
-      "context_id" : 3,
-      "created_date" : 3,
-      "id" : 2,
-      "updated_date" : 9,
+      "context_id" : 1,
+      "created_date" : 5,
+      "id" : 5,
+      "updated_date" : 2,
       "user" : {
         "avatar_url" : "aeiou",
-        "id" : 8,
+        "id" : 7,
         "display_name" : "aeiou",
         "username" : "aeiou"
       },
@@ -1087,26 +1088,26 @@ open class MediaVideosAPI: APIBase {
     } ],
     "author" : {
       "name" : "aeiou",
-      "id" : 4
+      "id" : 0
     },
-    "length" : 0,
+    "length" : 4,
     "active" : false,
     "long_description" : "aeiou",
     "published" : false,
-    "priority" : 2,
+    "priority" : 7,
     "tags" : [ "aeiou" ],
-    "size" : 7,
+    "size" : 1,
     "mime_type" : "aeiou",
     "name" : "aeiou",
-    "width" : 5,
+    "width" : 6,
     "location" : "aeiou",
     "contributors" : [ {
       "role" : "aeiou",
       "artist" : "",
       "media" : ""
     } ],
-    "created_date" : 3,
-    "updated_date" : 0,
+    "created_date" : 9,
+    "updated_date" : 1,
     "category" : {
       "name" : "aeiou",
       "id" : "aeiou"
@@ -1133,7 +1134,7 @@ open class MediaVideosAPI: APIBase {
 
      - returns: RequestBuilder<PageResourceVideoResource> 
      */
-    open class func getVideosWithRequestBuilder(excludeFlagged: Bool? = nil, filterVideosByUploader: Object? = nil, filterCategory: String? = nil, filterTagset: String? = nil, filterVideosByName: String? = nil, filterVideosByContributor: Object? = nil, filterVideosByAuthor: Object? = nil, filterHasAuthor: Bool? = nil, filterHasUploader: Bool? = nil, filterRelatedTo: String? = nil, filterFriends: Bool? = nil, filterDisposition: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceVideoResource> {
+    open class func getVideosWithRequestBuilder(excludeFlagged: Bool? = nil, filterVideosByUploader: Int32? = nil, filterCategory: String? = nil, filterTagset: String? = nil, filterVideosByName: String? = nil, filterVideosByContributor: Int32? = nil, filterVideosByAuthor: Int32? = nil, filterHasAuthor: Bool? = nil, filterHasUploader: Bool? = nil, filterRelatedTo: String? = nil, filterFriends: Bool? = nil, filterDisposition: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceVideoResource> {
         let path = "/media/videos"
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -1141,12 +1142,12 @@ open class MediaVideosAPI: APIBase {
         let url = NSURLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "exclude_flagged": excludeFlagged, 
-            "filter_videos_by_uploader": filterVideosByUploader, 
+            "filter_videos_by_uploader": filterVideosByUploader?.encodeToJSON(), 
             "filter_category": filterCategory, 
             "filter_tagset": filterTagset, 
             "filter_videos_by_name": filterVideosByName, 
-            "filter_videos_by_contributor": filterVideosByContributor, 
-            "filter_videos_by_author": filterVideosByAuthor, 
+            "filter_videos_by_contributor": filterVideosByContributor?.encodeToJSON(), 
+            "filter_videos_by_author": filterVideosByAuthor?.encodeToJSON(), 
             "filter_has_author": filterHasAuthor, 
             "filter_has_uploader": filterHasUploader, 
             "filter_related_to": filterRelatedTo, 
@@ -1179,7 +1180,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Removes a user from a video's whitelist
-     - DELETE /media/videos/{videoId}/whitelist/{id}
+     - DELETE /media/videos/{video_id}/whitelist/{id}
      - Remove the user with the id given in the path from the whitelist of users that can view this video regardless of privacy setting.
      - OAuth:
        - type: oauth2
@@ -1191,7 +1192,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func removeUserFromVideoWhitelistWithRequestBuilder(videoId: Int64, id: Int32) -> RequestBuilder<Void> {
-        var path = "/media/videos/{videoId}/whitelist/{id}"
+        var path = "/media/videos/{video_id}/whitelist/{id}"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -1221,7 +1222,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Removes a contributor from a video
-     - DELETE /media/videos/{videoId}/contributors/{id}
+     - DELETE /media/videos/{video_id}/contributors/{id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -1232,7 +1233,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func removeVideoContributorWithRequestBuilder(videoId: Int64, id: Int32) -> RequestBuilder<Void> {
-        var path = "/media/videos/{videoId}/contributors/{id}"
+        var path = "/media/videos/{video_id}/contributors/{id}"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -1303,7 +1304,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Update a video comment
-     - PUT /media/videos/{videoId}/comments/{id}/content
+     - PUT /media/videos/{video_id}/comments/{id}/content
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -1315,7 +1316,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func updateVideoCommentWithRequestBuilder(videoId: Int64, id: Int64, content: String? = nil) -> RequestBuilder<Void> {
-        var path = "/media/videos/{videoId}/comments/{id}/content"
+        var path = "/media/videos/{video_id}/comments/{id}/content"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -1346,7 +1347,7 @@ open class MediaVideosAPI: APIBase {
 
     /**
      Update a video's relationship details
-     - PUT /media/videos/{videoId}/related/{id}/relationship_details
+     - PUT /media/videos/{video_id}/related/{id}/relationship_details
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -1358,7 +1359,7 @@ open class MediaVideosAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func updateVideoRelationshipWithRequestBuilder(videoId: Int64, relationshipId: Int64, details: String? = nil) -> RequestBuilder<Void> {
-        var path = "/media/videos/{videoId}/related/{id}/relationship_details"
+        var path = "/media/videos/{video_id}/related/{id}/relationship_details"
         path = path.replacingOccurrences(of: "{video_id}", with: "\(videoId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{relationship_id}", with: "\(relationshipId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path

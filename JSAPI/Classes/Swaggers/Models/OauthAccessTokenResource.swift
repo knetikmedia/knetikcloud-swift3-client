@@ -9,6 +9,7 @@ import Foundation
 
 
 open class OauthAccessTokenResource: JSONEncodable {
+
     /** The key of the client assosciated with the token */
     public var clientId: String?
     /** The token.  Not shown in list view */
@@ -24,6 +25,7 @@ open class OauthAccessTokenResource: JSONEncodable {
         nillableDictionary["client_id"] = self.clientId
         nillableDictionary["token"] = self.token
         nillableDictionary["username"] = self.username
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

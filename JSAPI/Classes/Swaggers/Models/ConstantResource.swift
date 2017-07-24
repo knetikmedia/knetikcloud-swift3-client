@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ConstantResource: JSONEncodable {
+
     public var type: String?
     public var value: Any?
     public var valueType: String?
@@ -21,6 +22,7 @@ open class ConstantResource: JSONEncodable {
         nillableDictionary["type"] = self.type
         nillableDictionary["value"] = self.value
         nillableDictionary["value_type"] = self.valueType
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

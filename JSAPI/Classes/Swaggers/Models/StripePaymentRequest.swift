@@ -9,6 +9,7 @@ import Foundation
 
 
 open class StripePaymentRequest: JSONEncodable {
+
     /** The id of the invoice to pay */
     public var invoiceId: Int32?
     /** A token from Stripe to identify payment info to be tied to the customer */
@@ -21,6 +22,7 @@ open class StripePaymentRequest: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["invoice_id"] = self.invoiceId?.encodeToJSON()
         nillableDictionary["token"] = self.token
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

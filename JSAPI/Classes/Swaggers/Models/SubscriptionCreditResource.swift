@@ -9,6 +9,7 @@ import Foundation
 
 
 open class SubscriptionCreditResource: JSONEncodable {
+
     /** The amount of the credit, negative for debt */
     public var amount: Double?
     /** The date this credit was added, unix timestamp in seconds */
@@ -30,6 +31,7 @@ open class SubscriptionCreditResource: JSONEncodable {
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["inventory_id"] = self.inventoryId?.encodeToJSON()
         nillableDictionary["reason"] = self.reason
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -40,7 +41,7 @@ open class ContentArticlesAPI: APIBase {
   },
   "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 8,
+  "updated_date" : 6,
   "body" : "aeiou",
   "category" : {
     "name" : "aeiou",
@@ -236,9 +237,9 @@ open class ContentArticlesAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 6,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 8,
+  "updated_date" : 6,
   "body" : "aeiou",
   "category" : {
     "name" : "aeiou",
@@ -290,7 +291,7 @@ open class ContentArticlesAPI: APIBase {
   "name" : "aeiou",
   "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 1,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",
@@ -354,7 +355,7 @@ open class ContentArticlesAPI: APIBase {
   "number" : 1,
   "last" : true,
   "size" : 5,
-  "total_elements" : 7,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -362,13 +363,13 @@ open class ContentArticlesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 2,
-  "number_of_elements" : 1,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "name" : "aeiou",
-    "created_date" : 7,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 8,
+    "updated_date" : 6,
     "properties" : [ {
       "name" : "aeiou",
       "type" : "aeiou",
@@ -419,15 +420,17 @@ open class ContentArticlesAPI: APIBase {
      List and search articles
      
      - parameter filterCategory: (query) Filter for articles from a specific category by id (optional)
-     - parameter filterTagset: (query) Filter for articles with specified tags (separated by comma) (optional)
+     - parameter filterTagset: (query) Filter for articles with at least one of a specified set of tags (separated by comma) (optional)
+     - parameter filterTagIntersection: (query) Filter for articles with all of a specified set of tags (separated by comma) (optional)
+     - parameter filterTagExclusion: (query) Filter for articles with none of a specified set of tags (separated by comma) (optional)
      - parameter filterTitle: (query) Filter for articles whose title contains a string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getArticles(filterCategory: String? = nil, filterTagset: String? = nil, filterTitle: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceArticleResource?,_ error: Error?) -> Void)) {
-        getArticlesWithRequestBuilder(filterCategory: filterCategory, filterTagset: filterTagset, filterTitle: filterTitle, size: size, page: page, order: order).execute { (response, error) -> Void in
+    open class func getArticles(filterCategory: String? = nil, filterTagset: String? = nil, filterTagIntersection: String? = nil, filterTagExclusion: String? = nil, filterTitle: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceArticleResource?,_ error: Error?) -> Void)) {
+        getArticlesWithRequestBuilder(filterCategory: filterCategory, filterTagset: filterTagset, filterTagIntersection: filterTagIntersection, filterTagExclusion: filterTagExclusion, filterTitle: filterTitle, size: size, page: page, order: order).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -438,10 +441,10 @@ open class ContentArticlesAPI: APIBase {
      - GET /content/articles
      - Get a list of articles with optional filtering. Assets will not be filled in on the resources returned. Use 'Get a single article' to retrieve the full resource with assets for a given item as needed.
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 1,
   "last" : true,
-  "size" : 6,
-  "total_elements" : 0,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -449,8 +452,8 @@ open class ContentArticlesAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 0,
-  "number_of_elements" : 0,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "template" : "aeiou",
     "active" : false,
@@ -459,9 +462,9 @@ open class ContentArticlesAPI: APIBase {
         "type" : "aeiou"
       }
     },
-    "created_date" : 8,
+    "created_date" : 0,
     "id" : "aeiou",
-    "updated_date" : 8,
+    "updated_date" : 6,
     "body" : "aeiou",
     "category" : {
       "name" : "aeiou",
@@ -475,7 +478,9 @@ open class ContentArticlesAPI: APIBase {
 }}]
      
      - parameter filterCategory: (query) Filter for articles from a specific category by id (optional)
-     - parameter filterTagset: (query) Filter for articles with specified tags (separated by comma) (optional)
+     - parameter filterTagset: (query) Filter for articles with at least one of a specified set of tags (separated by comma) (optional)
+     - parameter filterTagIntersection: (query) Filter for articles with all of a specified set of tags (separated by comma) (optional)
+     - parameter filterTagExclusion: (query) Filter for articles with none of a specified set of tags (separated by comma) (optional)
      - parameter filterTitle: (query) Filter for articles whose title contains a string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
@@ -483,7 +488,7 @@ open class ContentArticlesAPI: APIBase {
 
      - returns: RequestBuilder<PageResourceArticleResource> 
      */
-    open class func getArticlesWithRequestBuilder(filterCategory: String? = nil, filterTagset: String? = nil, filterTitle: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceArticleResource> {
+    open class func getArticlesWithRequestBuilder(filterCategory: String? = nil, filterTagset: String? = nil, filterTagIntersection: String? = nil, filterTagExclusion: String? = nil, filterTitle: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceArticleResource> {
         let path = "/content/articles"
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -492,6 +497,8 @@ open class ContentArticlesAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "filter_category": filterCategory, 
             "filter_tagset": filterTagset, 
+            "filter_tag_intersection": filterTagIntersection, 
+            "filter_tag_exclusion": filterTagExclusion, 
             "filter_title": filterTitle, 
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON(), 
@@ -532,9 +539,9 @@ open class ContentArticlesAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 4,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 5,
+  "updated_date" : 6,
   "body" : "aeiou",
   "category" : {
     "name" : "aeiou",
@@ -586,9 +593,9 @@ open class ContentArticlesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "created_date" : 5,
+  "created_date" : 0,
   "id" : "aeiou",
-  "updated_date" : 8,
+  "updated_date" : 6,
   "properties" : [ {
     "name" : "aeiou",
     "type" : "aeiou",

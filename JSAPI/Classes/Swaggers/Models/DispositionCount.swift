@@ -9,6 +9,7 @@ import Foundation
 
 
 open class DispositionCount: JSONEncodable {
+
     /** The number of users that have expressed this disposition */
     public var count: Int64?
     /** The name of the disposition this count is for */
@@ -21,6 +22,7 @@ open class DispositionCount: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["count"] = self.count?.encodeToJSON()
         nillableDictionary["name"] = self.name
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -50,10 +51,10 @@ open class ReportingUsageAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 4,
+  "number" : 1,
   "last" : true,
-  "size" : 2,
-  "total_elements" : 9,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -61,12 +62,12 @@ open class ReportingUsageAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 9,
-  "number_of_elements" : 8,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
-    "date" : 7,
+    "date" : 6,
     "method" : "aeiou",
-    "count" : 6,
+    "count" : 0,
     "url" : "aeiou"
   } ],
   "first" : true
@@ -146,8 +147,8 @@ open class ReportingUsageAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
-  "size" : 1,
-  "total_elements" : 5,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -155,12 +156,12 @@ open class ReportingUsageAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 3,
-  "number_of_elements" : 3,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
-    "date" : 5,
+    "date" : 6,
     "method" : "aeiou",
-    "count" : 5,
+    "count" : 0,
     "url" : "aeiou"
   } ],
   "first" : true
@@ -238,10 +239,10 @@ open class ReportingUsageAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 1,
   "last" : true,
-  "size" : 6,
-  "total_elements" : 1,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -249,12 +250,12 @@ open class ReportingUsageAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 1,
-  "number_of_elements" : 0,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
-    "date" : 5,
+    "date" : 6,
     "method" : "aeiou",
-    "count" : 2,
+    "count" : 0,
     "url" : "aeiou"
   } ],
   "first" : true
@@ -332,9 +333,9 @@ open class ReportingUsageAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 3,
+  "number" : 1,
   "last" : true,
-  "size" : 4,
+  "size" : 5,
   "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
@@ -343,12 +344,12 @@ open class ReportingUsageAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 2,
-  "number_of_elements" : 9,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
-    "date" : 2,
+    "date" : 6,
     "method" : "aeiou",
-    "count" : 8,
+    "count" : 0,
     "url" : "aeiou"
   } ],
   "first" : true
@@ -426,10 +427,10 @@ open class ReportingUsageAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 8,
+  "number" : 1,
   "last" : true,
-  "size" : 0,
-  "total_elements" : 3,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -438,11 +439,11 @@ open class ReportingUsageAPI: APIBase {
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
-  "number_of_elements" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
-    "date" : 4,
+    "date" : 6,
     "method" : "aeiou",
-    "count" : 8,
+    "count" : 0,
     "url" : "aeiou"
   } ],
   "first" : true

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class FinalizeBillingAgreementRequest: JSONEncodable {
+
     /** The ID of the invoice being paid along with the creation of this agreement */
     public var invoiceId: Int32?
     /** Whether the new payment method created should be the user&#39;s default */
@@ -30,6 +31,7 @@ open class FinalizeBillingAgreementRequest: JSONEncodable {
         nillableDictionary["payer_id"] = self.payerId
         nillableDictionary["token"] = self.token
         nillableDictionary["user_id"] = self.userId?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

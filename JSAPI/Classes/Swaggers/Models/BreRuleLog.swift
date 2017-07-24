@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BreRuleLog: JSONEncodable {
+
     /** Whether the rule ran */
     public var ran: Bool?
     /** The reason for the rule */
@@ -33,6 +34,7 @@ open class BreRuleLog: JSONEncodable {
         nillableDictionary["rule_id"] = self.ruleId
         nillableDictionary["rule_name"] = self.ruleName
         nillableDictionary["rule_start_date"] = self.ruleStartDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

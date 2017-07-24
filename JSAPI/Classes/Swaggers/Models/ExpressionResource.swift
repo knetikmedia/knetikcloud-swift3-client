@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ExpressionResource: JSONEncodable {
+
     public var type: String?
 
     public init() {}
@@ -17,6 +18,7 @@ open class ExpressionResource: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

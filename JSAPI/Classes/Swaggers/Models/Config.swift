@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Config: JSONEncodable {
+
     /** The description of the config.  Max 140 characters */
     public var description: String?
     /** The name of the config */
@@ -27,6 +28,7 @@ open class Config: JSONEncodable {
         nillableDictionary["name"] = self.name
         nillableDictionary["public_read"] = self.publicRead
         nillableDictionary["value"] = self.value
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

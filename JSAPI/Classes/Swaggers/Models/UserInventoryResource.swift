@@ -9,6 +9,7 @@ import Foundation
 
 
 open class UserInventoryResource: JSONEncodable {
+
     public enum Status: String { 
         case pending = "pending"
         case active = "active"
@@ -53,6 +54,7 @@ open class UserInventoryResource: JSONEncodable {
         nillableDictionary["status"] = self.status?.rawValue
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
         nillableDictionary["user"] = self.user?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

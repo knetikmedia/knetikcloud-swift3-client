@@ -9,6 +9,7 @@ import Foundation
 
 
 open class ApplyPaymentRequest: JSONEncodable {
+
     /** The id of the local invoice being paid. */
     public var invoiceId: Int32?
     /** The encoded receipt string from Apple&#39;s services. */
@@ -24,6 +25,7 @@ open class ApplyPaymentRequest: JSONEncodable {
         nillableDictionary["invoice_id"] = self.invoiceId?.encodeToJSON()
         nillableDictionary["receipt"] = self.receipt
         nillableDictionary["transaction_id"] = self.transactionId
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

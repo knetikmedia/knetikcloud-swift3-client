@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -26,58 +27,58 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Get details about a user's subscription
-     - GET /users/{userId}/subscriptions/{inventoryId}
+     - GET /users/{user_id}/subscriptions/{inventory_id}
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "grace_end" : 9,
-  "bill_date" : 5,
-  "item_id" : 0,
-  "inventory_id" : 0,
-  "recurring_price" : 4.7948011574121985,
+  "grace_end" : 7,
+  "bill_date" : 0,
+  "item_id" : 3,
+  "inventory_id" : 9,
+  "price_override" : 4.965218492984954,
+  "recurring_price" : 5.025004791520295,
   "inventory_status" : "pending",
-  "subscription_status" : 6,
-  "credit" : 7.444253933346497,
+  "subscription_status" : 9,
+  "price_override_reason" : "aeiou",
+  "credit" : 6.027456183070403,
   "credit_log" : [ {
     "reason" : "aeiou",
-    "amount" : 5.397017453181782,
-    "inventory_id" : 4,
-    "created_date" : 2,
-    "id" : 3
+    "amount" : 1.4658129805029452,
+    "inventory_id" : 2,
+    "created_date" : 5,
+    "id" : 5
   } ],
   "sku" : "aeiou",
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 3,
+    "id" : 6,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
   "payment_method" : {
     "payment_method_type" : {
       "name" : "aeiou",
-      "id" : 0
+      "id" : 1
     },
     "last4" : "aeiou",
-    "short_description" : "aeiou",
     "unique_key" : "aeiou",
     "verified" : true,
-    "long_description" : "aeiou",
-    "sort" : 4,
-    "expiration_date" : 7,
+    "sort" : 6,
+    "expiration_date" : 4,
     "token" : "aeiou",
-    "expiration_year" : 7,
+    "expiration_year" : 1,
     "default" : true,
     "payment_type" : "card",
-    "user_id" : 2,
+    "user_id" : 1,
     "expiration_month" : 7,
     "name" : "aeiou",
     "disabled" : false,
-    "created_date" : 4,
+    "created_date" : 2,
     "id" : 1,
-    "updated_date" : 8
+    "updated_date" : 7
   },
-  "start_date" : 3
+  "start_date" : 9
 }}]
      
      - parameter userId: (path) The id of the user 
@@ -86,7 +87,7 @@ open class UsersSubscriptionsAPI: APIBase {
      - returns: RequestBuilder<InventorySubscriptionResource> 
      */
     open class func getUserSubscriptionDetailsWithRequestBuilder(userId: Int32, inventoryId: Int32) -> RequestBuilder<InventorySubscriptionResource> {
-        var path = "/users/{userId}/subscriptions/{inventoryId}"
+        var path = "/users/{user_id}/subscriptions/{inventory_id}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{inventory_id}", with: "\(inventoryId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -115,58 +116,58 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Get details about a user's subscriptions
-     - GET /users/{userId}/subscriptions
+     - GET /users/{user_id}/subscriptions
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
   "grace_end" : 7,
-  "bill_date" : 3,
-  "item_id" : 4,
+  "bill_date" : 0,
+  "item_id" : 3,
   "inventory_id" : 9,
-  "recurring_price" : 8.900896514528764,
+  "price_override" : 4.965218492984954,
+  "recurring_price" : 5.025004791520295,
   "inventory_status" : "pending",
-  "subscription_status" : 0,
-  "credit" : 1.6147725181781925,
+  "subscription_status" : 9,
+  "price_override_reason" : "aeiou",
+  "credit" : 6.027456183070403,
   "credit_log" : [ {
     "reason" : "aeiou",
-    "amount" : 3.298271489560811,
-    "inventory_id" : 6,
+    "amount" : 1.4658129805029452,
+    "inventory_id" : 2,
     "created_date" : 5,
-    "id" : 8
+    "id" : 5
   } ],
   "sku" : "aeiou",
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 0,
+    "id" : 6,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
   "payment_method" : {
     "payment_method_type" : {
       "name" : "aeiou",
-      "id" : 4
+      "id" : 1
     },
     "last4" : "aeiou",
-    "short_description" : "aeiou",
     "unique_key" : "aeiou",
     "verified" : true,
-    "long_description" : "aeiou",
-    "sort" : 5,
-    "expiration_date" : 2,
+    "sort" : 6,
+    "expiration_date" : 4,
     "token" : "aeiou",
-    "expiration_year" : 9,
+    "expiration_year" : 1,
     "default" : true,
     "payment_type" : "card",
-    "user_id" : 6,
-    "expiration_month" : 5,
+    "user_id" : 1,
+    "expiration_month" : 7,
     "name" : "aeiou",
     "disabled" : false,
-    "created_date" : 8,
-    "id" : 4,
-    "updated_date" : 8
+    "created_date" : 2,
+    "id" : 1,
+    "updated_date" : 7
   },
-  "start_date" : 0
+  "start_date" : 9
 } ]}]
      
      - parameter userId: (path) The id of the user 
@@ -174,7 +175,7 @@ open class UsersSubscriptionsAPI: APIBase {
      - returns: RequestBuilder<[InventorySubscriptionResource]> 
      */
     open class func getUsersSubscriptionDetailsWithRequestBuilder(userId: Int32) -> RequestBuilder<[InventorySubscriptionResource]> {
-        var path = "/users/{userId}/subscriptions"
+        var path = "/users/{user_id}/subscriptions"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -204,7 +205,7 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Reactivate a subscription and charge fee
-     - POST /users/{userId}/subscriptions/{inventoryId}/reactivate
+     - POST /users/{user_id}/subscriptions/{inventory_id}/reactivate
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -212,17 +213,17 @@ open class UsersSubscriptionsAPI: APIBase {
   "shipping_city_name" : "aeiou",
   "order_notes" : "aeiou",
   "parent_invoice_id" : 1,
-  "discount" : 2.370853914350227,
-  "state_tax" : 1.6808222615663038,
+  "discount" : 6.027456183070403,
+  "state_tax" : 4.965218492984954,
   "cart_id" : "aeiou",
   "name_prefix" : "aeiou",
   "billing_postal_code" : "aeiou",
-  "shipping" : 4.846159946663942,
+  "shipping" : 7.457744773683766,
   "billing_state_name" : "aeiou",
   "billing_country_name" : "aeiou",
   "currency" : "aeiou",
   "current_fulfillment_status" : "aeiou",
-  "grand_total" : 1.7614516616716325,
+  "grand_total" : 5.962133916683182,
   "id" : 5,
   "current_payment_status" : "aeiou",
   "billing_address1" : "aeiou",
@@ -231,44 +232,43 @@ open class UsersSubscriptionsAPI: APIBase {
   "email" : "aeiou",
   "vendor_name" : "aeiou",
   "billing_full_name" : "aeiou",
-  "sort" : 6,
+  "sort" : 1,
   "shipping_full_name" : "aeiou",
-  "fed_tax" : 2.9076082500799885,
-  "payment_method_id" : 8,
+  "fed_tax" : 1.4658129805029452,
+  "payment_method_id" : 6,
   "phone" : "aeiou",
   "external_ref" : "aeiou",
   "shipping_address2" : "aeiou",
-  "subtotal" : 9.729069695541614,
+  "subtotal" : 5.025004791520295,
   "shipping_address1" : "aeiou",
-  "vendor_id" : 5,
+  "vendor_id" : 6,
   "shipping_state_name" : "aeiou",
   "billing_city_name" : "aeiou",
   "phone_number" : "aeiou",
   "created_date" : 0,
   "shipping_country_name" : "aeiou",
-  "updated_date" : 2,
+  "updated_date" : 9,
   "items" : [ {
     "type_hint" : "aeiou",
-    "total_price" : 0.2813000188274217,
-    "affiliate_id" : 0,
-    "item_id" : 1,
-    "system_price" : 6.004221004379912,
+    "total_price" : 1.2315135367772556,
+    "item_id" : 9,
+    "system_price" : 7.386281948385884,
     "item_name" : "aeiou",
-    "original_unit_price" : 1.7144646482735904,
-    "unit_price" : 1.7816224227863586,
-    "qty" : 1,
-    "invoice_id" : 0,
+    "original_unit_price" : 2.027123023002322,
+    "unit_price" : 1.0246457001441578,
+    "qty" : 4,
+    "invoice_id" : 7,
     "current_fulfillment_status" : "aeiou",
-    "id" : 8,
+    "id" : 2,
     "sale_name" : "aeiou",
     "bundle_sku" : "aeiou",
-    "original_total_price" : 5.84515997845032,
+    "original_total_price" : 3.616076749251911,
     "sku" : "aeiou",
     "sku_description" : "aeiou"
   } ],
   "user" : {
     "avatar_url" : "aeiou",
-    "id" : 8,
+    "id" : 9,
     "display_name" : "aeiou",
     "username" : "aeiou"
   },
@@ -282,7 +282,7 @@ open class UsersSubscriptionsAPI: APIBase {
      - returns: RequestBuilder<InvoiceResource> 
      */
     open class func reactivateUserSubscriptionWithRequestBuilder(userId: Int32, inventoryId: Int32, reactivateSubscriptionRequest: ReactivateSubscriptionRequest? = nil) -> RequestBuilder<InvoiceResource> {
-        var path = "/users/{userId}/subscriptions/{inventoryId}/reactivate"
+        var path = "/users/{user_id}/subscriptions/{inventory_id}/reactivate"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{inventory_id}", with: "\(inventoryId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -313,7 +313,7 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Set a new date to bill a subscription on
-     - PUT /users/{userId}/subscriptions/{inventoryId}/bill-date
+     - PUT /users/{user_id}/subscriptions/{inventory_id}/bill-date
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -325,7 +325,7 @@ open class UsersSubscriptionsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func setSubscriptionBillDateWithRequestBuilder(userId: Int32, inventoryId: Int32, billDate: Int64) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/subscriptions/{inventoryId}/bill-date"
+        var path = "/users/{user_id}/subscriptions/{inventory_id}/bill-date"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{inventory_id}", with: "\(inventoryId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -356,7 +356,7 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Set the payment method to use for a subscription
-     - PUT /users/{userId}/subscriptions/{inventoryId}/payment-method
+     - PUT /users/{user_id}/subscriptions/{inventory_id}/payment-method
      - May send null to use floating default
      - OAuth:
        - type: oauth2
@@ -369,7 +369,7 @@ open class UsersSubscriptionsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func setSubscriptionPaymentMethodWithRequestBuilder(userId: Int32, inventoryId: Int32, paymentMethodId: Int32? = nil) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/subscriptions/{inventoryId}/payment-method"
+        var path = "/users/{user_id}/subscriptions/{inventory_id}/payment-method"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{inventory_id}", with: "\(inventoryId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -400,7 +400,7 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Set the status of a subscription
-     - PUT /users/{userId}/subscriptions/{inventoryId}/status
+     - PUT /users/{user_id}/subscriptions/{inventory_id}/status
      - The body is a json string (put in quotes) that should match a desired invoice status type. Note that the new status may be blocked if the system is not configured to allow the current status to be changed to the new, to enforce proper flow. The default options for statuses are shown below but may be altered for special use cases
      - OAuth:
        - type: oauth2
@@ -413,7 +413,7 @@ open class UsersSubscriptionsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func setSubscriptionStatusWithRequestBuilder(userId: Int32, inventoryId: Int32, status: String) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/subscriptions/{inventoryId}/status"
+        var path = "/users/{user_id}/subscriptions/{inventory_id}/status"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{inventory_id}", with: "\(inventoryId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -444,7 +444,7 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Set a new subscription plan for a user
-     - PUT /users/{userId}/subscriptions/{inventoryId}/plan
+     - PUT /users/{user_id}/subscriptions/{inventory_id}/plan
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -456,11 +456,55 @@ open class UsersSubscriptionsAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func setUserSubscriptionPlanWithRequestBuilder(userId: Int32, inventoryId: Int32, planId: String? = nil) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/subscriptions/{inventoryId}/plan"
+        var path = "/users/{user_id}/subscriptions/{inventory_id}/plan"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{inventory_id}", with: "\(inventoryId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = planId?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Set a new subscription price for a user
+     
+     - parameter userId: (path) The id of the user 
+     - parameter inventoryId: (path) The id of the user&#39;s inventory 
+     - parameter theOverrideDetails: (body) override (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func setUserSubscriptionPrice(userId: Int32, inventoryId: Int32, theOverrideDetails: SubscriptionPriceOverrideRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+        setUserSubscriptionPriceWithRequestBuilder(userId: userId, inventoryId: inventoryId, theOverrideDetails: theOverrideDetails).execute { (response, error) -> Void in
+            completion(error);
+        }
+    }
+
+
+    /**
+     Set a new subscription price for a user
+     - PUT /users/{user_id}/subscriptions/{inventory_id}/price-override
+     - This new price will be what the user is charged at the begining of each new period. This override is specific to the current subscription and will not carry over if they end and later re-subscribe. It will persist if the plan is changed using the setUserSubscriptionPlan endpoint.
+     - OAuth:
+       - type: oauth2
+       - name: OAuth2
+     
+     - parameter userId: (path) The id of the user 
+     - parameter inventoryId: (path) The id of the user&#39;s inventory 
+     - parameter theOverrideDetails: (body) override (optional)
+
+     - returns: RequestBuilder<Void> 
+     */
+    open class func setUserSubscriptionPriceWithRequestBuilder(userId: Int32, inventoryId: Int32, theOverrideDetails: SubscriptionPriceOverrideRequest? = nil) -> RequestBuilder<Void> {
+        var path = "/users/{user_id}/subscriptions/{inventory_id}/price-override"
+        path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{inventory_id}", with: "\(inventoryId)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = theOverrideDetails?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
 

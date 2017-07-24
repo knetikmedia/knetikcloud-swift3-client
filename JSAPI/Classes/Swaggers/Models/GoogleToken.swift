@@ -9,6 +9,7 @@ import Foundation
 
 
 open class GoogleToken: JSONEncodable {
+
     /** A valid authorization code from google. See google documention for how to obtain one. */
     public var authorizationCode: String?
 
@@ -18,6 +19,7 @@ open class GoogleToken: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["authorization_code"] = self.authorizationCode
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

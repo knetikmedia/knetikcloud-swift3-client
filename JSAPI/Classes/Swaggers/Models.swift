@@ -37,17 +37,17 @@ open class Response<T> {
 
 private var once = Int()
 class Decoders {
-    static fileprivate var decoders = Dictionary<String, ((AnyObject) -> AnyObject)>()
+    static fileprivate var decoders = Dictionary<String, ((AnyObject, AnyObject?) -> AnyObject)>()
 
-    static func addDecoder<T>(clazz: T.Type, decoder: @escaping ((AnyObject) -> T)) {
+    static func addDecoder<T>(clazz: T.Type, decoder: @escaping ((AnyObject, AnyObject?) -> T)) {
         let key = "\(T.self)"
-        decoders[key] = { decoder($0) as AnyObject }
+        decoders[key] = { decoder($0, $1) as AnyObject }
     }
 
     static func decode<T>(clazz: T.Type, discriminator: String, source: AnyObject) -> T {
         let key = discriminator;
         if let decoder = decoders[key] {
-            return decoder(source) as! T
+            return decoder(source, nil) as! T
         } else {
             fatalError("Source \(source) is not convertible to type \(clazz): Maybe swagger file is insufficient")
         }
@@ -55,25 +55,25 @@ class Decoders {
 
     static func decode<T>(clazz: [T].Type, source: AnyObject) -> [T] {
         let array = source as! [AnyObject]
-        return array.map { Decoders.decode(clazz: T.self, source: $0) }
+        return array.map { Decoders.decode(clazz: T.self, source: $0, instance: nil) }
     }
 
     static func decode<T, Key: Hashable>(clazz: [Key:T].Type, source: AnyObject) -> [Key:T] {
         let sourceDictionary = source as! [Key: AnyObject]
         var dictionary = [Key:T]()
         for (key, value) in sourceDictionary {
-            dictionary[key] = Decoders.decode(clazz: T.self, source: value)
+            dictionary[key] = Decoders.decode(clazz: T.self, source: value, instance: nil)
         }
         return dictionary
     }
 
-    static func decode<T>(clazz: T.Type, source: AnyObject) -> T {
+    static func decode<T>(clazz: T.Type, source: AnyObject, instance: AnyObject?) -> T {
         initialize()
         if T.self is Int32.Type && source is NSNumber {
-            return source.int32Value as! T;
+            return (source as! NSNumber).int32Value as! T
         }
         if T.self is Int64.Type && source is NSNumber {
-            return source.int64Value as! T;
+            return (source as! NSNumber).int64Value as! T
         }
         if T.self is UUID.Type && source is String {
             return UUID(uuidString: source as! String) as! T
@@ -87,7 +87,7 @@ class Decoders {
 
         let key = "\(T.self)"
         if let decoder = decoders[key] {
-           return decoder(source) as! T
+           return decoder(source, instance) as! T
         } else {
             fatalError("Source \(source) is not convertible to type \(clazz): Maybe swagger file is insufficient")
         }
@@ -98,7 +98,7 @@ class Decoders {
             return nil
         }
         return source.map { (source: AnyObject) -> T in
-            Decoders.decode(clazz: clazz, source: source)
+            Decoders.decode(clazz: clazz, source: source, instance: nil)
         }
     }
 
@@ -130,11 +130,12 @@ class Decoders {
             "yyyy-MM-dd HH:mm:ss"
         ].map { (format: String) -> DateFormatter in
             let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "en_US_POSIX")
             formatter.dateFormat = format
             return formatter
         }
         // Decoder for Date
-        Decoders.addDecoder(clazz: Date.self) { (source: AnyObject) -> Date in
+        Decoders.addDecoder(clazz: Date.self) { (source: AnyObject, instance: AnyObject?) -> Date in
            if let sourceString = source as? String {
                 for formatter in formatters {
                     if let date = formatter.date(from: sourceString) {
@@ -149,1233 +150,1150 @@ class Decoders {
             fatalError("formatter failed to parse \(source)")
         } 
 
-        // Decoder for [AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings]
-        Decoders.addDecoder(clazz: [AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings].self) { (source: AnyObject) -> [AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings] in
-            return Decoders.decode(clazz: [AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings].self, source: source)
-        }
-        // Decoder for AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings
-        Decoders.addDecoder(clazz: AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings.self) { (source: AnyObject) -> AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings()
-            instance.activityId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["activity_id"] as AnyObject?)
-            instance.challengeActivityId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["challenge_activity_id"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.entitlement = Decoders.decodeOptional(clazz: ActivityEntitlementResource.self, source: sourceDictionary["entitlement"] as AnyObject?)
-            instance.eventId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["event_id"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            if let rewardStatus = sourceDictionary["reward_status"] as? String { 
-                instance.rewardStatus = AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings.RewardStatus(rawValue: (rewardStatus))
-            }
-            
-            instance.settings = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["settings"] as AnyObject?)
-            instance.simulated = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["simulated"] as AnyObject?)
-            instance.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
-            if let status = sourceDictionary["status"] as? String { 
-                instance.status = AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings.Status(rawValue: (status))
-            }
-            
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.users = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["users"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [ARequestToResetAUsersPasswordByUsingAKnownUserProperty]
-        Decoders.addDecoder(clazz: [ARequestToResetAUsersPasswordByUsingAKnownUserProperty].self) { (source: AnyObject) -> [ARequestToResetAUsersPasswordByUsingAKnownUserProperty] in
-            return Decoders.decode(clazz: [ARequestToResetAUsersPasswordByUsingAKnownUserProperty].self, source: source)
-        }
-        // Decoder for ARequestToResetAUsersPasswordByUsingAKnownUserProperty
-        Decoders.addDecoder(clazz: ARequestToResetAUsersPasswordByUsingAKnownUserProperty.self) { (source: AnyObject) -> ARequestToResetAUsersPasswordByUsingAKnownUserProperty in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ARequestToResetAUsersPasswordByUsingAKnownUserProperty()
-            instance.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
-            instance.mobileNumber = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["mobile_number"] as AnyObject?)
-            instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
-            return instance
-        }
-
-
         // Decoder for [AchievementDefinitionResource]
-        Decoders.addDecoder(clazz: [AchievementDefinitionResource].self) { (source: AnyObject) -> [AchievementDefinitionResource] in
+        Decoders.addDecoder(clazz: [AchievementDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [AchievementDefinitionResource] in
             return Decoders.decode(clazz: [AchievementDefinitionResource].self, source: source)
         }
         // Decoder for AchievementDefinitionResource
-        Decoders.addDecoder(clazz: AchievementDefinitionResource.self) { (source: AnyObject) -> AchievementDefinitionResource in
+        Decoders.addDecoder(clazz: AchievementDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> AchievementDefinitionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = AchievementDefinitionResource()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.hidden = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["hidden"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.requiredProgress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["required_progress"] as AnyObject?)
-            instance.ruleId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["rule_id"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.triggerEventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["trigger_event_name"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? AchievementDefinitionResource() : instance as! AchievementDefinitionResource
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.hidden = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["hidden"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.requiredProgress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["required_progress"] as AnyObject?)
+            result.ruleId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["rule_id"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.triggerEventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["trigger_event_name"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ActionResource]
-        Decoders.addDecoder(clazz: [ActionResource].self) { (source: AnyObject) -> [ActionResource] in
+        Decoders.addDecoder(clazz: [ActionResource].self) { (source: AnyObject, instance: AnyObject?) -> [ActionResource] in
             return Decoders.decode(clazz: [ActionResource].self, source: source)
         }
         // Decoder for ActionResource
-        Decoders.addDecoder(clazz: ActionResource.self) { (source: AnyObject) -> ActionResource in
+        Decoders.addDecoder(clazz: ActionResource.self) { (source: AnyObject, instance: AnyObject?) -> ActionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ActionResource()
+            let result = instance == nil ? ActionResource() : instance as! ActionResource
+            
             if let category = sourceDictionary["category"] as? String { 
-                instance.category = ActionResource.Category(rawValue: (category))
+                result.category = ActionResource.Category(rawValue: (category))
             }
             
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.variables = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["variables"] as AnyObject?)
-            return instance
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.variables = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["variables"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ActionVariableResource]
-        Decoders.addDecoder(clazz: [ActionVariableResource].self) { (source: AnyObject) -> [ActionVariableResource] in
+        Decoders.addDecoder(clazz: [ActionVariableResource].self) { (source: AnyObject, instance: AnyObject?) -> [ActionVariableResource] in
             return Decoders.decode(clazz: [ActionVariableResource].self, source: source)
         }
         // Decoder for ActionVariableResource
-        Decoders.addDecoder(clazz: ActionVariableResource.self) { (source: AnyObject) -> ActionVariableResource in
+        Decoders.addDecoder(clazz: ActionVariableResource.self) { (source: AnyObject, instance: AnyObject?) -> ActionVariableResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ActionVariableResource()
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._optional = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["optional"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ActionVariableResource() : instance as! ActionVariableResource
+            
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._optional = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["optional"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ActivityEntitlementResource]
-        Decoders.addDecoder(clazz: [ActivityEntitlementResource].self) { (source: AnyObject) -> [ActivityEntitlementResource] in
+        Decoders.addDecoder(clazz: [ActivityEntitlementResource].self) { (source: AnyObject, instance: AnyObject?) -> [ActivityEntitlementResource] in
             return Decoders.decode(clazz: [ActivityEntitlementResource].self, source: source)
         }
         // Decoder for ActivityEntitlementResource
-        Decoders.addDecoder(clazz: ActivityEntitlementResource.self) { (source: AnyObject) -> ActivityEntitlementResource in
+        Decoders.addDecoder(clazz: ActivityEntitlementResource.self) { (source: AnyObject, instance: AnyObject?) -> ActivityEntitlementResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ActivityEntitlementResource()
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.price = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price"] as AnyObject?)
-            instance.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ActivityEntitlementResource() : instance as! ActivityEntitlementResource
+            
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.price = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price"] as AnyObject?)
+            result.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ActivityOccurrenceCreationFailure]
-        Decoders.addDecoder(clazz: [ActivityOccurrenceCreationFailure].self) { (source: AnyObject) -> [ActivityOccurrenceCreationFailure] in
+        Decoders.addDecoder(clazz: [ActivityOccurrenceCreationFailure].self) { (source: AnyObject, instance: AnyObject?) -> [ActivityOccurrenceCreationFailure] in
             return Decoders.decode(clazz: [ActivityOccurrenceCreationFailure].self, source: source)
         }
         // Decoder for ActivityOccurrenceCreationFailure
-        Decoders.addDecoder(clazz: ActivityOccurrenceCreationFailure.self) { (source: AnyObject) -> ActivityOccurrenceCreationFailure in
+        Decoders.addDecoder(clazz: ActivityOccurrenceCreationFailure.self) { (source: AnyObject, instance: AnyObject?) -> ActivityOccurrenceCreationFailure in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ActivityOccurrenceCreationFailure()
-            instance.userResults = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["user_results"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ActivityOccurrenceCreationFailure() : instance as! ActivityOccurrenceCreationFailure
+            
+            result.userResults = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["user_results"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ActivityOccurrenceJoinResult]
-        Decoders.addDecoder(clazz: [ActivityOccurrenceJoinResult].self) { (source: AnyObject) -> [ActivityOccurrenceJoinResult] in
+        Decoders.addDecoder(clazz: [ActivityOccurrenceJoinResult].self) { (source: AnyObject, instance: AnyObject?) -> [ActivityOccurrenceJoinResult] in
             return Decoders.decode(clazz: [ActivityOccurrenceJoinResult].self, source: source)
         }
         // Decoder for ActivityOccurrenceJoinResult
-        Decoders.addDecoder(clazz: ActivityOccurrenceJoinResult.self) { (source: AnyObject) -> ActivityOccurrenceJoinResult in
+        Decoders.addDecoder(clazz: ActivityOccurrenceJoinResult.self) { (source: AnyObject, instance: AnyObject?) -> ActivityOccurrenceJoinResult in
             let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? ActivityOccurrenceJoinResult() : instance as! ActivityOccurrenceJoinResult
+            
+            result.entitlement = Decoders.decodeOptional(clazz: ActivityEntitlementResource.self, source: sourceDictionary["entitlement"] as AnyObject?)
+            result.errorCode = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["error_code"] as AnyObject?)
+            result.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["user_id"] as AnyObject?)
+            return result
+        }
 
-            let instance = ActivityOccurrenceJoinResult()
-            instance.entitlement = Decoders.decodeOptional(clazz: ActivityEntitlementResource.self, source: sourceDictionary["entitlement"] as AnyObject?)
-            instance.errorCode = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["error_code"] as AnyObject?)
-            instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["user_id"] as AnyObject?)
-            return instance
+
+        // Decoder for [ActivityOccurrenceResource]
+        Decoders.addDecoder(clazz: [ActivityOccurrenceResource].self) { (source: AnyObject, instance: AnyObject?) -> [ActivityOccurrenceResource] in
+            return Decoders.decode(clazz: [ActivityOccurrenceResource].self, source: source)
+        }
+        // Decoder for ActivityOccurrenceResource
+        Decoders.addDecoder(clazz: ActivityOccurrenceResource.self) { (source: AnyObject, instance: AnyObject?) -> ActivityOccurrenceResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? ActivityOccurrenceResource() : instance as! ActivityOccurrenceResource
+            
+            result.activityId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["activity_id"] as AnyObject?)
+            result.challengeActivityId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["challenge_activity_id"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.entitlement = Decoders.decodeOptional(clazz: ActivityEntitlementResource.self, source: sourceDictionary["entitlement"] as AnyObject?)
+            result.eventId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["event_id"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            if let rewardStatus = sourceDictionary["reward_status"] as? String { 
+                result.rewardStatus = ActivityOccurrenceResource.RewardStatus(rawValue: (rewardStatus))
+            }
+            
+            result.settings = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["settings"] as AnyObject?)
+            result.simulated = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["simulated"] as AnyObject?)
+            result.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
+            if let status = sourceDictionary["status"] as? String { 
+                result.status = ActivityOccurrenceResource.Status(rawValue: (status))
+            }
+            
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.users = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["users"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ActivityOccurrenceResults]
-        Decoders.addDecoder(clazz: [ActivityOccurrenceResults].self) { (source: AnyObject) -> [ActivityOccurrenceResults] in
+        Decoders.addDecoder(clazz: [ActivityOccurrenceResults].self) { (source: AnyObject, instance: AnyObject?) -> [ActivityOccurrenceResults] in
             return Decoders.decode(clazz: [ActivityOccurrenceResults].self, source: source)
         }
         // Decoder for ActivityOccurrenceResults
-        Decoders.addDecoder(clazz: ActivityOccurrenceResults.self) { (source: AnyObject) -> ActivityOccurrenceResults in
+        Decoders.addDecoder(clazz: ActivityOccurrenceResults.self) { (source: AnyObject, instance: AnyObject?) -> ActivityOccurrenceResults in
             let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? ActivityOccurrenceResults() : instance as! ActivityOccurrenceResults
+            
+            result.users = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["users"] as AnyObject?)
+            return result
+        }
 
-            let instance = ActivityOccurrenceResults()
-            instance.users = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["users"] as AnyObject?)
-            return instance
+
+        // Decoder for [ActivityOccurrenceResultsResource]
+        Decoders.addDecoder(clazz: [ActivityOccurrenceResultsResource].self) { (source: AnyObject, instance: AnyObject?) -> [ActivityOccurrenceResultsResource] in
+            return Decoders.decode(clazz: [ActivityOccurrenceResultsResource].self, source: source)
+        }
+        // Decoder for ActivityOccurrenceResultsResource
+        Decoders.addDecoder(clazz: ActivityOccurrenceResultsResource.self) { (source: AnyObject, instance: AnyObject?) -> ActivityOccurrenceResultsResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? ActivityOccurrenceResultsResource() : instance as! ActivityOccurrenceResultsResource
+            
+            result.users = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["users"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [ActivityResource]
+        Decoders.addDecoder(clazz: [ActivityResource].self) { (source: AnyObject, instance: AnyObject?) -> [ActivityResource] in
+            return Decoders.decode(clazz: [ActivityResource].self, source: source)
+        }
+        // Decoder for ActivityResource
+        Decoders.addDecoder(clazz: ActivityResource.self) { (source: AnyObject, instance: AnyObject?) -> ActivityResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? ActivityResource() : instance as! ActivityResource
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.entitlements = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["entitlements"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.launch = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["launch"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.rewardSet = Decoders.decodeOptional(clazz: RewardSetResource.self, source: sourceDictionary["reward_set"] as AnyObject?)
+            result.settings = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["settings"] as AnyObject?)
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["template"] as AnyObject?)
+            result.templateId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template_id"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ActivityUserResource]
-        Decoders.addDecoder(clazz: [ActivityUserResource].self) { (source: AnyObject) -> [ActivityUserResource] in
+        Decoders.addDecoder(clazz: [ActivityUserResource].self) { (source: AnyObject, instance: AnyObject?) -> [ActivityUserResource] in
             return Decoders.decode(clazz: [ActivityUserResource].self, source: source)
         }
         // Decoder for ActivityUserResource
-        Decoders.addDecoder(clazz: ActivityUserResource.self) { (source: AnyObject) -> ActivityUserResource in
+        Decoders.addDecoder(clazz: ActivityUserResource.self) { (source: AnyObject, instance: AnyObject?) -> ActivityUserResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ActivityUserResource()
-            instance.host = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["host"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.joinedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["joined_date"] as AnyObject?)
-            instance.leftDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["left_date"] as AnyObject?)
-            instance.metric = Decoders.decodeOptional(clazz: MetricResource.self, source: sourceDictionary["metric"] as AnyObject?)
+            let result = instance == nil ? ActivityUserResource() : instance as! ActivityUserResource
+            
+            result.host = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["host"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.joinedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["joined_date"] as AnyObject?)
+            result.leftDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["left_date"] as AnyObject?)
+            result.metric = Decoders.decodeOptional(clazz: MetricResource.self, source: sourceDictionary["metric"] as AnyObject?)
             if let status = sourceDictionary["status"] as? String { 
-                instance.status = ActivityUserResource.Status(rawValue: (status))
+                result.status = ActivityUserResource.Status(rawValue: (status))
             }
             
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            return instance
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [AddressResource]
-        Decoders.addDecoder(clazz: [AddressResource].self) { (source: AnyObject) -> [AddressResource] in
+        Decoders.addDecoder(clazz: [AddressResource].self) { (source: AnyObject, instance: AnyObject?) -> [AddressResource] in
             return Decoders.decode(clazz: [AddressResource].self, source: source)
         }
         // Decoder for AddressResource
-        Decoders.addDecoder(clazz: AddressResource.self) { (source: AnyObject) -> AddressResource in
+        Decoders.addDecoder(clazz: AddressResource.self) { (source: AnyObject, instance: AnyObject?) -> AddressResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = AddressResource()
-            instance.address1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address1"] as AnyObject?)
-            instance.address2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address2"] as AnyObject?)
-            instance.city = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["city"] as AnyObject?)
-            instance.countryCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_code"] as AnyObject?)
-            instance.postalCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["postal_code"] as AnyObject?)
-            instance.stateCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["state_code"] as AnyObject?)
-            return instance
+            let result = instance == nil ? AddressResource() : instance as! AddressResource
+            
+            result.address1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address1"] as AnyObject?)
+            result.address2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address2"] as AnyObject?)
+            result.city = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["city"] as AnyObject?)
+            result.countryCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_code"] as AnyObject?)
+            result.postalCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["postal_code"] as AnyObject?)
+            result.stateCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["state_code"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [AggregateCountResource]
-        Decoders.addDecoder(clazz: [AggregateCountResource].self) { (source: AnyObject) -> [AggregateCountResource] in
+        Decoders.addDecoder(clazz: [AggregateCountResource].self) { (source: AnyObject, instance: AnyObject?) -> [AggregateCountResource] in
             return Decoders.decode(clazz: [AggregateCountResource].self, source: source)
         }
         // Decoder for AggregateCountResource
-        Decoders.addDecoder(clazz: AggregateCountResource.self) { (source: AnyObject) -> AggregateCountResource in
+        Decoders.addDecoder(clazz: AggregateCountResource.self) { (source: AnyObject, instance: AnyObject?) -> AggregateCountResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = AggregateCountResource()
-            instance.count = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["count"] as AnyObject?)
-            instance.date = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? AggregateCountResource() : instance as! AggregateCountResource
+            
+            result.count = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["count"] as AnyObject?)
+            result.date = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [AggregateInvoiceReportResource]
-        Decoders.addDecoder(clazz: [AggregateInvoiceReportResource].self) { (source: AnyObject) -> [AggregateInvoiceReportResource] in
+        Decoders.addDecoder(clazz: [AggregateInvoiceReportResource].self) { (source: AnyObject, instance: AnyObject?) -> [AggregateInvoiceReportResource] in
             return Decoders.decode(clazz: [AggregateInvoiceReportResource].self, source: source)
         }
         // Decoder for AggregateInvoiceReportResource
-        Decoders.addDecoder(clazz: AggregateInvoiceReportResource.self) { (source: AnyObject) -> AggregateInvoiceReportResource in
+        Decoders.addDecoder(clazz: AggregateInvoiceReportResource.self) { (source: AnyObject, instance: AnyObject?) -> AggregateInvoiceReportResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = AggregateInvoiceReportResource()
-            instance.count = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["count"] as AnyObject?)
-            instance.date = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["date"] as AnyObject?)
-            instance.revenue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["revenue"] as AnyObject?)
-            instance.userCount = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["user_count"] as AnyObject?)
-            return instance
+            let result = instance == nil ? AggregateInvoiceReportResource() : instance as! AggregateInvoiceReportResource
+            
+            result.count = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["count"] as AnyObject?)
+            result.date = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["date"] as AnyObject?)
+            result.revenue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["revenue"] as AnyObject?)
+            result.userCount = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["user_count"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [AmazonS3Activity]
-        Decoders.addDecoder(clazz: [AmazonS3Activity].self) { (source: AnyObject) -> [AmazonS3Activity] in
+        Decoders.addDecoder(clazz: [AmazonS3Activity].self) { (source: AnyObject, instance: AnyObject?) -> [AmazonS3Activity] in
             return Decoders.decode(clazz: [AmazonS3Activity].self, source: source)
         }
         // Decoder for AmazonS3Activity
-        Decoders.addDecoder(clazz: AmazonS3Activity.self) { (source: AnyObject) -> AmazonS3Activity in
+        Decoders.addDecoder(clazz: AmazonS3Activity.self) { (source: AnyObject, instance: AnyObject?) -> AmazonS3Activity in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = AmazonS3Activity()
-            instance.action = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["action"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.filename = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["filename"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.objectKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["object_key"] as AnyObject?)
-            instance.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
-            return instance
+            let result = instance == nil ? AmazonS3Activity() : instance as! AmazonS3Activity
+            
+            result.action = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["action"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.filename = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["filename"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.objectKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["object_key"] as AnyObject?)
+            result.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [AnswerResource]
-        Decoders.addDecoder(clazz: [AnswerResource].self) { (source: AnyObject) -> [AnswerResource] in
+        Decoders.addDecoder(clazz: [AnswerResource].self) { (source: AnyObject, instance: AnyObject?) -> [AnswerResource] in
             return Decoders.decode(clazz: [AnswerResource].self, source: source)
         }
         // Decoder for AnswerResource
-        Decoders.addDecoder(clazz: AnswerResource.self) { (source: AnyObject) -> AnswerResource in
+        Decoders.addDecoder(clazz: AnswerResource.self) { (source: AnyObject, instance: AnyObject?) -> AnswerResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = AnswerResource()
-            instance.answer = Decoders.decodeOptional(clazz: Property.self, source: sourceDictionary["answer"] as AnyObject?)
-            instance.correct = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["correct"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            return instance
+            let result = instance == nil ? AnswerResource() : instance as! AnswerResource
+            
+            result.answer = Decoders.decodeOptional(clazz: Property.self, source: sourceDictionary["answer"] as AnyObject?)
+            result.correct = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["correct"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ApplyPaymentRequest]
-        Decoders.addDecoder(clazz: [ApplyPaymentRequest].self) { (source: AnyObject) -> [ApplyPaymentRequest] in
+        Decoders.addDecoder(clazz: [ApplyPaymentRequest].self) { (source: AnyObject, instance: AnyObject?) -> [ApplyPaymentRequest] in
             return Decoders.decode(clazz: [ApplyPaymentRequest].self, source: source)
         }
         // Decoder for ApplyPaymentRequest
-        Decoders.addDecoder(clazz: ApplyPaymentRequest.self) { (source: AnyObject) -> ApplyPaymentRequest in
+        Decoders.addDecoder(clazz: ApplyPaymentRequest.self) { (source: AnyObject, instance: AnyObject?) -> ApplyPaymentRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ApplyPaymentRequest()
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.receipt = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["receipt"] as AnyObject?)
-            instance.transactionId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["transaction_id"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ApplyPaymentRequest() : instance as! ApplyPaymentRequest
+            
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.receipt = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["receipt"] as AnyObject?)
+            result.transactionId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["transaction_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ArticleResource]
-        Decoders.addDecoder(clazz: [ArticleResource].self) { (source: AnyObject) -> [ArticleResource] in
+        Decoders.addDecoder(clazz: [ArticleResource].self) { (source: AnyObject, instance: AnyObject?) -> [ArticleResource] in
             return Decoders.decode(clazz: [ArticleResource].self, source: source)
         }
         // Decoder for ArticleResource
-        Decoders.addDecoder(clazz: ArticleResource.self) { (source: AnyObject) -> ArticleResource in
+        Decoders.addDecoder(clazz: ArticleResource.self) { (source: AnyObject, instance: AnyObject?) -> ArticleResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ArticleResource()
-            instance.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.body = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["body"] as AnyObject?)
-            instance.category = Decoders.decodeOptional(clazz: NestedCategory.self, source: sourceDictionary["category"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.title = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["title"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ArticleResource() : instance as! ArticleResource
+            
+            result.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.body = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["body"] as AnyObject?)
+            result.category = Decoders.decodeOptional(clazz: NestedCategory.self, source: sourceDictionary["category"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.title = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["title"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ArtistResource]
-        Decoders.addDecoder(clazz: [ArtistResource].self) { (source: AnyObject) -> [ArtistResource] in
+        Decoders.addDecoder(clazz: [ArtistResource].self) { (source: AnyObject, instance: AnyObject?) -> [ArtistResource] in
             return Decoders.decode(clazz: [ArtistResource].self, source: source)
         }
         // Decoder for ArtistResource
-        Decoders.addDecoder(clazz: ArtistResource.self) { (source: AnyObject) -> ArtistResource in
+        Decoders.addDecoder(clazz: ArtistResource.self) { (source: AnyObject, instance: AnyObject?) -> ArtistResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ArtistResource()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.born = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["born"] as AnyObject?)
-            instance.contributionCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["contribution_count"] as AnyObject?)
-            instance.contributions = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["contributions"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.died = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["died"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.priority = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["priority"] as AnyObject?)
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ArtistResource() : instance as! ArtistResource
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.born = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["born"] as AnyObject?)
+            result.contributionCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["contribution_count"] as AnyObject?)
+            result.contributions = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["contributions"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.died = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["died"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.priority = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["priority"] as AnyObject?)
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
-        // Decoder for [AudioGroupProperty]
-        Decoders.addDecoder(clazz: [AudioGroupProperty].self) { (source: AnyObject) -> [AudioGroupProperty] in
-            return Decoders.decode(clazz: [AudioGroupProperty].self, source: source)
+        // Decoder for [AvailableSettingResource]
+        Decoders.addDecoder(clazz: [AvailableSettingResource].self) { (source: AnyObject, instance: AnyObject?) -> [AvailableSettingResource] in
+            return Decoders.decode(clazz: [AvailableSettingResource].self, source: source)
         }
-        // Decoder for AudioGroupProperty
-        Decoders.addDecoder(clazz: AudioGroupProperty.self) { (source: AnyObject) -> AudioGroupProperty in
-            if let source = source as?  {
-                return source
-            }
-            fatalError("Source \(source) is not convertible to typealias AudioGroupProperty: Maybe swagger file is insufficient")
-        }
-
-
-        // Decoder for [AudioGroupPropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [AudioGroupPropertyDefinitionResource].self) { (source: AnyObject) -> [AudioGroupPropertyDefinitionResource] in
-            return Decoders.decode(clazz: [AudioGroupPropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for AudioGroupPropertyDefinitionResource
-        Decoders.addDecoder(clazz: AudioGroupPropertyDefinitionResource.self) { (source: AnyObject) -> AudioGroupPropertyDefinitionResource in
+        // Decoder for AvailableSettingResource
+        Decoders.addDecoder(clazz: AvailableSettingResource.self) { (source: AnyObject, instance: AnyObject?) -> AvailableSettingResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = AudioGroupPropertyDefinitionResource()
-            instance.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
-            instance.minLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_length"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [AudioProperty]
-        Decoders.addDecoder(clazz: [AudioProperty].self) { (source: AnyObject) -> [AudioProperty] in
-            return Decoders.decode(clazz: [AudioProperty].self, source: source)
-        }
-        // Decoder for AudioProperty
-        Decoders.addDecoder(clazz: AudioProperty.self) { (source: AnyObject) -> AudioProperty in
-            if let source = source as?  {
-                return source
-            }
-            fatalError("Source \(source) is not convertible to typealias AudioProperty: Maybe swagger file is insufficient")
-        }
-
-
-        // Decoder for [AudioPropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [AudioPropertyDefinitionResource].self) { (source: AnyObject) -> [AudioPropertyDefinitionResource] in
-            return Decoders.decode(clazz: [AudioPropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for AudioPropertyDefinitionResource
-        Decoders.addDecoder(clazz: AudioPropertyDefinitionResource.self) { (source: AnyObject) -> AudioPropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = AudioPropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
-            instance.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
-            instance.minLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_length"] as AnyObject?)
-            return instance
+            let result = instance == nil ? AvailableSettingResource() : instance as! AvailableSettingResource
+            
+            result.advancedOption = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["advanced_option"] as AnyObject?)
+            result.defaultValue = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["default_value"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.options = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["options"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BareActivityResource]
-        Decoders.addDecoder(clazz: [BareActivityResource].self) { (source: AnyObject) -> [BareActivityResource] in
+        Decoders.addDecoder(clazz: [BareActivityResource].self) { (source: AnyObject, instance: AnyObject?) -> [BareActivityResource] in
             return Decoders.decode(clazz: [BareActivityResource].self, source: source)
         }
         // Decoder for BareActivityResource
-        Decoders.addDecoder(clazz: BareActivityResource.self) { (source: AnyObject) -> BareActivityResource in
+        Decoders.addDecoder(clazz: BareActivityResource.self) { (source: AnyObject, instance: AnyObject?) -> BareActivityResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BareActivityResource()
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.launch = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["launch"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BareActivityResource() : instance as! BareActivityResource
+            
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.launch = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["launch"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["template"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BareChallengeActivityResource]
-        Decoders.addDecoder(clazz: [BareChallengeActivityResource].self) { (source: AnyObject) -> [BareChallengeActivityResource] in
+        Decoders.addDecoder(clazz: [BareChallengeActivityResource].self) { (source: AnyObject, instance: AnyObject?) -> [BareChallengeActivityResource] in
             return Decoders.decode(clazz: [BareChallengeActivityResource].self, source: source)
         }
         // Decoder for BareChallengeActivityResource
-        Decoders.addDecoder(clazz: BareChallengeActivityResource.self) { (source: AnyObject) -> BareChallengeActivityResource in
+        Decoders.addDecoder(clazz: BareChallengeActivityResource.self) { (source: AnyObject, instance: AnyObject?) -> BareChallengeActivityResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BareChallengeActivityResource()
-            instance.activityId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["activity_id"] as AnyObject?)
-            instance.challengeId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["challenge_id"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BareChallengeActivityResource() : instance as! BareChallengeActivityResource
+            
+            result.activityId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["activity_id"] as AnyObject?)
+            result.challengeId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["challenge_id"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Batch]
-        Decoders.addDecoder(clazz: [Batch].self) { (source: AnyObject) -> [Batch] in
+        Decoders.addDecoder(clazz: [Batch].self) { (source: AnyObject, instance: AnyObject?) -> [Batch] in
             return Decoders.decode(clazz: [Batch].self, source: source)
         }
         // Decoder for Batch
-        Decoders.addDecoder(clazz: Batch.self) { (source: AnyObject) -> Batch in
+        Decoders.addDecoder(clazz: Batch.self) { (source: AnyObject, instance: AnyObject?) -> Batch in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Batch()
-            instance.batch = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["batch"] as AnyObject?)
-            instance.timeout = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["timeout"] as AnyObject?)
-            return instance
+            let result = instance == nil ? Batch() : instance as! Batch
+            
+            result.batch = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["batch"] as AnyObject?)
+            result.timeout = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["timeout"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BatchRequest]
-        Decoders.addDecoder(clazz: [BatchRequest].self) { (source: AnyObject) -> [BatchRequest] in
+        Decoders.addDecoder(clazz: [BatchRequest].self) { (source: AnyObject, instance: AnyObject?) -> [BatchRequest] in
             return Decoders.decode(clazz: [BatchRequest].self, source: source)
         }
         // Decoder for BatchRequest
-        Decoders.addDecoder(clazz: BatchRequest.self) { (source: AnyObject) -> BatchRequest in
+        Decoders.addDecoder(clazz: BatchRequest.self) { (source: AnyObject, instance: AnyObject?) -> BatchRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BatchRequest()
-            instance.body = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["body"] as AnyObject?)
-            instance.contentType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["content_type"] as AnyObject?)
-            instance.method = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["method"] as AnyObject?)
-            instance.timeout = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["timeout"] as AnyObject?)
-            instance.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
-            instance.uri = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uri"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BatchRequest() : instance as! BatchRequest
+            
+            result.body = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["body"] as AnyObject?)
+            result.contentType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["content_type"] as AnyObject?)
+            result.method = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["method"] as AnyObject?)
+            result.timeout = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["timeout"] as AnyObject?)
+            result.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
+            result.uri = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uri"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BatchResult]
-        Decoders.addDecoder(clazz: [BatchResult].self) { (source: AnyObject) -> [BatchResult] in
+        Decoders.addDecoder(clazz: [BatchResult].self) { (source: AnyObject, instance: AnyObject?) -> [BatchResult] in
             return Decoders.decode(clazz: [BatchResult].self, source: source)
         }
         // Decoder for BatchResult
-        Decoders.addDecoder(clazz: BatchResult.self) { (source: AnyObject) -> BatchResult in
+        Decoders.addDecoder(clazz: BatchResult.self) { (source: AnyObject, instance: AnyObject?) -> BatchResult in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BatchResult()
-            instance.batchReturn = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["batch_return"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BatchResult() : instance as! BatchResult
+            
+            result.batchReturn = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["batch_return"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BatchReturn]
-        Decoders.addDecoder(clazz: [BatchReturn].self) { (source: AnyObject) -> [BatchReturn] in
+        Decoders.addDecoder(clazz: [BatchReturn].self) { (source: AnyObject, instance: AnyObject?) -> [BatchReturn] in
             return Decoders.decode(clazz: [BatchReturn].self, source: source)
         }
         // Decoder for BatchReturn
-        Decoders.addDecoder(clazz: BatchReturn.self) { (source: AnyObject) -> BatchReturn in
+        Decoders.addDecoder(clazz: BatchReturn.self) { (source: AnyObject, instance: AnyObject?) -> BatchReturn in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BatchReturn()
-            instance.body = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["body"] as AnyObject?)
-            instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"] as AnyObject?)
-            instance.uri = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uri"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BatchReturn() : instance as! BatchReturn
+            
+            result.body = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["body"] as AnyObject?)
+            result.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"] as AnyObject?)
+            result.uri = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uri"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Behavior]
-        Decoders.addDecoder(clazz: [Behavior].self) { (source: AnyObject) -> [Behavior] in
+        Decoders.addDecoder(clazz: [Behavior].self) { (source: AnyObject, instance: AnyObject?) -> [Behavior] in
             return Decoders.decode(clazz: [Behavior].self, source: source)
         }
         // Decoder for Behavior
-        Decoders.addDecoder(clazz: Behavior.self) { (source: AnyObject) -> Behavior in
+        Decoders.addDecoder(clazz: Behavior.self) { (source: AnyObject, instance: AnyObject?) -> Behavior in
             let sourceDictionary = source as! [AnyHashable: Any]
             // Check discriminator to support inheritance
-            if let discriminator = sourceDictionary["type_hint"] as? String, discriminator != "Behavior"{
+            if let discriminator = sourceDictionary["type_hint"] as? String, instance == nil && discriminator != "Behavior" {
                 return Decoders.decode(clazz: Behavior.self, discriminator: discriminator, source: source)
             }
-
-            let instance = Behavior()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            return instance
+            let result = instance == nil ? Behavior() : instance as! Behavior
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BehaviorDefinitionResource]
-        Decoders.addDecoder(clazz: [BehaviorDefinitionResource].self) { (source: AnyObject) -> [BehaviorDefinitionResource] in
+        Decoders.addDecoder(clazz: [BehaviorDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [BehaviorDefinitionResource] in
             return Decoders.decode(clazz: [BehaviorDefinitionResource].self, source: source)
         }
         // Decoder for BehaviorDefinitionResource
-        Decoders.addDecoder(clazz: BehaviorDefinitionResource.self) { (source: AnyObject) -> BehaviorDefinitionResource in
+        Decoders.addDecoder(clazz: BehaviorDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> BehaviorDefinitionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BehaviorDefinitionResource()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.prerequisiteBehaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["prerequisite_behaviors"] as AnyObject?)
-            instance.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BehaviorDefinitionResource() : instance as! BehaviorDefinitionResource
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.prerequisiteBehaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["prerequisite_behaviors"] as AnyObject?)
+            result.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BillingReport]
-        Decoders.addDecoder(clazz: [BillingReport].self) { (source: AnyObject) -> [BillingReport] in
+        Decoders.addDecoder(clazz: [BillingReport].self) { (source: AnyObject, instance: AnyObject?) -> [BillingReport] in
             return Decoders.decode(clazz: [BillingReport].self, source: source)
         }
         // Decoder for BillingReport
-        Decoders.addDecoder(clazz: BillingReport.self) { (source: AnyObject) -> BillingReport in
+        Decoders.addDecoder(clazz: BillingReport.self) { (source: AnyObject, instance: AnyObject?) -> BillingReport in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BillingReport()
-            instance.created = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.lastKnownFailures = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["last_known_failures"] as AnyObject?)
-            instance.statistics = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["statistics"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [BooleanProperty]
-        Decoders.addDecoder(clazz: [BooleanProperty].self) { (source: AnyObject) -> [BooleanProperty] in
-            return Decoders.decode(clazz: [BooleanProperty].self, source: source)
-        }
-        // Decoder for BooleanProperty
-        Decoders.addDecoder(clazz: BooleanProperty.self) { (source: AnyObject) -> BooleanProperty in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BooleanProperty()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [BooleanPropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [BooleanPropertyDefinitionResource].self) { (source: AnyObject) -> [BooleanPropertyDefinitionResource] in
-            return Decoders.decode(clazz: [BooleanPropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for BooleanPropertyDefinitionResource
-        Decoders.addDecoder(clazz: BooleanPropertyDefinitionResource.self) { (source: AnyObject) -> BooleanPropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BooleanPropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BillingReport() : instance as! BillingReport
+            
+            result.created = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.lastKnownFailures = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["last_known_failures"] as AnyObject?)
+            result.statistics = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["statistics"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BooleanResource]
-        Decoders.addDecoder(clazz: [BooleanResource].self) { (source: AnyObject) -> [BooleanResource] in
+        Decoders.addDecoder(clazz: [BooleanResource].self) { (source: AnyObject, instance: AnyObject?) -> [BooleanResource] in
             return Decoders.decode(clazz: [BooleanResource].self, source: source)
         }
         // Decoder for BooleanResource
-        Decoders.addDecoder(clazz: BooleanResource.self) { (source: AnyObject) -> BooleanResource in
+        Decoders.addDecoder(clazz: BooleanResource.self) { (source: AnyObject, instance: AnyObject?) -> BooleanResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BooleanResource()
-            instance.value = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BooleanResource() : instance as! BooleanResource
+            
+            result.value = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BreCategoryResource]
-        Decoders.addDecoder(clazz: [BreCategoryResource].self) { (source: AnyObject) -> [BreCategoryResource] in
+        Decoders.addDecoder(clazz: [BreCategoryResource].self) { (source: AnyObject, instance: AnyObject?) -> [BreCategoryResource] in
             return Decoders.decode(clazz: [BreCategoryResource].self, source: source)
         }
         // Decoder for BreCategoryResource
-        Decoders.addDecoder(clazz: BreCategoryResource.self) { (source: AnyObject) -> BreCategoryResource in
+        Decoders.addDecoder(clazz: BreCategoryResource.self) { (source: AnyObject, instance: AnyObject?) -> BreCategoryResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BreCategoryResource()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BreCategoryResource() : instance as! BreCategoryResource
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BreEvent]
-        Decoders.addDecoder(clazz: [BreEvent].self) { (source: AnyObject) -> [BreEvent] in
+        Decoders.addDecoder(clazz: [BreEvent].self) { (source: AnyObject, instance: AnyObject?) -> [BreEvent] in
             return Decoders.decode(clazz: [BreEvent].self, source: source)
         }
         // Decoder for BreEvent
-        Decoders.addDecoder(clazz: BreEvent.self) { (source: AnyObject) -> BreEvent in
+        Decoders.addDecoder(clazz: BreEvent.self) { (source: AnyObject, instance: AnyObject?) -> BreEvent in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BreEvent()
-            instance.eventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_name"] as AnyObject?)
-            instance.params = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["params"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BreEvent() : instance as! BreEvent
+            
+            result.eventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_name"] as AnyObject?)
+            result.params = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["params"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BreEventLog]
-        Decoders.addDecoder(clazz: [BreEventLog].self) { (source: AnyObject) -> [BreEventLog] in
+        Decoders.addDecoder(clazz: [BreEventLog].self) { (source: AnyObject, instance: AnyObject?) -> [BreEventLog] in
             return Decoders.decode(clazz: [BreEventLog].self, source: source)
         }
         // Decoder for BreEventLog
-        Decoders.addDecoder(clazz: BreEventLog.self) { (source: AnyObject) -> BreEventLog in
+        Decoders.addDecoder(clazz: BreEventLog.self) { (source: AnyObject, instance: AnyObject?) -> BreEventLog in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BreEventLog()
-            instance.customer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?)
-            instance.eventId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_id"] as AnyObject?)
-            instance.eventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_name"] as AnyObject?)
-            instance.eventStartDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["event_start_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.parameters = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["parameters"] as AnyObject?)
-            instance.rules = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["rules"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BreEventLog() : instance as! BreEventLog
+            
+            result.customer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?)
+            result.eventId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_id"] as AnyObject?)
+            result.eventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_name"] as AnyObject?)
+            result.eventStartDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["event_start_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.parameters = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["parameters"] as AnyObject?)
+            result.rules = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["rules"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BreGlobalResource]
-        Decoders.addDecoder(clazz: [BreGlobalResource].self) { (source: AnyObject) -> [BreGlobalResource] in
+        Decoders.addDecoder(clazz: [BreGlobalResource].self) { (source: AnyObject, instance: AnyObject?) -> [BreGlobalResource] in
             return Decoders.decode(clazz: [BreGlobalResource].self, source: source)
         }
         // Decoder for BreGlobalResource
-        Decoders.addDecoder(clazz: BreGlobalResource.self) { (source: AnyObject) -> BreGlobalResource in
+        Decoders.addDecoder(clazz: BreGlobalResource.self) { (source: AnyObject, instance: AnyObject?) -> BreGlobalResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BreGlobalResource()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.scopes = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["scopes"] as AnyObject?)
-            instance.systemGlobal = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["system_global"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BreGlobalResource() : instance as! BreGlobalResource
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.scopes = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["scopes"] as AnyObject?)
+            result.systemGlobal = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["system_global"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BreGlobalScopeDefinition]
-        Decoders.addDecoder(clazz: [BreGlobalScopeDefinition].self) { (source: AnyObject) -> [BreGlobalScopeDefinition] in
+        Decoders.addDecoder(clazz: [BreGlobalScopeDefinition].self) { (source: AnyObject, instance: AnyObject?) -> [BreGlobalScopeDefinition] in
             return Decoders.decode(clazz: [BreGlobalScopeDefinition].self, source: source)
         }
         // Decoder for BreGlobalScopeDefinition
-        Decoders.addDecoder(clazz: BreGlobalScopeDefinition.self) { (source: AnyObject) -> BreGlobalScopeDefinition in
+        Decoders.addDecoder(clazz: BreGlobalScopeDefinition.self) { (source: AnyObject, instance: AnyObject?) -> BreGlobalScopeDefinition in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BreGlobalScopeDefinition()
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BreGlobalScopeDefinition() : instance as! BreGlobalScopeDefinition
+            
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BreRule]
-        Decoders.addDecoder(clazz: [BreRule].self) { (source: AnyObject) -> [BreRule] in
+        Decoders.addDecoder(clazz: [BreRule].self) { (source: AnyObject, instance: AnyObject?) -> [BreRule] in
             return Decoders.decode(clazz: [BreRule].self, source: source)
         }
         // Decoder for BreRule
-        Decoders.addDecoder(clazz: BreRule.self) { (source: AnyObject) -> BreRule in
+        Decoders.addDecoder(clazz: BreRule.self) { (source: AnyObject, instance: AnyObject?) -> BreRule in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BreRule()
-            instance.actions = Decoders.decodeOptional(clazz: ActionResource.self, source: sourceDictionary["actions"] as AnyObject?)
-            instance.condition = Decoders.decodeOptional(clazz: PredicateOperation.self, source: sourceDictionary["condition"] as AnyObject?)
-            instance.conditionText = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["condition_text"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.enabled = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["enabled"] as AnyObject?)
-            instance.endDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["end_date"] as AnyObject?)
-            instance.eventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_name"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
-            instance.systemRule = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["system_rule"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BreRule() : instance as! BreRule
+            
+            result.actions = Decoders.decodeOptional(clazz: ActionResource.self, source: sourceDictionary["actions"] as AnyObject?)
+            result.condition = Decoders.decodeOptional(clazz: PredicateOperation.self, source: sourceDictionary["condition"] as AnyObject?)
+            result.conditionText = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["condition_text"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.enabled = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["enabled"] as AnyObject?)
+            result.endDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["end_date"] as AnyObject?)
+            result.eventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_name"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
+            result.systemRule = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["system_rule"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BreRuleLog]
-        Decoders.addDecoder(clazz: [BreRuleLog].self) { (source: AnyObject) -> [BreRuleLog] in
+        Decoders.addDecoder(clazz: [BreRuleLog].self) { (source: AnyObject, instance: AnyObject?) -> [BreRuleLog] in
             return Decoders.decode(clazz: [BreRuleLog].self, source: source)
         }
         // Decoder for BreRuleLog
-        Decoders.addDecoder(clazz: BreRuleLog.self) { (source: AnyObject) -> BreRuleLog in
+        Decoders.addDecoder(clazz: BreRuleLog.self) { (source: AnyObject, instance: AnyObject?) -> BreRuleLog in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BreRuleLog()
-            instance.ran = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["ran"] as AnyObject?)
-            instance.reason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?)
-            instance.ruleEndDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["rule_end_date"] as AnyObject?)
-            instance.ruleId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["rule_id"] as AnyObject?)
-            instance.ruleName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["rule_name"] as AnyObject?)
-            instance.ruleStartDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["rule_start_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BreRuleLog() : instance as! BreRuleLog
+            
+            result.ran = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["ran"] as AnyObject?)
+            result.reason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?)
+            result.ruleEndDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["rule_end_date"] as AnyObject?)
+            result.ruleId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["rule_id"] as AnyObject?)
+            result.ruleName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["rule_name"] as AnyObject?)
+            result.ruleStartDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["rule_start_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BreTriggerParameterDefinition]
-        Decoders.addDecoder(clazz: [BreTriggerParameterDefinition].self) { (source: AnyObject) -> [BreTriggerParameterDefinition] in
+        Decoders.addDecoder(clazz: [BreTriggerParameterDefinition].self) { (source: AnyObject, instance: AnyObject?) -> [BreTriggerParameterDefinition] in
             return Decoders.decode(clazz: [BreTriggerParameterDefinition].self, source: source)
         }
         // Decoder for BreTriggerParameterDefinition
-        Decoders.addDecoder(clazz: BreTriggerParameterDefinition.self) { (source: AnyObject) -> BreTriggerParameterDefinition in
+        Decoders.addDecoder(clazz: BreTriggerParameterDefinition.self) { (source: AnyObject, instance: AnyObject?) -> BreTriggerParameterDefinition in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BreTriggerParameterDefinition()
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BreTriggerParameterDefinition() : instance as! BreTriggerParameterDefinition
+            
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._optional = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["optional"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BreTriggerResource]
-        Decoders.addDecoder(clazz: [BreTriggerResource].self) { (source: AnyObject) -> [BreTriggerResource] in
+        Decoders.addDecoder(clazz: [BreTriggerResource].self) { (source: AnyObject, instance: AnyObject?) -> [BreTriggerResource] in
             return Decoders.decode(clazz: [BreTriggerResource].self, source: source)
         }
         // Decoder for BreTriggerResource
-        Decoders.addDecoder(clazz: BreTriggerResource.self) { (source: AnyObject) -> BreTriggerResource in
+        Decoders.addDecoder(clazz: BreTriggerResource.self) { (source: AnyObject, instance: AnyObject?) -> BreTriggerResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BreTriggerResource()
+            let result = instance == nil ? BreTriggerResource() : instance as! BreTriggerResource
+            
             if let category = sourceDictionary["category"] as? String { 
-                instance.category = BreTriggerResource.Category(rawValue: (category))
+                result.category = BreTriggerResource.Category(rawValue: (category))
             }
             
-            instance.eventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_name"] as AnyObject?)
-            instance.parameters = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["parameters"] as AnyObject?)
-            instance.systemTrigger = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["system_trigger"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.triggerDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["trigger_description"] as AnyObject?)
-            instance.triggerName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["trigger_name"] as AnyObject?)
-            return instance
+            result.eventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_name"] as AnyObject?)
+            result.parameters = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["parameters"] as AnyObject?)
+            result.systemTrigger = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["system_trigger"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.triggerDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["trigger_description"] as AnyObject?)
+            result.triggerName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["trigger_name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BroadcastableEvent]
-        Decoders.addDecoder(clazz: [BroadcastableEvent].self) { (source: AnyObject) -> [BroadcastableEvent] in
+        Decoders.addDecoder(clazz: [BroadcastableEvent].self) { (source: AnyObject, instance: AnyObject?) -> [BroadcastableEvent] in
             return Decoders.decode(clazz: [BroadcastableEvent].self, source: source)
         }
         // Decoder for BroadcastableEvent
-        Decoders.addDecoder(clazz: BroadcastableEvent.self) { (source: AnyObject) -> BroadcastableEvent in
+        Decoders.addDecoder(clazz: BroadcastableEvent.self) { (source: AnyObject, instance: AnyObject?) -> BroadcastableEvent in
             let sourceDictionary = source as! [AnyHashable: Any]
             // Check discriminator to support inheritance
-            if let discriminator = sourceDictionary["type"] as? String, discriminator != "BroadcastableEvent"{
+            if let discriminator = sourceDictionary["type"] as? String, instance == nil && discriminator != "BroadcastableEvent" {
                 return Decoders.decode(clazz: BroadcastableEvent.self, discriminator: discriminator, source: source)
             }
-
-            let instance = BroadcastableEvent()
-            instance.client = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?)
-            instance.customer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?)
-            instance.doNotBroadcast = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?)
-            instance.section = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?)
-            instance.source = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?)
-            instance.specifics = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?)
-            instance.synchronous = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?)
-            instance.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [BundleItem]
-        Decoders.addDecoder(clazz: [BundleItem].self) { (source: AnyObject) -> [BundleItem] in
-            return Decoders.decode(clazz: [BundleItem].self, source: source)
-        }
-        // Decoder for BundleItem
-        Decoders.addDecoder(clazz: BundleItem.self) { (source: AnyObject) -> BundleItem in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BundleItem()
-            instance.bundledSkus = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["bundled_skus"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BroadcastableEvent() : instance as! BroadcastableEvent
+            
+            result.client = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?)
+            result.customer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?)
+            result.doNotBroadcast = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?)
+            result.section = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?)
+            result.source = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?)
+            result.specifics = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?)
+            result.synchronous = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?)
+            result.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [BundledSku]
-        Decoders.addDecoder(clazz: [BundledSku].self) { (source: AnyObject) -> [BundledSku] in
+        Decoders.addDecoder(clazz: [BundledSku].self) { (source: AnyObject, instance: AnyObject?) -> [BundledSku] in
             return Decoders.decode(clazz: [BundledSku].self, source: source)
         }
         // Decoder for BundledSku
-        Decoders.addDecoder(clazz: BundledSku.self) { (source: AnyObject) -> BundledSku in
+        Decoders.addDecoder(clazz: BundledSku.self) { (source: AnyObject, instance: AnyObject?) -> BundledSku in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = BundledSku()
-            instance.priceOverride = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price_override"] as AnyObject?)
-            instance.quantity = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["quantity"] as AnyObject?)
-            instance.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [CacheClearEvent]
-        Decoders.addDecoder(clazz: [CacheClearEvent].self) { (source: AnyObject) -> [CacheClearEvent] in
-            return Decoders.decode(clazz: [CacheClearEvent].self, source: source)
-        }
-        // Decoder for CacheClearEvent
-        Decoders.addDecoder(clazz: CacheClearEvent.self) { (source: AnyObject) -> CacheClearEvent in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CacheClearEvent()
-            instance.client = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?)
-            instance.customer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?)
-            instance.doNotBroadcast = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?)
-            instance.section = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?)
-            instance.source = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?)
-            instance.specifics = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?)
-            instance.synchronous = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?)
-            instance.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? BundledSku() : instance as! BundledSku
+            
+            result.priceOverride = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price_override"] as AnyObject?)
+            result.quantity = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["quantity"] as AnyObject?)
+            result.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CampaignResource]
-        Decoders.addDecoder(clazz: [CampaignResource].self) { (source: AnyObject) -> [CampaignResource] in
+        Decoders.addDecoder(clazz: [CampaignResource].self) { (source: AnyObject, instance: AnyObject?) -> [CampaignResource] in
             return Decoders.decode(clazz: [CampaignResource].self, source: source)
         }
         // Decoder for CampaignResource
-        Decoders.addDecoder(clazz: CampaignResource.self) { (source: AnyObject) -> CampaignResource in
+        Decoders.addDecoder(clazz: CampaignResource.self) { (source: AnyObject, instance: AnyObject?) -> CampaignResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CampaignResource()
-            instance.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.leaderboardStrategy = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["leaderboard_strategy"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.nextChallenge = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["next_challenge"] as AnyObject?)
-            instance.nextChallengeDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["next_challenge_date"] as AnyObject?)
-            instance.rewardSet = Decoders.decodeOptional(clazz: RewardSetResource.self, source: sourceDictionary["reward_set"] as AnyObject?)
+            let result = instance == nil ? CampaignResource() : instance as! CampaignResource
+            
+            result.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.leaderboardStrategy = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["leaderboard_strategy"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.nextChallenge = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["next_challenge"] as AnyObject?)
+            result.nextChallengeDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["next_challenge_date"] as AnyObject?)
+            result.rewardSet = Decoders.decodeOptional(clazz: RewardSetResource.self, source: sourceDictionary["reward_set"] as AnyObject?)
             if let rewardStatus = sourceDictionary["reward_status"] as? String { 
-                instance.rewardStatus = CampaignResource.RewardStatus(rawValue: (rewardStatus))
+                result.rewardStatus = CampaignResource.RewardStatus(rawValue: (rewardStatus))
             }
             
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Cart]
-        Decoders.addDecoder(clazz: [Cart].self) { (source: AnyObject) -> [Cart] in
+        Decoders.addDecoder(clazz: [Cart].self) { (source: AnyObject, instance: AnyObject?) -> [Cart] in
             return Decoders.decode(clazz: [Cart].self, source: source)
         }
         // Decoder for Cart
-        Decoders.addDecoder(clazz: Cart.self) { (source: AnyObject) -> Cart in
+        Decoders.addDecoder(clazz: Cart.self) { (source: AnyObject, instance: AnyObject?) -> Cart in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Cart()
-            instance.availableShippingOptions = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["available_shipping_options"] as AnyObject?)
-            instance.countryTax = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["country_tax"] as AnyObject?)
-            instance.coupons = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["coupons"] as AnyObject?)
-            instance.created = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created"] as AnyObject?)
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.discountTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount_total"] as AnyObject?)
-            instance.errorCode = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["error_code"] as AnyObject?)
-            instance.errorMessage = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error_message"] as AnyObject?)
-            instance.grandTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["grand_total"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.invoiceId = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.items = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["items"] as AnyObject?)
-            instance.owner = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["owner"] as AnyObject?)
-            instance.selectedShippingOptions = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["selected_shipping_options"] as AnyObject?)
-            instance.shippable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["shippable"] as AnyObject?)
-            instance.shippingAddress = Decoders.decodeOptional(clazz: CartShippingAddressRequest.self, source: sourceDictionary["shipping_address"] as AnyObject?)
-            instance.shippingCost = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["shipping_cost"] as AnyObject?)
-            instance.stateTax = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["state_tax"] as AnyObject?)
+            let result = instance == nil ? Cart() : instance as! Cart
+            
+            result.availableShippingOptions = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["available_shipping_options"] as AnyObject?)
+            result.countryTax = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["country_tax"] as AnyObject?)
+            result.coupons = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["coupons"] as AnyObject?)
+            result.created = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created"] as AnyObject?)
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.discountTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount_total"] as AnyObject?)
+            result.errorCode = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["error_code"] as AnyObject?)
+            result.errorMessage = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error_message"] as AnyObject?)
+            result.grandTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["grand_total"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.invoiceId = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.items = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["items"] as AnyObject?)
+            result.owner = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["owner"] as AnyObject?)
+            result.selectedShippingOptions = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["selected_shipping_options"] as AnyObject?)
+            result.shippable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["shippable"] as AnyObject?)
+            result.shippingAddress = Decoders.decodeOptional(clazz: CartShippingAddressRequest.self, source: sourceDictionary["shipping_address"] as AnyObject?)
+            result.shippingCost = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["shipping_cost"] as AnyObject?)
+            result.stateTax = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["state_tax"] as AnyObject?)
             if let status = sourceDictionary["status"] as? String { 
-                instance.status = Cart.Status(rawValue: (status))
+                result.status = Cart.Status(rawValue: (status))
             }
             
-            instance.subtotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["subtotal"] as AnyObject?)
-            instance.updated = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated"] as AnyObject?)
-            return instance
+            result.subtotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["subtotal"] as AnyObject?)
+            result.updated = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CartItemRequest]
-        Decoders.addDecoder(clazz: [CartItemRequest].self) { (source: AnyObject) -> [CartItemRequest] in
+        Decoders.addDecoder(clazz: [CartItemRequest].self) { (source: AnyObject, instance: AnyObject?) -> [CartItemRequest] in
             return Decoders.decode(clazz: [CartItemRequest].self, source: source)
         }
         // Decoder for CartItemRequest
-        Decoders.addDecoder(clazz: CartItemRequest.self) { (source: AnyObject) -> CartItemRequest in
+        Decoders.addDecoder(clazz: CartItemRequest.self) { (source: AnyObject, instance: AnyObject?) -> CartItemRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CartItemRequest()
-            instance.affiliateKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["affiliate_key"] as AnyObject?)
-            instance.catalogSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["catalog_sku"] as AnyObject?)
-            instance.priceOverride = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price_override"] as AnyObject?)
-            instance.quantity = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["quantity"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CartItemRequest() : instance as! CartItemRequest
+            
+            result.affiliateKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["affiliate_key"] as AnyObject?)
+            result.catalogSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["catalog_sku"] as AnyObject?)
+            result.priceOverride = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price_override"] as AnyObject?)
+            result.quantity = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["quantity"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CartLineItem]
-        Decoders.addDecoder(clazz: [CartLineItem].self) { (source: AnyObject) -> [CartLineItem] in
+        Decoders.addDecoder(clazz: [CartLineItem].self) { (source: AnyObject, instance: AnyObject?) -> [CartLineItem] in
             return Decoders.decode(clazz: [CartLineItem].self, source: source)
         }
         // Decoder for CartLineItem
-        Decoders.addDecoder(clazz: CartLineItem.self) { (source: AnyObject) -> CartLineItem in
+        Decoders.addDecoder(clazz: CartLineItem.self) { (source: AnyObject, instance: AnyObject?) -> CartLineItem in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CartLineItem()
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.discount = Decoders.decodeOptional(clazz: Discount.self, source: sourceDictionary["discount"] as AnyObject?)
-            instance.lineTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["line_total"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.originalLineTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_line_total"] as AnyObject?)
-            instance.originalUnitPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_unit_price"] as AnyObject?)
-            instance.qty = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["qty"] as AnyObject?)
-            instance.saleName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sale_name"] as AnyObject?)
-            instance.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
-            instance.skuDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku_description"] as AnyObject?)
-            instance.storeItemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["store_item_id"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.thumbUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["thumb_url"] as AnyObject?)
-            instance.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
-            instance.unitPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["unit_price"] as AnyObject?)
-            instance.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
-            instance.vendorName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["vendor_name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CartLineItem() : instance as! CartLineItem
+            
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.discount = Decoders.decodeOptional(clazz: Discount.self, source: sourceDictionary["discount"] as AnyObject?)
+            result.lineTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["line_total"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.originalLineTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_line_total"] as AnyObject?)
+            result.originalUnitPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_unit_price"] as AnyObject?)
+            result.qty = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["qty"] as AnyObject?)
+            result.saleName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sale_name"] as AnyObject?)
+            result.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
+            result.skuDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku_description"] as AnyObject?)
+            result.storeItemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["store_item_id"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.thumbUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["thumb_url"] as AnyObject?)
+            result.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
+            result.unitPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["unit_price"] as AnyObject?)
+            result.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
+            result.vendorName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["vendor_name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CartShippableResponse]
-        Decoders.addDecoder(clazz: [CartShippableResponse].self) { (source: AnyObject) -> [CartShippableResponse] in
+        Decoders.addDecoder(clazz: [CartShippableResponse].self) { (source: AnyObject, instance: AnyObject?) -> [CartShippableResponse] in
             return Decoders.decode(clazz: [CartShippableResponse].self, source: source)
         }
         // Decoder for CartShippableResponse
-        Decoders.addDecoder(clazz: CartShippableResponse.self) { (source: AnyObject) -> CartShippableResponse in
+        Decoders.addDecoder(clazz: CartShippableResponse.self) { (source: AnyObject, instance: AnyObject?) -> CartShippableResponse in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CartShippableResponse()
-            instance.cartId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["cart_id"] as AnyObject?)
-            instance.shippable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["shippable"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CartShippableResponse() : instance as! CartShippableResponse
+            
+            result.cartId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["cart_id"] as AnyObject?)
+            result.shippable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["shippable"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CartShippingAddressRequest]
-        Decoders.addDecoder(clazz: [CartShippingAddressRequest].self) { (source: AnyObject) -> [CartShippingAddressRequest] in
+        Decoders.addDecoder(clazz: [CartShippingAddressRequest].self) { (source: AnyObject, instance: AnyObject?) -> [CartShippingAddressRequest] in
             return Decoders.decode(clazz: [CartShippingAddressRequest].self, source: source)
         }
         // Decoder for CartShippingAddressRequest
-        Decoders.addDecoder(clazz: CartShippingAddressRequest.self) { (source: AnyObject) -> CartShippingAddressRequest in
+        Decoders.addDecoder(clazz: CartShippingAddressRequest.self) { (source: AnyObject, instance: AnyObject?) -> CartShippingAddressRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CartShippingAddressRequest()
-            instance.city = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["city"] as AnyObject?)
-            instance.countryCodeIso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_code_iso3"] as AnyObject?)
-            instance.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
-            instance.firstName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["first_name"] as AnyObject?)
-            instance.lastName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last_name"] as AnyObject?)
-            instance.namePrefix = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name_prefix"] as AnyObject?)
-            instance.orderNotes = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["order_notes"] as AnyObject?)
-            instance.phoneNumber = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone_number"] as AnyObject?)
-            instance.postalStateCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["postal_state_code"] as AnyObject?)
-            instance.shippingAddressLine1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_address_line1"] as AnyObject?)
-            instance.shippingAddressLine2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_address_line2"] as AnyObject?)
-            instance.zip = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["zip"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CartShippingAddressRequest() : instance as! CartShippingAddressRequest
+            
+            result.city = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["city"] as AnyObject?)
+            result.countryCodeIso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_code_iso3"] as AnyObject?)
+            result.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
+            result.firstName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["first_name"] as AnyObject?)
+            result.lastName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last_name"] as AnyObject?)
+            result.namePrefix = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name_prefix"] as AnyObject?)
+            result.orderNotes = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["order_notes"] as AnyObject?)
+            result.phoneNumber = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone_number"] as AnyObject?)
+            result.postalStateCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["postal_state_code"] as AnyObject?)
+            result.shippingAddressLine1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_address_line1"] as AnyObject?)
+            result.shippingAddressLine2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_address_line2"] as AnyObject?)
+            result.zip = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["zip"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CartShippingOption]
-        Decoders.addDecoder(clazz: [CartShippingOption].self) { (source: AnyObject) -> [CartShippingOption] in
+        Decoders.addDecoder(clazz: [CartShippingOption].self) { (source: AnyObject, instance: AnyObject?) -> [CartShippingOption] in
             return Decoders.decode(clazz: [CartShippingOption].self, source: source)
         }
         // Decoder for CartShippingOption
-        Decoders.addDecoder(clazz: CartShippingOption.self) { (source: AnyObject) -> CartShippingOption in
+        Decoders.addDecoder(clazz: CartShippingOption.self) { (source: AnyObject, instance: AnyObject?) -> CartShippingOption in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CartShippingOption()
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.originalPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_price"] as AnyObject?)
-            instance.price = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price"] as AnyObject?)
-            instance.shippingItemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["shipping_item_id"] as AnyObject?)
-            instance.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
-            instance.taxable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["taxable"] as AnyObject?)
-            instance.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
-            instance.vendorName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["vendor_name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CartShippingOption() : instance as! CartShippingOption
+            
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.originalPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_price"] as AnyObject?)
+            result.price = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price"] as AnyObject?)
+            result.shippingItemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["shipping_item_id"] as AnyObject?)
+            result.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
+            result.taxable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["taxable"] as AnyObject?)
+            result.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
+            result.vendorName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["vendor_name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CartSummary]
-        Decoders.addDecoder(clazz: [CartSummary].self) { (source: AnyObject) -> [CartSummary] in
+        Decoders.addDecoder(clazz: [CartSummary].self) { (source: AnyObject, instance: AnyObject?) -> [CartSummary] in
             return Decoders.decode(clazz: [CartSummary].self, source: source)
         }
         // Decoder for CartSummary
-        Decoders.addDecoder(clazz: CartSummary.self) { (source: AnyObject) -> CartSummary in
+        Decoders.addDecoder(clazz: CartSummary.self) { (source: AnyObject, instance: AnyObject?) -> CartSummary in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CartSummary()
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.grandTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["grand_total"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.invoiceId = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.itemsInCart = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["items_in_cart"] as AnyObject?)
+            let result = instance == nil ? CartSummary() : instance as! CartSummary
+            
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.grandTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["grand_total"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.invoiceId = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.itemsInCart = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["items_in_cart"] as AnyObject?)
             if let status = sourceDictionary["status"] as? String { 
-                instance.status = CartSummary.Status(rawValue: (status))
+                result.status = CartSummary.Status(rawValue: (status))
             }
             
-            instance.subtotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["subtotal"] as AnyObject?)
-            return instance
+            result.subtotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["subtotal"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CatalogSale]
-        Decoders.addDecoder(clazz: [CatalogSale].self) { (source: AnyObject) -> [CatalogSale] in
+        Decoders.addDecoder(clazz: [CatalogSale].self) { (source: AnyObject, instance: AnyObject?) -> [CatalogSale] in
             return Decoders.decode(clazz: [CatalogSale].self, source: source)
         }
         // Decoder for CatalogSale
-        Decoders.addDecoder(clazz: CatalogSale.self) { (source: AnyObject) -> CatalogSale in
+        Decoders.addDecoder(clazz: CatalogSale.self) { (source: AnyObject, instance: AnyObject?) -> CatalogSale in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CatalogSale()
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            let result = instance == nil ? CatalogSale() : instance as! CatalogSale
+            
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
             if let discountType = sourceDictionary["discount_type"] as? String { 
-                instance.discountType = CatalogSale.DiscountType(rawValue: (discountType))
+                result.discountType = CatalogSale.DiscountType(rawValue: (discountType))
             }
             
-            instance.discountValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount_value"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.item = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.saleEndDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["sale_end_date"] as AnyObject?)
-            instance.saleStartDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["sale_start_date"] as AnyObject?)
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.tag = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["tag"] as AnyObject?)
-            instance.vendor = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor"] as AnyObject?)
-            return instance
+            result.discountValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount_value"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.item = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.saleEndDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["sale_end_date"] as AnyObject?)
+            result.saleStartDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["sale_start_date"] as AnyObject?)
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.tag = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["tag"] as AnyObject?)
+            result.vendor = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CategoryResource]
-        Decoders.addDecoder(clazz: [CategoryResource].self) { (source: AnyObject) -> [CategoryResource] in
+        Decoders.addDecoder(clazz: [CategoryResource].self) { (source: AnyObject, instance: AnyObject?) -> [CategoryResource] in
             return Decoders.decode(clazz: [CategoryResource].self, source: source)
         }
         // Decoder for CategoryResource
-        Decoders.addDecoder(clazz: CategoryResource.self) { (source: AnyObject) -> CategoryResource in
+        Decoders.addDecoder(clazz: CategoryResource.self) { (source: AnyObject, instance: AnyObject?) -> CategoryResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CategoryResource()
-            instance.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CategoryResource() : instance as! CategoryResource
+            
+            result.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ChallengeActivityResource]
-        Decoders.addDecoder(clazz: [ChallengeActivityResource].self) { (source: AnyObject) -> [ChallengeActivityResource] in
+        Decoders.addDecoder(clazz: [ChallengeActivityResource].self) { (source: AnyObject, instance: AnyObject?) -> [ChallengeActivityResource] in
             return Decoders.decode(clazz: [ChallengeActivityResource].self, source: source)
         }
         // Decoder for ChallengeActivityResource
-        Decoders.addDecoder(clazz: ChallengeActivityResource.self) { (source: AnyObject) -> ChallengeActivityResource in
+        Decoders.addDecoder(clazz: ChallengeActivityResource.self) { (source: AnyObject, instance: AnyObject?) -> ChallengeActivityResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ChallengeActivityResource()
-            instance.activityId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["activity_id"] as AnyObject?)
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.challengeId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["challenge_id"] as AnyObject?)
-            instance.entitlement = Decoders.decodeOptional(clazz: ActivityEntitlementResource.self, source: sourceDictionary["entitlement"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.rewardSet = Decoders.decodeOptional(clazz: RewardSetResource.self, source: sourceDictionary["reward_set"] as AnyObject?)
-            instance.settings = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["settings"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ChallengeActivityResource() : instance as! ChallengeActivityResource
+            
+            result.activityId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["activity_id"] as AnyObject?)
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.challengeId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["challenge_id"] as AnyObject?)
+            result.entitlement = Decoders.decodeOptional(clazz: ActivityEntitlementResource.self, source: sourceDictionary["entitlement"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.rewardSet = Decoders.decodeOptional(clazz: RewardSetResource.self, source: sourceDictionary["reward_set"] as AnyObject?)
+            result.settings = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["settings"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ChallengeEventParticipantResource]
-        Decoders.addDecoder(clazz: [ChallengeEventParticipantResource].self) { (source: AnyObject) -> [ChallengeEventParticipantResource] in
+        Decoders.addDecoder(clazz: [ChallengeEventParticipantResource].self) { (source: AnyObject, instance: AnyObject?) -> [ChallengeEventParticipantResource] in
             return Decoders.decode(clazz: [ChallengeEventParticipantResource].self, source: source)
         }
         // Decoder for ChallengeEventParticipantResource
-        Decoders.addDecoder(clazz: ChallengeEventParticipantResource.self) { (source: AnyObject) -> ChallengeEventParticipantResource in
+        Decoders.addDecoder(clazz: ChallengeEventParticipantResource.self) { (source: AnyObject, instance: AnyObject?) -> ChallengeEventParticipantResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ChallengeEventParticipantResource()
-            instance.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
-            instance.fullname = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["fullname"] as AnyObject?)
-            instance.score = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["score"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
-            instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ChallengeEventParticipantResource() : instance as! ChallengeEventParticipantResource
+            
+            result.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
+            result.fullname = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["fullname"] as AnyObject?)
+            result.score = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["score"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            result.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ChallengeEventResource]
-        Decoders.addDecoder(clazz: [ChallengeEventResource].self) { (source: AnyObject) -> [ChallengeEventResource] in
+        Decoders.addDecoder(clazz: [ChallengeEventResource].self) { (source: AnyObject, instance: AnyObject?) -> [ChallengeEventResource] in
             return Decoders.decode(clazz: [ChallengeEventResource].self, source: source)
         }
         // Decoder for ChallengeEventResource
-        Decoders.addDecoder(clazz: ChallengeEventResource.self) { (source: AnyObject) -> ChallengeEventResource in
+        Decoders.addDecoder(clazz: ChallengeEventResource.self) { (source: AnyObject, instance: AnyObject?) -> ChallengeEventResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ChallengeEventResource()
-            instance.challengeId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["challenge_id"] as AnyObject?)
-            instance.endDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["end_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            let result = instance == nil ? ChallengeEventResource() : instance as! ChallengeEventResource
+            
+            result.challengeId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["challenge_id"] as AnyObject?)
+            result.endDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["end_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
             if let rewardStatus = sourceDictionary["reward_status"] as? String { 
-                instance.rewardStatus = ChallengeEventResource.RewardStatus(rawValue: (rewardStatus))
+                result.rewardStatus = ChallengeEventResource.RewardStatus(rawValue: (rewardStatus))
             }
             
-            instance.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
-            return instance
+            result.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ChallengeResource]
-        Decoders.addDecoder(clazz: [ChallengeResource].self) { (source: AnyObject) -> [ChallengeResource] in
+        Decoders.addDecoder(clazz: [ChallengeResource].self) { (source: AnyObject, instance: AnyObject?) -> [ChallengeResource] in
             return Decoders.decode(clazz: [ChallengeResource].self, source: source)
         }
         // Decoder for ChallengeResource
-        Decoders.addDecoder(clazz: ChallengeResource.self) { (source: AnyObject) -> ChallengeResource in
+        Decoders.addDecoder(clazz: ChallengeResource.self) { (source: AnyObject, instance: AnyObject?) -> ChallengeResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ChallengeResource()
-            instance.activities = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["activities"] as AnyObject?)
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.campaignId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["campaign_id"] as AnyObject?)
-            instance.copyOf = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["copy_of"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.endDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["end_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.leaderboardStrategy = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["leaderboard_strategy"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.nextEventDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["next_event_date"] as AnyObject?)
-            instance.rewardLagMinutes = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["reward_lag_minutes"] as AnyObject?)
-            instance.rewardSet = Decoders.decodeOptional(clazz: RewardSetResource.self, source: sourceDictionary["reward_set"] as AnyObject?)
-            instance.schedule = Decoders.decodeOptional(clazz: Schedule.self, source: sourceDictionary["schedule"] as AnyObject?)
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ChallengeResource() : instance as! ChallengeResource
+            
+            result.activities = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["activities"] as AnyObject?)
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.campaignId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["campaign_id"] as AnyObject?)
+            result.copyOf = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["copy_of"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.endDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["end_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.leaderboardStrategy = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["leaderboard_strategy"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.nextEventDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["next_event_date"] as AnyObject?)
+            result.rewardLagMinutes = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["reward_lag_minutes"] as AnyObject?)
+            result.rewardSet = Decoders.decodeOptional(clazz: RewardSetResource.self, source: sourceDictionary["reward_set"] as AnyObject?)
+            result.schedule = Decoders.decodeOptional(clazz: Schedule.self, source: sourceDictionary["schedule"] as AnyObject?)
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ClientResource]
-        Decoders.addDecoder(clazz: [ClientResource].self) { (source: AnyObject) -> [ClientResource] in
+        Decoders.addDecoder(clazz: [ClientResource].self) { (source: AnyObject, instance: AnyObject?) -> [ClientResource] in
             return Decoders.decode(clazz: [ClientResource].self, source: source)
         }
         // Decoder for ClientResource
-        Decoders.addDecoder(clazz: ClientResource.self) { (source: AnyObject) -> ClientResource in
+        Decoders.addDecoder(clazz: ClientResource.self) { (source: AnyObject, instance: AnyObject?) -> ClientResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ClientResource()
-            instance.accessTokenValiditySeconds = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["access_token_validity_seconds"] as AnyObject?)
-            instance.clientKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_key"] as AnyObject?)
-            instance.grantTypes = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["grant_types"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.isPublic = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["is_public"] as AnyObject?)
-            instance.locked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.redirectUris = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["redirect_uris"] as AnyObject?)
-            instance.refreshTokenValiditySeconds = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["refresh_token_validity_seconds"] as AnyObject?)
-            instance.secret = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["secret"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ClientResource() : instance as! ClientResource
+            
+            result.accessTokenValiditySeconds = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["access_token_validity_seconds"] as AnyObject?)
+            result.clientKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_key"] as AnyObject?)
+            result.grantTypes = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["grant_types"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.isPublic = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["is_public"] as AnyObject?)
+            result.locked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.redirectUris = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["redirect_uris"] as AnyObject?)
+            result.refreshTokenValiditySeconds = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["refresh_token_validity_seconds"] as AnyObject?)
+            result.secret = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["secret"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CollectionCountry]
-        Decoders.addDecoder(clazz: [CollectionCountry].self) { (source: AnyObject) -> [CollectionCountry] in
+        Decoders.addDecoder(clazz: [CollectionCountry].self) { (source: AnyObject, instance: AnyObject?) -> [CollectionCountry] in
             return Decoders.decode(clazz: [CollectionCountry].self, source: source)
         }
         // Decoder for CollectionCountry
-        Decoders.addDecoder(clazz: CollectionCountry.self) { (source: AnyObject) -> CollectionCountry in
+        Decoders.addDecoder(clazz: CollectionCountry.self) { (source: AnyObject, instance: AnyObject?) -> CollectionCountry in
             if let source = source as? Any {
                 return source
             }
@@ -1384,11 +1302,11 @@ class Decoders {
 
 
         // Decoder for [Collectionstring]
-        Decoders.addDecoder(clazz: [Collectionstring].self) { (source: AnyObject) -> [Collectionstring] in
+        Decoders.addDecoder(clazz: [Collectionstring].self) { (source: AnyObject, instance: AnyObject?) -> [Collectionstring] in
             return Decoders.decode(clazz: [Collectionstring].self, source: source)
         }
         // Decoder for Collectionstring
-        Decoders.addDecoder(clazz: Collectionstring.self) { (source: AnyObject) -> Collectionstring in
+        Decoders.addDecoder(clazz: Collectionstring.self) { (source: AnyObject, instance: AnyObject?) -> Collectionstring in
             if let source = source as? Any {
                 return source
             }
@@ -1397,652 +1315,496 @@ class Decoders {
 
 
         // Decoder for [CommentResource]
-        Decoders.addDecoder(clazz: [CommentResource].self) { (source: AnyObject) -> [CommentResource] in
+        Decoders.addDecoder(clazz: [CommentResource].self) { (source: AnyObject, instance: AnyObject?) -> [CommentResource] in
             return Decoders.decode(clazz: [CommentResource].self, source: source)
         }
         // Decoder for CommentResource
-        Decoders.addDecoder(clazz: CommentResource.self) { (source: AnyObject) -> CommentResource in
+        Decoders.addDecoder(clazz: CommentResource.self) { (source: AnyObject, instance: AnyObject?) -> CommentResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CommentResource()
-            instance.content = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
-            instance.contextId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["context_id"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.summary = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["summary"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CommentResource() : instance as! CommentResource
+            
+            result.content = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["content"] as AnyObject?)
+            result.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
+            result.contextId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["context_id"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.summary = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["summary"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CommentSearch]
-        Decoders.addDecoder(clazz: [CommentSearch].self) { (source: AnyObject) -> [CommentSearch] in
+        Decoders.addDecoder(clazz: [CommentSearch].self) { (source: AnyObject, instance: AnyObject?) -> [CommentSearch] in
             return Decoders.decode(clazz: [CommentSearch].self, source: source)
         }
         // Decoder for CommentSearch
-        Decoders.addDecoder(clazz: CommentSearch.self) { (source: AnyObject) -> CommentSearch in
+        Decoders.addDecoder(clazz: CommentSearch.self) { (source: AnyObject, instance: AnyObject?) -> CommentSearch in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CommentSearch()
-            instance.content = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
-            instance.contextId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["context_id"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.ownerId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["owner_id"] as AnyObject?)
-            instance.ownerUsername = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["owner_username"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CommentSearch() : instance as! CommentSearch
+            
+            result.content = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["content"] as AnyObject?)
+            result.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
+            result.contextId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["context_id"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.ownerId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["owner_id"] as AnyObject?)
+            result.ownerUsername = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["owner_username"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Config]
-        Decoders.addDecoder(clazz: [Config].self) { (source: AnyObject) -> [Config] in
+        Decoders.addDecoder(clazz: [Config].self) { (source: AnyObject, instance: AnyObject?) -> [Config] in
             return Decoders.decode(clazz: [Config].self, source: source)
         }
         // Decoder for Config
-        Decoders.addDecoder(clazz: Config.self) { (source: AnyObject) -> Config in
+        Decoders.addDecoder(clazz: Config.self) { (source: AnyObject, instance: AnyObject?) -> Config in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Config()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.publicRead = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["public_read"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
+            let result = instance == nil ? Config() : instance as! Config
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.publicRead = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["public_read"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ConfigLookupResource]
-        Decoders.addDecoder(clazz: [ConfigLookupResource].self) { (source: AnyObject) -> [ConfigLookupResource] in
+        Decoders.addDecoder(clazz: [ConfigLookupResource].self) { (source: AnyObject, instance: AnyObject?) -> [ConfigLookupResource] in
             return Decoders.decode(clazz: [ConfigLookupResource].self, source: source)
         }
         // Decoder for ConfigLookupResource
-        Decoders.addDecoder(clazz: ConfigLookupResource.self) { (source: AnyObject) -> ConfigLookupResource in
+        Decoders.addDecoder(clazz: ConfigLookupResource.self) { (source: AnyObject, instance: AnyObject?) -> ConfigLookupResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ConfigLookupResource()
-            instance.lookupKey = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["lookup_key"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ConfigLookupResource() : instance as! ConfigLookupResource
+            
+            result.lookupKey = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["lookup_key"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ConstantResource]
-        Decoders.addDecoder(clazz: [ConstantResource].self) { (source: AnyObject) -> [ConstantResource] in
+        Decoders.addDecoder(clazz: [ConstantResource].self) { (source: AnyObject, instance: AnyObject?) -> [ConstantResource] in
             return Decoders.decode(clazz: [ConstantResource].self, source: source)
         }
         // Decoder for ConstantResource
-        Decoders.addDecoder(clazz: ConstantResource.self) { (source: AnyObject) -> ConstantResource in
+        Decoders.addDecoder(clazz: ConstantResource.self) { (source: AnyObject, instance: AnyObject?) -> ConstantResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ConstantResource()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["value"] as AnyObject?)
-            instance.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [Consumable]
-        Decoders.addDecoder(clazz: [Consumable].self) { (source: AnyObject) -> [Consumable] in
-            return Decoders.decode(clazz: [Consumable].self, source: source)
-        }
-        // Decoder for Consumable
-        Decoders.addDecoder(clazz: Consumable.self) { (source: AnyObject) -> Consumable in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Consumable()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.maxUse = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_use"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ConstantResource() : instance as! ConstantResource
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["value"] as AnyObject?)
+            result.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ContributionResource]
-        Decoders.addDecoder(clazz: [ContributionResource].self) { (source: AnyObject) -> [ContributionResource] in
+        Decoders.addDecoder(clazz: [ContributionResource].self) { (source: AnyObject, instance: AnyObject?) -> [ContributionResource] in
             return Decoders.decode(clazz: [ContributionResource].self, source: source)
         }
         // Decoder for ContributionResource
-        Decoders.addDecoder(clazz: ContributionResource.self) { (source: AnyObject) -> ContributionResource in
+        Decoders.addDecoder(clazz: ContributionResource.self) { (source: AnyObject, instance: AnyObject?) -> ContributionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ContributionResource()
-            instance.artist = Decoders.decodeOptional(clazz: SimpleReferenceResourcelong.self, source: sourceDictionary["artist"] as AnyObject?)
-            instance.media = Decoders.decodeOptional(clazz: SimpleReferenceResourcelong.self, source: sourceDictionary["media"] as AnyObject?)
-            instance.role = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["role"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ContributionResource() : instance as! ContributionResource
+            
+            result.artist = Decoders.decodeOptional(clazz: SimpleReferenceResourcelong.self, source: sourceDictionary["artist"] as AnyObject?)
+            result.media = Decoders.decodeOptional(clazz: SimpleReferenceResourcelong.self, source: sourceDictionary["media"] as AnyObject?)
+            result.role = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["role"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Country]
-        Decoders.addDecoder(clazz: [Country].self) { (source: AnyObject) -> [Country] in
+        Decoders.addDecoder(clazz: [Country].self) { (source: AnyObject, instance: AnyObject?) -> [Country] in
             return Decoders.decode(clazz: [Country].self, source: source)
         }
         // Decoder for Country
-        Decoders.addDecoder(clazz: Country.self) { (source: AnyObject) -> Country in
+        Decoders.addDecoder(clazz: Country.self) { (source: AnyObject, instance: AnyObject?) -> Country in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Country()
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.iso2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["iso2"] as AnyObject?)
-            instance.iso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["iso3"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? Country() : instance as! Country
+            
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.iso2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["iso2"] as AnyObject?)
+            result.iso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["iso3"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CountryResource]
-        Decoders.addDecoder(clazz: [CountryResource].self) { (source: AnyObject) -> [CountryResource] in
+        Decoders.addDecoder(clazz: [CountryResource].self) { (source: AnyObject, instance: AnyObject?) -> [CountryResource] in
             return Decoders.decode(clazz: [CountryResource].self, source: source)
         }
         // Decoder for CountryResource
-        Decoders.addDecoder(clazz: CountryResource.self) { (source: AnyObject) -> CountryResource in
+        Decoders.addDecoder(clazz: CountryResource.self) { (source: AnyObject, instance: AnyObject?) -> CountryResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CountryResource()
-            instance.iso2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["iso2"] as AnyObject?)
-            instance.iso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["iso3"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CountryResource() : instance as! CountryResource
+            
+            result.iso2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["iso2"] as AnyObject?)
+            result.iso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["iso3"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CountryTaxResource]
-        Decoders.addDecoder(clazz: [CountryTaxResource].self) { (source: AnyObject) -> [CountryTaxResource] in
+        Decoders.addDecoder(clazz: [CountryTaxResource].self) { (source: AnyObject, instance: AnyObject?) -> [CountryTaxResource] in
             return Decoders.decode(clazz: [CountryTaxResource].self, source: source)
         }
         // Decoder for CountryTaxResource
-        Decoders.addDecoder(clazz: CountryTaxResource.self) { (source: AnyObject) -> CountryTaxResource in
+        Decoders.addDecoder(clazz: CountryTaxResource.self) { (source: AnyObject, instance: AnyObject?) -> CountryTaxResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CountryTaxResource()
-            instance.countryIso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_iso3"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.rate = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["rate"] as AnyObject?)
-            instance.taxShipping = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["tax_shipping"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CountryTaxResource() : instance as! CountryTaxResource
+            
+            result.countryIso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_iso3"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.rate = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["rate"] as AnyObject?)
+            result.taxShipping = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["tax_shipping"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CouponDefinition]
-        Decoders.addDecoder(clazz: [CouponDefinition].self) { (source: AnyObject) -> [CouponDefinition] in
+        Decoders.addDecoder(clazz: [CouponDefinition].self) { (source: AnyObject, instance: AnyObject?) -> [CouponDefinition] in
             return Decoders.decode(clazz: [CouponDefinition].self, source: source)
         }
         // Decoder for CouponDefinition
-        Decoders.addDecoder(clazz: CouponDefinition.self) { (source: AnyObject) -> CouponDefinition in
+        Decoders.addDecoder(clazz: CouponDefinition.self) { (source: AnyObject, instance: AnyObject?) -> CouponDefinition in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CouponDefinition()
-            instance.code = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["code"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            let result = instance == nil ? CouponDefinition() : instance as! CouponDefinition
+            
+            result.code = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["code"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
             if let discountType = sourceDictionary["discount_type"] as? String { 
-                instance.discountType = CouponDefinition.DiscountType(rawValue: (discountType))
+                result.discountType = CouponDefinition.DiscountType(rawValue: (discountType))
             }
             
-            instance.exclusive = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["exclusive"] as AnyObject?)
-            instance.maxDiscount = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["max_discount"] as AnyObject?)
-            instance.maxQuantity = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_quantity"] as AnyObject?)
-            instance.minCartTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["min_cart_total"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.selfExclusive = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["self_exclusive"] as AnyObject?)
-            instance.targetItemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["target_item_id"] as AnyObject?)
+            result.exclusive = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["exclusive"] as AnyObject?)
+            result.maxDiscount = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["max_discount"] as AnyObject?)
+            result.maxQuantity = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_quantity"] as AnyObject?)
+            result.minCartTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["min_cart_total"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.selfExclusive = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["self_exclusive"] as AnyObject?)
+            result.targetItemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["target_item_id"] as AnyObject?)
             if let type = sourceDictionary["type"] as? String { 
-                instance.type = CouponDefinition.ModelType(rawValue: (type))
+                result.type = CouponDefinition.ModelType(rawValue: (type))
             }
             
-            instance.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
-            instance.validForTags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["valid_for_tags"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
-            instance.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [CouponItem]
-        Decoders.addDecoder(clazz: [CouponItem].self) { (source: AnyObject) -> [CouponItem] in
-            return Decoders.decode(clazz: [CouponItem].self, source: source)
-        }
-        // Decoder for CouponItem
-        Decoders.addDecoder(clazz: CouponItem.self) { (source: AnyObject) -> CouponItem in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CouponItem()
-            if let couponTypeHint = sourceDictionary["coupon_type_hint"] as? String { 
-                instance.couponTypeHint = CouponItem.CouponTypeHint(rawValue: (couponTypeHint))
-            }
-            
-            instance.discountMax = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount_max"] as AnyObject?)
-            instance.discountMinCartValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount_min_cart_value"] as AnyObject?)
-            if let discountType = sourceDictionary["discount_type"] as? String { 
-                instance.discountType = CouponItem.DiscountType(rawValue: (discountType))
-            }
-            
-            instance.discountValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount_value"] as AnyObject?)
-            instance.exclusive = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["exclusive"] as AnyObject?)
-            instance.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
-            instance.maxQuantity = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_quantity"] as AnyObject?)
-            instance.selfExclusive = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["self_exclusive"] as AnyObject?)
-            instance.validForTags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["valid_for_tags"] as AnyObject?)
-            return instance
+            result.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
+            result.validForTags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["valid_for_tags"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
+            result.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CreateBillingAgreementRequest]
-        Decoders.addDecoder(clazz: [CreateBillingAgreementRequest].self) { (source: AnyObject) -> [CreateBillingAgreementRequest] in
+        Decoders.addDecoder(clazz: [CreateBillingAgreementRequest].self) { (source: AnyObject, instance: AnyObject?) -> [CreateBillingAgreementRequest] in
             return Decoders.decode(clazz: [CreateBillingAgreementRequest].self, source: source)
         }
         // Decoder for CreateBillingAgreementRequest
-        Decoders.addDecoder(clazz: CreateBillingAgreementRequest.self) { (source: AnyObject) -> CreateBillingAgreementRequest in
+        Decoders.addDecoder(clazz: CreateBillingAgreementRequest.self) { (source: AnyObject, instance: AnyObject?) -> CreateBillingAgreementRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CreateBillingAgreementRequest()
-            instance.cancelUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cancel_url"] as AnyObject?)
-            instance.returnUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["return_url"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CreateBillingAgreementRequest() : instance as! CreateBillingAgreementRequest
+            
+            result.cancelUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cancel_url"] as AnyObject?)
+            result.returnUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["return_url"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CreatePayPalPaymentRequest]
-        Decoders.addDecoder(clazz: [CreatePayPalPaymentRequest].self) { (source: AnyObject) -> [CreatePayPalPaymentRequest] in
+        Decoders.addDecoder(clazz: [CreatePayPalPaymentRequest].self) { (source: AnyObject, instance: AnyObject?) -> [CreatePayPalPaymentRequest] in
             return Decoders.decode(clazz: [CreatePayPalPaymentRequest].self, source: source)
         }
         // Decoder for CreatePayPalPaymentRequest
-        Decoders.addDecoder(clazz: CreatePayPalPaymentRequest.self) { (source: AnyObject) -> CreatePayPalPaymentRequest in
+        Decoders.addDecoder(clazz: CreatePayPalPaymentRequest.self) { (source: AnyObject, instance: AnyObject?) -> CreatePayPalPaymentRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CreatePayPalPaymentRequest()
-            instance.cancelUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cancel_url"] as AnyObject?)
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.returnUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["return_url"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CreatePayPalPaymentRequest() : instance as! CreatePayPalPaymentRequest
+            
+            result.cancelUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cancel_url"] as AnyObject?)
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.returnUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["return_url"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CurrencyResource]
-        Decoders.addDecoder(clazz: [CurrencyResource].self) { (source: AnyObject) -> [CurrencyResource] in
+        Decoders.addDecoder(clazz: [CurrencyResource].self) { (source: AnyObject, instance: AnyObject?) -> [CurrencyResource] in
             return Decoders.decode(clazz: [CurrencyResource].self, source: source)
         }
         // Decoder for CurrencyResource
-        Decoders.addDecoder(clazz: CurrencyResource.self) { (source: AnyObject) -> CurrencyResource in
+        Decoders.addDecoder(clazz: CurrencyResource.self) { (source: AnyObject, instance: AnyObject?) -> CurrencyResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CurrencyResource()
-            instance.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
-            instance.code = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["code"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.factor = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["factor"] as AnyObject?)
-            instance.icon = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["icon"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            let result = instance == nil ? CurrencyResource() : instance as! CurrencyResource
+            
+            result.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
+            result.code = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["code"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.factor = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["factor"] as AnyObject?)
+            result.icon = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["icon"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
             if let type = sourceDictionary["type"] as? String { 
-                instance.type = CurrencyResource.ModelType(rawValue: (type))
+                result.type = CurrencyResource.ModelType(rawValue: (type))
             }
             
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [CustomerConfig]
-        Decoders.addDecoder(clazz: [CustomerConfig].self) { (source: AnyObject) -> [CustomerConfig] in
+        Decoders.addDecoder(clazz: [CustomerConfig].self) { (source: AnyObject, instance: AnyObject?) -> [CustomerConfig] in
             return Decoders.decode(clazz: [CustomerConfig].self, source: source)
         }
         // Decoder for CustomerConfig
-        Decoders.addDecoder(clazz: CustomerConfig.self) { (source: AnyObject) -> CustomerConfig in
+        Decoders.addDecoder(clazz: CustomerConfig.self) { (source: AnyObject, instance: AnyObject?) -> CustomerConfig in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = CustomerConfig()
-            instance.aliases = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["aliases"] as AnyObject?)
-            instance.database = Decoders.decodeOptional(clazz: DatabaseConfig.self, source: sourceDictionary["database"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.s3Config = Decoders.decodeOptional(clazz: S3Config.self, source: sourceDictionary["s3_config"] as AnyObject?)
-            return instance
+            let result = instance == nil ? CustomerConfig() : instance as! CustomerConfig
+            
+            result.aliases = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["aliases"] as AnyObject?)
+            result.database = Decoders.decodeOptional(clazz: DatabaseConfig.self, source: sourceDictionary["database"] as AnyObject?)
+            result.io = Decoders.decodeOptional(clazz: IOConfig.self, source: sourceDictionary["io"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.s3Config = Decoders.decodeOptional(clazz: S3Config.self, source: sourceDictionary["s3_config"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [DatabaseConfig]
-        Decoders.addDecoder(clazz: [DatabaseConfig].self) { (source: AnyObject) -> [DatabaseConfig] in
+        Decoders.addDecoder(clazz: [DatabaseConfig].self) { (source: AnyObject, instance: AnyObject?) -> [DatabaseConfig] in
             return Decoders.decode(clazz: [DatabaseConfig].self, source: source)
         }
         // Decoder for DatabaseConfig
-        Decoders.addDecoder(clazz: DatabaseConfig.self) { (source: AnyObject) -> DatabaseConfig in
+        Decoders.addDecoder(clazz: DatabaseConfig.self) { (source: AnyObject, instance: AnyObject?) -> DatabaseConfig in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = DatabaseConfig()
-            instance.mongo = Decoders.decodeOptional(clazz: MongoDatabaseConfig.self, source: sourceDictionary["mongo"] as AnyObject?)
-            instance.sql = Decoders.decodeOptional(clazz: SqlDatabaseConfig.self, source: sourceDictionary["sql"] as AnyObject?)
-            return instance
+            let result = instance == nil ? DatabaseConfig() : instance as! DatabaseConfig
+            
+            result.mongo = Decoders.decodeOptional(clazz: MongoDatabaseConfig.self, source: sourceDictionary["mongo"] as AnyObject?)
+            result.sql = Decoders.decodeOptional(clazz: SqlDatabaseConfig.self, source: sourceDictionary["sql"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [DateOperationResource]
-        Decoders.addDecoder(clazz: [DateOperationResource].self) { (source: AnyObject) -> [DateOperationResource] in
+        Decoders.addDecoder(clazz: [DateOperationResource].self) { (source: AnyObject, instance: AnyObject?) -> [DateOperationResource] in
             return Decoders.decode(clazz: [DateOperationResource].self, source: source)
         }
         // Decoder for DateOperationResource
-        Decoders.addDecoder(clazz: DateOperationResource.self) { (source: AnyObject) -> DateOperationResource in
+        Decoders.addDecoder(clazz: DateOperationResource.self) { (source: AnyObject, instance: AnyObject?) -> DateOperationResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = DateOperationResource()
-            instance.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
-            instance.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [DateProperty]
-        Decoders.addDecoder(clazz: [DateProperty].self) { (source: AnyObject) -> [DateProperty] in
-            return Decoders.decode(clazz: [DateProperty].self, source: source)
-        }
-        // Decoder for DateProperty
-        Decoders.addDecoder(clazz: DateProperty.self) { (source: AnyObject) -> DateProperty in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = DateProperty()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [DatePropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [DatePropertyDefinitionResource].self) { (source: AnyObject) -> [DatePropertyDefinitionResource] in
-            return Decoders.decode(clazz: [DatePropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for DatePropertyDefinitionResource
-        Decoders.addDecoder(clazz: DatePropertyDefinitionResource.self) { (source: AnyObject) -> DatePropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = DatePropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.max = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["max"] as AnyObject?)
-            instance.min = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["min"] as AnyObject?)
-            return instance
+            let result = instance == nil ? DateOperationResource() : instance as! DateOperationResource
+            
+            result.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
+            result.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [DeltaResource]
-        Decoders.addDecoder(clazz: [DeltaResource].self) { (source: AnyObject) -> [DeltaResource] in
+        Decoders.addDecoder(clazz: [DeltaResource].self) { (source: AnyObject, instance: AnyObject?) -> [DeltaResource] in
             return Decoders.decode(clazz: [DeltaResource].self, source: source)
         }
         // Decoder for DeltaResource
-        Decoders.addDecoder(clazz: DeltaResource.self) { (source: AnyObject) -> DeltaResource in
+        Decoders.addDecoder(clazz: DeltaResource.self) { (source: AnyObject, instance: AnyObject?) -> DeltaResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = DeltaResource()
-            instance.categoryId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category_id"] as AnyObject?)
-            instance.mediaType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["media_type"] as AnyObject?)
-            instance.questionId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["question_id"] as AnyObject?)
+            let result = instance == nil ? DeltaResource() : instance as! DeltaResource
+            
+            result.categoryId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category_id"] as AnyObject?)
+            result.mediaType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["media_type"] as AnyObject?)
+            result.questionId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["question_id"] as AnyObject?)
             if let state = sourceDictionary["state"] as? String { 
-                instance.state = DeltaResource.State(rawValue: (state))
+                result.state = DeltaResource.State(rawValue: (state))
             }
             
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [DeviceResource]
-        Decoders.addDecoder(clazz: [DeviceResource].self) { (source: AnyObject) -> [DeviceResource] in
+        Decoders.addDecoder(clazz: [DeviceResource].self) { (source: AnyObject, instance: AnyObject?) -> [DeviceResource] in
             return Decoders.decode(clazz: [DeviceResource].self, source: source)
         }
         // Decoder for DeviceResource
-        Decoders.addDecoder(clazz: DeviceResource.self) { (source: AnyObject) -> DeviceResource in
+        Decoders.addDecoder(clazz: DeviceResource.self) { (source: AnyObject, instance: AnyObject?) -> DeviceResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = DeviceResource()
-            instance.authorization = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["authorization"] as AnyObject?)
+            let result = instance == nil ? DeviceResource() : instance as! DeviceResource
+            
+            result.authorization = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["authorization"] as AnyObject?)
             if let condition = sourceDictionary["condition"] as? String { 
-                instance.condition = DeviceResource.Condition(rawValue: (condition))
+                result.condition = DeviceResource.Condition(rawValue: (condition))
             }
             
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.data = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["data"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.deviceType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["device_type"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.location = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["location"] as AnyObject?)
-            instance.macAddress = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["mac_address"] as AnyObject?)
-            instance.make = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["make"] as AnyObject?)
-            instance.model = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["model"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.os = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["os"] as AnyObject?)
-            instance.serial = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["serial"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.data = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["data"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.deviceType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["device_type"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.location = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["location"] as AnyObject?)
+            result.macAddress = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["mac_address"] as AnyObject?)
+            result.make = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["make"] as AnyObject?)
+            result.model = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["model"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.os = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["os"] as AnyObject?)
+            result.serial = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["serial"] as AnyObject?)
             if let status = sourceDictionary["status"] as? String { 
-                instance.status = DeviceResource.Status(rawValue: (status))
+                result.status = DeviceResource.Status(rawValue: (status))
             }
             
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            instance.users = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["users"] as AnyObject?)
-            return instance
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            result.users = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["users"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Discount]
-        Decoders.addDecoder(clazz: [Discount].self) { (source: AnyObject) -> [Discount] in
+        Decoders.addDecoder(clazz: [Discount].self) { (source: AnyObject, instance: AnyObject?) -> [Discount] in
             return Decoders.decode(clazz: [Discount].self, source: source)
         }
         // Decoder for Discount
-        Decoders.addDecoder(clazz: Discount.self) { (source: AnyObject) -> Discount in
+        Decoders.addDecoder(clazz: Discount.self) { (source: AnyObject, instance: AnyObject?) -> Discount in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Discount()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
-            instance.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
+            let result = instance == nil ? Discount() : instance as! Discount
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
+            result.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [DispositionCount]
-        Decoders.addDecoder(clazz: [DispositionCount].self) { (source: AnyObject) -> [DispositionCount] in
+        Decoders.addDecoder(clazz: [DispositionCount].self) { (source: AnyObject, instance: AnyObject?) -> [DispositionCount] in
             return Decoders.decode(clazz: [DispositionCount].self, source: source)
         }
         // Decoder for DispositionCount
-        Decoders.addDecoder(clazz: DispositionCount.self) { (source: AnyObject) -> DispositionCount in
+        Decoders.addDecoder(clazz: DispositionCount.self) { (source: AnyObject, instance: AnyObject?) -> DispositionCount in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = DispositionCount()
-            instance.count = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["count"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? DispositionCount() : instance as! DispositionCount
+            
+            result.count = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["count"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [DispositionResource]
-        Decoders.addDecoder(clazz: [DispositionResource].self) { (source: AnyObject) -> [DispositionResource] in
+        Decoders.addDecoder(clazz: [DispositionResource].self) { (source: AnyObject, instance: AnyObject?) -> [DispositionResource] in
             return Decoders.decode(clazz: [DispositionResource].self, source: source)
         }
         // Decoder for DispositionResource
-        Decoders.addDecoder(clazz: DispositionResource.self) { (source: AnyObject) -> DispositionResource in
+        Decoders.addDecoder(clazz: DispositionResource.self) { (source: AnyObject, instance: AnyObject?) -> DispositionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = DispositionResource()
-            instance.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
-            instance.contextId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context_id"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            return instance
+            let result = instance == nil ? DispositionResource() : instance as! DispositionResource
+            
+            result.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
+            result.contextId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context_id"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [DoubleOperationResource]
-        Decoders.addDecoder(clazz: [DoubleOperationResource].self) { (source: AnyObject) -> [DoubleOperationResource] in
+        Decoders.addDecoder(clazz: [DoubleOperationResource].self) { (source: AnyObject, instance: AnyObject?) -> [DoubleOperationResource] in
             return Decoders.decode(clazz: [DoubleOperationResource].self, source: source)
         }
         // Decoder for DoubleOperationResource
-        Decoders.addDecoder(clazz: DoubleOperationResource.self) { (source: AnyObject) -> DoubleOperationResource in
+        Decoders.addDecoder(clazz: DoubleOperationResource.self) { (source: AnyObject, instance: AnyObject?) -> DoubleOperationResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = DoubleOperationResource()
-            instance.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
-            instance.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [DoubleProperty]
-        Decoders.addDecoder(clazz: [DoubleProperty].self) { (source: AnyObject) -> [DoubleProperty] in
-            return Decoders.decode(clazz: [DoubleProperty].self, source: source)
-        }
-        // Decoder for DoubleProperty
-        Decoders.addDecoder(clazz: DoubleProperty.self) { (source: AnyObject) -> DoubleProperty in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = DoubleProperty()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [DoublePropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [DoublePropertyDefinitionResource].self) { (source: AnyObject) -> [DoublePropertyDefinitionResource] in
-            return Decoders.decode(clazz: [DoublePropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for DoublePropertyDefinitionResource
-        Decoders.addDecoder(clazz: DoublePropertyDefinitionResource.self) { (source: AnyObject) -> DoublePropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = DoublePropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.max = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["max"] as AnyObject?)
-            instance.min = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["min"] as AnyObject?)
-            return instance
+            let result = instance == nil ? DoubleOperationResource() : instance as! DoubleOperationResource
+            
+            result.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
+            result.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [EntitlementGrantRequest]
-        Decoders.addDecoder(clazz: [EntitlementGrantRequest].self) { (source: AnyObject) -> [EntitlementGrantRequest] in
+        Decoders.addDecoder(clazz: [EntitlementGrantRequest].self) { (source: AnyObject, instance: AnyObject?) -> [EntitlementGrantRequest] in
             return Decoders.decode(clazz: [EntitlementGrantRequest].self, source: source)
         }
         // Decoder for EntitlementGrantRequest
-        Decoders.addDecoder(clazz: EntitlementGrantRequest.self) { (source: AnyObject) -> EntitlementGrantRequest in
+        Decoders.addDecoder(clazz: EntitlementGrantRequest.self) { (source: AnyObject, instance: AnyObject?) -> EntitlementGrantRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = EntitlementGrantRequest()
-            instance.entitlementId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["entitlement_id"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [EntitlementItem]
-        Decoders.addDecoder(clazz: [EntitlementItem].self) { (source: AnyObject) -> [EntitlementItem] in
-            return Decoders.decode(clazz: [EntitlementItem].self, source: source)
-        }
-        // Decoder for EntitlementItem
-        Decoders.addDecoder(clazz: EntitlementItem.self) { (source: AnyObject) -> EntitlementItem in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = EntitlementItem()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.behaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["behaviors"] as AnyObject?)
-            instance.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? EntitlementGrantRequest() : instance as! EntitlementGrantRequest
+            
+            result.entitlementId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["entitlement_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ErrorResource]
-        Decoders.addDecoder(clazz: [ErrorResource].self) { (source: AnyObject) -> [ErrorResource] in
+        Decoders.addDecoder(clazz: [ErrorResource].self) { (source: AnyObject, instance: AnyObject?) -> [ErrorResource] in
             return Decoders.decode(clazz: [ErrorResource].self, source: source)
         }
         // Decoder for ErrorResource
-        Decoders.addDecoder(clazz: ErrorResource.self) { (source: AnyObject) -> ErrorResource in
+        Decoders.addDecoder(clazz: ErrorResource.self) { (source: AnyObject, instance: AnyObject?) -> ErrorResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ErrorResource()
-            instance.details = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["details"] as AnyObject?)
-            instance.field = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["field"] as AnyObject?)
-            instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ErrorResource() : instance as! ErrorResource
+            
+            result.details = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["details"] as AnyObject?)
+            result.field = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["field"] as AnyObject?)
+            result.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [EventContextResource]
-        Decoders.addDecoder(clazz: [EventContextResource].self) { (source: AnyObject) -> [EventContextResource] in
+        Decoders.addDecoder(clazz: [EventContextResource].self) { (source: AnyObject, instance: AnyObject?) -> [EventContextResource] in
             return Decoders.decode(clazz: [EventContextResource].self, source: source)
         }
         // Decoder for EventContextResource
-        Decoders.addDecoder(clazz: EventContextResource.self) { (source: AnyObject) -> EventContextResource in
+        Decoders.addDecoder(clazz: EventContextResource.self) { (source: AnyObject, instance: AnyObject?) -> EventContextResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = EventContextResource()
-            instance.eventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_name"] as AnyObject?)
-            instance.parameters = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["parameters"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [Expirable]
-        Decoders.addDecoder(clazz: [Expirable].self) { (source: AnyObject) -> [Expirable] in
-            return Decoders.decode(clazz: [Expirable].self, source: source)
-        }
-        // Decoder for Expirable
-        Decoders.addDecoder(clazz: Expirable.self) { (source: AnyObject) -> Expirable in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Expirable()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.timeLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["time_length"] as AnyObject?)
-            instance.unitOfTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unit_of_time"] as AnyObject?)
-            return instance
+            let result = instance == nil ? EventContextResource() : instance as! EventContextResource
+            
+            result.eventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_name"] as AnyObject?)
+            result.parameters = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["parameters"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ExpressionResource]
-        Decoders.addDecoder(clazz: [ExpressionResource].self) { (source: AnyObject) -> [ExpressionResource] in
+        Decoders.addDecoder(clazz: [ExpressionResource].self) { (source: AnyObject, instance: AnyObject?) -> [ExpressionResource] in
             return Decoders.decode(clazz: [ExpressionResource].self, source: source)
         }
         // Decoder for ExpressionResource
-        Decoders.addDecoder(clazz: ExpressionResource.self) { (source: AnyObject) -> ExpressionResource in
+        Decoders.addDecoder(clazz: ExpressionResource.self) { (source: AnyObject, instance: AnyObject?) -> ExpressionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
             // Check discriminator to support inheritance
-            if let discriminator = sourceDictionary["type"] as? String, discriminator != "ExpressionResource"{
+            if let discriminator = sourceDictionary["type"] as? String, instance == nil && discriminator != "ExpressionResource" {
                 return Decoders.decode(clazz: ExpressionResource.self, discriminator: discriminator, source: source)
             }
-
-            let instance = ExpressionResource()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ExpressionResource() : instance as! ExpressionResource
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Expressionobject]
-        Decoders.addDecoder(clazz: [Expressionobject].self) { (source: AnyObject) -> [Expressionobject] in
+        Decoders.addDecoder(clazz: [Expressionobject].self) { (source: AnyObject, instance: AnyObject?) -> [Expressionobject] in
             return Decoders.decode(clazz: [Expressionobject].self, source: source)
         }
         // Decoder for Expressionobject
-        Decoders.addDecoder(clazz: Expressionobject.self) { (source: AnyObject) -> Expressionobject in
+        Decoders.addDecoder(clazz: Expressionobject.self) { (source: AnyObject, instance: AnyObject?) -> Expressionobject in
             if let source = source as? Any {
                 return source
             }
@@ -2051,883 +1813,648 @@ class Decoders {
 
 
         // Decoder for [FacebookToken]
-        Decoders.addDecoder(clazz: [FacebookToken].self) { (source: AnyObject) -> [FacebookToken] in
+        Decoders.addDecoder(clazz: [FacebookToken].self) { (source: AnyObject, instance: AnyObject?) -> [FacebookToken] in
             return Decoders.decode(clazz: [FacebookToken].self, source: source)
         }
         // Decoder for FacebookToken
-        Decoders.addDecoder(clazz: FacebookToken.self) { (source: AnyObject) -> FacebookToken in
+        Decoders.addDecoder(clazz: FacebookToken.self) { (source: AnyObject, instance: AnyObject?) -> FacebookToken in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FacebookToken()
-            instance.accessToken = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["access_token"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [FileGroupProperty]
-        Decoders.addDecoder(clazz: [FileGroupProperty].self) { (source: AnyObject) -> [FileGroupProperty] in
-            return Decoders.decode(clazz: [FileGroupProperty].self, source: source)
-        }
-        // Decoder for FileGroupProperty
-        Decoders.addDecoder(clazz: FileGroupProperty.self) { (source: AnyObject) -> FileGroupProperty in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FileGroupProperty()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.files = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["files"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [FileGroupPropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [FileGroupPropertyDefinitionResource].self) { (source: AnyObject) -> [FileGroupPropertyDefinitionResource] in
-            return Decoders.decode(clazz: [FileGroupPropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for FileGroupPropertyDefinitionResource
-        Decoders.addDecoder(clazz: FileGroupPropertyDefinitionResource.self) { (source: AnyObject) -> FileGroupPropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FileGroupPropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
-            instance.maxCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_count"] as AnyObject?)
-            instance.maxFileSize = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["max_file_size"] as AnyObject?)
-            instance.minCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_count"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [FileProperty]
-        Decoders.addDecoder(clazz: [FileProperty].self) { (source: AnyObject) -> [FileProperty] in
-            return Decoders.decode(clazz: [FileProperty].self, source: source)
-        }
-        // Decoder for FileProperty
-        Decoders.addDecoder(clazz: FileProperty.self) { (source: AnyObject) -> FileProperty in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FileProperty()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.crc = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["crc"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
-            instance.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [FilePropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [FilePropertyDefinitionResource].self) { (source: AnyObject) -> [FilePropertyDefinitionResource] in
-            return Decoders.decode(clazz: [FilePropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for FilePropertyDefinitionResource
-        Decoders.addDecoder(clazz: FilePropertyDefinitionResource.self) { (source: AnyObject) -> FilePropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FilePropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
-            instance.maxFileSize = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["max_file_size"] as AnyObject?)
-            return instance
+            let result = instance == nil ? FacebookToken() : instance as! FacebookToken
+            
+            result.accessToken = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["access_token"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [FinalizeBillingAgreementRequest]
-        Decoders.addDecoder(clazz: [FinalizeBillingAgreementRequest].self) { (source: AnyObject) -> [FinalizeBillingAgreementRequest] in
+        Decoders.addDecoder(clazz: [FinalizeBillingAgreementRequest].self) { (source: AnyObject, instance: AnyObject?) -> [FinalizeBillingAgreementRequest] in
             return Decoders.decode(clazz: [FinalizeBillingAgreementRequest].self, source: source)
         }
         // Decoder for FinalizeBillingAgreementRequest
-        Decoders.addDecoder(clazz: FinalizeBillingAgreementRequest.self) { (source: AnyObject) -> FinalizeBillingAgreementRequest in
+        Decoders.addDecoder(clazz: FinalizeBillingAgreementRequest.self) { (source: AnyObject, instance: AnyObject?) -> FinalizeBillingAgreementRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FinalizeBillingAgreementRequest()
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.newDefault = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["new_default"] as AnyObject?)
-            instance.payerId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["payer_id"] as AnyObject?)
-            instance.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
-            return instance
+            let result = instance == nil ? FinalizeBillingAgreementRequest() : instance as! FinalizeBillingAgreementRequest
+            
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.newDefault = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["new_default"] as AnyObject?)
+            result.payerId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["payer_id"] as AnyObject?)
+            result.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [FinalizePayPalPaymentRequest]
-        Decoders.addDecoder(clazz: [FinalizePayPalPaymentRequest].self) { (source: AnyObject) -> [FinalizePayPalPaymentRequest] in
+        Decoders.addDecoder(clazz: [FinalizePayPalPaymentRequest].self) { (source: AnyObject, instance: AnyObject?) -> [FinalizePayPalPaymentRequest] in
             return Decoders.decode(clazz: [FinalizePayPalPaymentRequest].self, source: source)
         }
         // Decoder for FinalizePayPalPaymentRequest
-        Decoders.addDecoder(clazz: FinalizePayPalPaymentRequest.self) { (source: AnyObject) -> FinalizePayPalPaymentRequest in
+        Decoders.addDecoder(clazz: FinalizePayPalPaymentRequest.self) { (source: AnyObject, instance: AnyObject?) -> FinalizePayPalPaymentRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FinalizePayPalPaymentRequest()
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.payerId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["payer_id"] as AnyObject?)
-            instance.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
-            return instance
+            let result = instance == nil ? FinalizePayPalPaymentRequest() : instance as! FinalizePayPalPaymentRequest
+            
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.payerId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["payer_id"] as AnyObject?)
+            result.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [FlagReportResource]
-        Decoders.addDecoder(clazz: [FlagReportResource].self) { (source: AnyObject) -> [FlagReportResource] in
+        Decoders.addDecoder(clazz: [FlagReportResource].self) { (source: AnyObject, instance: AnyObject?) -> [FlagReportResource] in
             return Decoders.decode(clazz: [FlagReportResource].self, source: source)
         }
         // Decoder for FlagReportResource
-        Decoders.addDecoder(clazz: FlagReportResource.self) { (source: AnyObject) -> FlagReportResource in
+        Decoders.addDecoder(clazz: FlagReportResource.self) { (source: AnyObject, instance: AnyObject?) -> FlagReportResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FlagReportResource()
-            instance.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
-            instance.contextId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context_id"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.reason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?)
+            let result = instance == nil ? FlagReportResource() : instance as! FlagReportResource
+            
+            result.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
+            result.contextId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context_id"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.reason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?)
             if let resolution = sourceDictionary["resolution"] as? String { 
-                instance.resolution = FlagReportResource.Resolution(rawValue: (resolution))
+                result.resolution = FlagReportResource.Resolution(rawValue: (resolution))
             }
             
-            instance.resolved = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["resolved"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            result.resolved = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["resolved"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [FlagResource]
-        Decoders.addDecoder(clazz: [FlagResource].self) { (source: AnyObject) -> [FlagResource] in
+        Decoders.addDecoder(clazz: [FlagResource].self) { (source: AnyObject, instance: AnyObject?) -> [FlagResource] in
             return Decoders.decode(clazz: [FlagResource].self, source: source)
         }
         // Decoder for FlagResource
-        Decoders.addDecoder(clazz: FlagResource.self) { (source: AnyObject) -> FlagResource in
+        Decoders.addDecoder(clazz: FlagResource.self) { (source: AnyObject, instance: AnyObject?) -> FlagResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FlagResource()
-            instance.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
-            instance.contextId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context_id"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.reason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [FormattedTextProperty]
-        Decoders.addDecoder(clazz: [FormattedTextProperty].self) { (source: AnyObject) -> [FormattedTextProperty] in
-            return Decoders.decode(clazz: [FormattedTextProperty].self, source: source)
-        }
-        // Decoder for FormattedTextProperty
-        Decoders.addDecoder(clazz: FormattedTextProperty.self) { (source: AnyObject) -> FormattedTextProperty in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FormattedTextProperty()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [FormattedTextPropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [FormattedTextPropertyDefinitionResource].self) { (source: AnyObject) -> [FormattedTextPropertyDefinitionResource] in
-            return Decoders.decode(clazz: [FormattedTextPropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for FormattedTextPropertyDefinitionResource
-        Decoders.addDecoder(clazz: FormattedTextPropertyDefinitionResource.self) { (source: AnyObject) -> FormattedTextPropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FormattedTextPropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
-            return instance
+            let result = instance == nil ? FlagResource() : instance as! FlagResource
+            
+            result.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
+            result.contextId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context_id"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.reason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ForwardLog]
-        Decoders.addDecoder(clazz: [ForwardLog].self) { (source: AnyObject) -> [ForwardLog] in
+        Decoders.addDecoder(clazz: [ForwardLog].self) { (source: AnyObject, instance: AnyObject?) -> [ForwardLog] in
             return Decoders.decode(clazz: [ForwardLog].self, source: source)
         }
         // Decoder for ForwardLog
-        Decoders.addDecoder(clazz: ForwardLog.self) { (source: AnyObject) -> ForwardLog in
+        Decoders.addDecoder(clazz: ForwardLog.self) { (source: AnyObject, instance: AnyObject?) -> ForwardLog in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ForwardLog()
-            instance.endDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["end_date"] as AnyObject?)
-            instance.errorMsg = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error_msg"] as AnyObject?)
-            instance.httpStatusCode = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["http_status_code"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.payload = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["payload"] as AnyObject?)
-            instance.response = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["response"] as AnyObject?)
-            instance.retryCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["retry_count"] as AnyObject?)
-            instance.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
-            instance.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [Fulfillable]
-        Decoders.addDecoder(clazz: [Fulfillable].self) { (source: AnyObject) -> [Fulfillable] in
-            return Decoders.decode(clazz: [Fulfillable].self, source: source)
-        }
-        // Decoder for Fulfillable
-        Decoders.addDecoder(clazz: Fulfillable.self) { (source: AnyObject) -> Fulfillable in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Fulfillable()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.typeName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ForwardLog() : instance as! ForwardLog
+            
+            result.endDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["end_date"] as AnyObject?)
+            result.errorMsg = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["error_msg"] as AnyObject?)
+            result.httpStatusCode = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["http_status_code"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.payload = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["payload"] as AnyObject?)
+            result.response = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["response"] as AnyObject?)
+            result.retryCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["retry_count"] as AnyObject?)
+            result.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
+            result.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [FulfillmentType]
-        Decoders.addDecoder(clazz: [FulfillmentType].self) { (source: AnyObject) -> [FulfillmentType] in
+        Decoders.addDecoder(clazz: [FulfillmentType].self) { (source: AnyObject, instance: AnyObject?) -> [FulfillmentType] in
             return Decoders.decode(clazz: [FulfillmentType].self, source: source)
         }
         // Decoder for FulfillmentType
-        Decoders.addDecoder(clazz: FulfillmentType.self) { (source: AnyObject) -> FulfillmentType in
+        Decoders.addDecoder(clazz: FulfillmentType.self) { (source: AnyObject, instance: AnyObject?) -> FulfillmentType in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = FulfillmentType()
-            instance.core = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["core"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? FulfillmentType() : instance as! FulfillmentType
+            
+            result.core = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["core"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [GlobalCheckAndIncrementResource]
-        Decoders.addDecoder(clazz: [GlobalCheckAndIncrementResource].self) { (source: AnyObject) -> [GlobalCheckAndIncrementResource] in
+        Decoders.addDecoder(clazz: [GlobalCheckAndIncrementResource].self) { (source: AnyObject, instance: AnyObject?) -> [GlobalCheckAndIncrementResource] in
             return Decoders.decode(clazz: [GlobalCheckAndIncrementResource].self, source: source)
         }
         // Decoder for GlobalCheckAndIncrementResource
-        Decoders.addDecoder(clazz: GlobalCheckAndIncrementResource.self) { (source: AnyObject) -> GlobalCheckAndIncrementResource in
+        Decoders.addDecoder(clazz: GlobalCheckAndIncrementResource.self) { (source: AnyObject, instance: AnyObject?) -> GlobalCheckAndIncrementResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = GlobalCheckAndIncrementResource()
-            instance.checkValueResource = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["check_value_resource"] as AnyObject?)
-            instance.globalResource = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["global_resource"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? GlobalCheckAndIncrementResource() : instance as! GlobalCheckAndIncrementResource
+            
+            result.checkValueResource = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["check_value_resource"] as AnyObject?)
+            result.globalResource = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["global_resource"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [GlobalResource]
-        Decoders.addDecoder(clazz: [GlobalResource].self) { (source: AnyObject) -> [GlobalResource] in
+        Decoders.addDecoder(clazz: [GlobalResource].self) { (source: AnyObject, instance: AnyObject?) -> [GlobalResource] in
             return Decoders.decode(clazz: [GlobalResource].self, source: source)
         }
         // Decoder for GlobalResource
-        Decoders.addDecoder(clazz: GlobalResource.self) { (source: AnyObject) -> GlobalResource in
+        Decoders.addDecoder(clazz: GlobalResource.self) { (source: AnyObject, instance: AnyObject?) -> GlobalResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = GlobalResource()
-            instance.globalDefId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["global_def_id"] as AnyObject?)
-            instance.scopes = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["scopes"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? GlobalResource() : instance as! GlobalResource
+            
+            result.globalDefId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["global_def_id"] as AnyObject?)
+            result.scopes = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["scopes"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [GooglePaymentRequest]
-        Decoders.addDecoder(clazz: [GooglePaymentRequest].self) { (source: AnyObject) -> [GooglePaymentRequest] in
+        Decoders.addDecoder(clazz: [GooglePaymentRequest].self) { (source: AnyObject, instance: AnyObject?) -> [GooglePaymentRequest] in
             return Decoders.decode(clazz: [GooglePaymentRequest].self, source: source)
         }
         // Decoder for GooglePaymentRequest
-        Decoders.addDecoder(clazz: GooglePaymentRequest.self) { (source: AnyObject) -> GooglePaymentRequest in
+        Decoders.addDecoder(clazz: GooglePaymentRequest.self) { (source: AnyObject, instance: AnyObject?) -> GooglePaymentRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = GooglePaymentRequest()
-            instance.jsonPayload = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["json_payload"] as AnyObject?)
-            instance.signature = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["signature"] as AnyObject?)
-            return instance
+            let result = instance == nil ? GooglePaymentRequest() : instance as! GooglePaymentRequest
+            
+            result.jsonPayload = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["json_payload"] as AnyObject?)
+            result.signature = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["signature"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [GoogleToken]
-        Decoders.addDecoder(clazz: [GoogleToken].self) { (source: AnyObject) -> [GoogleToken] in
+        Decoders.addDecoder(clazz: [GoogleToken].self) { (source: AnyObject, instance: AnyObject?) -> [GoogleToken] in
             return Decoders.decode(clazz: [GoogleToken].self, source: source)
         }
         // Decoder for GoogleToken
-        Decoders.addDecoder(clazz: GoogleToken.self) { (source: AnyObject) -> GoogleToken in
+        Decoders.addDecoder(clazz: GoogleToken.self) { (source: AnyObject, instance: AnyObject?) -> GoogleToken in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = GoogleToken()
-            instance.authorizationCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["authorization_code"] as AnyObject?)
-            return instance
+            let result = instance == nil ? GoogleToken() : instance as! GoogleToken
+            
+            result.authorizationCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["authorization_code"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [GrantTypeResource]
-        Decoders.addDecoder(clazz: [GrantTypeResource].self) { (source: AnyObject) -> [GrantTypeResource] in
+        Decoders.addDecoder(clazz: [GrantTypeResource].self) { (source: AnyObject, instance: AnyObject?) -> [GrantTypeResource] in
             return Decoders.decode(clazz: [GrantTypeResource].self, source: source)
         }
         // Decoder for GrantTypeResource
-        Decoders.addDecoder(clazz: GrantTypeResource.self) { (source: AnyObject) -> GrantTypeResource in
+        Decoders.addDecoder(clazz: GrantTypeResource.self) { (source: AnyObject, instance: AnyObject?) -> GrantTypeResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = GrantTypeResource()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? GrantTypeResource() : instance as! GrantTypeResource
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [GroupMemberResource]
-        Decoders.addDecoder(clazz: [GroupMemberResource].self) { (source: AnyObject) -> [GroupMemberResource] in
+        Decoders.addDecoder(clazz: [GroupMemberResource].self) { (source: AnyObject, instance: AnyObject?) -> [GroupMemberResource] in
             return Decoders.decode(clazz: [GroupMemberResource].self, source: source)
         }
         // Decoder for GroupMemberResource
-        Decoders.addDecoder(clazz: GroupMemberResource.self) { (source: AnyObject) -> GroupMemberResource in
+        Decoders.addDecoder(clazz: GroupMemberResource.self) { (source: AnyObject, instance: AnyObject?) -> GroupMemberResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = GroupMemberResource()
-            instance.avatarUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar_url"] as AnyObject?)
-            instance.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            let result = instance == nil ? GroupMemberResource() : instance as! GroupMemberResource
+            
+            result.avatarUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar_url"] as AnyObject?)
+            result.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
             if let status = sourceDictionary["status"] as? String { 
-                instance.status = GroupMemberResource.Status(rawValue: (status))
+                result.status = GroupMemberResource.Status(rawValue: (status))
             }
             
-            instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
-            return instance
+            result.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [GroupResource]
-        Decoders.addDecoder(clazz: [GroupResource].self) { (source: AnyObject) -> [GroupResource] in
+        Decoders.addDecoder(clazz: [GroupResource].self) { (source: AnyObject, instance: AnyObject?) -> [GroupResource] in
             return Decoders.decode(clazz: [GroupResource].self, source: source)
         }
         // Decoder for GroupResource
-        Decoders.addDecoder(clazz: GroupResource.self) { (source: AnyObject) -> GroupResource in
+        Decoders.addDecoder(clazz: GroupResource.self) { (source: AnyObject, instance: AnyObject?) -> GroupResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = GroupResource()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.memberCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["member_count"] as AnyObject?)
-            instance.messageOfTheDay = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message_of_the_day"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.parent = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["parent"] as AnyObject?)
+            let result = instance == nil ? GroupResource() : instance as! GroupResource
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.memberCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["member_count"] as AnyObject?)
+            result.messageOfTheDay = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message_of_the_day"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.parent = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["parent"] as AnyObject?)
             if let status = sourceDictionary["status"] as? String { 
-                instance.status = GroupResource.Status(rawValue: (status))
+                result.status = GroupResource.Status(rawValue: (status))
             }
             
-            instance.subMemberCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sub_member_count"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.uniqueName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_name"] as AnyObject?)
-            return instance
+            result.subMemberCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sub_member_count"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.uniqueName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_name"] as AnyObject?)
+            return result
         }
 
 
-        // Decoder for [GuestPlayable]
-        Decoders.addDecoder(clazz: [GuestPlayable].self) { (source: AnyObject) -> [GuestPlayable] in
-            return Decoders.decode(clazz: [GuestPlayable].self, source: source)
+        // Decoder for [IOConfig]
+        Decoders.addDecoder(clazz: [IOConfig].self) { (source: AnyObject, instance: AnyObject?) -> [IOConfig] in
+            return Decoders.decode(clazz: [IOConfig].self, source: source)
         }
-        // Decoder for GuestPlayable
-        Decoders.addDecoder(clazz: GuestPlayable.self) { (source: AnyObject) -> GuestPlayable in
+        // Decoder for IOConfig
+        Decoders.addDecoder(clazz: IOConfig.self) { (source: AnyObject, instance: AnyObject?) -> IOConfig in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = GuestPlayable()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.allowed = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["allowed"] as AnyObject?)
-            instance.leaderboard = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["leaderboard"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [ImageGroupProperty]
-        Decoders.addDecoder(clazz: [ImageGroupProperty].self) { (source: AnyObject) -> [ImageGroupProperty] in
-            return Decoders.decode(clazz: [ImageGroupProperty].self, source: source)
-        }
-        // Decoder for ImageGroupProperty
-        Decoders.addDecoder(clazz: ImageGroupProperty.self) { (source: AnyObject) -> ImageGroupProperty in
-            if let source = source as?  {
-                return source
-            }
-            fatalError("Source \(source) is not convertible to typealias ImageGroupProperty: Maybe swagger file is insufficient")
-        }
-
-
-        // Decoder for [ImageGroupPropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [ImageGroupPropertyDefinitionResource].self) { (source: AnyObject) -> [ImageGroupPropertyDefinitionResource] in
-            return Decoders.decode(clazz: [ImageGroupPropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for ImageGroupPropertyDefinitionResource
-        Decoders.addDecoder(clazz: ImageGroupPropertyDefinitionResource.self) { (source: AnyObject) -> ImageGroupPropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ImageGroupPropertyDefinitionResource()
-            instance.maxHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_height"] as AnyObject?)
-            instance.maxWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_width"] as AnyObject?)
-            instance.minHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_height"] as AnyObject?)
-            instance.minWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_width"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [ImageProperty]
-        Decoders.addDecoder(clazz: [ImageProperty].self) { (source: AnyObject) -> [ImageProperty] in
-            return Decoders.decode(clazz: [ImageProperty].self, source: source)
-        }
-        // Decoder for ImageProperty
-        Decoders.addDecoder(clazz: ImageProperty.self) { (source: AnyObject) -> ImageProperty in
-            if let source = source as?  {
-                return source
-            }
-            fatalError("Source \(source) is not convertible to typealias ImageProperty: Maybe swagger file is insufficient")
-        }
-
-
-        // Decoder for [ImagePropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [ImagePropertyDefinitionResource].self) { (source: AnyObject) -> [ImagePropertyDefinitionResource] in
-            return Decoders.decode(clazz: [ImagePropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for ImagePropertyDefinitionResource
-        Decoders.addDecoder(clazz: ImagePropertyDefinitionResource.self) { (source: AnyObject) -> ImagePropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ImagePropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
-            instance.maxHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_height"] as AnyObject?)
-            instance.maxWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_width"] as AnyObject?)
-            instance.minHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_height"] as AnyObject?)
-            instance.minWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_width"] as AnyObject?)
-            return instance
+            let result = instance == nil ? IOConfig() : instance as! IOConfig
+            
+            result.customer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?)
+            result.enabled = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["enabled"] as AnyObject?)
+            result.environment = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["environment"] as AnyObject?)
+            result.product = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["product"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ImportJobOutputResource]
-        Decoders.addDecoder(clazz: [ImportJobOutputResource].self) { (source: AnyObject) -> [ImportJobOutputResource] in
+        Decoders.addDecoder(clazz: [ImportJobOutputResource].self) { (source: AnyObject, instance: AnyObject?) -> [ImportJobOutputResource] in
             return Decoders.decode(clazz: [ImportJobOutputResource].self, source: source)
         }
         // Decoder for ImportJobOutputResource
-        Decoders.addDecoder(clazz: ImportJobOutputResource.self) { (source: AnyObject) -> ImportJobOutputResource in
+        Decoders.addDecoder(clazz: ImportJobOutputResource.self) { (source: AnyObject, instance: AnyObject?) -> ImportJobOutputResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ImportJobOutputResource()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.lineNumber = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["line_number"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ImportJobOutputResource() : instance as! ImportJobOutputResource
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.lineNumber = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["line_number"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ImportJobResource]
-        Decoders.addDecoder(clazz: [ImportJobResource].self) { (source: AnyObject) -> [ImportJobResource] in
+        Decoders.addDecoder(clazz: [ImportJobResource].self) { (source: AnyObject, instance: AnyObject?) -> [ImportJobResource] in
             return Decoders.decode(clazz: [ImportJobResource].self, source: source)
         }
         // Decoder for ImportJobResource
-        Decoders.addDecoder(clazz: ImportJobResource.self) { (source: AnyObject) -> ImportJobResource in
+        Decoders.addDecoder(clazz: ImportJobResource.self) { (source: AnyObject, instance: AnyObject?) -> ImportJobResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ImportJobResource()
-            instance.categoryId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category_id"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.output = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["output"] as AnyObject?)
-            instance.recordCount = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["record_count"] as AnyObject?)
+            let result = instance == nil ? ImportJobResource() : instance as! ImportJobResource
+            
+            result.categoryId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category_id"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.output = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["output"] as AnyObject?)
+            result.recordCount = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["record_count"] as AnyObject?)
             if let status = sourceDictionary["status"] as? String { 
-                instance.status = ImportJobResource.Status(rawValue: (status))
+                result.status = ImportJobResource.Status(rawValue: (status))
             }
             
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
-            instance.vendor = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["vendor"] as AnyObject?)
-            return instance
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
+            result.vendor = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["vendor"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [IntegerOperationResource]
-        Decoders.addDecoder(clazz: [IntegerOperationResource].self) { (source: AnyObject) -> [IntegerOperationResource] in
+        Decoders.addDecoder(clazz: [IntegerOperationResource].self) { (source: AnyObject, instance: AnyObject?) -> [IntegerOperationResource] in
             return Decoders.decode(clazz: [IntegerOperationResource].self, source: source)
         }
         // Decoder for IntegerOperationResource
-        Decoders.addDecoder(clazz: IntegerOperationResource.self) { (source: AnyObject) -> IntegerOperationResource in
+        Decoders.addDecoder(clazz: IntegerOperationResource.self) { (source: AnyObject, instance: AnyObject?) -> IntegerOperationResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = IntegerOperationResource()
-            instance.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
-            instance.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [IntegerProperty]
-        Decoders.addDecoder(clazz: [IntegerProperty].self) { (source: AnyObject) -> [IntegerProperty] in
-            return Decoders.decode(clazz: [IntegerProperty].self, source: source)
-        }
-        // Decoder for IntegerProperty
-        Decoders.addDecoder(clazz: IntegerProperty.self) { (source: AnyObject) -> IntegerProperty in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = IntegerProperty()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [IntegerPropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [IntegerPropertyDefinitionResource].self) { (source: AnyObject) -> [IntegerPropertyDefinitionResource] in
-            return Decoders.decode(clazz: [IntegerPropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for IntegerPropertyDefinitionResource
-        Decoders.addDecoder(clazz: IntegerPropertyDefinitionResource.self) { (source: AnyObject) -> IntegerPropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = IntegerPropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.max = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max"] as AnyObject?)
-            instance.min = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min"] as AnyObject?)
-            return instance
+            let result = instance == nil ? IntegerOperationResource() : instance as! IntegerOperationResource
+            
+            result.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
+            result.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [InventorySubscriptionResource]
-        Decoders.addDecoder(clazz: [InventorySubscriptionResource].self) { (source: AnyObject) -> [InventorySubscriptionResource] in
+        Decoders.addDecoder(clazz: [InventorySubscriptionResource].self) { (source: AnyObject, instance: AnyObject?) -> [InventorySubscriptionResource] in
             return Decoders.decode(clazz: [InventorySubscriptionResource].self, source: source)
         }
         // Decoder for InventorySubscriptionResource
-        Decoders.addDecoder(clazz: InventorySubscriptionResource.self) { (source: AnyObject) -> InventorySubscriptionResource in
+        Decoders.addDecoder(clazz: InventorySubscriptionResource.self) { (source: AnyObject, instance: AnyObject?) -> InventorySubscriptionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = InventorySubscriptionResource()
-            instance.billDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["bill_date"] as AnyObject?)
-            instance.credit = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["credit"] as AnyObject?)
-            instance.creditLog = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["credit_log"] as AnyObject?)
-            instance.graceEnd = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["grace_end"] as AnyObject?)
-            instance.inventoryId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["inventory_id"] as AnyObject?)
+            let result = instance == nil ? InventorySubscriptionResource() : instance as! InventorySubscriptionResource
+            
+            result.billDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["bill_date"] as AnyObject?)
+            result.credit = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["credit"] as AnyObject?)
+            result.creditLog = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["credit_log"] as AnyObject?)
+            result.graceEnd = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["grace_end"] as AnyObject?)
+            result.inventoryId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["inventory_id"] as AnyObject?)
             if let inventoryStatus = sourceDictionary["inventory_status"] as? String { 
-                instance.inventoryStatus = InventorySubscriptionResource.InventoryStatus(rawValue: (inventoryStatus))
+                result.inventoryStatus = InventorySubscriptionResource.InventoryStatus(rawValue: (inventoryStatus))
             }
             
-            instance.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
-            instance.paymentMethod = Decoders.decodeOptional(clazz: PaymentMethodResource.self, source: sourceDictionary["payment_method"] as AnyObject?)
-            instance.recurringPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["recurring_price"] as AnyObject?)
-            instance.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
-            instance.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
-            instance.subscriptionStatus = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["subscription_status"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            return instance
+            result.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
+            result.paymentMethod = Decoders.decodeOptional(clazz: PaymentMethodResource.self, source: sourceDictionary["payment_method"] as AnyObject?)
+            result.priceOverride = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price_override"] as AnyObject?)
+            result.priceOverrideReason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["price_override_reason"] as AnyObject?)
+            result.recurringPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["recurring_price"] as AnyObject?)
+            result.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
+            result.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
+            result.subscriptionStatus = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["subscription_status"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [InvoiceCreateRequest]
-        Decoders.addDecoder(clazz: [InvoiceCreateRequest].self) { (source: AnyObject) -> [InvoiceCreateRequest] in
+        Decoders.addDecoder(clazz: [InvoiceCreateRequest].self) { (source: AnyObject, instance: AnyObject?) -> [InvoiceCreateRequest] in
             return Decoders.decode(clazz: [InvoiceCreateRequest].self, source: source)
         }
         // Decoder for InvoiceCreateRequest
-        Decoders.addDecoder(clazz: InvoiceCreateRequest.self) { (source: AnyObject) -> InvoiceCreateRequest in
+        Decoders.addDecoder(clazz: InvoiceCreateRequest.self) { (source: AnyObject, instance: AnyObject?) -> InvoiceCreateRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = InvoiceCreateRequest()
-            instance.cartGuid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cart_guid"] as AnyObject?)
-            return instance
+            let result = instance == nil ? InvoiceCreateRequest() : instance as! InvoiceCreateRequest
+            
+            result.cartGuid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cart_guid"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [InvoiceItemResource]
-        Decoders.addDecoder(clazz: [InvoiceItemResource].self) { (source: AnyObject) -> [InvoiceItemResource] in
+        Decoders.addDecoder(clazz: [InvoiceItemResource].self) { (source: AnyObject, instance: AnyObject?) -> [InvoiceItemResource] in
             return Decoders.decode(clazz: [InvoiceItemResource].self, source: source)
         }
         // Decoder for InvoiceItemResource
-        Decoders.addDecoder(clazz: InvoiceItemResource.self) { (source: AnyObject) -> InvoiceItemResource in
+        Decoders.addDecoder(clazz: InvoiceItemResource.self) { (source: AnyObject, instance: AnyObject?) -> InvoiceItemResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = InvoiceItemResource()
-            instance.affiliateId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["affiliate_id"] as AnyObject?)
-            instance.bundleSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["bundle_sku"] as AnyObject?)
-            instance.currentFulfillmentStatus = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["current_fulfillment_status"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
-            instance.itemName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["item_name"] as AnyObject?)
-            instance.originalTotalPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_total_price"] as AnyObject?)
-            instance.originalUnitPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_unit_price"] as AnyObject?)
-            instance.qty = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["qty"] as AnyObject?)
-            instance.saleName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sale_name"] as AnyObject?)
-            instance.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
-            instance.skuDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku_description"] as AnyObject?)
-            instance.systemPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["system_price"] as AnyObject?)
-            instance.totalPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["total_price"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.unitPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["unit_price"] as AnyObject?)
-            return instance
+            let result = instance == nil ? InvoiceItemResource() : instance as! InvoiceItemResource
+            
+            result.bundleSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["bundle_sku"] as AnyObject?)
+            result.currentFulfillmentStatus = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["current_fulfillment_status"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
+            result.itemName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["item_name"] as AnyObject?)
+            result.originalTotalPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_total_price"] as AnyObject?)
+            result.originalUnitPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_unit_price"] as AnyObject?)
+            result.qty = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["qty"] as AnyObject?)
+            result.saleName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sale_name"] as AnyObject?)
+            result.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
+            result.skuDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku_description"] as AnyObject?)
+            result.systemPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["system_price"] as AnyObject?)
+            result.totalPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["total_price"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.unitPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["unit_price"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [InvoiceLogEntry]
-        Decoders.addDecoder(clazz: [InvoiceLogEntry].self) { (source: AnyObject) -> [InvoiceLogEntry] in
+        Decoders.addDecoder(clazz: [InvoiceLogEntry].self) { (source: AnyObject, instance: AnyObject?) -> [InvoiceLogEntry] in
             return Decoders.decode(clazz: [InvoiceLogEntry].self, source: source)
         }
         // Decoder for InvoiceLogEntry
-        Decoders.addDecoder(clazz: InvoiceLogEntry.self) { (source: AnyObject) -> InvoiceLogEntry in
+        Decoders.addDecoder(clazz: InvoiceLogEntry.self) { (source: AnyObject, instance: AnyObject?) -> InvoiceLogEntry in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = InvoiceLogEntry()
-            instance.date = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["date"] as AnyObject?)
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? InvoiceLogEntry() : instance as! InvoiceLogEntry
+            
+            result.date = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["date"] as AnyObject?)
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [InvoicePaymentStatusRequest]
-        Decoders.addDecoder(clazz: [InvoicePaymentStatusRequest].self) { (source: AnyObject) -> [InvoicePaymentStatusRequest] in
+        Decoders.addDecoder(clazz: [InvoicePaymentStatusRequest].self) { (source: AnyObject, instance: AnyObject?) -> [InvoicePaymentStatusRequest] in
             return Decoders.decode(clazz: [InvoicePaymentStatusRequest].self, source: source)
         }
         // Decoder for InvoicePaymentStatusRequest
-        Decoders.addDecoder(clazz: InvoicePaymentStatusRequest.self) { (source: AnyObject) -> InvoicePaymentStatusRequest in
+        Decoders.addDecoder(clazz: InvoicePaymentStatusRequest.self) { (source: AnyObject, instance: AnyObject?) -> InvoicePaymentStatusRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = InvoicePaymentStatusRequest()
-            instance.paymentMethodId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["payment_method_id"] as AnyObject?)
-            instance.status = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["status"] as AnyObject?)
-            return instance
+            let result = instance == nil ? InvoicePaymentStatusRequest() : instance as! InvoicePaymentStatusRequest
+            
+            result.paymentMethodId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["payment_method_id"] as AnyObject?)
+            result.status = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["status"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [InvoiceResource]
-        Decoders.addDecoder(clazz: [InvoiceResource].self) { (source: AnyObject) -> [InvoiceResource] in
+        Decoders.addDecoder(clazz: [InvoiceResource].self) { (source: AnyObject, instance: AnyObject?) -> [InvoiceResource] in
             return Decoders.decode(clazz: [InvoiceResource].self, source: source)
         }
         // Decoder for InvoiceResource
-        Decoders.addDecoder(clazz: InvoiceResource.self) { (source: AnyObject) -> InvoiceResource in
+        Decoders.addDecoder(clazz: InvoiceResource.self) { (source: AnyObject, instance: AnyObject?) -> InvoiceResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = InvoiceResource()
-            instance.billingAddress1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_address1"] as AnyObject?)
-            instance.billingAddress2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_address2"] as AnyObject?)
-            instance.billingCityName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_city_name"] as AnyObject?)
-            instance.billingCountryName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_country_name"] as AnyObject?)
-            instance.billingFullName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_full_name"] as AnyObject?)
-            instance.billingPostalCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_postal_code"] as AnyObject?)
-            instance.billingStateName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_state_name"] as AnyObject?)
-            instance.cartId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cart_id"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.currency = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency"] as AnyObject?)
-            instance.currentFulfillmentStatus = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["current_fulfillment_status"] as AnyObject?)
-            instance.currentPaymentStatus = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["current_payment_status"] as AnyObject?)
-            instance.discount = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount"] as AnyObject?)
-            instance.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
-            instance.externalRef = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["external_ref"] as AnyObject?)
-            instance.fedTax = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["fed_tax"] as AnyObject?)
-            instance.grandTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["grand_total"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.invoiceNumber = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["invoice_number"] as AnyObject?)
-            instance.items = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["items"] as AnyObject?)
-            instance.namePrefix = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name_prefix"] as AnyObject?)
-            instance.orderNotes = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["order_notes"] as AnyObject?)
-            instance.parentInvoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["parent_invoice_id"] as AnyObject?)
-            instance.paymentMethodId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["payment_method_id"] as AnyObject?)
-            instance.phone = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone"] as AnyObject?)
-            instance.phoneNumber = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone_number"] as AnyObject?)
-            instance.shipping = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["shipping"] as AnyObject?)
-            instance.shippingAddress1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_address1"] as AnyObject?)
-            instance.shippingAddress2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_address2"] as AnyObject?)
-            instance.shippingCityName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_city_name"] as AnyObject?)
-            instance.shippingCountryName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_country_name"] as AnyObject?)
-            instance.shippingFullName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_full_name"] as AnyObject?)
-            instance.shippingPostalCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_postal_code"] as AnyObject?)
-            instance.shippingStateName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_state_name"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.stateTax = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["state_tax"] as AnyObject?)
-            instance.subtotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["subtotal"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            instance.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
-            instance.vendorName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["vendor_name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? InvoiceResource() : instance as! InvoiceResource
+            
+            result.billingAddress1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_address1"] as AnyObject?)
+            result.billingAddress2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_address2"] as AnyObject?)
+            result.billingCityName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_city_name"] as AnyObject?)
+            result.billingCountryName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_country_name"] as AnyObject?)
+            result.billingFullName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_full_name"] as AnyObject?)
+            result.billingPostalCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_postal_code"] as AnyObject?)
+            result.billingStateName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["billing_state_name"] as AnyObject?)
+            result.cartId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cart_id"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.currency = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency"] as AnyObject?)
+            result.currentFulfillmentStatus = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["current_fulfillment_status"] as AnyObject?)
+            result.currentPaymentStatus = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["current_payment_status"] as AnyObject?)
+            result.discount = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount"] as AnyObject?)
+            result.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
+            result.externalRef = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["external_ref"] as AnyObject?)
+            result.fedTax = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["fed_tax"] as AnyObject?)
+            result.grandTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["grand_total"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.invoiceNumber = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["invoice_number"] as AnyObject?)
+            result.items = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["items"] as AnyObject?)
+            result.namePrefix = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name_prefix"] as AnyObject?)
+            result.orderNotes = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["order_notes"] as AnyObject?)
+            result.parentInvoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["parent_invoice_id"] as AnyObject?)
+            result.paymentMethodId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["payment_method_id"] as AnyObject?)
+            result.phone = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone"] as AnyObject?)
+            result.phoneNumber = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone_number"] as AnyObject?)
+            result.shipping = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["shipping"] as AnyObject?)
+            result.shippingAddress1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_address1"] as AnyObject?)
+            result.shippingAddress2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_address2"] as AnyObject?)
+            result.shippingCityName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_city_name"] as AnyObject?)
+            result.shippingCountryName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_country_name"] as AnyObject?)
+            result.shippingFullName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_full_name"] as AnyObject?)
+            result.shippingPostalCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_postal_code"] as AnyObject?)
+            result.shippingStateName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["shipping_state_name"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.stateTax = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["state_tax"] as AnyObject?)
+            result.subtotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["subtotal"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            result.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
+            result.vendorName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["vendor_name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Item]
-        Decoders.addDecoder(clazz: [Item].self) { (source: AnyObject) -> [Item] in
+        Decoders.addDecoder(clazz: [Item].self) { (source: AnyObject, instance: AnyObject?) -> [Item] in
             return Decoders.decode(clazz: [Item].self, source: source)
         }
         // Decoder for Item
-        Decoders.addDecoder(clazz: Item.self) { (source: AnyObject) -> Item in
+        Decoders.addDecoder(clazz: Item.self) { (source: AnyObject, instance: AnyObject?) -> Item in
             let sourceDictionary = source as! [AnyHashable: Any]
             // Check discriminator to support inheritance
-            if let discriminator = sourceDictionary["type_hint"] as? String, discriminator != "Item"{
+            if let discriminator = sourceDictionary["type_hint"] as? String, instance == nil && discriminator != "Item" {
                 return Decoders.decode(clazz: Item.self, discriminator: discriminator, source: source)
             }
-
-            let instance = Item()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.behaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["behaviors"] as AnyObject?)
-            instance.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? Item() : instance as! Item
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.behaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["behaviors"] as AnyObject?)
+            result.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ItemBehaviorDefinitionResource]
-        Decoders.addDecoder(clazz: [ItemBehaviorDefinitionResource].self) { (source: AnyObject) -> [ItemBehaviorDefinitionResource] in
+        Decoders.addDecoder(clazz: [ItemBehaviorDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [ItemBehaviorDefinitionResource] in
             return Decoders.decode(clazz: [ItemBehaviorDefinitionResource].self, source: source)
         }
         // Decoder for ItemBehaviorDefinitionResource
-        Decoders.addDecoder(clazz: ItemBehaviorDefinitionResource.self) { (source: AnyObject) -> ItemBehaviorDefinitionResource in
+        Decoders.addDecoder(clazz: ItemBehaviorDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> ItemBehaviorDefinitionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ItemBehaviorDefinitionResource()
-            instance.behavior = Decoders.decodeOptional(clazz: Behavior.self, source: sourceDictionary["behavior"] as AnyObject?)
-            instance.modifiable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["modifiable"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ItemBehaviorDefinitionResource() : instance as! ItemBehaviorDefinitionResource
+            
+            result.behavior = Decoders.decodeOptional(clazz: Behavior.self, source: sourceDictionary["behavior"] as AnyObject?)
+            result.modifiable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["modifiable"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ItemTemplateResource]
-        Decoders.addDecoder(clazz: [ItemTemplateResource].self) { (source: AnyObject) -> [ItemTemplateResource] in
+        Decoders.addDecoder(clazz: [ItemTemplateResource].self) { (source: AnyObject, instance: AnyObject?) -> [ItemTemplateResource] in
             return Decoders.decode(clazz: [ItemTemplateResource].self, source: source)
         }
         // Decoder for ItemTemplateResource
-        Decoders.addDecoder(clazz: ItemTemplateResource.self) { (source: AnyObject) -> ItemTemplateResource in
+        Decoders.addDecoder(clazz: ItemTemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> ItemTemplateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ItemTemplateResource()
-            instance.behaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["behaviors"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ItemTemplateResource() : instance as! ItemTemplateResource
+            
+            result.behaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["behaviors"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [KeyValuePairstringstring]
-        Decoders.addDecoder(clazz: [KeyValuePairstringstring].self) { (source: AnyObject) -> [KeyValuePairstringstring] in
+        Decoders.addDecoder(clazz: [KeyValuePairstringstring].self) { (source: AnyObject, instance: AnyObject?) -> [KeyValuePairstringstring] in
             return Decoders.decode(clazz: [KeyValuePairstringstring].self, source: source)
         }
         // Decoder for KeyValuePairstringstring
-        Decoders.addDecoder(clazz: KeyValuePairstringstring.self) { (source: AnyObject) -> KeyValuePairstringstring in
+        Decoders.addDecoder(clazz: KeyValuePairstringstring.self) { (source: AnyObject, instance: AnyObject?) -> KeyValuePairstringstring in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = KeyValuePairstringstring()
-            instance.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
+            let result = instance == nil ? KeyValuePairstringstring() : instance as! KeyValuePairstringstring
+            
+            result.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [LeaderboardEntryResource]
-        Decoders.addDecoder(clazz: [LeaderboardEntryResource].self) { (source: AnyObject) -> [LeaderboardEntryResource] in
+        Decoders.addDecoder(clazz: [LeaderboardEntryResource].self) { (source: AnyObject, instance: AnyObject?) -> [LeaderboardEntryResource] in
             return Decoders.decode(clazz: [LeaderboardEntryResource].self, source: source)
         }
         // Decoder for LeaderboardEntryResource
-        Decoders.addDecoder(clazz: LeaderboardEntryResource.self) { (source: AnyObject) -> LeaderboardEntryResource in
+        Decoders.addDecoder(clazz: LeaderboardEntryResource.self) { (source: AnyObject, instance: AnyObject?) -> LeaderboardEntryResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = LeaderboardEntryResource()
-            instance.rank = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["rank"] as AnyObject?)
-            instance.score = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["score"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            return instance
+            let result = instance == nil ? LeaderboardEntryResource() : instance as! LeaderboardEntryResource
+            
+            result.rank = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["rank"] as AnyObject?)
+            result.score = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["score"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [LeaderboardResource]
-        Decoders.addDecoder(clazz: [LeaderboardResource].self) { (source: AnyObject) -> [LeaderboardResource] in
+        Decoders.addDecoder(clazz: [LeaderboardResource].self) { (source: AnyObject, instance: AnyObject?) -> [LeaderboardResource] in
             return Decoders.decode(clazz: [LeaderboardResource].self, source: source)
         }
         // Decoder for LeaderboardResource
-        Decoders.addDecoder(clazz: LeaderboardResource.self) { (source: AnyObject) -> LeaderboardResource in
+        Decoders.addDecoder(clazz: LeaderboardResource.self) { (source: AnyObject, instance: AnyObject?) -> LeaderboardResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = LeaderboardResource()
-            instance.entries = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["entries"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.strategy = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["strategy"] as AnyObject?)
-            return instance
+            let result = instance == nil ? LeaderboardResource() : instance as! LeaderboardResource
+            
+            result.entries = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["entries"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.strategy = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["strategy"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [LevelingResource]
-        Decoders.addDecoder(clazz: [LevelingResource].self) { (source: AnyObject) -> [LevelingResource] in
+        Decoders.addDecoder(clazz: [LevelingResource].self) { (source: AnyObject, instance: AnyObject?) -> [LevelingResource] in
             return Decoders.decode(clazz: [LevelingResource].self, source: source)
         }
         // Decoder for LevelingResource
-        Decoders.addDecoder(clazz: LevelingResource.self) { (source: AnyObject) -> LevelingResource in
+        Decoders.addDecoder(clazz: LevelingResource.self) { (source: AnyObject, instance: AnyObject?) -> LevelingResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = LevelingResource()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.tiers = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tiers"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [LimitedGettable]
-        Decoders.addDecoder(clazz: [LimitedGettable].self) { (source: AnyObject) -> [LimitedGettable] in
-            return Decoders.decode(clazz: [LimitedGettable].self, source: source)
-        }
-        // Decoder for LimitedGettable
-        Decoders.addDecoder(clazz: LimitedGettable.self) { (source: AnyObject) -> LimitedGettable in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = LimitedGettable()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.group = Decoders.decodeOptional(clazz: LimitedGettableGroup.self, source: sourceDictionary["group"] as AnyObject?)
-            return instance
+            let result = instance == nil ? LevelingResource() : instance as! LevelingResource
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.tiers = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tiers"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [LimitedGettableGroup]
-        Decoders.addDecoder(clazz: [LimitedGettableGroup].self) { (source: AnyObject) -> [LimitedGettableGroup] in
+        Decoders.addDecoder(clazz: [LimitedGettableGroup].self) { (source: AnyObject, instance: AnyObject?) -> [LimitedGettableGroup] in
             return Decoders.decode(clazz: [LimitedGettableGroup].self, source: source)
         }
         // Decoder for LimitedGettableGroup
-        Decoders.addDecoder(clazz: LimitedGettableGroup.self) { (source: AnyObject) -> LimitedGettableGroup in
+        Decoders.addDecoder(clazz: LimitedGettableGroup.self) { (source: AnyObject, instance: AnyObject?) -> LimitedGettableGroup in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = LimitedGettableGroup()
-            instance.activeOnly = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active_only"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.ownedLimit = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["owned_limit"] as AnyObject?)
-            return instance
+            let result = instance == nil ? LimitedGettableGroup() : instance as! LimitedGettableGroup
+            
+            result.activeOnly = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active_only"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.ownedLimit = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["owned_limit"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Localizer]
-        Decoders.addDecoder(clazz: [Localizer].self) { (source: AnyObject) -> [Localizer] in
+        Decoders.addDecoder(clazz: [Localizer].self) { (source: AnyObject, instance: AnyObject?) -> [Localizer] in
             return Decoders.decode(clazz: [Localizer].self, source: source)
         }
         // Decoder for Localizer
-        Decoders.addDecoder(clazz: Localizer.self) { (source: AnyObject) -> Localizer in
+        Decoders.addDecoder(clazz: Localizer.self) { (source: AnyObject, instance: AnyObject?) -> Localizer in
             if let source = source as? Any {
                 return source
             }
@@ -2936,125 +2463,91 @@ class Decoders {
 
 
         // Decoder for [LocationLogResource]
-        Decoders.addDecoder(clazz: [LocationLogResource].self) { (source: AnyObject) -> [LocationLogResource] in
+        Decoders.addDecoder(clazz: [LocationLogResource].self) { (source: AnyObject, instance: AnyObject?) -> [LocationLogResource] in
             return Decoders.decode(clazz: [LocationLogResource].self, source: source)
         }
         // Decoder for LocationLogResource
-        Decoders.addDecoder(clazz: LocationLogResource.self) { (source: AnyObject) -> LocationLogResource in
+        Decoders.addDecoder(clazz: LocationLogResource.self) { (source: AnyObject, instance: AnyObject?) -> LocationLogResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = LocationLogResource()
-            instance.country = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country"] as AnyObject?)
-            instance.ip = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ip"] as AnyObject?)
-            instance.time = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["time"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [LongProperty]
-        Decoders.addDecoder(clazz: [LongProperty].self) { (source: AnyObject) -> [LongProperty] in
-            return Decoders.decode(clazz: [LongProperty].self, source: source)
-        }
-        // Decoder for LongProperty
-        Decoders.addDecoder(clazz: LongProperty.self) { (source: AnyObject) -> LongProperty in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = LongProperty()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [LongPropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [LongPropertyDefinitionResource].self) { (source: AnyObject) -> [LongPropertyDefinitionResource] in
-            return Decoders.decode(clazz: [LongPropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for LongPropertyDefinitionResource
-        Decoders.addDecoder(clazz: LongPropertyDefinitionResource.self) { (source: AnyObject) -> LongPropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = LongPropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.max = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["max"] as AnyObject?)
-            instance.min = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["min"] as AnyObject?)
-            return instance
+            let result = instance == nil ? LocationLogResource() : instance as! LocationLogResource
+            
+            result.country = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country"] as AnyObject?)
+            result.ip = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ip"] as AnyObject?)
+            result.time = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["time"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [LookupResource]
-        Decoders.addDecoder(clazz: [LookupResource].self) { (source: AnyObject) -> [LookupResource] in
+        Decoders.addDecoder(clazz: [LookupResource].self) { (source: AnyObject, instance: AnyObject?) -> [LookupResource] in
             return Decoders.decode(clazz: [LookupResource].self, source: source)
         }
         // Decoder for LookupResource
-        Decoders.addDecoder(clazz: LookupResource.self) { (source: AnyObject) -> LookupResource in
+        Decoders.addDecoder(clazz: LookupResource.self) { (source: AnyObject, instance: AnyObject?) -> LookupResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = LookupResource()
-            instance.lookupKey = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["lookup_key"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? LookupResource() : instance as! LookupResource
+            
+            result.lookupKey = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["lookup_key"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [LookupTypeResource]
-        Decoders.addDecoder(clazz: [LookupTypeResource].self) { (source: AnyObject) -> [LookupTypeResource] in
+        Decoders.addDecoder(clazz: [LookupTypeResource].self) { (source: AnyObject, instance: AnyObject?) -> [LookupTypeResource] in
             return Decoders.decode(clazz: [LookupTypeResource].self, source: source)
         }
         // Decoder for LookupTypeResource
-        Decoders.addDecoder(clazz: LookupTypeResource.self) { (source: AnyObject) -> LookupTypeResource in
+        Decoders.addDecoder(clazz: LookupTypeResource.self) { (source: AnyObject, instance: AnyObject?) -> LookupTypeResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = LookupTypeResource()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.keyType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key_type"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? LookupTypeResource() : instance as! LookupTypeResource
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.keyType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key_type"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Maintenance]
-        Decoders.addDecoder(clazz: [Maintenance].self) { (source: AnyObject) -> [Maintenance] in
+        Decoders.addDecoder(clazz: [Maintenance].self) { (source: AnyObject, instance: AnyObject?) -> [Maintenance] in
             return Decoders.decode(clazz: [Maintenance].self, source: source)
         }
         // Decoder for Maintenance
-        Decoders.addDecoder(clazz: Maintenance.self) { (source: AnyObject) -> Maintenance in
+        Decoders.addDecoder(clazz: Maintenance.self) { (source: AnyObject, instance: AnyObject?) -> Maintenance in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Maintenance()
-            instance.accessLocked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["access_locked"] as AnyObject?)
-            instance.details = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["details"] as AnyObject?)
-            instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"] as AnyObject?)
-            return instance
+            let result = instance == nil ? Maintenance() : instance as! Maintenance
+            
+            result.accessLocked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["access_locked"] as AnyObject?)
+            result.details = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["details"] as AnyObject?)
+            result.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [MapResource]
-        Decoders.addDecoder(clazz: [MapResource].self) { (source: AnyObject) -> [MapResource] in
+        Decoders.addDecoder(clazz: [MapResource].self) { (source: AnyObject, instance: AnyObject?) -> [MapResource] in
             return Decoders.decode(clazz: [MapResource].self, source: source)
         }
         // Decoder for MapResource
-        Decoders.addDecoder(clazz: MapResource.self) { (source: AnyObject) -> MapResource in
+        Decoders.addDecoder(clazz: MapResource.self) { (source: AnyObject, instance: AnyObject?) -> MapResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = MapResource()
-            instance.map = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["map"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? MapResource() : instance as! MapResource
+            
+            result.map = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["map"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Mapstringobject]
-        Decoders.addDecoder(clazz: [Mapstringobject].self) { (source: AnyObject) -> [Mapstringobject] in
+        Decoders.addDecoder(clazz: [Mapstringobject].self) { (source: AnyObject, instance: AnyObject?) -> [Mapstringobject] in
             return Decoders.decode(clazz: [Mapstringobject].self, source: source)
         }
         // Decoder for Mapstringobject
-        Decoders.addDecoder(clazz: Mapstringobject.self) { (source: AnyObject) -> Mapstringobject in
+        Decoders.addDecoder(clazz: Mapstringobject.self) { (source: AnyObject, instance: AnyObject?) -> Mapstringobject in
             if let source = source as? Any {
                 return source
             }
@@ -3063,132 +2556,109 @@ class Decoders {
 
 
         // Decoder for [MetricResource]
-        Decoders.addDecoder(clazz: [MetricResource].self) { (source: AnyObject) -> [MetricResource] in
+        Decoders.addDecoder(clazz: [MetricResource].self) { (source: AnyObject, instance: AnyObject?) -> [MetricResource] in
             return Decoders.decode(clazz: [MetricResource].self, source: source)
         }
         // Decoder for MetricResource
-        Decoders.addDecoder(clazz: MetricResource.self) { (source: AnyObject) -> MetricResource in
+        Decoders.addDecoder(clazz: MetricResource.self) { (source: AnyObject, instance: AnyObject?) -> MetricResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = MetricResource()
-            instance.activityOccurenceId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["activity_occurence_id"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
+            let result = instance == nil ? MetricResource() : instance as! MetricResource
+            
+            result.activityOccurenceId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["activity_occurence_id"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [MongoDatabaseConfig]
-        Decoders.addDecoder(clazz: [MongoDatabaseConfig].self) { (source: AnyObject) -> [MongoDatabaseConfig] in
+        Decoders.addDecoder(clazz: [MongoDatabaseConfig].self) { (source: AnyObject, instance: AnyObject?) -> [MongoDatabaseConfig] in
             return Decoders.decode(clazz: [MongoDatabaseConfig].self, source: source)
         }
         // Decoder for MongoDatabaseConfig
-        Decoders.addDecoder(clazz: MongoDatabaseConfig.self) { (source: AnyObject) -> MongoDatabaseConfig in
+        Decoders.addDecoder(clazz: MongoDatabaseConfig.self) { (source: AnyObject, instance: AnyObject?) -> MongoDatabaseConfig in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = MongoDatabaseConfig()
-            instance.dbName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["db_name"] as AnyObject?)
-            instance.options = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options"] as AnyObject?)
-            instance.password = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?)
-            instance.servers = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["servers"] as AnyObject?)
-            instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
-            return instance
+            let result = instance == nil ? MongoDatabaseConfig() : instance as! MongoDatabaseConfig
+            
+            result.dbName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["db_name"] as AnyObject?)
+            result.options = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options"] as AnyObject?)
+            result.password = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?)
+            result.servers = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["servers"] as AnyObject?)
+            result.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [NestedCategory]
-        Decoders.addDecoder(clazz: [NestedCategory].self) { (source: AnyObject) -> [NestedCategory] in
+        Decoders.addDecoder(clazz: [NestedCategory].self) { (source: AnyObject, instance: AnyObject?) -> [NestedCategory] in
             return Decoders.decode(clazz: [NestedCategory].self, source: source)
         }
         // Decoder for NestedCategory
-        Decoders.addDecoder(clazz: NestedCategory.self) { (source: AnyObject) -> NestedCategory in
+        Decoders.addDecoder(clazz: NestedCategory.self) { (source: AnyObject, instance: AnyObject?) -> NestedCategory in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = NestedCategory()
-            instance.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [NewCustomerEvent]
-        Decoders.addDecoder(clazz: [NewCustomerEvent].self) { (source: AnyObject) -> [NewCustomerEvent] in
-            return Decoders.decode(clazz: [NewCustomerEvent].self, source: source)
-        }
-        // Decoder for NewCustomerEvent
-        Decoders.addDecoder(clazz: NewCustomerEvent.self) { (source: AnyObject) -> NewCustomerEvent in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = NewCustomerEvent()
-            instance.client = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?)
-            instance.customer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?)
-            instance.doNotBroadcast = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?)
-            instance.section = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?)
-            instance.source = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?)
-            instance.specifics = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?)
-            instance.synchronous = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?)
-            instance.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.customerConfig = Decoders.decodeOptional(clazz: CustomerConfig.self, source: sourceDictionary["customer_config"] as AnyObject?)
-            return instance
+            let result = instance == nil ? NestedCategory() : instance as! NestedCategory
+            
+            result.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [NewPasswordRequest]
-        Decoders.addDecoder(clazz: [NewPasswordRequest].self) { (source: AnyObject) -> [NewPasswordRequest] in
+        Decoders.addDecoder(clazz: [NewPasswordRequest].self) { (source: AnyObject, instance: AnyObject?) -> [NewPasswordRequest] in
             return Decoders.decode(clazz: [NewPasswordRequest].self, source: source)
         }
         // Decoder for NewPasswordRequest
-        Decoders.addDecoder(clazz: NewPasswordRequest.self) { (source: AnyObject) -> NewPasswordRequest in
+        Decoders.addDecoder(clazz: NewPasswordRequest.self) { (source: AnyObject, instance: AnyObject?) -> NewPasswordRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = NewPasswordRequest()
-            instance.password = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?)
-            instance.secret = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["secret"] as AnyObject?)
-            return instance
+            let result = instance == nil ? NewPasswordRequest() : instance as! NewPasswordRequest
+            
+            result.password = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?)
+            result.secret = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["secret"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [OAuth2Resource]
-        Decoders.addDecoder(clazz: [OAuth2Resource].self) { (source: AnyObject) -> [OAuth2Resource] in
+        Decoders.addDecoder(clazz: [OAuth2Resource].self) { (source: AnyObject, instance: AnyObject?) -> [OAuth2Resource] in
             return Decoders.decode(clazz: [OAuth2Resource].self, source: source)
         }
         // Decoder for OAuth2Resource
-        Decoders.addDecoder(clazz: OAuth2Resource.self) { (source: AnyObject) -> OAuth2Resource in
+        Decoders.addDecoder(clazz: OAuth2Resource.self) { (source: AnyObject, instance: AnyObject?) -> OAuth2Resource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = OAuth2Resource()
-            instance.accessToken = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["access_token"] as AnyObject?)
-            instance.expiresIn = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["expires_in"] as AnyObject?)
-            instance.scope = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["scope"] as AnyObject?)
-            instance.tokenType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token_type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? OAuth2Resource() : instance as! OAuth2Resource
+            
+            result.accessToken = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["access_token"] as AnyObject?)
+            result.expiresIn = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["expires_in"] as AnyObject?)
+            result.scope = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["scope"] as AnyObject?)
+            result.tokenType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token_type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [OauthAccessTokenResource]
-        Decoders.addDecoder(clazz: [OauthAccessTokenResource].self) { (source: AnyObject) -> [OauthAccessTokenResource] in
+        Decoders.addDecoder(clazz: [OauthAccessTokenResource].self) { (source: AnyObject, instance: AnyObject?) -> [OauthAccessTokenResource] in
             return Decoders.decode(clazz: [OauthAccessTokenResource].self, source: source)
         }
         // Decoder for OauthAccessTokenResource
-        Decoders.addDecoder(clazz: OauthAccessTokenResource.self) { (source: AnyObject) -> OauthAccessTokenResource in
+        Decoders.addDecoder(clazz: OauthAccessTokenResource.self) { (source: AnyObject, instance: AnyObject?) -> OauthAccessTokenResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = OauthAccessTokenResource()
-            instance.clientId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_id"] as AnyObject?)
-            instance.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
-            instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
-            return instance
+            let result = instance == nil ? OauthAccessTokenResource() : instance as! OauthAccessTokenResource
+            
+            result.clientId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_id"] as AnyObject?)
+            result.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
+            result.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Operator]
-        Decoders.addDecoder(clazz: [Operator].self) { (source: AnyObject) -> [Operator] in
+        Decoders.addDecoder(clazz: [Operator].self) { (source: AnyObject, instance: AnyObject?) -> [Operator] in
             return Decoders.decode(clazz: [Operator].self, source: source)
         }
         // Decoder for Operator
-        Decoders.addDecoder(clazz: Operator.self) { (source: AnyObject) -> Operator in
+        Decoders.addDecoder(clazz: Operator.self) { (source: AnyObject, instance: AnyObject?) -> Operator in
             if let source = source as? Any {
                 return source
             }
@@ -3197,3540 +2667,4455 @@ class Decoders {
 
 
         // Decoder for [OptimalPaymentRequest]
-        Decoders.addDecoder(clazz: [OptimalPaymentRequest].self) { (source: AnyObject) -> [OptimalPaymentRequest] in
+        Decoders.addDecoder(clazz: [OptimalPaymentRequest].self) { (source: AnyObject, instance: AnyObject?) -> [OptimalPaymentRequest] in
             return Decoders.decode(clazz: [OptimalPaymentRequest].self, source: source)
         }
         // Decoder for OptimalPaymentRequest
-        Decoders.addDecoder(clazz: OptimalPaymentRequest.self) { (source: AnyObject) -> OptimalPaymentRequest in
+        Decoders.addDecoder(clazz: OptimalPaymentRequest.self) { (source: AnyObject, instance: AnyObject?) -> OptimalPaymentRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = OptimalPaymentRequest()
-            instance.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
-            instance.firstName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["first_name"] as AnyObject?)
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.lastName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last_name"] as AnyObject?)
-            instance.onDecline = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["on_decline"] as AnyObject?)
-            instance.onError = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["on_error"] as AnyObject?)
-            instance.onSuccess = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["on_success"] as AnyObject?)
-            return instance
+            let result = instance == nil ? OptimalPaymentRequest() : instance as! OptimalPaymentRequest
+            
+            result.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
+            result.firstName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["first_name"] as AnyObject?)
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.lastName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last_name"] as AnyObject?)
+            result.onDecline = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["on_decline"] as AnyObject?)
+            result.onError = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["on_error"] as AnyObject?)
+            result.onSuccess = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["on_success"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Order]
-        Decoders.addDecoder(clazz: [Order].self) { (source: AnyObject) -> [Order] in
+        Decoders.addDecoder(clazz: [Order].self) { (source: AnyObject, instance: AnyObject?) -> [Order] in
             return Decoders.decode(clazz: [Order].self, source: source)
         }
         // Decoder for Order
-        Decoders.addDecoder(clazz: Order.self) { (source: AnyObject) -> Order in
+        Decoders.addDecoder(clazz: Order.self) { (source: AnyObject, instance: AnyObject?) -> Order in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Order()
-            instance.ascending = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["ascending"] as AnyObject?)
+            let result = instance == nil ? Order() : instance as! Order
+            
+            result.ascending = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["ascending"] as AnyObject?)
             if let direction = sourceDictionary["direction"] as? String { 
-                instance.direction = Order.Direction(rawValue: (direction))
+                result.direction = Order.Direction(rawValue: (direction))
             }
             
-            instance.ignoreCase = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["ignore_case"] as AnyObject?)
+            result.ignoreCase = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["ignore_case"] as AnyObject?)
             if let nullHandling = sourceDictionary["null_handling"] as? String { 
-                instance.nullHandling = Order.NullHandling(rawValue: (nullHandling))
+                result.nullHandling = Order.NullHandling(rawValue: (nullHandling))
             }
             
-            instance.property = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["property"] as AnyObject?)
-            return instance
+            result.property = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["property"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceAchievementDefinitionResource]
-        Decoders.addDecoder(clazz: [PageResourceAchievementDefinitionResource].self) { (source: AnyObject) -> [PageResourceAchievementDefinitionResource] in
+        Decoders.addDecoder(clazz: [PageResourceAchievementDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceAchievementDefinitionResource] in
             return Decoders.decode(clazz: [PageResourceAchievementDefinitionResource].self, source: source)
         }
         // Decoder for PageResourceAchievementDefinitionResource
-        Decoders.addDecoder(clazz: PageResourceAchievementDefinitionResource.self) { (source: AnyObject) -> PageResourceAchievementDefinitionResource in
+        Decoders.addDecoder(clazz: PageResourceAchievementDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceAchievementDefinitionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceAchievementDefinitionResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceAchievementDefinitionResource() : instance as! PageResourceAchievementDefinitionResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceAggregateCountResource]
-        Decoders.addDecoder(clazz: [PageResourceAggregateCountResource].self) { (source: AnyObject) -> [PageResourceAggregateCountResource] in
+        Decoders.addDecoder(clazz: [PageResourceAggregateCountResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceAggregateCountResource] in
             return Decoders.decode(clazz: [PageResourceAggregateCountResource].self, source: source)
         }
         // Decoder for PageResourceAggregateCountResource
-        Decoders.addDecoder(clazz: PageResourceAggregateCountResource.self) { (source: AnyObject) -> PageResourceAggregateCountResource in
+        Decoders.addDecoder(clazz: PageResourceAggregateCountResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceAggregateCountResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceAggregateCountResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceAggregateCountResource() : instance as! PageResourceAggregateCountResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceAggregateInvoiceReportResource]
-        Decoders.addDecoder(clazz: [PageResourceAggregateInvoiceReportResource].self) { (source: AnyObject) -> [PageResourceAggregateInvoiceReportResource] in
+        Decoders.addDecoder(clazz: [PageResourceAggregateInvoiceReportResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceAggregateInvoiceReportResource] in
             return Decoders.decode(clazz: [PageResourceAggregateInvoiceReportResource].self, source: source)
         }
         // Decoder for PageResourceAggregateInvoiceReportResource
-        Decoders.addDecoder(clazz: PageResourceAggregateInvoiceReportResource.self) { (source: AnyObject) -> PageResourceAggregateInvoiceReportResource in
+        Decoders.addDecoder(clazz: PageResourceAggregateInvoiceReportResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceAggregateInvoiceReportResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceAggregateInvoiceReportResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceAggregateInvoiceReportResource() : instance as! PageResourceAggregateInvoiceReportResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceArticleResource]
-        Decoders.addDecoder(clazz: [PageResourceArticleResource].self) { (source: AnyObject) -> [PageResourceArticleResource] in
+        Decoders.addDecoder(clazz: [PageResourceArticleResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceArticleResource] in
             return Decoders.decode(clazz: [PageResourceArticleResource].self, source: source)
         }
         // Decoder for PageResourceArticleResource
-        Decoders.addDecoder(clazz: PageResourceArticleResource.self) { (source: AnyObject) -> PageResourceArticleResource in
+        Decoders.addDecoder(clazz: PageResourceArticleResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceArticleResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceArticleResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceArticleResource() : instance as! PageResourceArticleResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceArtistResource]
-        Decoders.addDecoder(clazz: [PageResourceArtistResource].self) { (source: AnyObject) -> [PageResourceArtistResource] in
+        Decoders.addDecoder(clazz: [PageResourceArtistResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceArtistResource] in
             return Decoders.decode(clazz: [PageResourceArtistResource].self, source: source)
         }
         // Decoder for PageResourceArtistResource
-        Decoders.addDecoder(clazz: PageResourceArtistResource.self) { (source: AnyObject) -> PageResourceArtistResource in
+        Decoders.addDecoder(clazz: PageResourceArtistResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceArtistResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceArtistResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceArtistResource() : instance as! PageResourceArtistResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceBareActivityResource]
-        Decoders.addDecoder(clazz: [PageResourceBareActivityResource].self) { (source: AnyObject) -> [PageResourceBareActivityResource] in
+        Decoders.addDecoder(clazz: [PageResourceBareActivityResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceBareActivityResource] in
             return Decoders.decode(clazz: [PageResourceBareActivityResource].self, source: source)
         }
         // Decoder for PageResourceBareActivityResource
-        Decoders.addDecoder(clazz: PageResourceBareActivityResource.self) { (source: AnyObject) -> PageResourceBareActivityResource in
+        Decoders.addDecoder(clazz: PageResourceBareActivityResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceBareActivityResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceBareActivityResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceBareActivityResource() : instance as! PageResourceBareActivityResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceBareChallengeActivityResource]
-        Decoders.addDecoder(clazz: [PageResourceBareChallengeActivityResource].self) { (source: AnyObject) -> [PageResourceBareChallengeActivityResource] in
+        Decoders.addDecoder(clazz: [PageResourceBareChallengeActivityResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceBareChallengeActivityResource] in
             return Decoders.decode(clazz: [PageResourceBareChallengeActivityResource].self, source: source)
         }
         // Decoder for PageResourceBareChallengeActivityResource
-        Decoders.addDecoder(clazz: PageResourceBareChallengeActivityResource.self) { (source: AnyObject) -> PageResourceBareChallengeActivityResource in
+        Decoders.addDecoder(clazz: PageResourceBareChallengeActivityResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceBareChallengeActivityResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceBareChallengeActivityResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceBareChallengeActivityResource() : instance as! PageResourceBareChallengeActivityResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceBillingReport]
-        Decoders.addDecoder(clazz: [PageResourceBillingReport].self) { (source: AnyObject) -> [PageResourceBillingReport] in
+        Decoders.addDecoder(clazz: [PageResourceBillingReport].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceBillingReport] in
             return Decoders.decode(clazz: [PageResourceBillingReport].self, source: source)
         }
         // Decoder for PageResourceBillingReport
-        Decoders.addDecoder(clazz: PageResourceBillingReport.self) { (source: AnyObject) -> PageResourceBillingReport in
+        Decoders.addDecoder(clazz: PageResourceBillingReport.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceBillingReport in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceBillingReport()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceBillingReport() : instance as! PageResourceBillingReport
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceBreCategoryResource]
-        Decoders.addDecoder(clazz: [PageResourceBreCategoryResource].self) { (source: AnyObject) -> [PageResourceBreCategoryResource] in
+        Decoders.addDecoder(clazz: [PageResourceBreCategoryResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceBreCategoryResource] in
             return Decoders.decode(clazz: [PageResourceBreCategoryResource].self, source: source)
         }
         // Decoder for PageResourceBreCategoryResource
-        Decoders.addDecoder(clazz: PageResourceBreCategoryResource.self) { (source: AnyObject) -> PageResourceBreCategoryResource in
+        Decoders.addDecoder(clazz: PageResourceBreCategoryResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceBreCategoryResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceBreCategoryResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceBreCategoryResource() : instance as! PageResourceBreCategoryResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceBreEventLog]
-        Decoders.addDecoder(clazz: [PageResourceBreEventLog].self) { (source: AnyObject) -> [PageResourceBreEventLog] in
+        Decoders.addDecoder(clazz: [PageResourceBreEventLog].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceBreEventLog] in
             return Decoders.decode(clazz: [PageResourceBreEventLog].self, source: source)
         }
         // Decoder for PageResourceBreEventLog
-        Decoders.addDecoder(clazz: PageResourceBreEventLog.self) { (source: AnyObject) -> PageResourceBreEventLog in
+        Decoders.addDecoder(clazz: PageResourceBreEventLog.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceBreEventLog in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceBreEventLog()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceBreEventLog() : instance as! PageResourceBreEventLog
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceBreGlobalResource]
-        Decoders.addDecoder(clazz: [PageResourceBreGlobalResource].self) { (source: AnyObject) -> [PageResourceBreGlobalResource] in
+        Decoders.addDecoder(clazz: [PageResourceBreGlobalResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceBreGlobalResource] in
             return Decoders.decode(clazz: [PageResourceBreGlobalResource].self, source: source)
         }
         // Decoder for PageResourceBreGlobalResource
-        Decoders.addDecoder(clazz: PageResourceBreGlobalResource.self) { (source: AnyObject) -> PageResourceBreGlobalResource in
+        Decoders.addDecoder(clazz: PageResourceBreGlobalResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceBreGlobalResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceBreGlobalResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceBreGlobalResource() : instance as! PageResourceBreGlobalResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceBreRule]
-        Decoders.addDecoder(clazz: [PageResourceBreRule].self) { (source: AnyObject) -> [PageResourceBreRule] in
+        Decoders.addDecoder(clazz: [PageResourceBreRule].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceBreRule] in
             return Decoders.decode(clazz: [PageResourceBreRule].self, source: source)
         }
         // Decoder for PageResourceBreRule
-        Decoders.addDecoder(clazz: PageResourceBreRule.self) { (source: AnyObject) -> PageResourceBreRule in
+        Decoders.addDecoder(clazz: PageResourceBreRule.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceBreRule in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceBreRule()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceBreRule() : instance as! PageResourceBreRule
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceBreTriggerResource]
-        Decoders.addDecoder(clazz: [PageResourceBreTriggerResource].self) { (source: AnyObject) -> [PageResourceBreTriggerResource] in
+        Decoders.addDecoder(clazz: [PageResourceBreTriggerResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceBreTriggerResource] in
             return Decoders.decode(clazz: [PageResourceBreTriggerResource].self, source: source)
         }
         // Decoder for PageResourceBreTriggerResource
-        Decoders.addDecoder(clazz: PageResourceBreTriggerResource.self) { (source: AnyObject) -> PageResourceBreTriggerResource in
+        Decoders.addDecoder(clazz: PageResourceBreTriggerResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceBreTriggerResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceBreTriggerResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceBreTriggerResource() : instance as! PageResourceBreTriggerResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceCampaignResource]
-        Decoders.addDecoder(clazz: [PageResourceCampaignResource].self) { (source: AnyObject) -> [PageResourceCampaignResource] in
+        Decoders.addDecoder(clazz: [PageResourceCampaignResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceCampaignResource] in
             return Decoders.decode(clazz: [PageResourceCampaignResource].self, source: source)
         }
         // Decoder for PageResourceCampaignResource
-        Decoders.addDecoder(clazz: PageResourceCampaignResource.self) { (source: AnyObject) -> PageResourceCampaignResource in
+        Decoders.addDecoder(clazz: PageResourceCampaignResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceCampaignResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceCampaignResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceCampaignResource() : instance as! PageResourceCampaignResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceCartSummary]
-        Decoders.addDecoder(clazz: [PageResourceCartSummary].self) { (source: AnyObject) -> [PageResourceCartSummary] in
+        Decoders.addDecoder(clazz: [PageResourceCartSummary].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceCartSummary] in
             return Decoders.decode(clazz: [PageResourceCartSummary].self, source: source)
         }
         // Decoder for PageResourceCartSummary
-        Decoders.addDecoder(clazz: PageResourceCartSummary.self) { (source: AnyObject) -> PageResourceCartSummary in
+        Decoders.addDecoder(clazz: PageResourceCartSummary.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceCartSummary in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceCartSummary()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceCartSummary() : instance as! PageResourceCartSummary
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceCatalogSale]
-        Decoders.addDecoder(clazz: [PageResourceCatalogSale].self) { (source: AnyObject) -> [PageResourceCatalogSale] in
+        Decoders.addDecoder(clazz: [PageResourceCatalogSale].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceCatalogSale] in
             return Decoders.decode(clazz: [PageResourceCatalogSale].self, source: source)
         }
         // Decoder for PageResourceCatalogSale
-        Decoders.addDecoder(clazz: PageResourceCatalogSale.self) { (source: AnyObject) -> PageResourceCatalogSale in
+        Decoders.addDecoder(clazz: PageResourceCatalogSale.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceCatalogSale in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceCatalogSale()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceCatalogSale() : instance as! PageResourceCatalogSale
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceCategoryResource]
-        Decoders.addDecoder(clazz: [PageResourceCategoryResource].self) { (source: AnyObject) -> [PageResourceCategoryResource] in
+        Decoders.addDecoder(clazz: [PageResourceCategoryResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceCategoryResource] in
             return Decoders.decode(clazz: [PageResourceCategoryResource].self, source: source)
         }
         // Decoder for PageResourceCategoryResource
-        Decoders.addDecoder(clazz: PageResourceCategoryResource.self) { (source: AnyObject) -> PageResourceCategoryResource in
+        Decoders.addDecoder(clazz: PageResourceCategoryResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceCategoryResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceCategoryResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceCategoryResource() : instance as! PageResourceCategoryResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceChallengeEventParticipantResource]
-        Decoders.addDecoder(clazz: [PageResourceChallengeEventParticipantResource].self) { (source: AnyObject) -> [PageResourceChallengeEventParticipantResource] in
+        Decoders.addDecoder(clazz: [PageResourceChallengeEventParticipantResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceChallengeEventParticipantResource] in
             return Decoders.decode(clazz: [PageResourceChallengeEventParticipantResource].self, source: source)
         }
         // Decoder for PageResourceChallengeEventParticipantResource
-        Decoders.addDecoder(clazz: PageResourceChallengeEventParticipantResource.self) { (source: AnyObject) -> PageResourceChallengeEventParticipantResource in
+        Decoders.addDecoder(clazz: PageResourceChallengeEventParticipantResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceChallengeEventParticipantResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceChallengeEventParticipantResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceChallengeEventParticipantResource() : instance as! PageResourceChallengeEventParticipantResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceChallengeEventResource]
-        Decoders.addDecoder(clazz: [PageResourceChallengeEventResource].self) { (source: AnyObject) -> [PageResourceChallengeEventResource] in
+        Decoders.addDecoder(clazz: [PageResourceChallengeEventResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceChallengeEventResource] in
             return Decoders.decode(clazz: [PageResourceChallengeEventResource].self, source: source)
         }
         // Decoder for PageResourceChallengeEventResource
-        Decoders.addDecoder(clazz: PageResourceChallengeEventResource.self) { (source: AnyObject) -> PageResourceChallengeEventResource in
+        Decoders.addDecoder(clazz: PageResourceChallengeEventResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceChallengeEventResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceChallengeEventResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceChallengeEventResource() : instance as! PageResourceChallengeEventResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceChallengeResource]
-        Decoders.addDecoder(clazz: [PageResourceChallengeResource].self) { (source: AnyObject) -> [PageResourceChallengeResource] in
+        Decoders.addDecoder(clazz: [PageResourceChallengeResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceChallengeResource] in
             return Decoders.decode(clazz: [PageResourceChallengeResource].self, source: source)
         }
         // Decoder for PageResourceChallengeResource
-        Decoders.addDecoder(clazz: PageResourceChallengeResource.self) { (source: AnyObject) -> PageResourceChallengeResource in
+        Decoders.addDecoder(clazz: PageResourceChallengeResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceChallengeResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceChallengeResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceChallengeResource() : instance as! PageResourceChallengeResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceClientResource]
-        Decoders.addDecoder(clazz: [PageResourceClientResource].self) { (source: AnyObject) -> [PageResourceClientResource] in
+        Decoders.addDecoder(clazz: [PageResourceClientResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceClientResource] in
             return Decoders.decode(clazz: [PageResourceClientResource].self, source: source)
         }
         // Decoder for PageResourceClientResource
-        Decoders.addDecoder(clazz: PageResourceClientResource.self) { (source: AnyObject) -> PageResourceClientResource in
+        Decoders.addDecoder(clazz: PageResourceClientResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceClientResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceClientResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceClientResource() : instance as! PageResourceClientResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceCommentResource]
-        Decoders.addDecoder(clazz: [PageResourceCommentResource].self) { (source: AnyObject) -> [PageResourceCommentResource] in
+        Decoders.addDecoder(clazz: [PageResourceCommentResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceCommentResource] in
             return Decoders.decode(clazz: [PageResourceCommentResource].self, source: source)
         }
         // Decoder for PageResourceCommentResource
-        Decoders.addDecoder(clazz: PageResourceCommentResource.self) { (source: AnyObject) -> PageResourceCommentResource in
+        Decoders.addDecoder(clazz: PageResourceCommentResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceCommentResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceCommentResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceCommentResource() : instance as! PageResourceCommentResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceConfig]
-        Decoders.addDecoder(clazz: [PageResourceConfig].self) { (source: AnyObject) -> [PageResourceConfig] in
+        Decoders.addDecoder(clazz: [PageResourceConfig].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceConfig] in
             return Decoders.decode(clazz: [PageResourceConfig].self, source: source)
         }
         // Decoder for PageResourceConfig
-        Decoders.addDecoder(clazz: PageResourceConfig.self) { (source: AnyObject) -> PageResourceConfig in
+        Decoders.addDecoder(clazz: PageResourceConfig.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceConfig in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceConfig()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceConfig() : instance as! PageResourceConfig
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceCountryTaxResource]
-        Decoders.addDecoder(clazz: [PageResourceCountryTaxResource].self) { (source: AnyObject) -> [PageResourceCountryTaxResource] in
+        Decoders.addDecoder(clazz: [PageResourceCountryTaxResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceCountryTaxResource] in
             return Decoders.decode(clazz: [PageResourceCountryTaxResource].self, source: source)
         }
         // Decoder for PageResourceCountryTaxResource
-        Decoders.addDecoder(clazz: PageResourceCountryTaxResource.self) { (source: AnyObject) -> PageResourceCountryTaxResource in
+        Decoders.addDecoder(clazz: PageResourceCountryTaxResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceCountryTaxResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceCountryTaxResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceCountryTaxResource() : instance as! PageResourceCountryTaxResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceCurrencyResource]
-        Decoders.addDecoder(clazz: [PageResourceCurrencyResource].self) { (source: AnyObject) -> [PageResourceCurrencyResource] in
+        Decoders.addDecoder(clazz: [PageResourceCurrencyResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceCurrencyResource] in
             return Decoders.decode(clazz: [PageResourceCurrencyResource].self, source: source)
         }
         // Decoder for PageResourceCurrencyResource
-        Decoders.addDecoder(clazz: PageResourceCurrencyResource.self) { (source: AnyObject) -> PageResourceCurrencyResource in
+        Decoders.addDecoder(clazz: PageResourceCurrencyResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceCurrencyResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceCurrencyResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceCurrencyResource() : instance as! PageResourceCurrencyResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceDeviceResource]
-        Decoders.addDecoder(clazz: [PageResourceDeviceResource].self) { (source: AnyObject) -> [PageResourceDeviceResource] in
+        Decoders.addDecoder(clazz: [PageResourceDeviceResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceDeviceResource] in
             return Decoders.decode(clazz: [PageResourceDeviceResource].self, source: source)
         }
         // Decoder for PageResourceDeviceResource
-        Decoders.addDecoder(clazz: PageResourceDeviceResource.self) { (source: AnyObject) -> PageResourceDeviceResource in
+        Decoders.addDecoder(clazz: PageResourceDeviceResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceDeviceResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceDeviceResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceDeviceResource() : instance as! PageResourceDeviceResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceDispositionResource]
-        Decoders.addDecoder(clazz: [PageResourceDispositionResource].self) { (source: AnyObject) -> [PageResourceDispositionResource] in
+        Decoders.addDecoder(clazz: [PageResourceDispositionResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceDispositionResource] in
             return Decoders.decode(clazz: [PageResourceDispositionResource].self, source: source)
         }
         // Decoder for PageResourceDispositionResource
-        Decoders.addDecoder(clazz: PageResourceDispositionResource.self) { (source: AnyObject) -> PageResourceDispositionResource in
+        Decoders.addDecoder(clazz: PageResourceDispositionResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceDispositionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceDispositionResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceDispositionResource() : instance as! PageResourceDispositionResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceEntitlementItem]
-        Decoders.addDecoder(clazz: [PageResourceEntitlementItem].self) { (source: AnyObject) -> [PageResourceEntitlementItem] in
+        Decoders.addDecoder(clazz: [PageResourceEntitlementItem].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceEntitlementItem] in
             return Decoders.decode(clazz: [PageResourceEntitlementItem].self, source: source)
         }
         // Decoder for PageResourceEntitlementItem
-        Decoders.addDecoder(clazz: PageResourceEntitlementItem.self) { (source: AnyObject) -> PageResourceEntitlementItem in
+        Decoders.addDecoder(clazz: PageResourceEntitlementItem.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceEntitlementItem in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceEntitlementItem()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceEntitlementItem() : instance as! PageResourceEntitlementItem
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceFlagReportResource]
-        Decoders.addDecoder(clazz: [PageResourceFlagReportResource].self) { (source: AnyObject) -> [PageResourceFlagReportResource] in
+        Decoders.addDecoder(clazz: [PageResourceFlagReportResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceFlagReportResource] in
             return Decoders.decode(clazz: [PageResourceFlagReportResource].self, source: source)
         }
         // Decoder for PageResourceFlagReportResource
-        Decoders.addDecoder(clazz: PageResourceFlagReportResource.self) { (source: AnyObject) -> PageResourceFlagReportResource in
+        Decoders.addDecoder(clazz: PageResourceFlagReportResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceFlagReportResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceFlagReportResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceFlagReportResource() : instance as! PageResourceFlagReportResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceForwardLog]
-        Decoders.addDecoder(clazz: [PageResourceForwardLog].self) { (source: AnyObject) -> [PageResourceForwardLog] in
+        Decoders.addDecoder(clazz: [PageResourceForwardLog].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceForwardLog] in
             return Decoders.decode(clazz: [PageResourceForwardLog].self, source: source)
         }
         // Decoder for PageResourceForwardLog
-        Decoders.addDecoder(clazz: PageResourceForwardLog.self) { (source: AnyObject) -> PageResourceForwardLog in
+        Decoders.addDecoder(clazz: PageResourceForwardLog.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceForwardLog in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceForwardLog()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceForwardLog() : instance as! PageResourceForwardLog
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceFulfillmentType]
-        Decoders.addDecoder(clazz: [PageResourceFulfillmentType].self) { (source: AnyObject) -> [PageResourceFulfillmentType] in
+        Decoders.addDecoder(clazz: [PageResourceFulfillmentType].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceFulfillmentType] in
             return Decoders.decode(clazz: [PageResourceFulfillmentType].self, source: source)
         }
         // Decoder for PageResourceFulfillmentType
-        Decoders.addDecoder(clazz: PageResourceFulfillmentType.self) { (source: AnyObject) -> PageResourceFulfillmentType in
+        Decoders.addDecoder(clazz: PageResourceFulfillmentType.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceFulfillmentType in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceFulfillmentType()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceFulfillmentType() : instance as! PageResourceFulfillmentType
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceGroupMemberResource]
-        Decoders.addDecoder(clazz: [PageResourceGroupMemberResource].self) { (source: AnyObject) -> [PageResourceGroupMemberResource] in
+        Decoders.addDecoder(clazz: [PageResourceGroupMemberResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceGroupMemberResource] in
             return Decoders.decode(clazz: [PageResourceGroupMemberResource].self, source: source)
         }
         // Decoder for PageResourceGroupMemberResource
-        Decoders.addDecoder(clazz: PageResourceGroupMemberResource.self) { (source: AnyObject) -> PageResourceGroupMemberResource in
+        Decoders.addDecoder(clazz: PageResourceGroupMemberResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceGroupMemberResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceGroupMemberResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceGroupMemberResource() : instance as! PageResourceGroupMemberResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceGroupResource]
-        Decoders.addDecoder(clazz: [PageResourceGroupResource].self) { (source: AnyObject) -> [PageResourceGroupResource] in
+        Decoders.addDecoder(clazz: [PageResourceGroupResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceGroupResource] in
             return Decoders.decode(clazz: [PageResourceGroupResource].self, source: source)
         }
         // Decoder for PageResourceGroupResource
-        Decoders.addDecoder(clazz: PageResourceGroupResource.self) { (source: AnyObject) -> PageResourceGroupResource in
+        Decoders.addDecoder(clazz: PageResourceGroupResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceGroupResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceGroupResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceGroupResource() : instance as! PageResourceGroupResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceImportJobResource]
-        Decoders.addDecoder(clazz: [PageResourceImportJobResource].self) { (source: AnyObject) -> [PageResourceImportJobResource] in
+        Decoders.addDecoder(clazz: [PageResourceImportJobResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceImportJobResource] in
             return Decoders.decode(clazz: [PageResourceImportJobResource].self, source: source)
         }
         // Decoder for PageResourceImportJobResource
-        Decoders.addDecoder(clazz: PageResourceImportJobResource.self) { (source: AnyObject) -> PageResourceImportJobResource in
+        Decoders.addDecoder(clazz: PageResourceImportJobResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceImportJobResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceImportJobResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceImportJobResource() : instance as! PageResourceImportJobResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceInvoiceLogEntry]
-        Decoders.addDecoder(clazz: [PageResourceInvoiceLogEntry].self) { (source: AnyObject) -> [PageResourceInvoiceLogEntry] in
+        Decoders.addDecoder(clazz: [PageResourceInvoiceLogEntry].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceInvoiceLogEntry] in
             return Decoders.decode(clazz: [PageResourceInvoiceLogEntry].self, source: source)
         }
         // Decoder for PageResourceInvoiceLogEntry
-        Decoders.addDecoder(clazz: PageResourceInvoiceLogEntry.self) { (source: AnyObject) -> PageResourceInvoiceLogEntry in
+        Decoders.addDecoder(clazz: PageResourceInvoiceLogEntry.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceInvoiceLogEntry in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceInvoiceLogEntry()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceInvoiceLogEntry() : instance as! PageResourceInvoiceLogEntry
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceInvoiceResource]
-        Decoders.addDecoder(clazz: [PageResourceInvoiceResource].self) { (source: AnyObject) -> [PageResourceInvoiceResource] in
+        Decoders.addDecoder(clazz: [PageResourceInvoiceResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceInvoiceResource] in
             return Decoders.decode(clazz: [PageResourceInvoiceResource].self, source: source)
         }
         // Decoder for PageResourceInvoiceResource
-        Decoders.addDecoder(clazz: PageResourceInvoiceResource.self) { (source: AnyObject) -> PageResourceInvoiceResource in
+        Decoders.addDecoder(clazz: PageResourceInvoiceResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceInvoiceResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceInvoiceResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceInvoiceResource() : instance as! PageResourceInvoiceResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceItemTemplateResource]
-        Decoders.addDecoder(clazz: [PageResourceItemTemplateResource].self) { (source: AnyObject) -> [PageResourceItemTemplateResource] in
+        Decoders.addDecoder(clazz: [PageResourceItemTemplateResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceItemTemplateResource] in
             return Decoders.decode(clazz: [PageResourceItemTemplateResource].self, source: source)
         }
         // Decoder for PageResourceItemTemplateResource
-        Decoders.addDecoder(clazz: PageResourceItemTemplateResource.self) { (source: AnyObject) -> PageResourceItemTemplateResource in
+        Decoders.addDecoder(clazz: PageResourceItemTemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceItemTemplateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceItemTemplateResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceItemTemplateResource() : instance as! PageResourceItemTemplateResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceLevelingResource]
-        Decoders.addDecoder(clazz: [PageResourceLevelingResource].self) { (source: AnyObject) -> [PageResourceLevelingResource] in
+        Decoders.addDecoder(clazz: [PageResourceLevelingResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceLevelingResource] in
             return Decoders.decode(clazz: [PageResourceLevelingResource].self, source: source)
         }
         // Decoder for PageResourceLevelingResource
-        Decoders.addDecoder(clazz: PageResourceLevelingResource.self) { (source: AnyObject) -> PageResourceLevelingResource in
+        Decoders.addDecoder(clazz: PageResourceLevelingResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceLevelingResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceLevelingResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceLevelingResource() : instance as! PageResourceLevelingResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceLocationLogResource]
-        Decoders.addDecoder(clazz: [PageResourceLocationLogResource].self) { (source: AnyObject) -> [PageResourceLocationLogResource] in
+        Decoders.addDecoder(clazz: [PageResourceLocationLogResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceLocationLogResource] in
             return Decoders.decode(clazz: [PageResourceLocationLogResource].self, source: source)
         }
         // Decoder for PageResourceLocationLogResource
-        Decoders.addDecoder(clazz: PageResourceLocationLogResource.self) { (source: AnyObject) -> PageResourceLocationLogResource in
+        Decoders.addDecoder(clazz: PageResourceLocationLogResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceLocationLogResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceLocationLogResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceLocationLogResource() : instance as! PageResourceLocationLogResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceMapstringobject]
-        Decoders.addDecoder(clazz: [PageResourceMapstringobject].self) { (source: AnyObject) -> [PageResourceMapstringobject] in
+        Decoders.addDecoder(clazz: [PageResourceMapstringobject].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceMapstringobject] in
             return Decoders.decode(clazz: [PageResourceMapstringobject].self, source: source)
         }
         // Decoder for PageResourceMapstringobject
-        Decoders.addDecoder(clazz: PageResourceMapstringobject.self) { (source: AnyObject) -> PageResourceMapstringobject in
+        Decoders.addDecoder(clazz: PageResourceMapstringobject.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceMapstringobject in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceMapstringobject()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceMapstringobject() : instance as! PageResourceMapstringobject
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceOauthAccessTokenResource]
-        Decoders.addDecoder(clazz: [PageResourceOauthAccessTokenResource].self) { (source: AnyObject) -> [PageResourceOauthAccessTokenResource] in
+        Decoders.addDecoder(clazz: [PageResourceOauthAccessTokenResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceOauthAccessTokenResource] in
             return Decoders.decode(clazz: [PageResourceOauthAccessTokenResource].self, source: source)
         }
         // Decoder for PageResourceOauthAccessTokenResource
-        Decoders.addDecoder(clazz: PageResourceOauthAccessTokenResource.self) { (source: AnyObject) -> PageResourceOauthAccessTokenResource in
+        Decoders.addDecoder(clazz: PageResourceOauthAccessTokenResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceOauthAccessTokenResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceOauthAccessTokenResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceOauthAccessTokenResource() : instance as! PageResourceOauthAccessTokenResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourcePermissionResource]
-        Decoders.addDecoder(clazz: [PageResourcePermissionResource].self) { (source: AnyObject) -> [PageResourcePermissionResource] in
+        Decoders.addDecoder(clazz: [PageResourcePermissionResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourcePermissionResource] in
             return Decoders.decode(clazz: [PageResourcePermissionResource].self, source: source)
         }
         // Decoder for PageResourcePermissionResource
-        Decoders.addDecoder(clazz: PageResourcePermissionResource.self) { (source: AnyObject) -> PageResourcePermissionResource in
+        Decoders.addDecoder(clazz: PageResourcePermissionResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourcePermissionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourcePermissionResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourcePermissionResource() : instance as! PageResourcePermissionResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourcePollResource]
-        Decoders.addDecoder(clazz: [PageResourcePollResource].self) { (source: AnyObject) -> [PageResourcePollResource] in
+        Decoders.addDecoder(clazz: [PageResourcePollResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourcePollResource] in
             return Decoders.decode(clazz: [PageResourcePollResource].self, source: source)
         }
         // Decoder for PageResourcePollResource
-        Decoders.addDecoder(clazz: PageResourcePollResource.self) { (source: AnyObject) -> PageResourcePollResource in
+        Decoders.addDecoder(clazz: PageResourcePollResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourcePollResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourcePollResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourcePollResource() : instance as! PageResourcePollResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceQuestionResource]
-        Decoders.addDecoder(clazz: [PageResourceQuestionResource].self) { (source: AnyObject) -> [PageResourceQuestionResource] in
+        Decoders.addDecoder(clazz: [PageResourceQuestionResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceQuestionResource] in
             return Decoders.decode(clazz: [PageResourceQuestionResource].self, source: source)
         }
         // Decoder for PageResourceQuestionResource
-        Decoders.addDecoder(clazz: PageResourceQuestionResource.self) { (source: AnyObject) -> PageResourceQuestionResource in
+        Decoders.addDecoder(clazz: PageResourceQuestionResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceQuestionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceQuestionResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceQuestionResource() : instance as! PageResourceQuestionResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceQuestionTemplateResource]
-        Decoders.addDecoder(clazz: [PageResourceQuestionTemplateResource].self) { (source: AnyObject) -> [PageResourceQuestionTemplateResource] in
+        Decoders.addDecoder(clazz: [PageResourceQuestionTemplateResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceQuestionTemplateResource] in
             return Decoders.decode(clazz: [PageResourceQuestionTemplateResource].self, source: source)
         }
         // Decoder for PageResourceQuestionTemplateResource
-        Decoders.addDecoder(clazz: PageResourceQuestionTemplateResource.self) { (source: AnyObject) -> PageResourceQuestionTemplateResource in
+        Decoders.addDecoder(clazz: PageResourceQuestionTemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceQuestionTemplateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceQuestionTemplateResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceQuestionTemplateResource() : instance as! PageResourceQuestionTemplateResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceRevenueCountryReportResource]
-        Decoders.addDecoder(clazz: [PageResourceRevenueCountryReportResource].self) { (source: AnyObject) -> [PageResourceRevenueCountryReportResource] in
+        Decoders.addDecoder(clazz: [PageResourceRevenueCountryReportResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceRevenueCountryReportResource] in
             return Decoders.decode(clazz: [PageResourceRevenueCountryReportResource].self, source: source)
         }
         // Decoder for PageResourceRevenueCountryReportResource
-        Decoders.addDecoder(clazz: PageResourceRevenueCountryReportResource.self) { (source: AnyObject) -> PageResourceRevenueCountryReportResource in
+        Decoders.addDecoder(clazz: PageResourceRevenueCountryReportResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceRevenueCountryReportResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceRevenueCountryReportResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceRevenueCountryReportResource() : instance as! PageResourceRevenueCountryReportResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceRevenueProductReportResource]
-        Decoders.addDecoder(clazz: [PageResourceRevenueProductReportResource].self) { (source: AnyObject) -> [PageResourceRevenueProductReportResource] in
+        Decoders.addDecoder(clazz: [PageResourceRevenueProductReportResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceRevenueProductReportResource] in
             return Decoders.decode(clazz: [PageResourceRevenueProductReportResource].self, source: source)
         }
         // Decoder for PageResourceRevenueProductReportResource
-        Decoders.addDecoder(clazz: PageResourceRevenueProductReportResource.self) { (source: AnyObject) -> PageResourceRevenueProductReportResource in
+        Decoders.addDecoder(clazz: PageResourceRevenueProductReportResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceRevenueProductReportResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceRevenueProductReportResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceRevenueProductReportResource() : instance as! PageResourceRevenueProductReportResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceRewardSetResource]
-        Decoders.addDecoder(clazz: [PageResourceRewardSetResource].self) { (source: AnyObject) -> [PageResourceRewardSetResource] in
+        Decoders.addDecoder(clazz: [PageResourceRewardSetResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceRewardSetResource] in
             return Decoders.decode(clazz: [PageResourceRewardSetResource].self, source: source)
         }
         // Decoder for PageResourceRewardSetResource
-        Decoders.addDecoder(clazz: PageResourceRewardSetResource.self) { (source: AnyObject) -> PageResourceRewardSetResource in
+        Decoders.addDecoder(clazz: PageResourceRewardSetResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceRewardSetResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceRewardSetResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceRewardSetResource() : instance as! PageResourceRewardSetResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceRoleResource]
-        Decoders.addDecoder(clazz: [PageResourceRoleResource].self) { (source: AnyObject) -> [PageResourceRoleResource] in
+        Decoders.addDecoder(clazz: [PageResourceRoleResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceRoleResource] in
             return Decoders.decode(clazz: [PageResourceRoleResource].self, source: source)
         }
         // Decoder for PageResourceRoleResource
-        Decoders.addDecoder(clazz: PageResourceRoleResource.self) { (source: AnyObject) -> PageResourceRoleResource in
+        Decoders.addDecoder(clazz: PageResourceRoleResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceRoleResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceRoleResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceRoleResource() : instance as! PageResourceRoleResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceSavedAddressResource]
-        Decoders.addDecoder(clazz: [PageResourceSavedAddressResource].self) { (source: AnyObject) -> [PageResourceSavedAddressResource] in
+        Decoders.addDecoder(clazz: [PageResourceSavedAddressResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceSavedAddressResource] in
             return Decoders.decode(clazz: [PageResourceSavedAddressResource].self, source: source)
         }
         // Decoder for PageResourceSavedAddressResource
-        Decoders.addDecoder(clazz: PageResourceSavedAddressResource.self) { (source: AnyObject) -> PageResourceSavedAddressResource in
+        Decoders.addDecoder(clazz: PageResourceSavedAddressResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceSavedAddressResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceSavedAddressResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceSavedAddressResource() : instance as! PageResourceSavedAddressResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceSimpleReferenceResourceobject]
-        Decoders.addDecoder(clazz: [PageResourceSimpleReferenceResourceobject].self) { (source: AnyObject) -> [PageResourceSimpleReferenceResourceobject] in
+        Decoders.addDecoder(clazz: [PageResourceSimpleReferenceResourceobject].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceSimpleReferenceResourceobject] in
             return Decoders.decode(clazz: [PageResourceSimpleReferenceResourceobject].self, source: source)
         }
         // Decoder for PageResourceSimpleReferenceResourceobject
-        Decoders.addDecoder(clazz: PageResourceSimpleReferenceResourceobject.self) { (source: AnyObject) -> PageResourceSimpleReferenceResourceobject in
+        Decoders.addDecoder(clazz: PageResourceSimpleReferenceResourceobject.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceSimpleReferenceResourceobject in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceSimpleReferenceResourceobject()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceSimpleReferenceResourceobject() : instance as! PageResourceSimpleReferenceResourceobject
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceSimpleUserResource]
-        Decoders.addDecoder(clazz: [PageResourceSimpleUserResource].self) { (source: AnyObject) -> [PageResourceSimpleUserResource] in
+        Decoders.addDecoder(clazz: [PageResourceSimpleUserResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceSimpleUserResource] in
             return Decoders.decode(clazz: [PageResourceSimpleUserResource].self, source: source)
         }
         // Decoder for PageResourceSimpleUserResource
-        Decoders.addDecoder(clazz: PageResourceSimpleUserResource.self) { (source: AnyObject) -> PageResourceSimpleUserResource in
+        Decoders.addDecoder(clazz: PageResourceSimpleUserResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceSimpleUserResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceSimpleUserResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceSimpleUserResource() : instance as! PageResourceSimpleUserResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceSimpleWallet]
-        Decoders.addDecoder(clazz: [PageResourceSimpleWallet].self) { (source: AnyObject) -> [PageResourceSimpleWallet] in
+        Decoders.addDecoder(clazz: [PageResourceSimpleWallet].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceSimpleWallet] in
             return Decoders.decode(clazz: [PageResourceSimpleWallet].self, source: source)
         }
         // Decoder for PageResourceSimpleWallet
-        Decoders.addDecoder(clazz: PageResourceSimpleWallet.self) { (source: AnyObject) -> PageResourceSimpleWallet in
+        Decoders.addDecoder(clazz: PageResourceSimpleWallet.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceSimpleWallet in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceSimpleWallet()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceSimpleWallet() : instance as! PageResourceSimpleWallet
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceStateTaxResource]
-        Decoders.addDecoder(clazz: [PageResourceStateTaxResource].self) { (source: AnyObject) -> [PageResourceStateTaxResource] in
+        Decoders.addDecoder(clazz: [PageResourceStateTaxResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceStateTaxResource] in
             return Decoders.decode(clazz: [PageResourceStateTaxResource].self, source: source)
         }
         // Decoder for PageResourceStateTaxResource
-        Decoders.addDecoder(clazz: PageResourceStateTaxResource.self) { (source: AnyObject) -> PageResourceStateTaxResource in
+        Decoders.addDecoder(clazz: PageResourceStateTaxResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceStateTaxResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceStateTaxResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceStateTaxResource() : instance as! PageResourceStateTaxResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceStoreItem]
-        Decoders.addDecoder(clazz: [PageResourceStoreItem].self) { (source: AnyObject) -> [PageResourceStoreItem] in
+        Decoders.addDecoder(clazz: [PageResourceStoreItem].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceStoreItem] in
             return Decoders.decode(clazz: [PageResourceStoreItem].self, source: source)
         }
         // Decoder for PageResourceStoreItem
-        Decoders.addDecoder(clazz: PageResourceStoreItem.self) { (source: AnyObject) -> PageResourceStoreItem in
+        Decoders.addDecoder(clazz: PageResourceStoreItem.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceStoreItem in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceStoreItem()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceStoreItem() : instance as! PageResourceStoreItem
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceStoreItemTemplateResource]
-        Decoders.addDecoder(clazz: [PageResourceStoreItemTemplateResource].self) { (source: AnyObject) -> [PageResourceStoreItemTemplateResource] in
+        Decoders.addDecoder(clazz: [PageResourceStoreItemTemplateResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceStoreItemTemplateResource] in
             return Decoders.decode(clazz: [PageResourceStoreItemTemplateResource].self, source: source)
         }
         // Decoder for PageResourceStoreItemTemplateResource
-        Decoders.addDecoder(clazz: PageResourceStoreItemTemplateResource.self) { (source: AnyObject) -> PageResourceStoreItemTemplateResource in
+        Decoders.addDecoder(clazz: PageResourceStoreItemTemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceStoreItemTemplateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceStoreItemTemplateResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceStoreItemTemplateResource() : instance as! PageResourceStoreItemTemplateResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceSubscriptionResource]
-        Decoders.addDecoder(clazz: [PageResourceSubscriptionResource].self) { (source: AnyObject) -> [PageResourceSubscriptionResource] in
+        Decoders.addDecoder(clazz: [PageResourceSubscriptionResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceSubscriptionResource] in
             return Decoders.decode(clazz: [PageResourceSubscriptionResource].self, source: source)
         }
         // Decoder for PageResourceSubscriptionResource
-        Decoders.addDecoder(clazz: PageResourceSubscriptionResource.self) { (source: AnyObject) -> PageResourceSubscriptionResource in
+        Decoders.addDecoder(clazz: PageResourceSubscriptionResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceSubscriptionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceSubscriptionResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceSubscriptionResource() : instance as! PageResourceSubscriptionResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceSubscriptionTemplateResource]
-        Decoders.addDecoder(clazz: [PageResourceSubscriptionTemplateResource].self) { (source: AnyObject) -> [PageResourceSubscriptionTemplateResource] in
+        Decoders.addDecoder(clazz: [PageResourceSubscriptionTemplateResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceSubscriptionTemplateResource] in
             return Decoders.decode(clazz: [PageResourceSubscriptionTemplateResource].self, source: source)
         }
         // Decoder for PageResourceSubscriptionTemplateResource
-        Decoders.addDecoder(clazz: PageResourceSubscriptionTemplateResource.self) { (source: AnyObject) -> PageResourceSubscriptionTemplateResource in
+        Decoders.addDecoder(clazz: PageResourceSubscriptionTemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceSubscriptionTemplateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceSubscriptionTemplateResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceSubscriptionTemplateResource() : instance as! PageResourceSubscriptionTemplateResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceTemplateResource]
-        Decoders.addDecoder(clazz: [PageResourceTemplateResource].self) { (source: AnyObject) -> [PageResourceTemplateResource] in
+        Decoders.addDecoder(clazz: [PageResourceTemplateResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceTemplateResource] in
             return Decoders.decode(clazz: [PageResourceTemplateResource].self, source: source)
         }
         // Decoder for PageResourceTemplateResource
-        Decoders.addDecoder(clazz: PageResourceTemplateResource.self) { (source: AnyObject) -> PageResourceTemplateResource in
+        Decoders.addDecoder(clazz: PageResourceTemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceTemplateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceTemplateResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceTemplateResource() : instance as! PageResourceTemplateResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceTransactionResource]
-        Decoders.addDecoder(clazz: [PageResourceTransactionResource].self) { (source: AnyObject) -> [PageResourceTransactionResource] in
+        Decoders.addDecoder(clazz: [PageResourceTransactionResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceTransactionResource] in
             return Decoders.decode(clazz: [PageResourceTransactionResource].self, source: source)
         }
         // Decoder for PageResourceTransactionResource
-        Decoders.addDecoder(clazz: PageResourceTransactionResource.self) { (source: AnyObject) -> PageResourceTransactionResource in
+        Decoders.addDecoder(clazz: PageResourceTransactionResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceTransactionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceTransactionResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceTransactionResource() : instance as! PageResourceTransactionResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceUsageInfo]
-        Decoders.addDecoder(clazz: [PageResourceUsageInfo].self) { (source: AnyObject) -> [PageResourceUsageInfo] in
+        Decoders.addDecoder(clazz: [PageResourceUsageInfo].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceUsageInfo] in
             return Decoders.decode(clazz: [PageResourceUsageInfo].self, source: source)
         }
         // Decoder for PageResourceUsageInfo
-        Decoders.addDecoder(clazz: PageResourceUsageInfo.self) { (source: AnyObject) -> PageResourceUsageInfo in
+        Decoders.addDecoder(clazz: PageResourceUsageInfo.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceUsageInfo in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceUsageInfo()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceUsageInfo() : instance as! PageResourceUsageInfo
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceUserAchievementGroupResource]
-        Decoders.addDecoder(clazz: [PageResourceUserAchievementGroupResource].self) { (source: AnyObject) -> [PageResourceUserAchievementGroupResource] in
+        Decoders.addDecoder(clazz: [PageResourceUserAchievementGroupResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceUserAchievementGroupResource] in
             return Decoders.decode(clazz: [PageResourceUserAchievementGroupResource].self, source: source)
         }
         // Decoder for PageResourceUserAchievementGroupResource
-        Decoders.addDecoder(clazz: PageResourceUserAchievementGroupResource.self) { (source: AnyObject) -> PageResourceUserAchievementGroupResource in
+        Decoders.addDecoder(clazz: PageResourceUserAchievementGroupResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceUserAchievementGroupResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceUserAchievementGroupResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceUserAchievementGroupResource() : instance as! PageResourceUserAchievementGroupResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceUserActionLog]
-        Decoders.addDecoder(clazz: [PageResourceUserActionLog].self) { (source: AnyObject) -> [PageResourceUserActionLog] in
+        Decoders.addDecoder(clazz: [PageResourceUserActionLog].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceUserActionLog] in
             return Decoders.decode(clazz: [PageResourceUserActionLog].self, source: source)
         }
         // Decoder for PageResourceUserActionLog
-        Decoders.addDecoder(clazz: PageResourceUserActionLog.self) { (source: AnyObject) -> PageResourceUserActionLog in
+        Decoders.addDecoder(clazz: PageResourceUserActionLog.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceUserActionLog in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceUserActionLog()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceUserActionLog() : instance as! PageResourceUserActionLog
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceUserBaseResource]
-        Decoders.addDecoder(clazz: [PageResourceUserBaseResource].self) { (source: AnyObject) -> [PageResourceUserBaseResource] in
+        Decoders.addDecoder(clazz: [PageResourceUserBaseResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceUserBaseResource] in
             return Decoders.decode(clazz: [PageResourceUserBaseResource].self, source: source)
         }
         // Decoder for PageResourceUserBaseResource
-        Decoders.addDecoder(clazz: PageResourceUserBaseResource.self) { (source: AnyObject) -> PageResourceUserBaseResource in
+        Decoders.addDecoder(clazz: PageResourceUserBaseResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceUserBaseResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceUserBaseResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceUserBaseResource() : instance as! PageResourceUserBaseResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceUserInventoryResource]
-        Decoders.addDecoder(clazz: [PageResourceUserInventoryResource].self) { (source: AnyObject) -> [PageResourceUserInventoryResource] in
+        Decoders.addDecoder(clazz: [PageResourceUserInventoryResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceUserInventoryResource] in
             return Decoders.decode(clazz: [PageResourceUserInventoryResource].self, source: source)
         }
         // Decoder for PageResourceUserInventoryResource
-        Decoders.addDecoder(clazz: PageResourceUserInventoryResource.self) { (source: AnyObject) -> PageResourceUserInventoryResource in
+        Decoders.addDecoder(clazz: PageResourceUserInventoryResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceUserInventoryResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceUserInventoryResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceUserInventoryResource() : instance as! PageResourceUserInventoryResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceUserItemLogResource]
-        Decoders.addDecoder(clazz: [PageResourceUserItemLogResource].self) { (source: AnyObject) -> [PageResourceUserItemLogResource] in
+        Decoders.addDecoder(clazz: [PageResourceUserItemLogResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceUserItemLogResource] in
             return Decoders.decode(clazz: [PageResourceUserItemLogResource].self, source: source)
         }
         // Decoder for PageResourceUserItemLogResource
-        Decoders.addDecoder(clazz: PageResourceUserItemLogResource.self) { (source: AnyObject) -> PageResourceUserItemLogResource in
+        Decoders.addDecoder(clazz: PageResourceUserItemLogResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceUserItemLogResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceUserItemLogResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceUserItemLogResource() : instance as! PageResourceUserItemLogResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceUserLevelingResource]
-        Decoders.addDecoder(clazz: [PageResourceUserLevelingResource].self) { (source: AnyObject) -> [PageResourceUserLevelingResource] in
+        Decoders.addDecoder(clazz: [PageResourceUserLevelingResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceUserLevelingResource] in
             return Decoders.decode(clazz: [PageResourceUserLevelingResource].self, source: source)
         }
         // Decoder for PageResourceUserLevelingResource
-        Decoders.addDecoder(clazz: PageResourceUserLevelingResource.self) { (source: AnyObject) -> PageResourceUserLevelingResource in
+        Decoders.addDecoder(clazz: PageResourceUserLevelingResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceUserLevelingResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceUserLevelingResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceUserLevelingResource() : instance as! PageResourceUserLevelingResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceUserRelationshipResource]
-        Decoders.addDecoder(clazz: [PageResourceUserRelationshipResource].self) { (source: AnyObject) -> [PageResourceUserRelationshipResource] in
+        Decoders.addDecoder(clazz: [PageResourceUserRelationshipResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceUserRelationshipResource] in
             return Decoders.decode(clazz: [PageResourceUserRelationshipResource].self, source: source)
         }
         // Decoder for PageResourceUserRelationshipResource
-        Decoders.addDecoder(clazz: PageResourceUserRelationshipResource.self) { (source: AnyObject) -> PageResourceUserRelationshipResource in
+        Decoders.addDecoder(clazz: PageResourceUserRelationshipResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceUserRelationshipResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceUserRelationshipResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceUserRelationshipResource() : instance as! PageResourceUserRelationshipResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceVendorResource]
-        Decoders.addDecoder(clazz: [PageResourceVendorResource].self) { (source: AnyObject) -> [PageResourceVendorResource] in
+        Decoders.addDecoder(clazz: [PageResourceVendorResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceVendorResource] in
             return Decoders.decode(clazz: [PageResourceVendorResource].self, source: source)
         }
         // Decoder for PageResourceVendorResource
-        Decoders.addDecoder(clazz: PageResourceVendorResource.self) { (source: AnyObject) -> PageResourceVendorResource in
+        Decoders.addDecoder(clazz: PageResourceVendorResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceVendorResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceVendorResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceVendorResource() : instance as! PageResourceVendorResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceVideoRelationshipResource]
-        Decoders.addDecoder(clazz: [PageResourceVideoRelationshipResource].self) { (source: AnyObject) -> [PageResourceVideoRelationshipResource] in
+        Decoders.addDecoder(clazz: [PageResourceVideoRelationshipResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceVideoRelationshipResource] in
             return Decoders.decode(clazz: [PageResourceVideoRelationshipResource].self, source: source)
         }
         // Decoder for PageResourceVideoRelationshipResource
-        Decoders.addDecoder(clazz: PageResourceVideoRelationshipResource.self) { (source: AnyObject) -> PageResourceVideoRelationshipResource in
+        Decoders.addDecoder(clazz: PageResourceVideoRelationshipResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceVideoRelationshipResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceVideoRelationshipResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceVideoRelationshipResource() : instance as! PageResourceVideoRelationshipResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceVideoResource]
-        Decoders.addDecoder(clazz: [PageResourceVideoResource].self) { (source: AnyObject) -> [PageResourceVideoResource] in
+        Decoders.addDecoder(clazz: [PageResourceVideoResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceVideoResource] in
             return Decoders.decode(clazz: [PageResourceVideoResource].self, source: source)
         }
         // Decoder for PageResourceVideoResource
-        Decoders.addDecoder(clazz: PageResourceVideoResource.self) { (source: AnyObject) -> PageResourceVideoResource in
+        Decoders.addDecoder(clazz: PageResourceVideoResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceVideoResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceVideoResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceVideoResource() : instance as! PageResourceVideoResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceWalletTotalResponse]
-        Decoders.addDecoder(clazz: [PageResourceWalletTotalResponse].self) { (source: AnyObject) -> [PageResourceWalletTotalResponse] in
+        Decoders.addDecoder(clazz: [PageResourceWalletTotalResponse].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceWalletTotalResponse] in
             return Decoders.decode(clazz: [PageResourceWalletTotalResponse].self, source: source)
         }
         // Decoder for PageResourceWalletTotalResponse
-        Decoders.addDecoder(clazz: PageResourceWalletTotalResponse.self) { (source: AnyObject) -> PageResourceWalletTotalResponse in
+        Decoders.addDecoder(clazz: PageResourceWalletTotalResponse.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceWalletTotalResponse in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceWalletTotalResponse()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceWalletTotalResponse() : instance as! PageResourceWalletTotalResponse
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourceWalletTransactionResource]
-        Decoders.addDecoder(clazz: [PageResourceWalletTransactionResource].self) { (source: AnyObject) -> [PageResourceWalletTransactionResource] in
+        Decoders.addDecoder(clazz: [PageResourceWalletTransactionResource].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourceWalletTransactionResource] in
             return Decoders.decode(clazz: [PageResourceWalletTransactionResource].self, source: source)
         }
         // Decoder for PageResourceWalletTransactionResource
-        Decoders.addDecoder(clazz: PageResourceWalletTransactionResource.self) { (source: AnyObject) -> PageResourceWalletTransactionResource in
+        Decoders.addDecoder(clazz: PageResourceWalletTransactionResource.self) { (source: AnyObject, instance: AnyObject?) -> PageResourceWalletTransactionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourceWalletTransactionResource()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourceWalletTransactionResource() : instance as! PageResourceWalletTransactionResource
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PageResourcestring]
-        Decoders.addDecoder(clazz: [PageResourcestring].self) { (source: AnyObject) -> [PageResourcestring] in
+        Decoders.addDecoder(clazz: [PageResourcestring].self) { (source: AnyObject, instance: AnyObject?) -> [PageResourcestring] in
             return Decoders.decode(clazz: [PageResourcestring].self, source: source)
         }
         // Decoder for PageResourcestring
-        Decoders.addDecoder(clazz: PageResourcestring.self) { (source: AnyObject) -> PageResourcestring in
+        Decoders.addDecoder(clazz: PageResourcestring.self) { (source: AnyObject, instance: AnyObject?) -> PageResourcestring in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PageResourcestring()
-            instance.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
-            instance.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
-            instance.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
-            instance.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
-            instance.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
-            instance.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PageResourcestring() : instance as! PageResourcestring
+            
+            result.content = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["content"] as AnyObject?)
+            result.first = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?)
+            result.last = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?)
+            result.number = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?)
+            result.numberOfElements = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.totalElements = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?)
+            result.totalPages = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ParameterResource]
-        Decoders.addDecoder(clazz: [ParameterResource].self) { (source: AnyObject) -> [ParameterResource] in
+        Decoders.addDecoder(clazz: [ParameterResource].self) { (source: AnyObject, instance: AnyObject?) -> [ParameterResource] in
             return Decoders.decode(clazz: [ParameterResource].self, source: source)
         }
         // Decoder for ParameterResource
-        Decoders.addDecoder(clazz: ParameterResource.self) { (source: AnyObject) -> ParameterResource in
+        Decoders.addDecoder(clazz: ParameterResource.self) { (source: AnyObject, instance: AnyObject?) -> ParameterResource in
             let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? ParameterResource() : instance as! ParameterResource
+            
+            result.of = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["of"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
+        }
 
-            let instance = ParameterResource()
-            instance.of = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["of"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
+
+        // Decoder for [PasswordResetRequest]
+        Decoders.addDecoder(clazz: [PasswordResetRequest].self) { (source: AnyObject, instance: AnyObject?) -> [PasswordResetRequest] in
+            return Decoders.decode(clazz: [PasswordResetRequest].self, source: source)
+        }
+        // Decoder for PasswordResetRequest
+        Decoders.addDecoder(clazz: PasswordResetRequest.self) { (source: AnyObject, instance: AnyObject?) -> PasswordResetRequest in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? PasswordResetRequest() : instance as! PasswordResetRequest
+            
+            result.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
+            result.mobileNumber = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["mobile_number"] as AnyObject?)
+            result.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PayBySavedMethodRequest]
-        Decoders.addDecoder(clazz: [PayBySavedMethodRequest].self) { (source: AnyObject) -> [PayBySavedMethodRequest] in
+        Decoders.addDecoder(clazz: [PayBySavedMethodRequest].self) { (source: AnyObject, instance: AnyObject?) -> [PayBySavedMethodRequest] in
             return Decoders.decode(clazz: [PayBySavedMethodRequest].self, source: source)
         }
         // Decoder for PayBySavedMethodRequest
-        Decoders.addDecoder(clazz: PayBySavedMethodRequest.self) { (source: AnyObject) -> PayBySavedMethodRequest in
+        Decoders.addDecoder(clazz: PayBySavedMethodRequest.self) { (source: AnyObject, instance: AnyObject?) -> PayBySavedMethodRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PayBySavedMethodRequest()
-            instance.paymentMethod = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["payment_method"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PayBySavedMethodRequest() : instance as! PayBySavedMethodRequest
+            
+            result.paymentMethod = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["payment_method"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PaymentAuthorizationResource]
-        Decoders.addDecoder(clazz: [PaymentAuthorizationResource].self) { (source: AnyObject) -> [PaymentAuthorizationResource] in
+        Decoders.addDecoder(clazz: [PaymentAuthorizationResource].self) { (source: AnyObject, instance: AnyObject?) -> [PaymentAuthorizationResource] in
             return Decoders.decode(clazz: [PaymentAuthorizationResource].self, source: source)
         }
         // Decoder for PaymentAuthorizationResource
-        Decoders.addDecoder(clazz: PaymentAuthorizationResource.self) { (source: AnyObject) -> PaymentAuthorizationResource in
+        Decoders.addDecoder(clazz: PaymentAuthorizationResource.self) { (source: AnyObject, instance: AnyObject?) -> PaymentAuthorizationResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PaymentAuthorizationResource()
-            instance.captured = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["captured"] as AnyObject?)
-            instance.created = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created"] as AnyObject?)
-            instance.details = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["details"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.invoice = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice"] as AnyObject?)
-            instance.paymentType = Decoders.decodeOptional(clazz: SimpleReferenceResourceint.self, source: sourceDictionary["payment_type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PaymentAuthorizationResource() : instance as! PaymentAuthorizationResource
+            
+            result.captured = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["captured"] as AnyObject?)
+            result.created = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created"] as AnyObject?)
+            result.details = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["details"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.invoice = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice"] as AnyObject?)
+            result.paymentType = Decoders.decodeOptional(clazz: SimpleReferenceResourceint.self, source: sourceDictionary["payment_type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PaymentMethodResource]
-        Decoders.addDecoder(clazz: [PaymentMethodResource].self) { (source: AnyObject) -> [PaymentMethodResource] in
+        Decoders.addDecoder(clazz: [PaymentMethodResource].self) { (source: AnyObject, instance: AnyObject?) -> [PaymentMethodResource] in
             return Decoders.decode(clazz: [PaymentMethodResource].self, source: source)
         }
         // Decoder for PaymentMethodResource
-        Decoders.addDecoder(clazz: PaymentMethodResource.self) { (source: AnyObject) -> PaymentMethodResource in
+        Decoders.addDecoder(clazz: PaymentMethodResource.self) { (source: AnyObject, instance: AnyObject?) -> PaymentMethodResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PaymentMethodResource()
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance._default = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["default"] as AnyObject?)
-            instance.disabled = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["disabled"] as AnyObject?)
-            instance.expirationDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["expiration_date"] as AnyObject?)
-            instance.expirationMonth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["expiration_month"] as AnyObject?)
-            instance.expirationYear = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["expiration_year"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.last4 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last4"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.paymentMethodType = Decoders.decodeOptional(clazz: PaymentMethodTypeResource.self, source: sourceDictionary["payment_method_type"] as AnyObject?)
+            let result = instance == nil ? PaymentMethodResource() : instance as! PaymentMethodResource
+            
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result._default = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["default"] as AnyObject?)
+            result.disabled = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["disabled"] as AnyObject?)
+            result.expirationDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["expiration_date"] as AnyObject?)
+            result.expirationMonth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["expiration_month"] as AnyObject?)
+            result.expirationYear = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["expiration_year"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.last4 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last4"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.paymentMethodType = Decoders.decodeOptional(clazz: PaymentMethodTypeResource.self, source: sourceDictionary["payment_method_type"] as AnyObject?)
             if let paymentType = sourceDictionary["payment_type"] as? String { 
-                instance.paymentType = PaymentMethodResource.PaymentType(rawValue: (paymentType))
+                result.paymentType = PaymentMethodResource.PaymentType(rawValue: (paymentType))
             }
             
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
-            instance.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
-            instance.verified = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["verified"] as AnyObject?)
-            return instance
+            result.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
+            result.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            result.verified = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["verified"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PaymentMethodTypeResource]
-        Decoders.addDecoder(clazz: [PaymentMethodTypeResource].self) { (source: AnyObject) -> [PaymentMethodTypeResource] in
+        Decoders.addDecoder(clazz: [PaymentMethodTypeResource].self) { (source: AnyObject, instance: AnyObject?) -> [PaymentMethodTypeResource] in
             return Decoders.decode(clazz: [PaymentMethodTypeResource].self, source: source)
         }
         // Decoder for PaymentMethodTypeResource
-        Decoders.addDecoder(clazz: PaymentMethodTypeResource.self) { (source: AnyObject) -> PaymentMethodTypeResource in
+        Decoders.addDecoder(clazz: PaymentMethodTypeResource.self) { (source: AnyObject, instance: AnyObject?) -> PaymentMethodTypeResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PaymentMethodTypeResource()
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PaymentMethodTypeResource() : instance as! PaymentMethodTypeResource
+            
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PermissionResource]
-        Decoders.addDecoder(clazz: [PermissionResource].self) { (source: AnyObject) -> [PermissionResource] in
+        Decoders.addDecoder(clazz: [PermissionResource].self) { (source: AnyObject, instance: AnyObject?) -> [PermissionResource] in
             return Decoders.decode(clazz: [PermissionResource].self, source: source)
         }
         // Decoder for PermissionResource
-        Decoders.addDecoder(clazz: PermissionResource.self) { (source: AnyObject) -> PermissionResource in
+        Decoders.addDecoder(clazz: PermissionResource.self) { (source: AnyObject, instance: AnyObject?) -> PermissionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PermissionResource()
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.locked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.parent = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["parent"] as AnyObject?)
-            instance.permission = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["permission"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PermissionResource() : instance as! PermissionResource
+            
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.locked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.parent = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["parent"] as AnyObject?)
+            result.permission = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["permission"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PollAnswerResource]
-        Decoders.addDecoder(clazz: [PollAnswerResource].self) { (source: AnyObject) -> [PollAnswerResource] in
+        Decoders.addDecoder(clazz: [PollAnswerResource].self) { (source: AnyObject, instance: AnyObject?) -> [PollAnswerResource] in
             return Decoders.decode(clazz: [PollAnswerResource].self, source: source)
         }
         // Decoder for PollAnswerResource
-        Decoders.addDecoder(clazz: PollAnswerResource.self) { (source: AnyObject) -> PollAnswerResource in
+        Decoders.addDecoder(clazz: PollAnswerResource.self) { (source: AnyObject, instance: AnyObject?) -> PollAnswerResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PollAnswerResource()
-            instance.count = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["count"] as AnyObject?)
-            instance.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
-            instance.text = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["text"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PollAnswerResource() : instance as! PollAnswerResource
+            
+            result.count = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["count"] as AnyObject?)
+            result.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
+            result.text = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["text"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PollResource]
-        Decoders.addDecoder(clazz: [PollResource].self) { (source: AnyObject) -> [PollResource] in
+        Decoders.addDecoder(clazz: [PollResource].self) { (source: AnyObject, instance: AnyObject?) -> [PollResource] in
             return Decoders.decode(clazz: [PollResource].self, source: source)
         }
         // Decoder for PollResource
-        Decoders.addDecoder(clazz: PollResource.self) { (source: AnyObject) -> PollResource in
+        Decoders.addDecoder(clazz: PollResource.self) { (source: AnyObject, instance: AnyObject?) -> PollResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PollResource()
-            instance.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.answers = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["answers"] as AnyObject?)
-            instance.category = Decoders.decodeOptional(clazz: NestedCategory.self, source: sourceDictionary["category"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.text = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["text"] as AnyObject?)
+            let result = instance == nil ? PollResource() : instance as! PollResource
+            
+            result.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.answers = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["answers"] as AnyObject?)
+            result.category = Decoders.decodeOptional(clazz: NestedCategory.self, source: sourceDictionary["category"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.text = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["text"] as AnyObject?)
             if let type = sourceDictionary["type"] as? String { 
-                instance.type = PollResource.ModelType(rawValue: (type))
+                result.type = PollResource.ModelType(rawValue: (type))
             }
             
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PollResponseResource]
-        Decoders.addDecoder(clazz: [PollResponseResource].self) { (source: AnyObject) -> [PollResponseResource] in
+        Decoders.addDecoder(clazz: [PollResponseResource].self) { (source: AnyObject, instance: AnyObject?) -> [PollResponseResource] in
             return Decoders.decode(clazz: [PollResponseResource].self, source: source)
         }
         // Decoder for PollResponseResource
-        Decoders.addDecoder(clazz: PollResponseResource.self) { (source: AnyObject) -> PollResponseResource in
+        Decoders.addDecoder(clazz: PollResponseResource.self) { (source: AnyObject, instance: AnyObject?) -> PollResponseResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PollResponseResource()
-            instance.answer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["answer"] as AnyObject?)
-            instance.answeredDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["answered_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.pollId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["poll_id"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [PreReqEntitlement]
-        Decoders.addDecoder(clazz: [PreReqEntitlement].self) { (source: AnyObject) -> [PreReqEntitlement] in
-            return Decoders.decode(clazz: [PreReqEntitlement].self, source: source)
-        }
-        // Decoder for PreReqEntitlement
-        Decoders.addDecoder(clazz: PreReqEntitlement.self) { (source: AnyObject) -> PreReqEntitlement in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PreReqEntitlement()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.itemIds = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["item_ids"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PollResponseResource() : instance as! PollResponseResource
+            
+            result.answer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["answer"] as AnyObject?)
+            result.answeredDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["answered_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.pollId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["poll_id"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PredicateOperation]
-        Decoders.addDecoder(clazz: [PredicateOperation].self) { (source: AnyObject) -> [PredicateOperation] in
+        Decoders.addDecoder(clazz: [PredicateOperation].self) { (source: AnyObject, instance: AnyObject?) -> [PredicateOperation] in
             return Decoders.decode(clazz: [PredicateOperation].self, source: source)
         }
         // Decoder for PredicateOperation
-        Decoders.addDecoder(clazz: PredicateOperation.self) { (source: AnyObject) -> PredicateOperation in
+        Decoders.addDecoder(clazz: PredicateOperation.self) { (source: AnyObject, instance: AnyObject?) -> PredicateOperation in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PredicateOperation()
-            instance.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
-            instance._operator = Decoders.decodeOptional(clazz: Operator.self, source: sourceDictionary["operator"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PredicateOperation() : instance as! PredicateOperation
+            
+            result.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
+            result._operator = Decoders.decodeOptional(clazz: Operator.self, source: sourceDictionary["operator"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PredicateResource]
-        Decoders.addDecoder(clazz: [PredicateResource].self) { (source: AnyObject) -> [PredicateResource] in
+        Decoders.addDecoder(clazz: [PredicateResource].self) { (source: AnyObject, instance: AnyObject?) -> [PredicateResource] in
             return Decoders.decode(clazz: [PredicateResource].self, source: source)
         }
         // Decoder for PredicateResource
-        Decoders.addDecoder(clazz: PredicateResource.self) { (source: AnyObject) -> PredicateResource in
+        Decoders.addDecoder(clazz: PredicateResource.self) { (source: AnyObject, instance: AnyObject?) -> PredicateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PredicateResource()
-            instance.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
-            instance.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [PriceOverridable]
-        Decoders.addDecoder(clazz: [PriceOverridable].self) { (source: AnyObject) -> [PriceOverridable] in
-            return Decoders.decode(clazz: [PriceOverridable].self, source: source)
-        }
-        // Decoder for PriceOverridable
-        Decoders.addDecoder(clazz: PriceOverridable.self) { (source: AnyObject) -> PriceOverridable in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PriceOverridable()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.maxPrice = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_price"] as AnyObject?)
-            instance.minPrice = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_price"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PredicateResource() : instance as! PredicateResource
+            
+            result.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
+            result.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Property]
-        Decoders.addDecoder(clazz: [Property].self) { (source: AnyObject) -> [Property] in
+        Decoders.addDecoder(clazz: [Property].self) { (source: AnyObject, instance: AnyObject?) -> [Property] in
             return Decoders.decode(clazz: [Property].self, source: source)
         }
         // Decoder for Property
-        Decoders.addDecoder(clazz: Property.self) { (source: AnyObject) -> Property in
+        Decoders.addDecoder(clazz: Property.self) { (source: AnyObject, instance: AnyObject?) -> Property in
             let sourceDictionary = source as! [AnyHashable: Any]
             // Check discriminator to support inheritance
-            if let discriminator = sourceDictionary["type"] as? String, discriminator != "Property"{
+            if let discriminator = sourceDictionary["type"] as? String, instance == nil && discriminator != "Property" {
                 return Decoders.decode(clazz: Property.self, discriminator: discriminator, source: source)
             }
-
-            let instance = Property()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? Property() : instance as! Property
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [PropertyDefinitionResource].self) { (source: AnyObject) -> [PropertyDefinitionResource] in
+        Decoders.addDecoder(clazz: [PropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [PropertyDefinitionResource] in
             return Decoders.decode(clazz: [PropertyDefinitionResource].self, source: source)
         }
         // Decoder for PropertyDefinitionResource
-        Decoders.addDecoder(clazz: PropertyDefinitionResource.self) { (source: AnyObject) -> PropertyDefinitionResource in
+        Decoders.addDecoder(clazz: PropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> PropertyDefinitionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
             // Check discriminator to support inheritance
-            if let discriminator = sourceDictionary["type"] as? String, discriminator != "PropertyDefinitionResource"{
+            if let discriminator = sourceDictionary["type"] as? String, instance == nil && discriminator != "PropertyDefinitionResource" {
                 return Decoders.decode(clazz: PropertyDefinitionResource.self, discriminator: discriminator, source: source)
             }
-
-            let instance = PropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PropertyDefinitionResource() : instance as! PropertyDefinitionResource
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PropertyFieldListResource]
-        Decoders.addDecoder(clazz: [PropertyFieldListResource].self) { (source: AnyObject) -> [PropertyFieldListResource] in
+        Decoders.addDecoder(clazz: [PropertyFieldListResource].self) { (source: AnyObject, instance: AnyObject?) -> [PropertyFieldListResource] in
             return Decoders.decode(clazz: [PropertyFieldListResource].self, source: source)
         }
         // Decoder for PropertyFieldListResource
-        Decoders.addDecoder(clazz: PropertyFieldListResource.self) { (source: AnyObject) -> PropertyFieldListResource in
+        Decoders.addDecoder(clazz: PropertyFieldListResource.self) { (source: AnyObject, instance: AnyObject?) -> PropertyFieldListResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PropertyFieldListResource()
-            instance.propertyDefinitionFields = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["property_definition_fields"] as AnyObject?)
-            instance.propertyFields = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["property_fields"] as AnyObject?)
-            instance.propertyType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["property_type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? PropertyFieldListResource() : instance as! PropertyFieldListResource
+            
+            result.propertyDefinitionFields = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["property_definition_fields"] as AnyObject?)
+            result.propertyFields = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["property_fields"] as AnyObject?)
+            result.propertyType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["property_type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [PropertyFieldResource]
-        Decoders.addDecoder(clazz: [PropertyFieldResource].self) { (source: AnyObject) -> [PropertyFieldResource] in
+        Decoders.addDecoder(clazz: [PropertyFieldResource].self) { (source: AnyObject, instance: AnyObject?) -> [PropertyFieldResource] in
             return Decoders.decode(clazz: [PropertyFieldResource].self, source: source)
         }
         // Decoder for PropertyFieldResource
-        Decoders.addDecoder(clazz: PropertyFieldResource.self) { (source: AnyObject) -> PropertyFieldResource in
+        Decoders.addDecoder(clazz: PropertyFieldResource.self) { (source: AnyObject, instance: AnyObject?) -> PropertyFieldResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = PropertyFieldResource()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            let result = instance == nil ? PropertyFieldResource() : instance as! PropertyFieldResource
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
             if let innerType = sourceDictionary["inner_type"] as? String { 
-                instance.innerType = PropertyFieldResource.InnerType(rawValue: (innerType))
+                result.innerType = PropertyFieldResource.InnerType(rawValue: (innerType))
             }
             
-            instance.innerTypeFields = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["inner_type_fields"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.innerTypeFields = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["inner_type_fields"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
             if let type = sourceDictionary["type"] as? String { 
-                instance.type = PropertyFieldResource.ModelType(rawValue: (type))
+                result.type = PropertyFieldResource.ModelType(rawValue: (type))
             }
             
-            instance.validValues = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["valid_values"] as AnyObject?)
-            return instance
+            result.validValues = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["valid_values"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [QuestionResource]
-        Decoders.addDecoder(clazz: [QuestionResource].self) { (source: AnyObject) -> [QuestionResource] in
+        Decoders.addDecoder(clazz: [QuestionResource].self) { (source: AnyObject, instance: AnyObject?) -> [QuestionResource] in
             return Decoders.decode(clazz: [QuestionResource].self, source: source)
         }
         // Decoder for QuestionResource
-        Decoders.addDecoder(clazz: QuestionResource.self) { (source: AnyObject) -> QuestionResource in
+        Decoders.addDecoder(clazz: QuestionResource.self) { (source: AnyObject, instance: AnyObject?) -> QuestionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = QuestionResource()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.answers = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["answers"] as AnyObject?)
-            instance.category = Decoders.decodeOptional(clazz: NestedCategory.self, source: sourceDictionary["category"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.difficulty = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["difficulty"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.importId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["import_id"] as AnyObject?)
-            instance.publishedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["published_date"] as AnyObject?)
-            instance.question = Decoders.decodeOptional(clazz: Property.self, source: sourceDictionary["question"] as AnyObject?)
-            instance.source1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["source1"] as AnyObject?)
-            instance.source2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["source2"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.vendor = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["vendor"] as AnyObject?)
-            return instance
+            let result = instance == nil ? QuestionResource() : instance as! QuestionResource
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.answers = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["answers"] as AnyObject?)
+            result.category = Decoders.decodeOptional(clazz: NestedCategory.self, source: sourceDictionary["category"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.difficulty = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["difficulty"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.importId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["import_id"] as AnyObject?)
+            result.publishedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["published_date"] as AnyObject?)
+            result.question = Decoders.decodeOptional(clazz: Property.self, source: sourceDictionary["question"] as AnyObject?)
+            result.source1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["source1"] as AnyObject?)
+            result.source2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["source2"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.vendor = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["vendor"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [QuestionTemplateResource]
-        Decoders.addDecoder(clazz: [QuestionTemplateResource].self) { (source: AnyObject) -> [QuestionTemplateResource] in
+        Decoders.addDecoder(clazz: [QuestionTemplateResource].self) { (source: AnyObject, instance: AnyObject?) -> [QuestionTemplateResource] in
             return Decoders.decode(clazz: [QuestionTemplateResource].self, source: source)
         }
         // Decoder for QuestionTemplateResource
-        Decoders.addDecoder(clazz: QuestionTemplateResource.self) { (source: AnyObject) -> QuestionTemplateResource in
+        Decoders.addDecoder(clazz: QuestionTemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> QuestionTemplateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = QuestionTemplateResource()
-            instance.answerProperty = Decoders.decodeOptional(clazz: PropertyDefinitionResource.self, source: sourceDictionary["answer_property"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
-            instance.questionProperty = Decoders.decodeOptional(clazz: PropertyDefinitionResource.self, source: sourceDictionary["question_property"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? QuestionTemplateResource() : instance as! QuestionTemplateResource
+            
+            result.answerProperty = Decoders.decodeOptional(clazz: PropertyDefinitionResource.self, source: sourceDictionary["answer_property"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
+            result.questionProperty = Decoders.decodeOptional(clazz: PropertyDefinitionResource.self, source: sourceDictionary["question_property"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [RawEmailResource]
-        Decoders.addDecoder(clazz: [RawEmailResource].self) { (source: AnyObject) -> [RawEmailResource] in
+        Decoders.addDecoder(clazz: [RawEmailResource].self) { (source: AnyObject, instance: AnyObject?) -> [RawEmailResource] in
             return Decoders.decode(clazz: [RawEmailResource].self, source: source)
         }
         // Decoder for RawEmailResource
-        Decoders.addDecoder(clazz: RawEmailResource.self) { (source: AnyObject) -> RawEmailResource in
+        Decoders.addDecoder(clazz: RawEmailResource.self) { (source: AnyObject, instance: AnyObject?) -> RawEmailResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RawEmailResource()
-            instance.body = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["body"] as AnyObject?)
-            instance.from = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["from"] as AnyObject?)
-            instance.html = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["html"] as AnyObject?)
-            instance.recipients = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["recipients"] as AnyObject?)
-            instance.subject = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["subject"] as AnyObject?)
-            return instance
+            let result = instance == nil ? RawEmailResource() : instance as! RawEmailResource
+            
+            result.body = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["body"] as AnyObject?)
+            result.from = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["from"] as AnyObject?)
+            result.html = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["html"] as AnyObject?)
+            result.recipients = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["recipients"] as AnyObject?)
+            result.subject = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["subject"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [RawSMSResource]
-        Decoders.addDecoder(clazz: [RawSMSResource].self) { (source: AnyObject) -> [RawSMSResource] in
+        Decoders.addDecoder(clazz: [RawSMSResource].self) { (source: AnyObject, instance: AnyObject?) -> [RawSMSResource] in
             return Decoders.decode(clazz: [RawSMSResource].self, source: source)
         }
         // Decoder for RawSMSResource
-        Decoders.addDecoder(clazz: RawSMSResource.self) { (source: AnyObject) -> RawSMSResource in
+        Decoders.addDecoder(clazz: RawSMSResource.self) { (source: AnyObject, instance: AnyObject?) -> RawSMSResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RawSMSResource()
-            instance.from = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["from"] as AnyObject?)
-            instance.recipients = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["recipients"] as AnyObject?)
-            instance.text = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["text"] as AnyObject?)
-            return instance
+            let result = instance == nil ? RawSMSResource() : instance as! RawSMSResource
+            
+            result.from = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["from"] as AnyObject?)
+            result.recipients = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["recipients"] as AnyObject?)
+            result.text = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["text"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [ReactivateSubscriptionRequest]
-        Decoders.addDecoder(clazz: [ReactivateSubscriptionRequest].self) { (source: AnyObject) -> [ReactivateSubscriptionRequest] in
+        Decoders.addDecoder(clazz: [ReactivateSubscriptionRequest].self) { (source: AnyObject, instance: AnyObject?) -> [ReactivateSubscriptionRequest] in
             return Decoders.decode(clazz: [ReactivateSubscriptionRequest].self, source: source)
         }
         // Decoder for ReactivateSubscriptionRequest
-        Decoders.addDecoder(clazz: ReactivateSubscriptionRequest.self) { (source: AnyObject) -> ReactivateSubscriptionRequest in
+        Decoders.addDecoder(clazz: ReactivateSubscriptionRequest.self) { (source: AnyObject, instance: AnyObject?) -> ReactivateSubscriptionRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ReactivateSubscriptionRequest()
-            instance.inventoryId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["inventory_id"] as AnyObject?)
-            instance.reactivationFee = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["reactivation_fee"] as AnyObject?)
-            return instance
+            let result = instance == nil ? ReactivateSubscriptionRequest() : instance as! ReactivateSubscriptionRequest
+            
+            result.inventoryId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["inventory_id"] as AnyObject?)
+            result.reactivationFee = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["reactivation_fee"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [RefundRequest]
-        Decoders.addDecoder(clazz: [RefundRequest].self) { (source: AnyObject) -> [RefundRequest] in
+        Decoders.addDecoder(clazz: [RefundRequest].self) { (source: AnyObject, instance: AnyObject?) -> [RefundRequest] in
             return Decoders.decode(clazz: [RefundRequest].self, source: source)
         }
         // Decoder for RefundRequest
-        Decoders.addDecoder(clazz: RefundRequest.self) { (source: AnyObject) -> RefundRequest in
+        Decoders.addDecoder(clazz: RefundRequest.self) { (source: AnyObject, instance: AnyObject?) -> RefundRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RefundRequest()
-            instance.amount = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["amount"] as AnyObject?)
-            instance.notes = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["notes"] as AnyObject?)
-            instance.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
-            return instance
+            let result = instance == nil ? RefundRequest() : instance as! RefundRequest
+            
+            result.amount = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["amount"] as AnyObject?)
+            result.bundleSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["bundle_sku"] as AnyObject?)
+            result.notes = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["notes"] as AnyObject?)
+            result.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [RefundResource]
-        Decoders.addDecoder(clazz: [RefundResource].self) { (source: AnyObject) -> [RefundResource] in
+        Decoders.addDecoder(clazz: [RefundResource].self) { (source: AnyObject, instance: AnyObject?) -> [RefundResource] in
             return Decoders.decode(clazz: [RefundResource].self, source: source)
         }
         // Decoder for RefundResource
-        Decoders.addDecoder(clazz: RefundResource.self) { (source: AnyObject) -> RefundResource in
+        Decoders.addDecoder(clazz: RefundResource.self) { (source: AnyObject, instance: AnyObject?) -> RefundResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RefundResource()
-            instance.amount = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["amount"] as AnyObject?)
-            instance.refundTransactionId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["refund_transaction_id"] as AnyObject?)
-            instance.transactionId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["transaction_id"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc]
-        Decoders.addDecoder(clazz: [RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc].self) { (source: AnyObject) -> [RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc] in
-            return Decoders.decode(clazz: [RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc].self, source: source)
-        }
-        // Decoder for RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc
-        Decoders.addDecoder(clazz: RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc.self) { (source: AnyObject) -> RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.entitlements = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["entitlements"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.launch = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["launch"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.rewardSet = Decoders.decodeOptional(clazz: RewardSetResource.self, source: sourceDictionary["reward_set"] as AnyObject?)
-            instance.settings = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["settings"] as AnyObject?)
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.templateId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template_id"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? RefundResource() : instance as! RefundResource
+            
+            result.amount = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["amount"] as AnyObject?)
+            result.refundTransactionId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["refund_transaction_id"] as AnyObject?)
+            result.transactionId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["transaction_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Result]
-        Decoders.addDecoder(clazz: [Result].self) { (source: AnyObject) -> [Result] in
+        Decoders.addDecoder(clazz: [Result].self) { (source: AnyObject, instance: AnyObject?) -> [Result] in
             return Decoders.decode(clazz: [Result].self, source: source)
         }
         // Decoder for Result
-        Decoders.addDecoder(clazz: Result.self) { (source: AnyObject) -> Result in
+        Decoders.addDecoder(clazz: Result.self) { (source: AnyObject, instance: AnyObject?) -> Result in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Result()
-            instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"] as AnyObject?)
-            instance.requestId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["request_id"] as AnyObject?)
-            instance.result = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["result"] as AnyObject?)
-            return instance
+            let result = instance == nil ? Result() : instance as! Result
+            
+            result.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"] as AnyObject?)
+            result.requestId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["request_id"] as AnyObject?)
+            result.result = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["result"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [RevenueCountryReportResource]
-        Decoders.addDecoder(clazz: [RevenueCountryReportResource].self) { (source: AnyObject) -> [RevenueCountryReportResource] in
+        Decoders.addDecoder(clazz: [RevenueCountryReportResource].self) { (source: AnyObject, instance: AnyObject?) -> [RevenueCountryReportResource] in
             return Decoders.decode(clazz: [RevenueCountryReportResource].self, source: source)
         }
         // Decoder for RevenueCountryReportResource
-        Decoders.addDecoder(clazz: RevenueCountryReportResource.self) { (source: AnyObject) -> RevenueCountryReportResource in
+        Decoders.addDecoder(clazz: RevenueCountryReportResource.self) { (source: AnyObject, instance: AnyObject?) -> RevenueCountryReportResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RevenueCountryReportResource()
-            instance.country = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country"] as AnyObject?)
-            instance.revenue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["revenue"] as AnyObject?)
-            instance.volume = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["volume"] as AnyObject?)
-            return instance
+            let result = instance == nil ? RevenueCountryReportResource() : instance as! RevenueCountryReportResource
+            
+            result.country = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country"] as AnyObject?)
+            result.revenue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["revenue"] as AnyObject?)
+            result.volume = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["volume"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [RevenueProductReportResource]
-        Decoders.addDecoder(clazz: [RevenueProductReportResource].self) { (source: AnyObject) -> [RevenueProductReportResource] in
+        Decoders.addDecoder(clazz: [RevenueProductReportResource].self) { (source: AnyObject, instance: AnyObject?) -> [RevenueProductReportResource] in
             return Decoders.decode(clazz: [RevenueProductReportResource].self, source: source)
         }
         // Decoder for RevenueProductReportResource
-        Decoders.addDecoder(clazz: RevenueProductReportResource.self) { (source: AnyObject) -> RevenueProductReportResource in
+        Decoders.addDecoder(clazz: RevenueProductReportResource.self) { (source: AnyObject, instance: AnyObject?) -> RevenueProductReportResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RevenueProductReportResource()
-            instance.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
-            instance.itemName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["item_name"] as AnyObject?)
-            instance.revenue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["revenue"] as AnyObject?)
-            instance.volume = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["volume"] as AnyObject?)
-            return instance
+            let result = instance == nil ? RevenueProductReportResource() : instance as! RevenueProductReportResource
+            
+            result.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
+            result.itemName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["item_name"] as AnyObject?)
+            result.revenue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["revenue"] as AnyObject?)
+            result.volume = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["volume"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [RevenueReportResource]
-        Decoders.addDecoder(clazz: [RevenueReportResource].self) { (source: AnyObject) -> [RevenueReportResource] in
+        Decoders.addDecoder(clazz: [RevenueReportResource].self) { (source: AnyObject, instance: AnyObject?) -> [RevenueReportResource] in
             return Decoders.decode(clazz: [RevenueReportResource].self, source: source)
         }
         // Decoder for RevenueReportResource
-        Decoders.addDecoder(clazz: RevenueReportResource.self) { (source: AnyObject) -> RevenueReportResource in
+        Decoders.addDecoder(clazz: RevenueReportResource.self) { (source: AnyObject, instance: AnyObject?) -> RevenueReportResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RevenueReportResource()
-            instance.customerCount = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["customer_count"] as AnyObject?)
-            instance.saleCount = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["sale_count"] as AnyObject?)
-            instance.salesAverage = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["sales_average"] as AnyObject?)
-            instance.salesTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["sales_total"] as AnyObject?)
-            return instance
+            let result = instance == nil ? RevenueReportResource() : instance as! RevenueReportResource
+            
+            result.customerCount = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["customer_count"] as AnyObject?)
+            result.saleCount = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["sale_count"] as AnyObject?)
+            result.salesAverage = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["sales_average"] as AnyObject?)
+            result.salesTotal = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["sales_total"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [RewardCurrencyResource]
-        Decoders.addDecoder(clazz: [RewardCurrencyResource].self) { (source: AnyObject) -> [RewardCurrencyResource] in
+        Decoders.addDecoder(clazz: [RewardCurrencyResource].self) { (source: AnyObject, instance: AnyObject?) -> [RewardCurrencyResource] in
             return Decoders.decode(clazz: [RewardCurrencyResource].self, source: source)
         }
         // Decoder for RewardCurrencyResource
-        Decoders.addDecoder(clazz: RewardCurrencyResource.self) { (source: AnyObject) -> RewardCurrencyResource in
+        Decoders.addDecoder(clazz: RewardCurrencyResource.self) { (source: AnyObject, instance: AnyObject?) -> RewardCurrencyResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RewardCurrencyResource()
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.currencyName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_name"] as AnyObject?)
-            instance.maxRank = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_rank"] as AnyObject?)
-            instance.minRank = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_rank"] as AnyObject?)
-            instance.percent = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["percent"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
+            let result = instance == nil ? RewardCurrencyResource() : instance as! RewardCurrencyResource
+            
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.currencyName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_name"] as AnyObject?)
+            result.maxRank = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_rank"] as AnyObject?)
+            result.minRank = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_rank"] as AnyObject?)
+            result.percent = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["percent"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [RewardItemResource]
-        Decoders.addDecoder(clazz: [RewardItemResource].self) { (source: AnyObject) -> [RewardItemResource] in
+        Decoders.addDecoder(clazz: [RewardItemResource].self) { (source: AnyObject, instance: AnyObject?) -> [RewardItemResource] in
             return Decoders.decode(clazz: [RewardItemResource].self, source: source)
         }
         // Decoder for RewardItemResource
-        Decoders.addDecoder(clazz: RewardItemResource.self) { (source: AnyObject) -> RewardItemResource in
+        Decoders.addDecoder(clazz: RewardItemResource.self) { (source: AnyObject, instance: AnyObject?) -> RewardItemResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RewardItemResource()
-            instance.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
-            instance.itemName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["item_name"] as AnyObject?)
-            instance.maxRank = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_rank"] as AnyObject?)
-            instance.minRank = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_rank"] as AnyObject?)
-            instance.quantity = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["quantity"] as AnyObject?)
-            return instance
+            let result = instance == nil ? RewardItemResource() : instance as! RewardItemResource
+            
+            result.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
+            result.itemName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["item_name"] as AnyObject?)
+            result.maxRank = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_rank"] as AnyObject?)
+            result.minRank = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_rank"] as AnyObject?)
+            result.quantity = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["quantity"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [RewardSetResource]
-        Decoders.addDecoder(clazz: [RewardSetResource].self) { (source: AnyObject) -> [RewardSetResource] in
+        Decoders.addDecoder(clazz: [RewardSetResource].self) { (source: AnyObject, instance: AnyObject?) -> [RewardSetResource] in
             return Decoders.decode(clazz: [RewardSetResource].self, source: source)
         }
         // Decoder for RewardSetResource
-        Decoders.addDecoder(clazz: RewardSetResource.self) { (source: AnyObject) -> RewardSetResource in
+        Decoders.addDecoder(clazz: RewardSetResource.self) { (source: AnyObject, instance: AnyObject?) -> RewardSetResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RewardSetResource()
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.currencyRewards = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["currency_rewards"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.itemRewards = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["item_rewards"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.maxPlacing = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_placing"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? RewardSetResource() : instance as! RewardSetResource
+            
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.currencyRewards = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["currency_rewards"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.itemRewards = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["item_rewards"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.maxPlacing = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_placing"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [RoleResource]
-        Decoders.addDecoder(clazz: [RoleResource].self) { (source: AnyObject) -> [RoleResource] in
+        Decoders.addDecoder(clazz: [RoleResource].self) { (source: AnyObject, instance: AnyObject?) -> [RoleResource] in
             return Decoders.decode(clazz: [RoleResource].self, source: source)
         }
         // Decoder for RoleResource
-        Decoders.addDecoder(clazz: RoleResource.self) { (source: AnyObject) -> RoleResource in
+        Decoders.addDecoder(clazz: RoleResource.self) { (source: AnyObject, instance: AnyObject?) -> RoleResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = RoleResource()
-            instance.clientCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["client_count"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.locked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.role = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["role"] as AnyObject?)
-            instance.rolePermission = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["role_permission"] as AnyObject?)
-            instance.userCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_count"] as AnyObject?)
-            return instance
+            let result = instance == nil ? RoleResource() : instance as! RoleResource
+            
+            result.clientCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["client_count"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.locked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.role = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["role"] as AnyObject?)
+            result.rolePermission = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["role_permission"] as AnyObject?)
+            result.userCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_count"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [S3Config]
-        Decoders.addDecoder(clazz: [S3Config].self) { (source: AnyObject) -> [S3Config] in
+        Decoders.addDecoder(clazz: [S3Config].self) { (source: AnyObject, instance: AnyObject?) -> [S3Config] in
             return Decoders.decode(clazz: [S3Config].self, source: source)
         }
         // Decoder for S3Config
-        Decoders.addDecoder(clazz: S3Config.self) { (source: AnyObject) -> S3Config in
+        Decoders.addDecoder(clazz: S3Config.self) { (source: AnyObject, instance: AnyObject?) -> S3Config in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = S3Config()
-            instance.bucketName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["bucket_name"] as AnyObject?)
-            instance.cdnUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cdn_url"] as AnyObject?)
-            instance.region = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["region"] as AnyObject?)
-            instance.uploadPrefix = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["upload_prefix"] as AnyObject?)
-            return instance
+            let result = instance == nil ? S3Config() : instance as! S3Config
+            
+            result.bucketName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["bucket_name"] as AnyObject?)
+            result.cdnUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cdn_url"] as AnyObject?)
+            result.region = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["region"] as AnyObject?)
+            result.uploadPrefix = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["upload_prefix"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SampleCountriesResponse]
-        Decoders.addDecoder(clazz: [SampleCountriesResponse].self) { (source: AnyObject) -> [SampleCountriesResponse] in
+        Decoders.addDecoder(clazz: [SampleCountriesResponse].self) { (source: AnyObject, instance: AnyObject?) -> [SampleCountriesResponse] in
             return Decoders.decode(clazz: [SampleCountriesResponse].self, source: source)
         }
         // Decoder for SampleCountriesResponse
-        Decoders.addDecoder(clazz: SampleCountriesResponse.self) { (source: AnyObject) -> SampleCountriesResponse in
+        Decoders.addDecoder(clazz: SampleCountriesResponse.self) { (source: AnyObject, instance: AnyObject?) -> SampleCountriesResponse in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SampleCountriesResponse()
-            instance.vendorId1 = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["vendor_id1"] as AnyObject?)
-            instance.vendorId2 = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["vendor_id2"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SampleCountriesResponse() : instance as! SampleCountriesResponse
+            
+            result.vendorId1 = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["vendor_id1"] as AnyObject?)
+            result.vendorId2 = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["vendor_id2"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SavedAddressResource]
-        Decoders.addDecoder(clazz: [SavedAddressResource].self) { (source: AnyObject) -> [SavedAddressResource] in
+        Decoders.addDecoder(clazz: [SavedAddressResource].self) { (source: AnyObject, instance: AnyObject?) -> [SavedAddressResource] in
             return Decoders.decode(clazz: [SavedAddressResource].self, source: source)
         }
         // Decoder for SavedAddressResource
-        Decoders.addDecoder(clazz: SavedAddressResource.self) { (source: AnyObject) -> SavedAddressResource in
+        Decoders.addDecoder(clazz: SavedAddressResource.self) { (source: AnyObject, instance: AnyObject?) -> SavedAddressResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SavedAddressResource()
-            instance.address1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address1"] as AnyObject?)
-            instance.address2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address2"] as AnyObject?)
-            instance.city = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["city"] as AnyObject?)
-            instance.countryCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_code"] as AnyObject?)
-            instance._default = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["default"] as AnyObject?)
-            instance.firstName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["first_name"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.lastName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last_name"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.phone1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone1"] as AnyObject?)
-            instance.phone2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone2"] as AnyObject?)
-            instance.postalCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["postal_code"] as AnyObject?)
-            instance.stateCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["state_code"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SavedAddressResource() : instance as! SavedAddressResource
+            
+            result.address1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address1"] as AnyObject?)
+            result.address2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address2"] as AnyObject?)
+            result.city = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["city"] as AnyObject?)
+            result.countryCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_code"] as AnyObject?)
+            result._default = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["default"] as AnyObject?)
+            result.firstName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["first_name"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.lastName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last_name"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.phone1 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone1"] as AnyObject?)
+            result.phone2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone2"] as AnyObject?)
+            result.postalCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["postal_code"] as AnyObject?)
+            result.stateCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["state_code"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Schedule]
-        Decoders.addDecoder(clazz: [Schedule].self) { (source: AnyObject) -> [Schedule] in
+        Decoders.addDecoder(clazz: [Schedule].self) { (source: AnyObject, instance: AnyObject?) -> [Schedule] in
             return Decoders.decode(clazz: [Schedule].self, source: source)
         }
         // Decoder for Schedule
-        Decoders.addDecoder(clazz: Schedule.self) { (source: AnyObject) -> Schedule in
+        Decoders.addDecoder(clazz: Schedule.self) { (source: AnyObject, instance: AnyObject?) -> Schedule in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Schedule()
-            instance.duration = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["duration"] as AnyObject?)
+            let result = instance == nil ? Schedule() : instance as! Schedule
+            
+            result.duration = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["duration"] as AnyObject?)
             if let durationUnit = sourceDictionary["duration_unit"] as? String { 
-                instance.durationUnit = Schedule.DurationUnit(rawValue: (durationUnit))
+                result.durationUnit = Schedule.DurationUnit(rawValue: (durationUnit))
             }
             
             if let repeat = sourceDictionary["repeat"] as? String { 
-                instance.repeat = Schedule.Repeat(rawValue: (repeat))
+                result.repeat = Schedule.Repeat(rawValue: (repeat))
             }
             
-            return instance
+            return result
         }
 
 
         // Decoder for [SearchReferenceMapping]
-        Decoders.addDecoder(clazz: [SearchReferenceMapping].self) { (source: AnyObject) -> [SearchReferenceMapping] in
+        Decoders.addDecoder(clazz: [SearchReferenceMapping].self) { (source: AnyObject, instance: AnyObject?) -> [SearchReferenceMapping] in
             return Decoders.decode(clazz: [SearchReferenceMapping].self, source: source)
         }
         // Decoder for SearchReferenceMapping
-        Decoders.addDecoder(clazz: SearchReferenceMapping.self) { (source: AnyObject) -> SearchReferenceMapping in
+        Decoders.addDecoder(clazz: SearchReferenceMapping.self) { (source: AnyObject, instance: AnyObject?) -> SearchReferenceMapping in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SearchReferenceMapping()
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.refIdField = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ref_id_field"] as AnyObject?)
-            instance.refType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ref_type"] as AnyObject?)
-            instance.sourceFieldToDestinationField = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["source_field_to_destination_field"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SearchReferenceMapping() : instance as! SearchReferenceMapping
+            
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.refIdField = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ref_id_field"] as AnyObject?)
+            result.refType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ref_type"] as AnyObject?)
+            result.sourceFieldToDestinationField = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["source_field_to_destination_field"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SelectedSettingResource]
-        Decoders.addDecoder(clazz: [SelectedSettingResource].self) { (source: AnyObject) -> [SelectedSettingResource] in
+        Decoders.addDecoder(clazz: [SelectedSettingResource].self) { (source: AnyObject, instance: AnyObject?) -> [SelectedSettingResource] in
             return Decoders.decode(clazz: [SelectedSettingResource].self, source: source)
         }
         // Decoder for SelectedSettingResource
-        Decoders.addDecoder(clazz: SelectedSettingResource.self) { (source: AnyObject) -> SelectedSettingResource in
+        Decoders.addDecoder(clazz: SelectedSettingResource.self) { (source: AnyObject, instance: AnyObject?) -> SelectedSettingResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SelectedSettingResource()
-            instance.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
-            instance.keyName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key_name"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
-            instance.valueName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SelectedSettingResource() : instance as! SelectedSettingResource
+            
+            result.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
+            result.keyName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key_name"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
+            result.valueName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SettingOption]
-        Decoders.addDecoder(clazz: [SettingOption].self) { (source: AnyObject) -> [SettingOption] in
+        Decoders.addDecoder(clazz: [SettingOption].self) { (source: AnyObject, instance: AnyObject?) -> [SettingOption] in
             return Decoders.decode(clazz: [SettingOption].self, source: source)
         }
         // Decoder for SettingOption
-        Decoders.addDecoder(clazz: SettingOption.self) { (source: AnyObject) -> SettingOption in
+        Decoders.addDecoder(clazz: SettingOption.self) { (source: AnyObject, instance: AnyObject?) -> SettingOption in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SettingOption()
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [ShippingItem]
-        Decoders.addDecoder(clazz: [ShippingItem].self) { (source: AnyObject) -> [ShippingItem] in
-            return Decoders.decode(clazz: [ShippingItem].self, source: source)
-        }
-        // Decoder for ShippingItem
-        Decoders.addDecoder(clazz: ShippingItem.self) { (source: AnyObject) -> ShippingItem in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = ShippingItem()
-            instance.countries = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["countries"] as AnyObject?)
-            instance.maxTierTotal = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_tier_total"] as AnyObject?)
-            instance.taxable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["taxable"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SettingOption() : instance as! SettingOption
+            
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SimpleReferenceResourceint]
-        Decoders.addDecoder(clazz: [SimpleReferenceResourceint].self) { (source: AnyObject) -> [SimpleReferenceResourceint] in
+        Decoders.addDecoder(clazz: [SimpleReferenceResourceint].self) { (source: AnyObject, instance: AnyObject?) -> [SimpleReferenceResourceint] in
             return Decoders.decode(clazz: [SimpleReferenceResourceint].self, source: source)
         }
         // Decoder for SimpleReferenceResourceint
-        Decoders.addDecoder(clazz: SimpleReferenceResourceint.self) { (source: AnyObject) -> SimpleReferenceResourceint in
+        Decoders.addDecoder(clazz: SimpleReferenceResourceint.self) { (source: AnyObject, instance: AnyObject?) -> SimpleReferenceResourceint in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SimpleReferenceResourceint()
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SimpleReferenceResourceint() : instance as! SimpleReferenceResourceint
+            
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SimpleReferenceResourcelong]
-        Decoders.addDecoder(clazz: [SimpleReferenceResourcelong].self) { (source: AnyObject) -> [SimpleReferenceResourcelong] in
+        Decoders.addDecoder(clazz: [SimpleReferenceResourcelong].self) { (source: AnyObject, instance: AnyObject?) -> [SimpleReferenceResourcelong] in
             return Decoders.decode(clazz: [SimpleReferenceResourcelong].self, source: source)
         }
         // Decoder for SimpleReferenceResourcelong
-        Decoders.addDecoder(clazz: SimpleReferenceResourcelong.self) { (source: AnyObject) -> SimpleReferenceResourcelong in
+        Decoders.addDecoder(clazz: SimpleReferenceResourcelong.self) { (source: AnyObject, instance: AnyObject?) -> SimpleReferenceResourcelong in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SimpleReferenceResourcelong()
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SimpleReferenceResourcelong() : instance as! SimpleReferenceResourcelong
+            
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SimpleReferenceResourceobject]
-        Decoders.addDecoder(clazz: [SimpleReferenceResourceobject].self) { (source: AnyObject) -> [SimpleReferenceResourceobject] in
+        Decoders.addDecoder(clazz: [SimpleReferenceResourceobject].self) { (source: AnyObject, instance: AnyObject?) -> [SimpleReferenceResourceobject] in
             return Decoders.decode(clazz: [SimpleReferenceResourceobject].self, source: source)
         }
         // Decoder for SimpleReferenceResourceobject
-        Decoders.addDecoder(clazz: SimpleReferenceResourceobject.self) { (source: AnyObject) -> SimpleReferenceResourceobject in
+        Decoders.addDecoder(clazz: SimpleReferenceResourceobject.self) { (source: AnyObject, instance: AnyObject?) -> SimpleReferenceResourceobject in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SimpleReferenceResourceobject()
-            instance.id = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SimpleReferenceResourceobject() : instance as! SimpleReferenceResourceobject
+            
+            result.id = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SimpleReferenceResourcestring]
-        Decoders.addDecoder(clazz: [SimpleReferenceResourcestring].self) { (source: AnyObject) -> [SimpleReferenceResourcestring] in
+        Decoders.addDecoder(clazz: [SimpleReferenceResourcestring].self) { (source: AnyObject, instance: AnyObject?) -> [SimpleReferenceResourcestring] in
             return Decoders.decode(clazz: [SimpleReferenceResourcestring].self, source: source)
         }
         // Decoder for SimpleReferenceResourcestring
-        Decoders.addDecoder(clazz: SimpleReferenceResourcestring.self) { (source: AnyObject) -> SimpleReferenceResourcestring in
+        Decoders.addDecoder(clazz: SimpleReferenceResourcestring.self) { (source: AnyObject, instance: AnyObject?) -> SimpleReferenceResourcestring in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SimpleReferenceResourcestring()
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SimpleReferenceResourcestring() : instance as! SimpleReferenceResourcestring
+            
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SimpleUserResource]
-        Decoders.addDecoder(clazz: [SimpleUserResource].self) { (source: AnyObject) -> [SimpleUserResource] in
+        Decoders.addDecoder(clazz: [SimpleUserResource].self) { (source: AnyObject, instance: AnyObject?) -> [SimpleUserResource] in
             return Decoders.decode(clazz: [SimpleUserResource].self, source: source)
         }
         // Decoder for SimpleUserResource
-        Decoders.addDecoder(clazz: SimpleUserResource.self) { (source: AnyObject) -> SimpleUserResource in
+        Decoders.addDecoder(clazz: SimpleUserResource.self) { (source: AnyObject, instance: AnyObject?) -> SimpleUserResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SimpleUserResource()
-            instance.avatarUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar_url"] as AnyObject?)
-            instance.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SimpleUserResource() : instance as! SimpleUserResource
+            
+            result.avatarUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar_url"] as AnyObject?)
+            result.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SimpleWallet]
-        Decoders.addDecoder(clazz: [SimpleWallet].self) { (source: AnyObject) -> [SimpleWallet] in
+        Decoders.addDecoder(clazz: [SimpleWallet].self) { (source: AnyObject, instance: AnyObject?) -> [SimpleWallet] in
             return Decoders.decode(clazz: [SimpleWallet].self, source: source)
         }
         // Decoder for SimpleWallet
-        Decoders.addDecoder(clazz: SimpleWallet.self) { (source: AnyObject) -> SimpleWallet in
+        Decoders.addDecoder(clazz: SimpleWallet.self) { (source: AnyObject, instance: AnyObject?) -> SimpleWallet in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SimpleWallet()
-            instance.balance = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["balance"] as AnyObject?)
-            instance.code = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["code"] as AnyObject?)
-            instance.currencyName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_name"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SimpleWallet() : instance as! SimpleWallet
+            
+            result.balance = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["balance"] as AnyObject?)
+            result.code = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["code"] as AnyObject?)
+            result.currencyName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_name"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Sku]
-        Decoders.addDecoder(clazz: [Sku].self) { (source: AnyObject) -> [Sku] in
+        Decoders.addDecoder(clazz: [Sku].self) { (source: AnyObject, instance: AnyObject?) -> [Sku] in
             return Decoders.decode(clazz: [Sku].self, source: source)
         }
         // Decoder for Sku
-        Decoders.addDecoder(clazz: Sku.self) { (source: AnyObject) -> Sku in
+        Decoders.addDecoder(clazz: Sku.self) { (source: AnyObject, instance: AnyObject?) -> Sku in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Sku()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.inventory = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["inventory"] as AnyObject?)
-            instance.minInventoryThreshold = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_inventory_threshold"] as AnyObject?)
-            instance.originalPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_price"] as AnyObject?)
-            instance.price = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price"] as AnyObject?)
-            instance.published = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["published"] as AnyObject?)
-            instance.saleId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sale_id"] as AnyObject?)
-            instance.saleName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sale_name"] as AnyObject?)
-            instance.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
-            instance.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
-            instance.stopDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["stop_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? Sku() : instance as! Sku
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.inventory = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["inventory"] as AnyObject?)
+            result.minInventoryThreshold = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_inventory_threshold"] as AnyObject?)
+            result.originalPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["original_price"] as AnyObject?)
+            result.price = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price"] as AnyObject?)
+            result.published = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["published"] as AnyObject?)
+            result.saleId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sale_id"] as AnyObject?)
+            result.saleName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sale_name"] as AnyObject?)
+            result.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
+            result.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
+            result.stopDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["stop_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SkuRequest]
-        Decoders.addDecoder(clazz: [SkuRequest].self) { (source: AnyObject) -> [SkuRequest] in
+        Decoders.addDecoder(clazz: [SkuRequest].self) { (source: AnyObject, instance: AnyObject?) -> [SkuRequest] in
             return Decoders.decode(clazz: [SkuRequest].self, source: source)
         }
         // Decoder for SkuRequest
-        Decoders.addDecoder(clazz: SkuRequest.self) { (source: AnyObject) -> SkuRequest in
+        Decoders.addDecoder(clazz: SkuRequest.self) { (source: AnyObject, instance: AnyObject?) -> SkuRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SkuRequest()
-            instance.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [Spendable]
-        Decoders.addDecoder(clazz: [Spendable].self) { (source: AnyObject) -> [Spendable] in
-            return Decoders.decode(clazz: [Spendable].self, source: source)
-        }
-        // Decoder for Spendable
-        Decoders.addDecoder(clazz: Spendable.self) { (source: AnyObject) -> Spendable in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Spendable()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SkuRequest() : instance as! SkuRequest
+            
+            result.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SqlDatabaseConfig]
-        Decoders.addDecoder(clazz: [SqlDatabaseConfig].self) { (source: AnyObject) -> [SqlDatabaseConfig] in
+        Decoders.addDecoder(clazz: [SqlDatabaseConfig].self) { (source: AnyObject, instance: AnyObject?) -> [SqlDatabaseConfig] in
             return Decoders.decode(clazz: [SqlDatabaseConfig].self, source: source)
         }
         // Decoder for SqlDatabaseConfig
-        Decoders.addDecoder(clazz: SqlDatabaseConfig.self) { (source: AnyObject) -> SqlDatabaseConfig in
+        Decoders.addDecoder(clazz: SqlDatabaseConfig.self) { (source: AnyObject, instance: AnyObject?) -> SqlDatabaseConfig in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SqlDatabaseConfig()
-            instance.connectionPoolSize = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["connection_pool_size"] as AnyObject?)
-            instance.dbName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["db_name"] as AnyObject?)
-            instance.hostname = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["hostname"] as AnyObject?)
-            instance.password = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?)
-            instance.port = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["port"] as AnyObject?)
-            instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SqlDatabaseConfig() : instance as! SqlDatabaseConfig
+            
+            result.connectionPoolSize = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["connection_pool_size"] as AnyObject?)
+            result.dbName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["db_name"] as AnyObject?)
+            result.hostname = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["hostname"] as AnyObject?)
+            result.password = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?)
+            result.port = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["port"] as AnyObject?)
+            result.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [StateResource]
-        Decoders.addDecoder(clazz: [StateResource].self) { (source: AnyObject) -> [StateResource] in
+        Decoders.addDecoder(clazz: [StateResource].self) { (source: AnyObject, instance: AnyObject?) -> [StateResource] in
             return Decoders.decode(clazz: [StateResource].self, source: source)
         }
         // Decoder for StateResource
-        Decoders.addDecoder(clazz: StateResource.self) { (source: AnyObject) -> StateResource in
+        Decoders.addDecoder(clazz: StateResource.self) { (source: AnyObject, instance: AnyObject?) -> StateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = StateResource()
-            instance.code = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["code"] as AnyObject?)
-            instance.countryCodeIso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_code_iso3"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            let result = instance == nil ? StateResource() : instance as! StateResource
+            
+            result.code = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["code"] as AnyObject?)
+            result.countryCodeIso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_code_iso3"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [StateTaxResource]
-        Decoders.addDecoder(clazz: [StateTaxResource].self) { (source: AnyObject) -> [StateTaxResource] in
+        Decoders.addDecoder(clazz: [StateTaxResource].self) { (source: AnyObject, instance: AnyObject?) -> [StateTaxResource] in
             return Decoders.decode(clazz: [StateTaxResource].self, source: source)
         }
         // Decoder for StateTaxResource
-        Decoders.addDecoder(clazz: StateTaxResource.self) { (source: AnyObject) -> StateTaxResource in
+        Decoders.addDecoder(clazz: StateTaxResource.self) { (source: AnyObject, instance: AnyObject?) -> StateTaxResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = StateTaxResource()
-            instance.countryIso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_iso3"] as AnyObject?)
-            instance.federallyExempt = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["federally_exempt"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.rate = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["rate"] as AnyObject?)
-            instance.stateCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["state_code"] as AnyObject?)
-            instance.taxShipping = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["tax_shipping"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [StoreItem]
-        Decoders.addDecoder(clazz: [StoreItem].self) { (source: AnyObject) -> [StoreItem] in
-            return Decoders.decode(clazz: [StoreItem].self, source: source)
-        }
-        // Decoder for StoreItem
-        Decoders.addDecoder(clazz: StoreItem.self) { (source: AnyObject) -> StoreItem in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = StoreItem()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.behaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["behaviors"] as AnyObject?)
-            instance.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.displayable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["displayable"] as AnyObject?)
-            instance.geoCountryList = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["geo_country_list"] as AnyObject?)
-            if let geoPolicyType = sourceDictionary["geo_policy_type"] as? String { 
-                instance.geoPolicyType = StoreItem.GeoPolicyType(rawValue: (geoPolicyType))
-            }
+            let result = instance == nil ? StateTaxResource() : instance as! StateTaxResource
             
-            instance.shippingTier = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["shipping_tier"] as AnyObject?)
-            instance.skus = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["skus"] as AnyObject?)
-            instance.storeEnd = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["store_end"] as AnyObject?)
-            instance.storeStart = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["store_start"] as AnyObject?)
-            instance.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
-            return instance
+            result.countryIso3 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_iso3"] as AnyObject?)
+            result.federallyExempt = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["federally_exempt"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.rate = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["rate"] as AnyObject?)
+            result.stateCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["state_code"] as AnyObject?)
+            result.taxShipping = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["tax_shipping"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [StoreItemTemplateResource]
-        Decoders.addDecoder(clazz: [StoreItemTemplateResource].self) { (source: AnyObject) -> [StoreItemTemplateResource] in
+        Decoders.addDecoder(clazz: [StoreItemTemplateResource].self) { (source: AnyObject, instance: AnyObject?) -> [StoreItemTemplateResource] in
             return Decoders.decode(clazz: [StoreItemTemplateResource].self, source: source)
         }
         // Decoder for StoreItemTemplateResource
-        Decoders.addDecoder(clazz: StoreItemTemplateResource.self) { (source: AnyObject) -> StoreItemTemplateResource in
+        Decoders.addDecoder(clazz: StoreItemTemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> StoreItemTemplateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = StoreItemTemplateResource()
-            instance.behaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["behaviors"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
-            instance.skuTemplate = Decoders.decodeOptional(clazz: TemplateResource.self, source: sourceDictionary["sku_template"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? StoreItemTemplateResource() : instance as! StoreItemTemplateResource
+            
+            result.behaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["behaviors"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
+            result.skuTemplate = Decoders.decodeOptional(clazz: TemplateResource.self, source: sourceDictionary["sku_template"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [StringOperationResource]
-        Decoders.addDecoder(clazz: [StringOperationResource].self) { (source: AnyObject) -> [StringOperationResource] in
+        Decoders.addDecoder(clazz: [StringOperationResource].self) { (source: AnyObject, instance: AnyObject?) -> [StringOperationResource] in
             return Decoders.decode(clazz: [StringOperationResource].self, source: source)
         }
         // Decoder for StringOperationResource
-        Decoders.addDecoder(clazz: StringOperationResource.self) { (source: AnyObject) -> StringOperationResource in
+        Decoders.addDecoder(clazz: StringOperationResource.self) { (source: AnyObject, instance: AnyObject?) -> StringOperationResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = StringOperationResource()
-            instance.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
-            instance.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? StringOperationResource() : instance as! StringOperationResource
+            
+            result.args = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["args"] as AnyObject?)
+            result.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [StripeCreatePaymentMethod]
-        Decoders.addDecoder(clazz: [StripeCreatePaymentMethod].self) { (source: AnyObject) -> [StripeCreatePaymentMethod] in
+        Decoders.addDecoder(clazz: [StripeCreatePaymentMethod].self) { (source: AnyObject, instance: AnyObject?) -> [StripeCreatePaymentMethod] in
             return Decoders.decode(clazz: [StripeCreatePaymentMethod].self, source: source)
         }
         // Decoder for StripeCreatePaymentMethod
-        Decoders.addDecoder(clazz: StripeCreatePaymentMethod.self) { (source: AnyObject) -> StripeCreatePaymentMethod in
+        Decoders.addDecoder(clazz: StripeCreatePaymentMethod.self) { (source: AnyObject, instance: AnyObject?) -> StripeCreatePaymentMethod in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = StripeCreatePaymentMethod()
-            instance.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
-            return instance
+            let result = instance == nil ? StripeCreatePaymentMethod() : instance as! StripeCreatePaymentMethod
+            
+            result.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [StripePaymentRequest]
-        Decoders.addDecoder(clazz: [StripePaymentRequest].self) { (source: AnyObject) -> [StripePaymentRequest] in
+        Decoders.addDecoder(clazz: [StripePaymentRequest].self) { (source: AnyObject, instance: AnyObject?) -> [StripePaymentRequest] in
             return Decoders.decode(clazz: [StripePaymentRequest].self, source: source)
         }
         // Decoder for StripePaymentRequest
-        Decoders.addDecoder(clazz: StripePaymentRequest.self) { (source: AnyObject) -> StripePaymentRequest in
+        Decoders.addDecoder(clazz: StripePaymentRequest.self) { (source: AnyObject, instance: AnyObject?) -> StripePaymentRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = StripePaymentRequest()
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [Subscription]
-        Decoders.addDecoder(clazz: [Subscription].self) { (source: AnyObject) -> [Subscription] in
-            return Decoders.decode(clazz: [Subscription].self, source: source)
-        }
-        // Decoder for Subscription
-        Decoders.addDecoder(clazz: Subscription.self) { (source: AnyObject) -> Subscription in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = Subscription()
-            if let availability = sourceDictionary["availability"] as? String { 
-                instance.availability = Subscription.Availability(rawValue: (availability))
-            }
+            let result = instance == nil ? StripePaymentRequest() : instance as! StripePaymentRequest
             
-            instance.consolidationDayOfMonth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["consolidation_day_of_month"] as AnyObject?)
-            instance.subscriptionPlans = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["subscription_plans"] as AnyObject?)
-            return instance
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.token = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["token"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SubscriptionCreditResource]
-        Decoders.addDecoder(clazz: [SubscriptionCreditResource].self) { (source: AnyObject) -> [SubscriptionCreditResource] in
+        Decoders.addDecoder(clazz: [SubscriptionCreditResource].self) { (source: AnyObject, instance: AnyObject?) -> [SubscriptionCreditResource] in
             return Decoders.decode(clazz: [SubscriptionCreditResource].self, source: source)
         }
         // Decoder for SubscriptionCreditResource
-        Decoders.addDecoder(clazz: SubscriptionCreditResource.self) { (source: AnyObject) -> SubscriptionCreditResource in
+        Decoders.addDecoder(clazz: SubscriptionCreditResource.self) { (source: AnyObject, instance: AnyObject?) -> SubscriptionCreditResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SubscriptionCreditResource()
-            instance.amount = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["amount"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.inventoryId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["inventory_id"] as AnyObject?)
-            instance.reason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SubscriptionCreditResource() : instance as! SubscriptionCreditResource
+            
+            result.amount = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["amount"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.inventoryId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["inventory_id"] as AnyObject?)
+            result.reason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SubscriptionPlan]
-        Decoders.addDecoder(clazz: [SubscriptionPlan].self) { (source: AnyObject) -> [SubscriptionPlan] in
+        Decoders.addDecoder(clazz: [SubscriptionPlan].self) { (source: AnyObject, instance: AnyObject?) -> [SubscriptionPlan] in
             return Decoders.decode(clazz: [SubscriptionPlan].self, source: source)
         }
         // Decoder for SubscriptionPlan
-        Decoders.addDecoder(clazz: SubscriptionPlan.self) { (source: AnyObject) -> SubscriptionPlan in
+        Decoders.addDecoder(clazz: SubscriptionPlan.self) { (source: AnyObject, instance: AnyObject?) -> SubscriptionPlan in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SubscriptionPlan()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            let result = instance == nil ? SubscriptionPlan() : instance as! SubscriptionPlan
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
             if let availability = sourceDictionary["availability"] as? String { 
-                instance.availability = SubscriptionPlan.Availability(rawValue: (availability))
+                result.availability = SubscriptionPlan.Availability(rawValue: (availability))
             }
             
-            instance.billGraceDays = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["bill_grace_days"] as AnyObject?)
-            instance.consolidated = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["consolidated"] as AnyObject?)
-            instance.firstBill = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["first_bill"] as AnyObject?)
+            result.billGraceDays = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["bill_grace_days"] as AnyObject?)
+            result.consolidated = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["consolidated"] as AnyObject?)
+            result.firstBill = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["first_bill"] as AnyObject?)
             if let firstBillUnitOfTime = sourceDictionary["first_bill_unit_of_time"] as? String { 
-                instance.firstBillUnitOfTime = SubscriptionPlan.FirstBillUnitOfTime(rawValue: (firstBillUnitOfTime))
+                result.firstBillUnitOfTime = SubscriptionPlan.FirstBillUnitOfTime(rawValue: (firstBillUnitOfTime))
             }
             
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.latePaymentSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["late_payment_sku"] as AnyObject?)
-            instance.locked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?)
-            instance.maxAutoRenew = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_auto_renew"] as AnyObject?)
-            instance.maxBillAttempts = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_bill_attempts"] as AnyObject?)
-            instance.migrationPlan = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["migration_plan"] as AnyObject?)
-            instance.minimumTerm = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minimum_term"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.primarySku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["primary_sku"] as AnyObject?)
-            instance.reactivationSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reactivation_sku"] as AnyObject?)
-            instance.recurringSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["recurring_sku"] as AnyObject?)
-            instance.renewPeriod = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["renew_period"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.latePaymentSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["late_payment_sku"] as AnyObject?)
+            result.locked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?)
+            result.maxAutoRenew = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_auto_renew"] as AnyObject?)
+            result.maxBillAttempts = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_bill_attempts"] as AnyObject?)
+            result.migrationPlan = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["migration_plan"] as AnyObject?)
+            result.minimumTerm = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minimum_term"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.primarySku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["primary_sku"] as AnyObject?)
+            result.reactivationSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reactivation_sku"] as AnyObject?)
+            result.recurringSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["recurring_sku"] as AnyObject?)
+            result.renewPeriod = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["renew_period"] as AnyObject?)
             if let renewPeriodUnitOfTime = sourceDictionary["renew_period_unit_of_time"] as? String { 
-                instance.renewPeriodUnitOfTime = SubscriptionPlan.RenewPeriodUnitOfTime(rawValue: (renewPeriodUnitOfTime))
+                result.renewPeriodUnitOfTime = SubscriptionPlan.RenewPeriodUnitOfTime(rawValue: (renewPeriodUnitOfTime))
             }
             
-            instance.subscriptionId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["subscription_id"] as AnyObject?)
-            return instance
+            result.subscriptionId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["subscription_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SubscriptionPlanResource]
-        Decoders.addDecoder(clazz: [SubscriptionPlanResource].self) { (source: AnyObject) -> [SubscriptionPlanResource] in
+        Decoders.addDecoder(clazz: [SubscriptionPlanResource].self) { (source: AnyObject, instance: AnyObject?) -> [SubscriptionPlanResource] in
             return Decoders.decode(clazz: [SubscriptionPlanResource].self, source: source)
         }
         // Decoder for SubscriptionPlanResource
-        Decoders.addDecoder(clazz: SubscriptionPlanResource.self) { (source: AnyObject) -> SubscriptionPlanResource in
+        Decoders.addDecoder(clazz: SubscriptionPlanResource.self) { (source: AnyObject, instance: AnyObject?) -> SubscriptionPlanResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SubscriptionPlanResource()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.billingCycleLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["billing_cycle_length"] as AnyObject?)
+            let result = instance == nil ? SubscriptionPlanResource() : instance as! SubscriptionPlanResource
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.billingCycleLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["billing_cycle_length"] as AnyObject?)
             if let billingCycleUnit = sourceDictionary["billing_cycle_unit"] as? String { 
-                instance.billingCycleUnit = SubscriptionPlanResource.BillingCycleUnit(rawValue: (billingCycleUnit))
+                result.billingCycleUnit = SubscriptionPlanResource.BillingCycleUnit(rawValue: (billingCycleUnit))
             }
             
-            instance.consolidated = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["consolidated"] as AnyObject?)
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.endDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["end_date"] as AnyObject?)
-            instance.firstBillingCycleLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["first_billing_cycle_length"] as AnyObject?)
+            result.consolidated = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["consolidated"] as AnyObject?)
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.endDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["end_date"] as AnyObject?)
+            result.firstBillingCycleLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["first_billing_cycle_length"] as AnyObject?)
             if let firstBillingCycleUnit = sourceDictionary["first_billing_cycle_unit"] as? String { 
-                instance.firstBillingCycleUnit = SubscriptionPlanResource.FirstBillingCycleUnit(rawValue: (firstBillingCycleUnit))
+                result.firstBillingCycleUnit = SubscriptionPlanResource.FirstBillingCycleUnit(rawValue: (firstBillingCycleUnit))
             }
             
-            instance.gracePeriod = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["grace_period"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.initialFee = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["initial_fee"] as AnyObject?)
-            instance.initialSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["initial_sku"] as AnyObject?)
-            instance.latePaymentFee = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["late_payment_fee"] as AnyObject?)
-            instance.latePaymentSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["late_payment_sku"] as AnyObject?)
-            instance.locked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?)
-            instance.maxBillAttempts = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_bill_attempts"] as AnyObject?)
-            instance.maxCycles = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_cycles"] as AnyObject?)
-            instance.migrateToPlan = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["migrate_to_plan"] as AnyObject?)
-            instance.minCycles = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_cycles"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.published = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["published"] as AnyObject?)
-            instance.reactivationFee = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["reactivation_fee"] as AnyObject?)
-            instance.reactivationSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reactivation_sku"] as AnyObject?)
-            instance.recurringFee = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["recurring_fee"] as AnyObject?)
-            instance.recurringSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["recurring_sku"] as AnyObject?)
-            instance.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
-            return instance
+            result.gracePeriod = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["grace_period"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.initialFee = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["initial_fee"] as AnyObject?)
+            result.initialSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["initial_sku"] as AnyObject?)
+            result.latePaymentFee = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["late_payment_fee"] as AnyObject?)
+            result.latePaymentSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["late_payment_sku"] as AnyObject?)
+            result.locked = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?)
+            result.maxBillAttempts = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_bill_attempts"] as AnyObject?)
+            result.maxCycles = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_cycles"] as AnyObject?)
+            result.migrateToPlan = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["migrate_to_plan"] as AnyObject?)
+            result.minCycles = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_cycles"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.published = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["published"] as AnyObject?)
+            result.reactivationFee = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["reactivation_fee"] as AnyObject?)
+            result.reactivationSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reactivation_sku"] as AnyObject?)
+            result.recurringFee = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["recurring_fee"] as AnyObject?)
+            result.recurringSku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["recurring_sku"] as AnyObject?)
+            result.startDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["start_date"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [SubscriptionPriceOverrideRequest]
+        Decoders.addDecoder(clazz: [SubscriptionPriceOverrideRequest].self) { (source: AnyObject, instance: AnyObject?) -> [SubscriptionPriceOverrideRequest] in
+            return Decoders.decode(clazz: [SubscriptionPriceOverrideRequest].self, source: source)
+        }
+        // Decoder for SubscriptionPriceOverrideRequest
+        Decoders.addDecoder(clazz: SubscriptionPriceOverrideRequest.self) { (source: AnyObject, instance: AnyObject?) -> SubscriptionPriceOverrideRequest in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? SubscriptionPriceOverrideRequest() : instance as! SubscriptionPriceOverrideRequest
+            
+            result.newPrice = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["new_price"] as AnyObject?)
+            result.reason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SubscriptionResource]
-        Decoders.addDecoder(clazz: [SubscriptionResource].self) { (source: AnyObject) -> [SubscriptionResource] in
+        Decoders.addDecoder(clazz: [SubscriptionResource].self) { (source: AnyObject, instance: AnyObject?) -> [SubscriptionResource] in
             return Decoders.decode(clazz: [SubscriptionResource].self, source: source)
         }
         // Decoder for SubscriptionResource
-        Decoders.addDecoder(clazz: SubscriptionResource.self) { (source: AnyObject) -> SubscriptionResource in
+        Decoders.addDecoder(clazz: SubscriptionResource.self) { (source: AnyObject, instance: AnyObject?) -> SubscriptionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SubscriptionResource()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            let result = instance == nil ? SubscriptionResource() : instance as! SubscriptionResource
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
             if let availability = sourceDictionary["availability"] as? String { 
-                instance.availability = SubscriptionResource.Availability(rawValue: (availability))
+                result.availability = SubscriptionResource.Availability(rawValue: (availability))
             }
             
-            instance.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"] as AnyObject?)
-            instance.consolidationDayOfMonth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["consolidation_day_of_month"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.geoCountryList = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["geo_country_list"] as AnyObject?)
+            result.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"] as AnyObject?)
+            result.consolidationDayOfMonth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["consolidation_day_of_month"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.geoCountryList = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["geo_country_list"] as AnyObject?)
             if let geoPolicyType = sourceDictionary["geo_policy_type"] as? String { 
-                instance.geoPolicyType = SubscriptionResource.GeoPolicyType(rawValue: (geoPolicyType))
+                result.geoPolicyType = SubscriptionResource.GeoPolicyType(rawValue: (geoPolicyType))
             }
             
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.plans = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["plans"] as AnyObject?)
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
-            instance.storeEnd = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["store_end"] as AnyObject?)
-            instance.storeStart = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["store_start"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
-            return instance
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.plans = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["plans"] as AnyObject?)
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.storeEnd = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["store_end"] as AnyObject?)
+            result.storeStart = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["store_start"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [SubscriptionTemplateResource]
-        Decoders.addDecoder(clazz: [SubscriptionTemplateResource].self) { (source: AnyObject) -> [SubscriptionTemplateResource] in
+        Decoders.addDecoder(clazz: [SubscriptionTemplateResource].self) { (source: AnyObject, instance: AnyObject?) -> [SubscriptionTemplateResource] in
             return Decoders.decode(clazz: [SubscriptionTemplateResource].self, source: source)
         }
         // Decoder for SubscriptionTemplateResource
-        Decoders.addDecoder(clazz: SubscriptionTemplateResource.self) { (source: AnyObject) -> SubscriptionTemplateResource in
+        Decoders.addDecoder(clazz: SubscriptionTemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> SubscriptionTemplateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = SubscriptionTemplateResource()
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.planTemplate = Decoders.decodeOptional(clazz: TemplateResource.self, source: sourceDictionary["plan_template"] as AnyObject?)
-            instance.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? SubscriptionTemplateResource() : instance as! SubscriptionTemplateResource
+            
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.planTemplate = Decoders.decodeOptional(clazz: TemplateResource.self, source: sourceDictionary["plan_template"] as AnyObject?)
+            result.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [TemplateEmailResource]
-        Decoders.addDecoder(clazz: [TemplateEmailResource].self) { (source: AnyObject) -> [TemplateEmailResource] in
+        Decoders.addDecoder(clazz: [TemplateEmailResource].self) { (source: AnyObject, instance: AnyObject?) -> [TemplateEmailResource] in
             return Decoders.decode(clazz: [TemplateEmailResource].self, source: source)
         }
         // Decoder for TemplateEmailResource
-        Decoders.addDecoder(clazz: TemplateEmailResource.self) { (source: AnyObject) -> TemplateEmailResource in
+        Decoders.addDecoder(clazz: TemplateEmailResource.self) { (source: AnyObject, instance: AnyObject?) -> TemplateEmailResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TemplateEmailResource()
-            instance.from = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["from"] as AnyObject?)
-            instance.recipients = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["recipients"] as AnyObject?)
-            instance.templateKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template_key"] as AnyObject?)
-            instance.templateVars = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["template_vars"] as AnyObject?)
-            return instance
+            let result = instance == nil ? TemplateEmailResource() : instance as! TemplateEmailResource
+            
+            result.from = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["from"] as AnyObject?)
+            result.recipients = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["recipients"] as AnyObject?)
+            result.templateKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template_key"] as AnyObject?)
+            result.templateVars = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["template_vars"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [TemplateResource]
-        Decoders.addDecoder(clazz: [TemplateResource].self) { (source: AnyObject) -> [TemplateResource] in
+        Decoders.addDecoder(clazz: [TemplateResource].self) { (source: AnyObject, instance: AnyObject?) -> [TemplateResource] in
             return Decoders.decode(clazz: [TemplateResource].self, source: source)
         }
         // Decoder for TemplateResource
-        Decoders.addDecoder(clazz: TemplateResource.self) { (source: AnyObject) -> TemplateResource in
+        Decoders.addDecoder(clazz: TemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> TemplateResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TemplateResource()
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? TemplateResource() : instance as! TemplateResource
+            
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.properties = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["properties"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [TemplateSMSResource]
-        Decoders.addDecoder(clazz: [TemplateSMSResource].self) { (source: AnyObject) -> [TemplateSMSResource] in
+        Decoders.addDecoder(clazz: [TemplateSMSResource].self) { (source: AnyObject, instance: AnyObject?) -> [TemplateSMSResource] in
             return Decoders.decode(clazz: [TemplateSMSResource].self, source: source)
         }
         // Decoder for TemplateSMSResource
-        Decoders.addDecoder(clazz: TemplateSMSResource.self) { (source: AnyObject) -> TemplateSMSResource in
+        Decoders.addDecoder(clazz: TemplateSMSResource.self) { (source: AnyObject, instance: AnyObject?) -> TemplateSMSResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TemplateSMSResource()
-            instance.from = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["from"] as AnyObject?)
-            instance.localizer = Decoders.decodeOptional(clazz: Localizer.self, source: sourceDictionary["localizer"] as AnyObject?)
-            instance.recipients = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["recipients"] as AnyObject?)
-            instance.templateKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template_key"] as AnyObject?)
-            instance.templateVars = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["template_vars"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [TextProperty]
-        Decoders.addDecoder(clazz: [TextProperty].self) { (source: AnyObject) -> [TextProperty] in
-            return Decoders.decode(clazz: [TextProperty].self, source: source)
-        }
-        // Decoder for TextProperty
-        Decoders.addDecoder(clazz: TextProperty.self) { (source: AnyObject) -> TextProperty in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TextProperty()
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [TextPropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [TextPropertyDefinitionResource].self) { (source: AnyObject) -> [TextPropertyDefinitionResource] in
-            return Decoders.decode(clazz: [TextPropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for TextPropertyDefinitionResource
-        Decoders.addDecoder(clazz: TextPropertyDefinitionResource.self) { (source: AnyObject) -> TextPropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TextPropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [TheDefinitionOfAnActivityParametersExDifficultyLevel]
-        Decoders.addDecoder(clazz: [TheDefinitionOfAnActivityParametersExDifficultyLevel].self) { (source: AnyObject) -> [TheDefinitionOfAnActivityParametersExDifficultyLevel] in
-            return Decoders.decode(clazz: [TheDefinitionOfAnActivityParametersExDifficultyLevel].self, source: source)
-        }
-        // Decoder for TheDefinitionOfAnActivityParametersExDifficultyLevel
-        Decoders.addDecoder(clazz: TheDefinitionOfAnActivityParametersExDifficultyLevel.self) { (source: AnyObject) -> TheDefinitionOfAnActivityParametersExDifficultyLevel in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TheDefinitionOfAnActivityParametersExDifficultyLevel()
-            instance.advancedOption = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["advanced_option"] as AnyObject?)
-            instance.defaultValue = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["default_value"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.options = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["options"] as AnyObject?)
-            return instance
+            let result = instance == nil ? TemplateSMSResource() : instance as! TemplateSMSResource
+            
+            result.from = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["from"] as AnyObject?)
+            result.localizer = Decoders.decodeOptional(clazz: Localizer.self, source: sourceDictionary["localizer"] as AnyObject?)
+            result.recipients = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["recipients"] as AnyObject?)
+            result.templateKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template_key"] as AnyObject?)
+            result.templateVars = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["template_vars"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [TierResource]
-        Decoders.addDecoder(clazz: [TierResource].self) { (source: AnyObject) -> [TierResource] in
+        Decoders.addDecoder(clazz: [TierResource].self) { (source: AnyObject, instance: AnyObject?) -> [TierResource] in
             return Decoders.decode(clazz: [TierResource].self, source: source)
         }
         // Decoder for TierResource
-        Decoders.addDecoder(clazz: TierResource.self) { (source: AnyObject) -> TierResource in
+        Decoders.addDecoder(clazz: TierResource.self) { (source: AnyObject, instance: AnyObject?) -> TierResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TierResource()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.requiredProgress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["required_progress"] as AnyObject?)
-            instance.triggerEventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["trigger_event_name"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [TimePeriodGettable]
-        Decoders.addDecoder(clazz: [TimePeriodGettable].self) { (source: AnyObject) -> [TimePeriodGettable] in
-            return Decoders.decode(clazz: [TimePeriodGettable].self, source: source)
-        }
-        // Decoder for TimePeriodGettable
-        Decoders.addDecoder(clazz: TimePeriodGettable.self) { (source: AnyObject) -> TimePeriodGettable in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TimePeriodGettable()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.getLimit = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["get_limit"] as AnyObject?)
-            instance.groupName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["group_name"] as AnyObject?)
-            instance.timeLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["time_length"] as AnyObject?)
-            instance.unitOfTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unit_of_time"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [TimePeriodUsable]
-        Decoders.addDecoder(clazz: [TimePeriodUsable].self) { (source: AnyObject) -> [TimePeriodUsable] in
-            return Decoders.decode(clazz: [TimePeriodUsable].self, source: source)
-        }
-        // Decoder for TimePeriodUsable
-        Decoders.addDecoder(clazz: TimePeriodUsable.self) { (source: AnyObject) -> TimePeriodUsable in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TimePeriodUsable()
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.maxUse = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_use"] as AnyObject?)
-            instance.timeLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["time_length"] as AnyObject?)
-            instance.unitOfTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unit_of_time"] as AnyObject?)
-            return instance
+            let result = instance == nil ? TierResource() : instance as! TierResource
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.requiredProgress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["required_progress"] as AnyObject?)
+            result.triggerEventName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["trigger_event_name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [TokenDetailsResource]
-        Decoders.addDecoder(clazz: [TokenDetailsResource].self) { (source: AnyObject) -> [TokenDetailsResource] in
+        Decoders.addDecoder(clazz: [TokenDetailsResource].self) { (source: AnyObject, instance: AnyObject?) -> [TokenDetailsResource] in
             return Decoders.decode(clazz: [TokenDetailsResource].self, source: source)
         }
         // Decoder for TokenDetailsResource
-        Decoders.addDecoder(clazz: TokenDetailsResource.self) { (source: AnyObject) -> TokenDetailsResource in
+        Decoders.addDecoder(clazz: TokenDetailsResource.self) { (source: AnyObject, instance: AnyObject?) -> TokenDetailsResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TokenDetailsResource()
-            instance.roles = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["roles"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
-            return instance
+            let result = instance == nil ? TokenDetailsResource() : instance as! TokenDetailsResource
+            
+            result.clientId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client_id"] as AnyObject?)
+            result.roles = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["roles"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [TransactionResource]
-        Decoders.addDecoder(clazz: [TransactionResource].self) { (source: AnyObject) -> [TransactionResource] in
+        Decoders.addDecoder(clazz: [TransactionResource].self) { (source: AnyObject, instance: AnyObject?) -> [TransactionResource] in
             return Decoders.decode(clazz: [TransactionResource].self, source: source)
         }
         // Decoder for TransactionResource
-        Decoders.addDecoder(clazz: TransactionResource.self) { (source: AnyObject) -> TransactionResource in
+        Decoders.addDecoder(clazz: TransactionResource.self) { (source: AnyObject, instance: AnyObject?) -> TransactionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TransactionResource()
-            instance.createDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["create_date"] as AnyObject?)
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.details = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["details"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.isRefunded = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["is_refunded"] as AnyObject?)
-            instance.response = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["response"] as AnyObject?)
+            let result = instance == nil ? TransactionResource() : instance as! TransactionResource
+            
+            result.createDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["create_date"] as AnyObject?)
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.details = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["details"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.isRefunded = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["is_refunded"] as AnyObject?)
+            result.response = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["response"] as AnyObject?)
             if let source = sourceDictionary["source"] as? String { 
-                instance.source = TransactionResource.Source(rawValue: (source))
+                result.source = TransactionResource.Source(rawValue: (source))
             }
             
-            instance.successful = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["successful"] as AnyObject?)
-            instance.transactionId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["transaction_id"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
-            return instance
+            result.successful = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["successful"] as AnyObject?)
+            result.transactionId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["transaction_id"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [TypeHintLookupResource]
-        Decoders.addDecoder(clazz: [TypeHintLookupResource].self) { (source: AnyObject) -> [TypeHintLookupResource] in
+        Decoders.addDecoder(clazz: [TypeHintLookupResource].self) { (source: AnyObject, instance: AnyObject?) -> [TypeHintLookupResource] in
             return Decoders.decode(clazz: [TypeHintLookupResource].self, source: source)
         }
         // Decoder for TypeHintLookupResource
-        Decoders.addDecoder(clazz: TypeHintLookupResource.self) { (source: AnyObject) -> TypeHintLookupResource in
+        Decoders.addDecoder(clazz: TypeHintLookupResource.self) { (source: AnyObject, instance: AnyObject?) -> TypeHintLookupResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = TypeHintLookupResource()
-            instance.lookupKey = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["lookup_key"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? TypeHintLookupResource() : instance as! TypeHintLookupResource
+            
+            result.lookupKey = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["lookup_key"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UsageInfo]
-        Decoders.addDecoder(clazz: [UsageInfo].self) { (source: AnyObject) -> [UsageInfo] in
+        Decoders.addDecoder(clazz: [UsageInfo].self) { (source: AnyObject, instance: AnyObject?) -> [UsageInfo] in
             return Decoders.decode(clazz: [UsageInfo].self, source: source)
         }
         // Decoder for UsageInfo
-        Decoders.addDecoder(clazz: UsageInfo.self) { (source: AnyObject) -> UsageInfo in
+        Decoders.addDecoder(clazz: UsageInfo.self) { (source: AnyObject, instance: AnyObject?) -> UsageInfo in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UsageInfo()
-            instance.count = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["count"] as AnyObject?)
-            instance.date = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["date"] as AnyObject?)
-            instance.method = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["method"] as AnyObject?)
-            instance.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UsageInfo() : instance as! UsageInfo
+            
+            result.count = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["count"] as AnyObject?)
+            result.date = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["date"] as AnyObject?)
+            result.method = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["method"] as AnyObject?)
+            result.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserAchievementGroupResource]
-        Decoders.addDecoder(clazz: [UserAchievementGroupResource].self) { (source: AnyObject) -> [UserAchievementGroupResource] in
+        Decoders.addDecoder(clazz: [UserAchievementGroupResource].self) { (source: AnyObject, instance: AnyObject?) -> [UserAchievementGroupResource] in
             return Decoders.decode(clazz: [UserAchievementGroupResource].self, source: source)
         }
         // Decoder for UserAchievementGroupResource
-        Decoders.addDecoder(clazz: UserAchievementGroupResource.self) { (source: AnyObject) -> UserAchievementGroupResource in
+        Decoders.addDecoder(clazz: UserAchievementGroupResource.self) { (source: AnyObject, instance: AnyObject?) -> UserAchievementGroupResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UserAchievementGroupResource()
-            instance.achievements = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["achievements"] as AnyObject?)
-            instance.groupName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["group_name"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.progress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["progress"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UserAchievementGroupResource() : instance as! UserAchievementGroupResource
+            
+            result.achievements = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["achievements"] as AnyObject?)
+            result.groupName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["group_name"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.progress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["progress"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserAchievementResource]
-        Decoders.addDecoder(clazz: [UserAchievementResource].self) { (source: AnyObject) -> [UserAchievementResource] in
+        Decoders.addDecoder(clazz: [UserAchievementResource].self) { (source: AnyObject, instance: AnyObject?) -> [UserAchievementResource] in
             return Decoders.decode(clazz: [UserAchievementResource].self, source: source)
         }
         // Decoder for UserAchievementResource
-        Decoders.addDecoder(clazz: UserAchievementResource.self) { (source: AnyObject) -> UserAchievementResource in
+        Decoders.addDecoder(clazz: UserAchievementResource.self) { (source: AnyObject, instance: AnyObject?) -> UserAchievementResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UserAchievementResource()
-            instance.achieved = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["achieved"] as AnyObject?)
-            instance.achievementName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["achievement_name"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.earnedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["earned_date"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UserAchievementResource() : instance as! UserAchievementResource
+            
+            result.achieved = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["achieved"] as AnyObject?)
+            result.achievementName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["achievement_name"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.earnedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["earned_date"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserActionLog]
-        Decoders.addDecoder(clazz: [UserActionLog].self) { (source: AnyObject) -> [UserActionLog] in
+        Decoders.addDecoder(clazz: [UserActionLog].self) { (source: AnyObject, instance: AnyObject?) -> [UserActionLog] in
             return Decoders.decode(clazz: [UserActionLog].self, source: source)
         }
         // Decoder for UserActionLog
-        Decoders.addDecoder(clazz: UserActionLog.self) { (source: AnyObject) -> UserActionLog in
+        Decoders.addDecoder(clazz: UserActionLog.self) { (source: AnyObject, instance: AnyObject?) -> UserActionLog in
             let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? UserActionLog() : instance as! UserActionLog
+            
+            result.actionDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["action_description"] as AnyObject?)
+            result.actionName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["action_name"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.details = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["details"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.requestId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["request_id"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            return result
+        }
 
-            let instance = UserActionLog()
-            instance.actionDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["action_description"] as AnyObject?)
-            instance.actionName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["action_name"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.details = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["details"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.requestId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["request_id"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
-            return instance
+
+        // Decoder for [UserActivityResults]
+        Decoders.addDecoder(clazz: [UserActivityResults].self) { (source: AnyObject, instance: AnyObject?) -> [UserActivityResults] in
+            return Decoders.decode(clazz: [UserActivityResults].self, source: source)
+        }
+        // Decoder for UserActivityResults
+        Decoders.addDecoder(clazz: UserActivityResults.self) { (source: AnyObject, instance: AnyObject?) -> UserActivityResults in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? UserActivityResults() : instance as! UserActivityResults
+            
+            result.currencyRewards = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["currency_rewards"] as AnyObject?)
+            result.itemRewards = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["item_rewards"] as AnyObject?)
+            result.rank = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["rank"] as AnyObject?)
+            result.score = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["score"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.ties = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["ties"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserActivityResultsResource]
-        Decoders.addDecoder(clazz: [UserActivityResultsResource].self) { (source: AnyObject) -> [UserActivityResultsResource] in
+        Decoders.addDecoder(clazz: [UserActivityResultsResource].self) { (source: AnyObject, instance: AnyObject?) -> [UserActivityResultsResource] in
             return Decoders.decode(clazz: [UserActivityResultsResource].self, source: source)
         }
         // Decoder for UserActivityResultsResource
-        Decoders.addDecoder(clazz: UserActivityResultsResource.self) { (source: AnyObject) -> UserActivityResultsResource in
+        Decoders.addDecoder(clazz: UserActivityResultsResource.self) { (source: AnyObject, instance: AnyObject?) -> UserActivityResultsResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UserActivityResultsResource()
-            instance.currencyRewards = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["currency_rewards"] as AnyObject?)
-            instance.itemRewards = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["item_rewards"] as AnyObject?)
-            instance.rank = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["rank"] as AnyObject?)
-            instance.score = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["score"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.ties = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["ties"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UserActivityResultsResource() : instance as! UserActivityResultsResource
+            
+            result.score = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["score"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserBaseResource]
-        Decoders.addDecoder(clazz: [UserBaseResource].self) { (source: AnyObject) -> [UserBaseResource] in
+        Decoders.addDecoder(clazz: [UserBaseResource].self) { (source: AnyObject, instance: AnyObject?) -> [UserBaseResource] in
             return Decoders.decode(clazz: [UserBaseResource].self, source: source)
         }
         // Decoder for UserBaseResource
-        Decoders.addDecoder(clazz: UserBaseResource.self) { (source: AnyObject) -> UserBaseResource in
+        Decoders.addDecoder(clazz: UserBaseResource.self) { (source: AnyObject, instance: AnyObject?) -> UserBaseResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UserBaseResource()
-            instance.avatarUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar_url"] as AnyObject?)
-            instance.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?)
-            instance.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
-            instance.fullname = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["fullname"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.lastUpdated = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["last_updated"] as AnyObject?)
-            instance.memberSince = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["member_since"] as AnyObject?)
-            instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UserBaseResource() : instance as! UserBaseResource
+            
+            result.avatarUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar_url"] as AnyObject?)
+            result.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?)
+            result.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
+            result.fullname = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["fullname"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.lastActivity = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["last_activity"] as AnyObject?)
+            result.lastUpdated = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["last_updated"] as AnyObject?)
+            result.memberSince = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["member_since"] as AnyObject?)
+            result.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserInventoryAddRequest]
-        Decoders.addDecoder(clazz: [UserInventoryAddRequest].self) { (source: AnyObject) -> [UserInventoryAddRequest] in
+        Decoders.addDecoder(clazz: [UserInventoryAddRequest].self) { (source: AnyObject, instance: AnyObject?) -> [UserInventoryAddRequest] in
             return Decoders.decode(clazz: [UserInventoryAddRequest].self, source: source)
         }
         // Decoder for UserInventoryAddRequest
-        Decoders.addDecoder(clazz: UserInventoryAddRequest.self) { (source: AnyObject) -> UserInventoryAddRequest in
+        Decoders.addDecoder(clazz: UserInventoryAddRequest.self) { (source: AnyObject, instance: AnyObject?) -> UserInventoryAddRequest in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UserInventoryAddRequest()
-            instance.note = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["note"] as AnyObject?)
-            instance.overrides = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["overrides"] as AnyObject?)
-            instance.skipInvoice = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["skip_invoice"] as AnyObject?)
-            instance.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UserInventoryAddRequest() : instance as! UserInventoryAddRequest
+            
+            result.note = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["note"] as AnyObject?)
+            result.overrides = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["overrides"] as AnyObject?)
+            result.skipInvoice = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["skip_invoice"] as AnyObject?)
+            result.sku = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sku"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserInventoryResource]
-        Decoders.addDecoder(clazz: [UserInventoryResource].self) { (source: AnyObject) -> [UserInventoryResource] in
+        Decoders.addDecoder(clazz: [UserInventoryResource].self) { (source: AnyObject, instance: AnyObject?) -> [UserInventoryResource] in
             return Decoders.decode(clazz: [UserInventoryResource].self, source: source)
         }
         // Decoder for UserInventoryResource
-        Decoders.addDecoder(clazz: UserInventoryResource.self) { (source: AnyObject) -> UserInventoryResource in
+        Decoders.addDecoder(clazz: UserInventoryResource.self) { (source: AnyObject, instance: AnyObject?) -> UserInventoryResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UserInventoryResource()
-            instance.behaviorData = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["behavior_data"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.expires = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["expires"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
-            instance.itemName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["item_name"] as AnyObject?)
-            instance.itemTypeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["item_type_hint"] as AnyObject?)
+            let result = instance == nil ? UserInventoryResource() : instance as! UserInventoryResource
+            
+            result.behaviorData = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["behavior_data"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.expires = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["expires"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
+            result.itemName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["item_name"] as AnyObject?)
+            result.itemTypeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["item_type_hint"] as AnyObject?)
             if let status = sourceDictionary["status"] as? String { 
-                instance.status = UserInventoryResource.Status(rawValue: (status))
+                result.status = UserInventoryResource.Status(rawValue: (status))
             }
             
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            return instance
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserItemLogResource]
-        Decoders.addDecoder(clazz: [UserItemLogResource].self) { (source: AnyObject) -> [UserItemLogResource] in
+        Decoders.addDecoder(clazz: [UserItemLogResource].self) { (source: AnyObject, instance: AnyObject?) -> [UserItemLogResource] in
             return Decoders.decode(clazz: [UserItemLogResource].self, source: source)
         }
         // Decoder for UserItemLogResource
-        Decoders.addDecoder(clazz: UserItemLogResource.self) { (source: AnyObject) -> UserItemLogResource in
+        Decoders.addDecoder(clazz: UserItemLogResource.self) { (source: AnyObject, instance: AnyObject?) -> UserItemLogResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UserItemLogResource()
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.info = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["info"] as AnyObject?)
-            instance.item = Decoders.decodeOptional(clazz: SimpleReferenceResourceint.self, source: sourceDictionary["item"] as AnyObject?)
-            instance.logDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["log_date"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            instance.userInventory = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_inventory"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UserItemLogResource() : instance as! UserItemLogResource
+            
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.info = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["info"] as AnyObject?)
+            result.item = Decoders.decodeOptional(clazz: SimpleReferenceResourceint.self, source: sourceDictionary["item"] as AnyObject?)
+            result.logDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["log_date"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            result.userInventory = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_inventory"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserLevelingResource]
-        Decoders.addDecoder(clazz: [UserLevelingResource].self) { (source: AnyObject) -> [UserLevelingResource] in
+        Decoders.addDecoder(clazz: [UserLevelingResource].self) { (source: AnyObject, instance: AnyObject?) -> [UserLevelingResource] in
             return Decoders.decode(clazz: [UserLevelingResource].self, source: source)
         }
         // Decoder for UserLevelingResource
-        Decoders.addDecoder(clazz: UserLevelingResource.self) { (source: AnyObject) -> UserLevelingResource in
+        Decoders.addDecoder(clazz: UserLevelingResource.self) { (source: AnyObject, instance: AnyObject?) -> UserLevelingResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UserLevelingResource()
-            instance.lastTierName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last_tier_name"] as AnyObject?)
-            instance.lastTierProgress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["last_tier_progress"] as AnyObject?)
-            instance.levelName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["level_name"] as AnyObject?)
-            instance.nextTierName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["next_tier_name"] as AnyObject?)
-            instance.nextTierProgress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["next_tier_progress"] as AnyObject?)
-            instance.progress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["progress"] as AnyObject?)
-            instance.tierNames = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tier_names"] as AnyObject?)
-            instance.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UserLevelingResource() : instance as! UserLevelingResource
+            
+            result.lastTierName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last_tier_name"] as AnyObject?)
+            result.lastTierProgress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["last_tier_progress"] as AnyObject?)
+            result.levelName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["level_name"] as AnyObject?)
+            result.nextTierName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["next_tier_name"] as AnyObject?)
+            result.nextTierProgress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["next_tier_progress"] as AnyObject?)
+            result.progress = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["progress"] as AnyObject?)
+            result.tierNames = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tier_names"] as AnyObject?)
+            result.userId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserRelationshipReferenceResource]
-        Decoders.addDecoder(clazz: [UserRelationshipReferenceResource].self) { (source: AnyObject) -> [UserRelationshipReferenceResource] in
+        Decoders.addDecoder(clazz: [UserRelationshipReferenceResource].self) { (source: AnyObject, instance: AnyObject?) -> [UserRelationshipReferenceResource] in
             return Decoders.decode(clazz: [UserRelationshipReferenceResource].self, source: source)
         }
         // Decoder for UserRelationshipReferenceResource
-        Decoders.addDecoder(clazz: UserRelationshipReferenceResource.self) { (source: AnyObject) -> UserRelationshipReferenceResource in
+        Decoders.addDecoder(clazz: UserRelationshipReferenceResource.self) { (source: AnyObject, instance: AnyObject?) -> UserRelationshipReferenceResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UserRelationshipReferenceResource()
-            instance.avatarUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar_url"] as AnyObject?)
-            instance.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
-            instance.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.relationshipId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["relationship_id"] as AnyObject?)
-            instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UserRelationshipReferenceResource() : instance as! UserRelationshipReferenceResource
+            
+            result.avatarUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar_url"] as AnyObject?)
+            result.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
+            result.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.relationshipId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["relationship_id"] as AnyObject?)
+            result.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserRelationshipResource]
-        Decoders.addDecoder(clazz: [UserRelationshipResource].self) { (source: AnyObject) -> [UserRelationshipResource] in
+        Decoders.addDecoder(clazz: [UserRelationshipResource].self) { (source: AnyObject, instance: AnyObject?) -> [UserRelationshipResource] in
             return Decoders.decode(clazz: [UserRelationshipResource].self, source: source)
         }
         // Decoder for UserRelationshipResource
-        Decoders.addDecoder(clazz: UserRelationshipResource.self) { (source: AnyObject) -> UserRelationshipResource in
+        Decoders.addDecoder(clazz: UserRelationshipResource.self) { (source: AnyObject, instance: AnyObject?) -> UserRelationshipResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UserRelationshipResource()
-            instance.child = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["child"] as AnyObject?)
-            instance.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.parent = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["parent"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UserRelationshipResource() : instance as! UserRelationshipResource
+            
+            result.child = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["child"] as AnyObject?)
+            result.context = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["context"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.parent = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["parent"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UserResource]
-        Decoders.addDecoder(clazz: [UserResource].self) { (source: AnyObject) -> [UserResource] in
+        Decoders.addDecoder(clazz: [UserResource].self) { (source: AnyObject, instance: AnyObject?) -> [UserResource] in
             return Decoders.decode(clazz: [UserResource].self, source: source)
         }
         // Decoder for UserResource
-        Decoders.addDecoder(clazz: UserResource.self) { (source: AnyObject) -> UserResource in
+        Decoders.addDecoder(clazz: UserResource.self) { (source: AnyObject, instance: AnyObject?) -> UserResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UserResource()
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.address = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address"] as AnyObject?)
-            instance.address2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address2"] as AnyObject?)
-            instance.avatarUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar_url"] as AnyObject?)
-            instance.children = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["children"] as AnyObject?)
-            instance.city = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["city"] as AnyObject?)
-            instance.countryCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_code"] as AnyObject?)
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.dateOfBirth = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["date_of_birth"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?)
-            instance.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
-            instance.firstName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["first_name"] as AnyObject?)
-            instance.fullname = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["fullname"] as AnyObject?)
-            instance.gender = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["gender"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.languageCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["language_code"] as AnyObject?)
-            instance.lastName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last_name"] as AnyObject?)
-            instance.lastUpdated = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["last_updated"] as AnyObject?)
-            instance.memberSince = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["member_since"] as AnyObject?)
-            instance.mobileNumber = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["mobile_number"] as AnyObject?)
-            instance.parents = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["parents"] as AnyObject?)
-            instance.password = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?)
-            instance.postalCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["postal_code"] as AnyObject?)
-            instance.state = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["state"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.timezoneCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["timezone_code"] as AnyObject?)
-            instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UserResource() : instance as! UserResource
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.address = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address"] as AnyObject?)
+            result.address2 = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["address2"] as AnyObject?)
+            result.avatarUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar_url"] as AnyObject?)
+            result.children = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["children"] as AnyObject?)
+            result.city = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["city"] as AnyObject?)
+            result.countryCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["country_code"] as AnyObject?)
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.dateOfBirth = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["date_of_birth"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.displayName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?)
+            result.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?)
+            result.firstName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["first_name"] as AnyObject?)
+            result.fullname = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["fullname"] as AnyObject?)
+            result.gender = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["gender"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.languageCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["language_code"] as AnyObject?)
+            result.lastActivity = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["last_activity"] as AnyObject?)
+            result.lastName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["last_name"] as AnyObject?)
+            result.lastUpdated = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["last_updated"] as AnyObject?)
+            result.memberSince = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["member_since"] as AnyObject?)
+            result.mobileNumber = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["mobile_number"] as AnyObject?)
+            result.parents = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["parents"] as AnyObject?)
+            result.password = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?)
+            result.postalCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["postal_code"] as AnyObject?)
+            result.state = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["state"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.timezoneCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["timezone_code"] as AnyObject?)
+            result.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [UsernameLookupResource]
-        Decoders.addDecoder(clazz: [UsernameLookupResource].self) { (source: AnyObject) -> [UsernameLookupResource] in
+        Decoders.addDecoder(clazz: [UsernameLookupResource].self) { (source: AnyObject, instance: AnyObject?) -> [UsernameLookupResource] in
             return Decoders.decode(clazz: [UsernameLookupResource].self, source: source)
         }
         // Decoder for UsernameLookupResource
-        Decoders.addDecoder(clazz: UsernameLookupResource.self) { (source: AnyObject) -> UsernameLookupResource in
+        Decoders.addDecoder(clazz: UsernameLookupResource.self) { (source: AnyObject, instance: AnyObject?) -> UsernameLookupResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = UsernameLookupResource()
-            instance.lookupKey = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["lookup_key"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? UsernameLookupResource() : instance as! UsernameLookupResource
+            
+            result.lookupKey = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["lookup_key"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [VariableTypeResource]
-        Decoders.addDecoder(clazz: [VariableTypeResource].self) { (source: AnyObject) -> [VariableTypeResource] in
+        Decoders.addDecoder(clazz: [VariableTypeResource].self) { (source: AnyObject, instance: AnyObject?) -> [VariableTypeResource] in
             return Decoders.decode(clazz: [VariableTypeResource].self, source: source)
         }
         // Decoder for VariableTypeResource
-        Decoders.addDecoder(clazz: VariableTypeResource.self) { (source: AnyObject) -> VariableTypeResource in
+        Decoders.addDecoder(clazz: VariableTypeResource.self) { (source: AnyObject, instance: AnyObject?) -> VariableTypeResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = VariableTypeResource()
+            let result = instance == nil ? VariableTypeResource() : instance as! VariableTypeResource
+            
             if let base = sourceDictionary["base"] as? String { 
-                instance.base = VariableTypeResource.Base(rawValue: (base))
+                result.base = VariableTypeResource.Base(rawValue: (base))
             }
             
-            instance.enumerable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["enumerable"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return instance
+            result.enumerable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["enumerable"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [VendorEmailLookupResource]
-        Decoders.addDecoder(clazz: [VendorEmailLookupResource].self) { (source: AnyObject) -> [VendorEmailLookupResource] in
+        Decoders.addDecoder(clazz: [VendorEmailLookupResource].self) { (source: AnyObject, instance: AnyObject?) -> [VendorEmailLookupResource] in
             return Decoders.decode(clazz: [VendorEmailLookupResource].self, source: source)
         }
         // Decoder for VendorEmailLookupResource
-        Decoders.addDecoder(clazz: VendorEmailLookupResource.self) { (source: AnyObject) -> VendorEmailLookupResource in
+        Decoders.addDecoder(clazz: VendorEmailLookupResource.self) { (source: AnyObject, instance: AnyObject?) -> VendorEmailLookupResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = VendorEmailLookupResource()
-            instance.lookupKey = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["lookup_key"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
-            return instance
+            let result = instance == nil ? VendorEmailLookupResource() : instance as! VendorEmailLookupResource
+            
+            result.lookupKey = Decoders.decodeOptional(clazz: ExpressionResource.self, source: sourceDictionary["lookup_key"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.valueType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value_type"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [VendorResource]
-        Decoders.addDecoder(clazz: [VendorResource].self) { (source: AnyObject) -> [VendorResource] in
+        Decoders.addDecoder(clazz: [VendorResource].self) { (source: AnyObject, instance: AnyObject?) -> [VendorResource] in
             return Decoders.decode(clazz: [VendorResource].self, source: source)
         }
         // Decoder for VendorResource
-        Decoders.addDecoder(clazz: VendorResource.self) { (source: AnyObject) -> VendorResource in
+        Decoders.addDecoder(clazz: VendorResource.self) { (source: AnyObject, instance: AnyObject?) -> VendorResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = VendorResource()
-            instance.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
-            instance.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
-            instance.createDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["create_date"] as AnyObject?)
-            instance.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.imageUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["image_url"] as AnyObject?)
-            instance.manualApproval = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["manual_approval"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.primaryContactEmail = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["primary_contact_email"] as AnyObject?)
-            instance.primaryContactName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["primary_contact_name"] as AnyObject?)
-            instance.primaryContactPhone = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["primary_contact_phone"] as AnyObject?)
-            instance.salesEmail = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sales_email"] as AnyObject?)
-            instance.supportEmail = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["support_email"] as AnyObject?)
-            instance.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
-            instance.updateDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["update_date"] as AnyObject?)
-            instance.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
-            return instance
+            let result = instance == nil ? VendorResource() : instance as! VendorResource
+            
+            result.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.createDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["create_date"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.imageUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["image_url"] as AnyObject?)
+            result.manualApproval = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["manual_approval"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.primaryContactEmail = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["primary_contact_email"] as AnyObject?)
+            result.primaryContactName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["primary_contact_name"] as AnyObject?)
+            result.primaryContactPhone = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["primary_contact_phone"] as AnyObject?)
+            result.salesEmail = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sales_email"] as AnyObject?)
+            result.supportEmail = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["support_email"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.updateDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["update_date"] as AnyObject?)
+            result.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [Version]
-        Decoders.addDecoder(clazz: [Version].self) { (source: AnyObject) -> [Version] in
+        Decoders.addDecoder(clazz: [Version].self) { (source: AnyObject, instance: AnyObject?) -> [Version] in
             return Decoders.decode(clazz: [Version].self, source: source)
         }
         // Decoder for Version
-        Decoders.addDecoder(clazz: Version.self) { (source: AnyObject) -> Version in
+        Decoders.addDecoder(clazz: Version.self) { (source: AnyObject, instance: AnyObject?) -> Version in
             let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? Version() : instance as! Version
+            
+            result.version = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["version"] as AnyObject?)
+            return result
+        }
 
-            let instance = Version()
-            instance.version = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["version"] as AnyObject?)
-            return instance
+
+        // Decoder for [VideoRelationshipResource]
+        Decoders.addDecoder(clazz: [VideoRelationshipResource].self) { (source: AnyObject, instance: AnyObject?) -> [VideoRelationshipResource] in
+            return Decoders.decode(clazz: [VideoRelationshipResource].self, source: source)
+        }
+        // Decoder for VideoRelationshipResource
+        Decoders.addDecoder(clazz: VideoRelationshipResource.self) { (source: AnyObject, instance: AnyObject?) -> VideoRelationshipResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? VideoRelationshipResource() : instance as! VideoRelationshipResource
+            
+            result.from = Decoders.decodeOptional(clazz: SimpleReferenceResourcelong.self, source: sourceDictionary["from"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.relationshipDetails = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["relationship_details"] as AnyObject?)
+            result.to = Decoders.decodeOptional(clazz: SimpleReferenceResourcelong.self, source: sourceDictionary["to"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [VideoResource]
+        Decoders.addDecoder(clazz: [VideoResource].self) { (source: AnyObject, instance: AnyObject?) -> [VideoResource] in
+            return Decoders.decode(clazz: [VideoResource].self, source: source)
+        }
+        // Decoder for VideoResource
+        Decoders.addDecoder(clazz: VideoResource.self) { (source: AnyObject, instance: AnyObject?) -> VideoResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? VideoResource() : instance as! VideoResource
+            
+            result.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
+            result.author = Decoders.decodeOptional(clazz: SimpleReferenceResourcelong.self, source: sourceDictionary["author"] as AnyObject?)
+            result.authored = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["authored"] as AnyObject?)
+            result.banned = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["banned"] as AnyObject?)
+            result.category = Decoders.decodeOptional(clazz: SimpleReferenceResourcestring.self, source: sourceDictionary["category"] as AnyObject?)
+            result.comments = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["comments"] as AnyObject?)
+            result.contributors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["contributors"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.embed = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["embed"] as AnyObject?)
+            result._extension = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["extension"] as AnyObject?)
+            result.height = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["height"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
+            result.length = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["length"] as AnyObject?)
+            result.location = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["location"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.mimeType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["mime_type"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.priority = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["priority"] as AnyObject?)
+            if let privacy = sourceDictionary["privacy"] as? String { 
+                result.privacy = VideoResource.Privacy(rawValue: (privacy))
+            }
+            
+            result.published = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["published"] as AnyObject?)
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.size = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["size"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.thumbnail = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["thumbnail"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.uploader = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["uploader"] as AnyObject?)
+            result.views = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["views"] as AnyObject?)
+            result.width = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["width"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [WalletAlterRequest]
+        Decoders.addDecoder(clazz: [WalletAlterRequest].self) { (source: AnyObject, instance: AnyObject?) -> [WalletAlterRequest] in
+            return Decoders.decode(clazz: [WalletAlterRequest].self, source: source)
+        }
+        // Decoder for WalletAlterRequest
+        Decoders.addDecoder(clazz: WalletAlterRequest.self) { (source: AnyObject, instance: AnyObject?) -> WalletAlterRequest in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? WalletAlterRequest() : instance as! WalletAlterRequest
+            
+            result.delta = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["delta"] as AnyObject?)
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.reason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [WalletTotalResponse]
+        Decoders.addDecoder(clazz: [WalletTotalResponse].self) { (source: AnyObject, instance: AnyObject?) -> [WalletTotalResponse] in
+            return Decoders.decode(clazz: [WalletTotalResponse].self, source: source)
+        }
+        // Decoder for WalletTotalResponse
+        Decoders.addDecoder(clazz: WalletTotalResponse.self) { (source: AnyObject, instance: AnyObject?) -> WalletTotalResponse in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? WalletTotalResponse() : instance as! WalletTotalResponse
+            
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.total = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["total"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [WalletTransactionResource]
+        Decoders.addDecoder(clazz: [WalletTransactionResource].self) { (source: AnyObject, instance: AnyObject?) -> [WalletTransactionResource] in
+            return Decoders.decode(clazz: [WalletTransactionResource].self, source: source)
+        }
+        // Decoder for WalletTransactionResource
+        Decoders.addDecoder(clazz: WalletTransactionResource.self) { (source: AnyObject, instance: AnyObject?) -> WalletTransactionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? WalletTransactionResource() : instance as! WalletTransactionResource
+            
+            result.balance = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["balance"] as AnyObject?)
+            result.createDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["create_date"] as AnyObject?)
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.details = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["details"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.isRefunded = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["is_refunded"] as AnyObject?)
+            result.response = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["response"] as AnyObject?)
+            if let source = sourceDictionary["source"] as? String { 
+                result.source = WalletTransactionResource.Source(rawValue: (source))
+            }
+            
+            result.successful = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["successful"] as AnyObject?)
+            result.transactionId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["transaction_id"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
+            result.walletId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["wallet_id"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [XsollaPaymentRequest]
+        Decoders.addDecoder(clazz: [XsollaPaymentRequest].self) { (source: AnyObject, instance: AnyObject?) -> [XsollaPaymentRequest] in
+            return Decoders.decode(clazz: [XsollaPaymentRequest].self, source: source)
+        }
+        // Decoder for XsollaPaymentRequest
+        Decoders.addDecoder(clazz: XsollaPaymentRequest.self) { (source: AnyObject, instance: AnyObject?) -> XsollaPaymentRequest in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? XsollaPaymentRequest() : instance as! XsollaPaymentRequest
+            
+            result.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
+            result.returnUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["return_url"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [AudioPropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [AudioPropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [AudioPropertyDefinitionResource] in
+            return Decoders.decode(clazz: [AudioPropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for AudioPropertyDefinitionResource
+        Decoders.addDecoder(clazz: AudioPropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> AudioPropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? AudioPropertyDefinitionResource() : instance as! AudioPropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
+            result.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
+            result.minLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_length"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [BooleanProperty]
+        Decoders.addDecoder(clazz: [BooleanProperty].self) { (source: AnyObject, instance: AnyObject?) -> [BooleanProperty] in
+            return Decoders.decode(clazz: [BooleanProperty].self, source: source)
+        }
+        // Decoder for BooleanProperty
+        Decoders.addDecoder(clazz: BooleanProperty.self) { (source: AnyObject, instance: AnyObject?) -> BooleanProperty in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? BooleanProperty() : instance as! BooleanProperty
+            if decoders["\(Property.self)"] != nil {
+              _ = Decoders.decode(clazz: Property.self, source: source, instance: result)
+            }
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [BooleanPropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [BooleanPropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [BooleanPropertyDefinitionResource] in
+            return Decoders.decode(clazz: [BooleanPropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for BooleanPropertyDefinitionResource
+        Decoders.addDecoder(clazz: BooleanPropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> BooleanPropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? BooleanPropertyDefinitionResource() : instance as! BooleanPropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [CacheClearEvent]
+        Decoders.addDecoder(clazz: [CacheClearEvent].self) { (source: AnyObject, instance: AnyObject?) -> [CacheClearEvent] in
+            return Decoders.decode(clazz: [CacheClearEvent].self, source: source)
+        }
+        // Decoder for CacheClearEvent
+        Decoders.addDecoder(clazz: CacheClearEvent.self) { (source: AnyObject, instance: AnyObject?) -> CacheClearEvent in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? CacheClearEvent() : instance as! CacheClearEvent
+            if decoders["\(BroadcastableEvent.self)"] != nil {
+              _ = Decoders.decode(clazz: BroadcastableEvent.self, source: source, instance: result)
+            }
+            
+            result.client = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?)
+            result.customer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?)
+            result.doNotBroadcast = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?)
+            result.section = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?)
+            result.source = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?)
+            result.specifics = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?)
+            result.synchronous = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?)
+            result.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.customerSetup = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["customer_setup"] as AnyObject?)
+            result.customerTeardown = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["customer_teardown"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [Consumable]
+        Decoders.addDecoder(clazz: [Consumable].self) { (source: AnyObject, instance: AnyObject?) -> [Consumable] in
+            return Decoders.decode(clazz: [Consumable].self, source: source)
+        }
+        // Decoder for Consumable
+        Decoders.addDecoder(clazz: Consumable.self) { (source: AnyObject, instance: AnyObject?) -> Consumable in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? Consumable() : instance as! Consumable
+            if decoders["\(Behavior.self)"] != nil {
+              _ = Decoders.decode(clazz: Behavior.self, source: source, instance: result)
+            }
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.maxUse = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_use"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [DateProperty]
+        Decoders.addDecoder(clazz: [DateProperty].self) { (source: AnyObject, instance: AnyObject?) -> [DateProperty] in
+            return Decoders.decode(clazz: [DateProperty].self, source: source)
+        }
+        // Decoder for DateProperty
+        Decoders.addDecoder(clazz: DateProperty.self) { (source: AnyObject, instance: AnyObject?) -> DateProperty in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? DateProperty() : instance as! DateProperty
+            if decoders["\(Property.self)"] != nil {
+              _ = Decoders.decode(clazz: Property.self, source: source, instance: result)
+            }
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [DatePropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [DatePropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [DatePropertyDefinitionResource] in
+            return Decoders.decode(clazz: [DatePropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for DatePropertyDefinitionResource
+        Decoders.addDecoder(clazz: DatePropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> DatePropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? DatePropertyDefinitionResource() : instance as! DatePropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.max = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["max"] as AnyObject?)
+            result.min = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["min"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [DoubleProperty]
+        Decoders.addDecoder(clazz: [DoubleProperty].self) { (source: AnyObject, instance: AnyObject?) -> [DoubleProperty] in
+            return Decoders.decode(clazz: [DoubleProperty].self, source: source)
+        }
+        // Decoder for DoubleProperty
+        Decoders.addDecoder(clazz: DoubleProperty.self) { (source: AnyObject, instance: AnyObject?) -> DoubleProperty in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? DoubleProperty() : instance as! DoubleProperty
+            if decoders["\(Property.self)"] != nil {
+              _ = Decoders.decode(clazz: Property.self, source: source, instance: result)
+            }
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [DoublePropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [DoublePropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [DoublePropertyDefinitionResource] in
+            return Decoders.decode(clazz: [DoublePropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for DoublePropertyDefinitionResource
+        Decoders.addDecoder(clazz: DoublePropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> DoublePropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? DoublePropertyDefinitionResource() : instance as! DoublePropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.max = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["max"] as AnyObject?)
+            result.min = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["min"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [EntitlementItem]
+        Decoders.addDecoder(clazz: [EntitlementItem].self) { (source: AnyObject, instance: AnyObject?) -> [EntitlementItem] in
+            return Decoders.decode(clazz: [EntitlementItem].self, source: source)
+        }
+        // Decoder for EntitlementItem
+        Decoders.addDecoder(clazz: EntitlementItem.self) { (source: AnyObject, instance: AnyObject?) -> EntitlementItem in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? EntitlementItem() : instance as! EntitlementItem
+            if decoders["\(Item.self)"] != nil {
+              _ = Decoders.decode(clazz: Item.self, source: source, instance: result)
+            }
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.behaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["behaviors"] as AnyObject?)
+            result.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [Expirable]
+        Decoders.addDecoder(clazz: [Expirable].self) { (source: AnyObject, instance: AnyObject?) -> [Expirable] in
+            return Decoders.decode(clazz: [Expirable].self, source: source)
+        }
+        // Decoder for Expirable
+        Decoders.addDecoder(clazz: Expirable.self) { (source: AnyObject, instance: AnyObject?) -> Expirable in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? Expirable() : instance as! Expirable
+            if decoders["\(Behavior.self)"] != nil {
+              _ = Decoders.decode(clazz: Behavior.self, source: source, instance: result)
+            }
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.timeLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["time_length"] as AnyObject?)
+            result.unitOfTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unit_of_time"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [FileGroupProperty]
+        Decoders.addDecoder(clazz: [FileGroupProperty].self) { (source: AnyObject, instance: AnyObject?) -> [FileGroupProperty] in
+            return Decoders.decode(clazz: [FileGroupProperty].self, source: source)
+        }
+        // Decoder for FileGroupProperty
+        Decoders.addDecoder(clazz: FileGroupProperty.self) { (source: AnyObject, instance: AnyObject?) -> FileGroupProperty in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? FileGroupProperty() : instance as! FileGroupProperty
+            if decoders["\(Property.self)"] != nil {
+              _ = Decoders.decode(clazz: Property.self, source: source, instance: result)
+            }
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.files = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["files"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [FileGroupPropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [FileGroupPropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [FileGroupPropertyDefinitionResource] in
+            return Decoders.decode(clazz: [FileGroupPropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for FileGroupPropertyDefinitionResource
+        Decoders.addDecoder(clazz: FileGroupPropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> FileGroupPropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? FileGroupPropertyDefinitionResource() : instance as! FileGroupPropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
+            result.maxCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_count"] as AnyObject?)
+            result.maxFileSize = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["max_file_size"] as AnyObject?)
+            result.minCount = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_count"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [FileProperty]
+        Decoders.addDecoder(clazz: [FileProperty].self) { (source: AnyObject, instance: AnyObject?) -> [FileProperty] in
+            return Decoders.decode(clazz: [FileProperty].self, source: source)
+        }
+        // Decoder for FileProperty
+        Decoders.addDecoder(clazz: FileProperty.self) { (source: AnyObject, instance: AnyObject?) -> FileProperty in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? FileProperty() : instance as! FileProperty
+            if decoders["\(Property.self)"] != nil {
+              _ = Decoders.decode(clazz: Property.self, source: source, instance: result)
+            }
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.crc = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["crc"] as AnyObject?)
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
+            result.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [FilePropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [FilePropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [FilePropertyDefinitionResource] in
+            return Decoders.decode(clazz: [FilePropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for FilePropertyDefinitionResource
+        Decoders.addDecoder(clazz: FilePropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> FilePropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? FilePropertyDefinitionResource() : instance as! FilePropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
+            result.maxFileSize = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["max_file_size"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [FormattedTextProperty]
+        Decoders.addDecoder(clazz: [FormattedTextProperty].self) { (source: AnyObject, instance: AnyObject?) -> [FormattedTextProperty] in
+            return Decoders.decode(clazz: [FormattedTextProperty].self, source: source)
+        }
+        // Decoder for FormattedTextProperty
+        Decoders.addDecoder(clazz: FormattedTextProperty.self) { (source: AnyObject, instance: AnyObject?) -> FormattedTextProperty in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? FormattedTextProperty() : instance as! FormattedTextProperty
+            if decoders["\(Property.self)"] != nil {
+              _ = Decoders.decode(clazz: Property.self, source: source, instance: result)
+            }
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [FormattedTextPropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [FormattedTextPropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [FormattedTextPropertyDefinitionResource] in
+            return Decoders.decode(clazz: [FormattedTextPropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for FormattedTextPropertyDefinitionResource
+        Decoders.addDecoder(clazz: FormattedTextPropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> FormattedTextPropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? FormattedTextPropertyDefinitionResource() : instance as! FormattedTextPropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [Fulfillable]
+        Decoders.addDecoder(clazz: [Fulfillable].self) { (source: AnyObject, instance: AnyObject?) -> [Fulfillable] in
+            return Decoders.decode(clazz: [Fulfillable].self, source: source)
+        }
+        // Decoder for Fulfillable
+        Decoders.addDecoder(clazz: Fulfillable.self) { (source: AnyObject, instance: AnyObject?) -> Fulfillable in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? Fulfillable() : instance as! Fulfillable
+            if decoders["\(Behavior.self)"] != nil {
+              _ = Decoders.decode(clazz: Behavior.self, source: source, instance: result)
+            }
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.typeName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_name"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [GuestPlayable]
+        Decoders.addDecoder(clazz: [GuestPlayable].self) { (source: AnyObject, instance: AnyObject?) -> [GuestPlayable] in
+            return Decoders.decode(clazz: [GuestPlayable].self, source: source)
+        }
+        // Decoder for GuestPlayable
+        Decoders.addDecoder(clazz: GuestPlayable.self) { (source: AnyObject, instance: AnyObject?) -> GuestPlayable in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? GuestPlayable() : instance as! GuestPlayable
+            if decoders["\(Behavior.self)"] != nil {
+              _ = Decoders.decode(clazz: Behavior.self, source: source, instance: result)
+            }
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.allowed = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["allowed"] as AnyObject?)
+            result.leaderboard = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["leaderboard"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [ImagePropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [ImagePropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [ImagePropertyDefinitionResource] in
+            return Decoders.decode(clazz: [ImagePropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for ImagePropertyDefinitionResource
+        Decoders.addDecoder(clazz: ImagePropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> ImagePropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? ImagePropertyDefinitionResource() : instance as! ImagePropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
+            result.maxHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_height"] as AnyObject?)
+            result.maxWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_width"] as AnyObject?)
+            result.minHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_height"] as AnyObject?)
+            result.minWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_width"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [IntegerProperty]
+        Decoders.addDecoder(clazz: [IntegerProperty].self) { (source: AnyObject, instance: AnyObject?) -> [IntegerProperty] in
+            return Decoders.decode(clazz: [IntegerProperty].self, source: source)
+        }
+        // Decoder for IntegerProperty
+        Decoders.addDecoder(clazz: IntegerProperty.self) { (source: AnyObject, instance: AnyObject?) -> IntegerProperty in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? IntegerProperty() : instance as! IntegerProperty
+            if decoders["\(Property.self)"] != nil {
+              _ = Decoders.decode(clazz: Property.self, source: source, instance: result)
+            }
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [IntegerPropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [IntegerPropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [IntegerPropertyDefinitionResource] in
+            return Decoders.decode(clazz: [IntegerPropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for IntegerPropertyDefinitionResource
+        Decoders.addDecoder(clazz: IntegerPropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> IntegerPropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? IntegerPropertyDefinitionResource() : instance as! IntegerPropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.max = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max"] as AnyObject?)
+            result.min = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [LimitedGettable]
+        Decoders.addDecoder(clazz: [LimitedGettable].self) { (source: AnyObject, instance: AnyObject?) -> [LimitedGettable] in
+            return Decoders.decode(clazz: [LimitedGettable].self, source: source)
+        }
+        // Decoder for LimitedGettable
+        Decoders.addDecoder(clazz: LimitedGettable.self) { (source: AnyObject, instance: AnyObject?) -> LimitedGettable in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? LimitedGettable() : instance as! LimitedGettable
+            if decoders["\(Behavior.self)"] != nil {
+              _ = Decoders.decode(clazz: Behavior.self, source: source, instance: result)
+            }
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.group = Decoders.decodeOptional(clazz: LimitedGettableGroup.self, source: sourceDictionary["group"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [LongProperty]
+        Decoders.addDecoder(clazz: [LongProperty].self) { (source: AnyObject, instance: AnyObject?) -> [LongProperty] in
+            return Decoders.decode(clazz: [LongProperty].self, source: source)
+        }
+        // Decoder for LongProperty
+        Decoders.addDecoder(clazz: LongProperty.self) { (source: AnyObject, instance: AnyObject?) -> LongProperty in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? LongProperty() : instance as! LongProperty
+            if decoders["\(Property.self)"] != nil {
+              _ = Decoders.decode(clazz: Property.self, source: source, instance: result)
+            }
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [LongPropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [LongPropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [LongPropertyDefinitionResource] in
+            return Decoders.decode(clazz: [LongPropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for LongPropertyDefinitionResource
+        Decoders.addDecoder(clazz: LongPropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> LongPropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? LongPropertyDefinitionResource() : instance as! LongPropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.max = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["max"] as AnyObject?)
+            result.min = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["min"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [NewCustomerEvent]
+        Decoders.addDecoder(clazz: [NewCustomerEvent].self) { (source: AnyObject, instance: AnyObject?) -> [NewCustomerEvent] in
+            return Decoders.decode(clazz: [NewCustomerEvent].self, source: source)
+        }
+        // Decoder for NewCustomerEvent
+        Decoders.addDecoder(clazz: NewCustomerEvent.self) { (source: AnyObject, instance: AnyObject?) -> NewCustomerEvent in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? NewCustomerEvent() : instance as! NewCustomerEvent
+            if decoders["\(BroadcastableEvent.self)"] != nil {
+              _ = Decoders.decode(clazz: BroadcastableEvent.self, source: source, instance: result)
+            }
+            
+            result.client = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?)
+            result.customer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?)
+            result.doNotBroadcast = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?)
+            result.section = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?)
+            result.source = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?)
+            result.specifics = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?)
+            result.synchronous = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?)
+            result.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.customerConfig = Decoders.decodeOptional(clazz: CustomerConfig.self, source: sourceDictionary["customer_config"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [PreReqEntitlement]
+        Decoders.addDecoder(clazz: [PreReqEntitlement].self) { (source: AnyObject, instance: AnyObject?) -> [PreReqEntitlement] in
+            return Decoders.decode(clazz: [PreReqEntitlement].self, source: source)
+        }
+        // Decoder for PreReqEntitlement
+        Decoders.addDecoder(clazz: PreReqEntitlement.self) { (source: AnyObject, instance: AnyObject?) -> PreReqEntitlement in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? PreReqEntitlement() : instance as! PreReqEntitlement
+            if decoders["\(Behavior.self)"] != nil {
+              _ = Decoders.decode(clazz: Behavior.self, source: source, instance: result)
+            }
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.itemIds = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["item_ids"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [PriceOverridable]
+        Decoders.addDecoder(clazz: [PriceOverridable].self) { (source: AnyObject, instance: AnyObject?) -> [PriceOverridable] in
+            return Decoders.decode(clazz: [PriceOverridable].self, source: source)
+        }
+        // Decoder for PriceOverridable
+        Decoders.addDecoder(clazz: PriceOverridable.self) { (source: AnyObject, instance: AnyObject?) -> PriceOverridable in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? PriceOverridable() : instance as! PriceOverridable
+            if decoders["\(Behavior.self)"] != nil {
+              _ = Decoders.decode(clazz: Behavior.self, source: source, instance: result)
+            }
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.maxPrice = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_price"] as AnyObject?)
+            result.minPrice = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_price"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [RemoveCustomerEvent]
+        Decoders.addDecoder(clazz: [RemoveCustomerEvent].self) { (source: AnyObject, instance: AnyObject?) -> [RemoveCustomerEvent] in
+            return Decoders.decode(clazz: [RemoveCustomerEvent].self, source: source)
+        }
+        // Decoder for RemoveCustomerEvent
+        Decoders.addDecoder(clazz: RemoveCustomerEvent.self) { (source: AnyObject, instance: AnyObject?) -> RemoveCustomerEvent in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? RemoveCustomerEvent() : instance as! RemoveCustomerEvent
+            if decoders["\(BroadcastableEvent.self)"] != nil {
+              _ = Decoders.decode(clazz: BroadcastableEvent.self, source: source, instance: result)
+            }
+            
+            result.client = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?)
+            result.customer = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?)
+            result.doNotBroadcast = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?)
+            result.section = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?)
+            result.source = Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?)
+            result.specifics = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?)
+            result.synchronous = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?)
+            result.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.customerConfig = Decoders.decodeOptional(clazz: CustomerConfig.self, source: sourceDictionary["customer_config"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [Spendable]
+        Decoders.addDecoder(clazz: [Spendable].self) { (source: AnyObject, instance: AnyObject?) -> [Spendable] in
+            return Decoders.decode(clazz: [Spendable].self, source: source)
+        }
+        // Decoder for Spendable
+        Decoders.addDecoder(clazz: Spendable.self) { (source: AnyObject, instance: AnyObject?) -> Spendable in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? Spendable() : instance as! Spendable
+            if decoders["\(Behavior.self)"] != nil {
+              _ = Decoders.decode(clazz: Behavior.self, source: source, instance: result)
+            }
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [StoreItem]
+        Decoders.addDecoder(clazz: [StoreItem].self) { (source: AnyObject, instance: AnyObject?) -> [StoreItem] in
+            return Decoders.decode(clazz: [StoreItem].self, source: source)
+        }
+        // Decoder for StoreItem
+        Decoders.addDecoder(clazz: StoreItem.self) { (source: AnyObject, instance: AnyObject?) -> StoreItem in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? StoreItem() : instance as! StoreItem
+            if decoders["\(Item.self)"] != nil {
+              _ = Decoders.decode(clazz: Item.self, source: source, instance: result)
+            }
+            
+            result.additionalProperties = Decoders.decodeOptional(clazz: Dictionary.self, source: sourceDictionary["additional_properties"] as AnyObject?)
+            result.behaviors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["behaviors"] as AnyObject?)
+            result.category = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"] as AnyObject?)
+            result.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
+            result.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
+            result.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
+            result.sort = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sort"] as AnyObject?)
+            result.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
+            result.template = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.uniqueKey = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_key"] as AnyObject?)
+            result.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
+            result.displayable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["displayable"] as AnyObject?)
+            result.geoCountryList = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["geo_country_list"] as AnyObject?)
+            if let geoPolicyType = sourceDictionary["geo_policy_type"] as? String { 
+                result.geoPolicyType = StoreItem.GeoPolicyType(rawValue: (geoPolicyType))
+            }
+            
+            result.shippingTier = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["shipping_tier"] as AnyObject?)
+            result.skus = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["skus"] as AnyObject?)
+            result.storeEnd = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["store_end"] as AnyObject?)
+            result.storeStart = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["store_start"] as AnyObject?)
+            result.vendorId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["vendor_id"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [TextProperty]
+        Decoders.addDecoder(clazz: [TextProperty].self) { (source: AnyObject, instance: AnyObject?) -> [TextProperty] in
+            return Decoders.decode(clazz: [TextProperty].self, source: source)
+        }
+        // Decoder for TextProperty
+        Decoders.addDecoder(clazz: TextProperty.self) { (source: AnyObject, instance: AnyObject?) -> TextProperty in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? TextProperty() : instance as! TextProperty
+            if decoders["\(Property.self)"] != nil {
+              _ = Decoders.decode(clazz: Property.self, source: source, instance: result)
+            }
+            
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [TextPropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [TextPropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [TextPropertyDefinitionResource] in
+            return Decoders.decode(clazz: [TextPropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for TextPropertyDefinitionResource
+        Decoders.addDecoder(clazz: TextPropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> TextPropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? TextPropertyDefinitionResource() : instance as! TextPropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [TimePeriodGettable]
+        Decoders.addDecoder(clazz: [TimePeriodGettable].self) { (source: AnyObject, instance: AnyObject?) -> [TimePeriodGettable] in
+            return Decoders.decode(clazz: [TimePeriodGettable].self, source: source)
+        }
+        // Decoder for TimePeriodGettable
+        Decoders.addDecoder(clazz: TimePeriodGettable.self) { (source: AnyObject, instance: AnyObject?) -> TimePeriodGettable in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? TimePeriodGettable() : instance as! TimePeriodGettable
+            if decoders["\(Behavior.self)"] != nil {
+              _ = Decoders.decode(clazz: Behavior.self, source: source, instance: result)
+            }
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.getLimit = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["get_limit"] as AnyObject?)
+            result.groupName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["group_name"] as AnyObject?)
+            result.timeLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["time_length"] as AnyObject?)
+            result.unitOfTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unit_of_time"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [TimePeriodUsable]
+        Decoders.addDecoder(clazz: [TimePeriodUsable].self) { (source: AnyObject, instance: AnyObject?) -> [TimePeriodUsable] in
+            return Decoders.decode(clazz: [TimePeriodUsable].self, source: source)
+        }
+        // Decoder for TimePeriodUsable
+        Decoders.addDecoder(clazz: TimePeriodUsable.self) { (source: AnyObject, instance: AnyObject?) -> TimePeriodUsable in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? TimePeriodUsable() : instance as! TimePeriodUsable
+            if decoders["\(Behavior.self)"] != nil {
+              _ = Decoders.decode(clazz: Behavior.self, source: source, instance: result)
+            }
+            
+            result.description = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?)
+            result.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
+            result.maxUse = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_use"] as AnyObject?)
+            result.timeLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["time_length"] as AnyObject?)
+            result.unitOfTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unit_of_time"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [VideoPropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [VideoPropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [VideoPropertyDefinitionResource] in
+            return Decoders.decode(clazz: [VideoPropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for VideoPropertyDefinitionResource
+        Decoders.addDecoder(clazz: VideoPropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> VideoPropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? VideoPropertyDefinitionResource() : instance as! VideoPropertyDefinitionResource
+            if decoders["\(PropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
+            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
+            result._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
+            result.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
+            result.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
+            result.maxHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_height"] as AnyObject?)
+            result.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
+            result.maxWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_width"] as AnyObject?)
+            result.minHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_height"] as AnyObject?)
+            result.minLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_length"] as AnyObject?)
+            result.minWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_width"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [AudioGroupProperty]
+        Decoders.addDecoder(clazz: [AudioGroupProperty].self) { (source: AnyObject, instance: AnyObject?) -> [AudioGroupProperty] in
+            return Decoders.decode(clazz: [AudioGroupProperty].self, source: source)
+        }
+        // Decoder for AudioGroupProperty
+        Decoders.addDecoder(clazz: AudioGroupProperty.self) { (source: AnyObject, instance: AnyObject?) -> AudioGroupProperty in
+            if let source = source as?  {
+                return source
+            }
+            fatalError("Source \(source) is not convertible to typealias AudioGroupProperty: Maybe swagger file is insufficient")
+        }
+
+
+        // Decoder for [AudioGroupPropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [AudioGroupPropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [AudioGroupPropertyDefinitionResource] in
+            return Decoders.decode(clazz: [AudioGroupPropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for AudioGroupPropertyDefinitionResource
+        Decoders.addDecoder(clazz: AudioGroupPropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> AudioGroupPropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? AudioGroupPropertyDefinitionResource() : instance as! AudioGroupPropertyDefinitionResource
+            if decoders["\(FileGroupPropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: FileGroupPropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
+            result.minLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_length"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [AudioProperty]
+        Decoders.addDecoder(clazz: [AudioProperty].self) { (source: AnyObject, instance: AnyObject?) -> [AudioProperty] in
+            return Decoders.decode(clazz: [AudioProperty].self, source: source)
+        }
+        // Decoder for AudioProperty
+        Decoders.addDecoder(clazz: AudioProperty.self) { (source: AnyObject, instance: AnyObject?) -> AudioProperty in
+            if let source = source as?  {
+                return source
+            }
+            fatalError("Source \(source) is not convertible to typealias AudioProperty: Maybe swagger file is insufficient")
+        }
+
+
+        // Decoder for [BundleItem]
+        Decoders.addDecoder(clazz: [BundleItem].self) { (source: AnyObject, instance: AnyObject?) -> [BundleItem] in
+            return Decoders.decode(clazz: [BundleItem].self, source: source)
+        }
+        // Decoder for BundleItem
+        Decoders.addDecoder(clazz: BundleItem.self) { (source: AnyObject, instance: AnyObject?) -> BundleItem in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? BundleItem() : instance as! BundleItem
+            if decoders["\(StoreItem.self)"] != nil {
+              _ = Decoders.decode(clazz: StoreItem.self, source: source, instance: result)
+            }
+            
+            result.bundledSkus = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["bundled_skus"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [CouponItem]
+        Decoders.addDecoder(clazz: [CouponItem].self) { (source: AnyObject, instance: AnyObject?) -> [CouponItem] in
+            return Decoders.decode(clazz: [CouponItem].self, source: source)
+        }
+        // Decoder for CouponItem
+        Decoders.addDecoder(clazz: CouponItem.self) { (source: AnyObject, instance: AnyObject?) -> CouponItem in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? CouponItem() : instance as! CouponItem
+            if decoders["\(StoreItem.self)"] != nil {
+              _ = Decoders.decode(clazz: StoreItem.self, source: source, instance: result)
+            }
+            
+            if let couponTypeHint = sourceDictionary["coupon_type_hint"] as? String { 
+                result.couponTypeHint = CouponItem.CouponTypeHint(rawValue: (couponTypeHint))
+            }
+            
+            result.discountMax = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount_max"] as AnyObject?)
+            result.discountMinCartValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount_min_cart_value"] as AnyObject?)
+            if let discountType = sourceDictionary["discount_type"] as? String { 
+                result.discountType = CouponItem.DiscountType(rawValue: (discountType))
+            }
+            
+            result.discountValue = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["discount_value"] as AnyObject?)
+            result.exclusive = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["exclusive"] as AnyObject?)
+            result.itemId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["item_id"] as AnyObject?)
+            result.maxQuantity = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_quantity"] as AnyObject?)
+            result.selfExclusive = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["self_exclusive"] as AnyObject?)
+            result.validForTags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["valid_for_tags"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [ImageGroupProperty]
+        Decoders.addDecoder(clazz: [ImageGroupProperty].self) { (source: AnyObject, instance: AnyObject?) -> [ImageGroupProperty] in
+            return Decoders.decode(clazz: [ImageGroupProperty].self, source: source)
+        }
+        // Decoder for ImageGroupProperty
+        Decoders.addDecoder(clazz: ImageGroupProperty.self) { (source: AnyObject, instance: AnyObject?) -> ImageGroupProperty in
+            if let source = source as?  {
+                return source
+            }
+            fatalError("Source \(source) is not convertible to typealias ImageGroupProperty: Maybe swagger file is insufficient")
+        }
+
+
+        // Decoder for [ImageGroupPropertyDefinitionResource]
+        Decoders.addDecoder(clazz: [ImageGroupPropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [ImageGroupPropertyDefinitionResource] in
+            return Decoders.decode(clazz: [ImageGroupPropertyDefinitionResource].self, source: source)
+        }
+        // Decoder for ImageGroupPropertyDefinitionResource
+        Decoders.addDecoder(clazz: ImageGroupPropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> ImageGroupPropertyDefinitionResource in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? ImageGroupPropertyDefinitionResource() : instance as! ImageGroupPropertyDefinitionResource
+            if decoders["\(FileGroupPropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: FileGroupPropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.maxHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_height"] as AnyObject?)
+            result.maxWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_width"] as AnyObject?)
+            result.minHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_height"] as AnyObject?)
+            result.minWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_width"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [ImageProperty]
+        Decoders.addDecoder(clazz: [ImageProperty].self) { (source: AnyObject, instance: AnyObject?) -> [ImageProperty] in
+            return Decoders.decode(clazz: [ImageProperty].self, source: source)
+        }
+        // Decoder for ImageProperty
+        Decoders.addDecoder(clazz: ImageProperty.self) { (source: AnyObject, instance: AnyObject?) -> ImageProperty in
+            if let source = source as?  {
+                return source
+            }
+            fatalError("Source \(source) is not convertible to typealias ImageProperty: Maybe swagger file is insufficient")
+        }
+
+
+        // Decoder for [ShippingItem]
+        Decoders.addDecoder(clazz: [ShippingItem].self) { (source: AnyObject, instance: AnyObject?) -> [ShippingItem] in
+            return Decoders.decode(clazz: [ShippingItem].self, source: source)
+        }
+        // Decoder for ShippingItem
+        Decoders.addDecoder(clazz: ShippingItem.self) { (source: AnyObject, instance: AnyObject?) -> ShippingItem in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? ShippingItem() : instance as! ShippingItem
+            if decoders["\(StoreItem.self)"] != nil {
+              _ = Decoders.decode(clazz: StoreItem.self, source: source, instance: result)
+            }
+            
+            result.countries = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["countries"] as AnyObject?)
+            result.maxTierTotal = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_tier_total"] as AnyObject?)
+            result.taxable = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["taxable"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [Subscription]
+        Decoders.addDecoder(clazz: [Subscription].self) { (source: AnyObject, instance: AnyObject?) -> [Subscription] in
+            return Decoders.decode(clazz: [Subscription].self, source: source)
+        }
+        // Decoder for Subscription
+        Decoders.addDecoder(clazz: Subscription.self) { (source: AnyObject, instance: AnyObject?) -> Subscription in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? Subscription() : instance as! Subscription
+            if decoders["\(StoreItem.self)"] != nil {
+              _ = Decoders.decode(clazz: StoreItem.self, source: source, instance: result)
+            }
+            
+            if let availability = sourceDictionary["availability"] as? String { 
+                result.availability = Subscription.Availability(rawValue: (availability))
+            }
+            
+            result.consolidationDayOfMonth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["consolidation_day_of_month"] as AnyObject?)
+            result.subscriptionPlans = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["subscription_plans"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [VideoGroupProperty]
-        Decoders.addDecoder(clazz: [VideoGroupProperty].self) { (source: AnyObject) -> [VideoGroupProperty] in
+        Decoders.addDecoder(clazz: [VideoGroupProperty].self) { (source: AnyObject, instance: AnyObject?) -> [VideoGroupProperty] in
             return Decoders.decode(clazz: [VideoGroupProperty].self, source: source)
         }
         // Decoder for VideoGroupProperty
-        Decoders.addDecoder(clazz: VideoGroupProperty.self) { (source: AnyObject) -> VideoGroupProperty in
+        Decoders.addDecoder(clazz: VideoGroupProperty.self) { (source: AnyObject, instance: AnyObject?) -> VideoGroupProperty in
             if let source = source as?  {
                 return source
             }
@@ -6739,198 +7124,37 @@ class Decoders {
 
 
         // Decoder for [VideoGroupPropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [VideoGroupPropertyDefinitionResource].self) { (source: AnyObject) -> [VideoGroupPropertyDefinitionResource] in
+        Decoders.addDecoder(clazz: [VideoGroupPropertyDefinitionResource].self) { (source: AnyObject, instance: AnyObject?) -> [VideoGroupPropertyDefinitionResource] in
             return Decoders.decode(clazz: [VideoGroupPropertyDefinitionResource].self, source: source)
         }
         // Decoder for VideoGroupPropertyDefinitionResource
-        Decoders.addDecoder(clazz: VideoGroupPropertyDefinitionResource.self) { (source: AnyObject) -> VideoGroupPropertyDefinitionResource in
+        Decoders.addDecoder(clazz: VideoGroupPropertyDefinitionResource.self) { (source: AnyObject, instance: AnyObject?) -> VideoGroupPropertyDefinitionResource in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = VideoGroupPropertyDefinitionResource()
-            instance.maxHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_height"] as AnyObject?)
-            instance.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
-            instance.maxWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_width"] as AnyObject?)
-            instance.minHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_height"] as AnyObject?)
-            instance.minLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_length"] as AnyObject?)
-            instance.minWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_width"] as AnyObject?)
-            return instance
+            let result = instance == nil ? VideoGroupPropertyDefinitionResource() : instance as! VideoGroupPropertyDefinitionResource
+            if decoders["\(FileGroupPropertyDefinitionResource.self)"] != nil {
+              _ = Decoders.decode(clazz: FileGroupPropertyDefinitionResource.self, source: source, instance: result)
+            }
+            
+            result.maxHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_height"] as AnyObject?)
+            result.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
+            result.maxWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_width"] as AnyObject?)
+            result.minHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_height"] as AnyObject?)
+            result.minLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_length"] as AnyObject?)
+            result.minWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_width"] as AnyObject?)
+            return result
         }
 
 
         // Decoder for [VideoProperty]
-        Decoders.addDecoder(clazz: [VideoProperty].self) { (source: AnyObject) -> [VideoProperty] in
+        Decoders.addDecoder(clazz: [VideoProperty].self) { (source: AnyObject, instance: AnyObject?) -> [VideoProperty] in
             return Decoders.decode(clazz: [VideoProperty].self, source: source)
         }
         // Decoder for VideoProperty
-        Decoders.addDecoder(clazz: VideoProperty.self) { (source: AnyObject) -> VideoProperty in
+        Decoders.addDecoder(clazz: VideoProperty.self) { (source: AnyObject, instance: AnyObject?) -> VideoProperty in
             if let source = source as?  {
                 return source
             }
             fatalError("Source \(source) is not convertible to typealias VideoProperty: Maybe swagger file is insufficient")
-        }
-
-
-        // Decoder for [VideoPropertyDefinitionResource]
-        Decoders.addDecoder(clazz: [VideoPropertyDefinitionResource].self) { (source: AnyObject) -> [VideoPropertyDefinitionResource] in
-            return Decoders.decode(clazz: [VideoPropertyDefinitionResource].self, source: source)
-        }
-        // Decoder for VideoPropertyDefinitionResource
-        Decoders.addDecoder(clazz: VideoPropertyDefinitionResource.self) { (source: AnyObject) -> VideoPropertyDefinitionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = VideoPropertyDefinitionResource()
-            instance.fieldList = Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance._required = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["required"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.fileType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["file_type"] as AnyObject?)
-            instance.maxHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_height"] as AnyObject?)
-            instance.maxLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_length"] as AnyObject?)
-            instance.maxWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_width"] as AnyObject?)
-            instance.minHeight = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_height"] as AnyObject?)
-            instance.minLength = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_length"] as AnyObject?)
-            instance.minWidth = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_width"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [VideoRelationshipResource]
-        Decoders.addDecoder(clazz: [VideoRelationshipResource].self) { (source: AnyObject) -> [VideoRelationshipResource] in
-            return Decoders.decode(clazz: [VideoRelationshipResource].self, source: source)
-        }
-        // Decoder for VideoRelationshipResource
-        Decoders.addDecoder(clazz: VideoRelationshipResource.self) { (source: AnyObject) -> VideoRelationshipResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = VideoRelationshipResource()
-            instance.from = Decoders.decodeOptional(clazz: SimpleReferenceResourcelong.self, source: sourceDictionary["from"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.relationshipDetails = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["relationship_details"] as AnyObject?)
-            instance.to = Decoders.decodeOptional(clazz: SimpleReferenceResourcelong.self, source: sourceDictionary["to"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [VideoResource]
-        Decoders.addDecoder(clazz: [VideoResource].self) { (source: AnyObject) -> [VideoResource] in
-            return Decoders.decode(clazz: [VideoResource].self, source: source)
-        }
-        // Decoder for VideoResource
-        Decoders.addDecoder(clazz: VideoResource.self) { (source: AnyObject) -> VideoResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = VideoResource()
-            instance.active = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["active"] as AnyObject?)
-            instance.author = Decoders.decodeOptional(clazz: SimpleReferenceResourcelong.self, source: sourceDictionary["author"] as AnyObject?)
-            instance.authored = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["authored"] as AnyObject?)
-            instance.banned = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["banned"] as AnyObject?)
-            instance.category = Decoders.decodeOptional(clazz: SimpleReferenceResourcestring.self, source: sourceDictionary["category"] as AnyObject?)
-            instance.comments = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["comments"] as AnyObject?)
-            instance.contributors = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["contributors"] as AnyObject?)
-            instance.createdDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?)
-            instance.embed = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["embed"] as AnyObject?)
-            instance._extension = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["extension"] as AnyObject?)
-            instance.height = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["height"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.length = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["length"] as AnyObject?)
-            instance.location = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["location"] as AnyObject?)
-            instance.longDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["long_description"] as AnyObject?)
-            instance.mimeType = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["mime_type"] as AnyObject?)
-            instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            instance.priority = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["priority"] as AnyObject?)
-            if let privacy = sourceDictionary["privacy"] as? String { 
-                instance.privacy = VideoResource.Privacy(rawValue: (privacy))
-            }
-            
-            instance.published = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["published"] as AnyObject?)
-            instance.shortDescription = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["short_description"] as AnyObject?)
-            instance.size = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["size"] as AnyObject?)
-            instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"] as AnyObject?)
-            instance.thumbnail = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["thumbnail"] as AnyObject?)
-            instance.updatedDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?)
-            instance.uploader = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["uploader"] as AnyObject?)
-            instance.views = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["views"] as AnyObject?)
-            instance.width = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["width"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [WalletAlterRequest]
-        Decoders.addDecoder(clazz: [WalletAlterRequest].self) { (source: AnyObject) -> [WalletAlterRequest] in
-            return Decoders.decode(clazz: [WalletAlterRequest].self, source: source)
-        }
-        // Decoder for WalletAlterRequest
-        Decoders.addDecoder(clazz: WalletAlterRequest.self) { (source: AnyObject) -> WalletAlterRequest in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = WalletAlterRequest()
-            instance.delta = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["delta"] as AnyObject?)
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.reason = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["reason"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [WalletTotalResponse]
-        Decoders.addDecoder(clazz: [WalletTotalResponse].self) { (source: AnyObject) -> [WalletTotalResponse] in
-            return Decoders.decode(clazz: [WalletTotalResponse].self, source: source)
-        }
-        // Decoder for WalletTotalResponse
-        Decoders.addDecoder(clazz: WalletTotalResponse.self) { (source: AnyObject) -> WalletTotalResponse in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = WalletTotalResponse()
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.total = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["total"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [WalletTransactionResource]
-        Decoders.addDecoder(clazz: [WalletTransactionResource].self) { (source: AnyObject) -> [WalletTransactionResource] in
-            return Decoders.decode(clazz: [WalletTransactionResource].self, source: source)
-        }
-        // Decoder for WalletTransactionResource
-        Decoders.addDecoder(clazz: WalletTransactionResource.self) { (source: AnyObject) -> WalletTransactionResource in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = WalletTransactionResource()
-            instance.balance = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["balance"] as AnyObject?)
-            instance.createDate = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["create_date"] as AnyObject?)
-            instance.currencyCode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["currency_code"] as AnyObject?)
-            instance.details = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["details"] as AnyObject?)
-            instance.id = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?)
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.isRefunded = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["is_refunded"] as AnyObject?)
-            instance.response = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["response"] as AnyObject?)
-            if let source = sourceDictionary["source"] as? String { 
-                instance.source = WalletTransactionResource.Source(rawValue: (source))
-            }
-            
-            instance.successful = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["successful"] as AnyObject?)
-            instance.transactionId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["transaction_id"] as AnyObject?)
-            instance.type = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?)
-            instance.typeHint = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type_hint"] as AnyObject?)
-            instance.user = Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["value"] as AnyObject?)
-            instance.walletId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["wallet_id"] as AnyObject?)
-            return instance
-        }
-
-
-        // Decoder for [XsollaPaymentRequest]
-        Decoders.addDecoder(clazz: [XsollaPaymentRequest].self) { (source: AnyObject) -> [XsollaPaymentRequest] in
-            return Decoders.decode(clazz: [XsollaPaymentRequest].self, source: source)
-        }
-        // Decoder for XsollaPaymentRequest
-        Decoders.addDecoder(clazz: XsollaPaymentRequest.self) { (source: AnyObject) -> XsollaPaymentRequest in
-            let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = XsollaPaymentRequest()
-            instance.invoiceId = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["invoice_id"] as AnyObject?)
-            instance.returnUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["return_url"] as AnyObject?)
-            return instance
         }
     }()
 

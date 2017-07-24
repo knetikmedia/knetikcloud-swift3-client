@@ -9,6 +9,7 @@ import Foundation
 
 
 open class FormattedTextProperty: Property {
+
     /** The value */
     public var value: String?
 
@@ -18,6 +19,7 @@ open class FormattedTextProperty: Property {
     override open func encodeToJSON() -> Any {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["value"] = self.value
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

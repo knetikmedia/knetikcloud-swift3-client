@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -35,7 +36,7 @@ open class GamificationLevelingAPI: APIBase {
     "additional_properties" : {
       "key" : ""
     },
-    "required_progress" : 5,
+    "required_progress" : 6,
     "trigger_event_name" : "aeiou"
   } ],
   "name" : "aeiou",
@@ -45,8 +46,8 @@ open class GamificationLevelingAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 4,
-  "updated_date" : 3
+  "created_date" : 0,
+  "updated_date" : 1
 }}]
      
      - parameter level: (body) The level schema definition (optional)
@@ -129,7 +130,7 @@ open class GamificationLevelingAPI: APIBase {
     "additional_properties" : {
       "key" : ""
     },
-    "required_progress" : 2,
+    "required_progress" : 6,
     "trigger_event_name" : "aeiou"
   } ],
   "name" : "aeiou",
@@ -140,7 +141,7 @@ open class GamificationLevelingAPI: APIBase {
     }
   },
   "created_date" : 0,
-  "updated_date" : 6
+  "updated_date" : 1
 }}]
      
      - parameter name: (path) The level schema name 
@@ -186,6 +187,7 @@ open class GamificationLevelingAPI: APIBase {
   "category" : "achievement",
   "parameters" : [ {
     "name" : "aeiou",
+    "optional" : false,
     "type" : "aeiou"
   } ],
   "tags" : [ "aeiou" ],
@@ -231,10 +233,10 @@ open class GamificationLevelingAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 8,
+  "number" : 5,
   "last" : true,
-  "size" : 8,
-  "total_elements" : 2,
+  "size" : 2,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -242,15 +244,15 @@ open class GamificationLevelingAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 8,
-  "number_of_elements" : 6,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "tiers" : [ {
       "name" : "aeiou",
       "additional_properties" : {
         "key" : ""
       },
-      "required_progress" : 7,
+      "required_progress" : 6,
       "trigger_event_name" : "aeiou"
     } ],
     "name" : "aeiou",
@@ -260,8 +262,8 @@ open class GamificationLevelingAPI: APIBase {
         "type" : "aeiou"
       }
     },
-    "created_date" : 6,
-    "updated_date" : 2
+    "created_date" : 0,
+    "updated_date" : 1
   } ],
   "first" : true
 }}]
@@ -308,7 +310,7 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Get a user's progress for a given level schema
-     - GET /users/{userId}/leveling/{name}
+     - GET /users/{user_id}/leveling/{name}
      - OAuth:
        - type: oauth2
        - name: OAuth2
@@ -317,10 +319,10 @@ open class GamificationLevelingAPI: APIBase {
   "level_name" : "aeiou",
   "next_tier_name" : "aeiou",
   "tier_names" : [ "aeiou" ],
-  "user_id" : 0,
-  "progress" : 6,
-  "last_tier_progress" : 6,
-  "next_tier_progress" : 3
+  "user_id" : 5,
+  "progress" : 1,
+  "last_tier_progress" : 0,
+  "next_tier_progress" : 6
 }}]
      
      - parameter userId: (path) The id of the user 
@@ -329,7 +331,7 @@ open class GamificationLevelingAPI: APIBase {
      - returns: RequestBuilder<UserLevelingResource> 
      */
     open class func getUserLevelWithRequestBuilder(userId: Int32, name: String) -> RequestBuilder<UserLevelingResource> {
-        var path = "/users/{userId}/leveling/{name}"
+        var path = "/users/{user_id}/leveling/{name}"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{name}", with: "\(name)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -362,16 +364,16 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Get a user's progress for all level schemas
-     - GET /users/{userId}/leveling
+     - GET /users/{user_id}/leveling
      - Filtering and sorting is based on the LevelingResource object, not the UserLevelingResource that is returned here.
      - OAuth:
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 3,
+  "number" : 5,
   "last" : true,
-  "size" : 6,
-  "total_elements" : 2,
+  "size" : 7,
+  "total_elements" : 9,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -379,17 +381,17 @@ open class GamificationLevelingAPI: APIBase {
     "ascending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 9,
+  "total_pages" : 3,
   "number_of_elements" : 2,
   "content" : [ {
     "last_tier_name" : "aeiou",
     "level_name" : "aeiou",
     "next_tier_name" : "aeiou",
     "tier_names" : [ "aeiou" ],
-    "user_id" : 6,
-    "progress" : 7,
-    "last_tier_progress" : 6,
-    "next_tier_progress" : 8
+    "user_id" : 5,
+    "progress" : 1,
+    "last_tier_progress" : 0,
+    "next_tier_progress" : 6
   } ],
   "first" : true
 }}]
@@ -403,7 +405,7 @@ open class GamificationLevelingAPI: APIBase {
      - returns: RequestBuilder<PageResourceUserLevelingResource> 
      */
     open class func getUserLevelsWithRequestBuilder(userId: Int32, filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceUserLevelingResource> {
-        var path = "/users/{userId}/leveling"
+        var path = "/users/{user_id}/leveling"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -439,7 +441,7 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Update or create a leveling progress record for a user
-     - POST /users/{userId}/leveling/{name}/progress
+     - POST /users/{user_id}/leveling/{name}/progress
      - If no progress record yet exists for the user, it will be created. Otherwise the provided value will be added to it. May be negative. If progress meets or exceeds the level's max_value it will be marked as earned and a BRE event will be triggered for the <code>BreAchievementEarnedTrigger</code>.
      - OAuth:
        - type: oauth2
@@ -452,7 +454,7 @@ open class GamificationLevelingAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func incrementProgressWithRequestBuilder(userId: Int32, name: String, progress: Int32? = nil) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/leveling/{name}/progress"
+        var path = "/users/{user_id}/leveling/{name}/progress"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{name}", with: "\(name)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -483,7 +485,7 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Set leveling progress for a user
-     - PUT /users/{userId}/leveling/{name}/progress
+     - PUT /users/{user_id}/leveling/{name}/progress
      - If no progress record yet exists for the user, it will be created. Otherwise it will be updated to the provided value. If progress meets or exceeds the level's max_value it will be marked as earned and a BRE event will be triggered for the <code>BreAchievementEarnedTrigger</code>.
      - OAuth:
        - type: oauth2
@@ -496,7 +498,7 @@ open class GamificationLevelingAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func setProgressWithRequestBuilder(userId: Int32, name: String, progress: Int32? = nil) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/leveling/{name}/progress"
+        var path = "/users/{user_id}/leveling/{name}/progress"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{name}", with: "\(name)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -536,7 +538,7 @@ open class GamificationLevelingAPI: APIBase {
     "additional_properties" : {
       "key" : ""
     },
-    "required_progress" : 3,
+    "required_progress" : 6,
     "trigger_event_name" : "aeiou"
   } ],
   "name" : "aeiou",
@@ -546,8 +548,8 @@ open class GamificationLevelingAPI: APIBase {
       "type" : "aeiou"
     }
   },
-  "created_date" : 8,
-  "updated_date" : 3
+  "created_date" : 0,
+  "updated_date" : 1
 }}]
      
      - parameter name: (path) The level schema name 

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class WalletAlterRequest: JSONEncodable {
+
     /** The amount of currency to add/remove. positive to add, negative to remove */
     public var delta: Double?
     /** The id of an invoice to attribute the transaction to */
@@ -27,6 +28,7 @@ open class WalletAlterRequest: JSONEncodable {
         nillableDictionary["invoice_id"] = self.invoiceId?.encodeToJSON()
         nillableDictionary["reason"] = self.reason
         nillableDictionary["type"] = self.type
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

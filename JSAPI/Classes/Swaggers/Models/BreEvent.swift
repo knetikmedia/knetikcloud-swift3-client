@@ -9,6 +9,7 @@ import Foundation
 
 
 open class BreEvent: JSONEncodable {
+
     /** The event name of the trigger to be fired */
     public var eventName: String?
     /** The parameters to the event. A Map (assosiative array) with a key for each trigger parameter name and a corrosponding value. */
@@ -21,6 +22,7 @@ open class BreEvent: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["event_name"] = self.eventName
         nillableDictionary["params"] = self.params
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

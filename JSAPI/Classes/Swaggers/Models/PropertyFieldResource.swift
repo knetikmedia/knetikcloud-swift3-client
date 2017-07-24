@@ -9,6 +9,7 @@ import Foundation
 
 
 open class PropertyFieldResource: JSONEncodable {
+
     public enum InnerType: String { 
         case integer = "integer"
         case number = "number"
@@ -54,6 +55,7 @@ open class PropertyFieldResource: JSONEncodable {
         nillableDictionary["required"] = self._required
         nillableDictionary["type"] = self.type?.rawValue
         nillableDictionary["valid_values"] = self.validValues?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

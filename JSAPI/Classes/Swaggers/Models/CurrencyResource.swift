@@ -9,6 +9,7 @@ import Foundation
 
 
 open class CurrencyResource: JSONEncodable {
+
     public enum ModelType: String { 
         case real = "real"
         case virtual = "virtual"
@@ -43,6 +44,7 @@ open class CurrencyResource: JSONEncodable {
         nillableDictionary["name"] = self.name
         nillableDictionary["type"] = self.type?.rawValue
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
