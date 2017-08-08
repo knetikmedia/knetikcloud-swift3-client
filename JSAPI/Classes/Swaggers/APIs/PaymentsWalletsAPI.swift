@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class PaymentsWalletsAPI: APIBase {
     /**
      Returns the user's wallet for the given currency code
-     
      - parameter userId: (path) The ID of the user for whom wallet is being retrieved 
      - parameter currencyCode: (path) Currency code of the user&#39;s wallet 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserWallet(userId: Int32, currencyCode: String, completion: @escaping ((_ data: SimpleWallet?,_ error: Error?) -> Void)) {
+    open class func getUserWallet(userId: Int32, currencyCode: String, completion: @escaping ((_ data: SimpleWallet?, _ error: ErrorResponse?) -> Void)) {
         getUserWalletWithRequestBuilder(userId: userId, currencyCode: currencyCode).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,16 +30,14 @@ open class PaymentsWalletsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "code" : "aeiou",
-  "currency_name" : "aeiou",
+  "code" : "code",
+  "currency_name" : "currency_name",
   "balance" : 0.8008281904610115,
   "user_id" : 1,
   "id" : 6
 }}]
-     
      - parameter userId: (path) The ID of the user for whom wallet is being retrieved 
      - parameter currencyCode: (path) Currency code of the user&#39;s wallet 
-
      - returns: RequestBuilder<SimpleWallet> 
      */
     open class func getUserWalletWithRequestBuilder(userId: Int32, currencyCode: String) -> RequestBuilder<SimpleWallet> {
@@ -53,7 +49,6 @@ open class PaymentsWalletsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<SimpleWallet>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -61,7 +56,6 @@ open class PaymentsWalletsAPI: APIBase {
 
     /**
      Retrieve a user's wallet transactions
-     
      - parameter userId: (path) The ID of the user for whom wallet transactions are being retrieved 
      - parameter currencyCode: (path) Currency code of the user&#39;s wallet 
      - parameter filterType: (query) Filter for transactions with specified type (optional)
@@ -73,9 +67,9 @@ open class PaymentsWalletsAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserWalletTransactions(userId: Int32, currencyCode: String, filterType: String? = nil, filterMaxDate: Int64? = nil, filterMinDate: Int64? = nil, filterSign: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceWalletTransactionResource?,_ error: Error?) -> Void)) {
+    open class func getUserWalletTransactions(userId: Int32, currencyCode: String, filterType: String? = nil, filterMaxDate: Int64? = nil, filterMinDate: Int64? = nil, filterSign: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceWalletTransactionResource?, _ error: ErrorResponse?) -> Void)) {
         getUserWalletTransactionsWithRequestBuilder(userId: userId, currencyCode: currencyCode, filterType: filterType, filterMaxDate: filterMaxDate, filterMinDate: filterMinDate, filterSign: filterSign, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -87,45 +81,74 @@ open class PaymentsWalletsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 0,
   "last" : true,
-  "size" : 2,
-  "total_elements" : 4,
+  "size" : 1,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 7,
-  "number_of_elements" : 3,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ {
-    "transaction_id" : "aeiou",
-    "type_hint" : "aeiou",
+    "transaction_id" : "transaction_id",
+    "type_hint" : "type_hint",
     "source" : "digital",
-    "type" : "aeiou",
-    "currency_code" : "aeiou",
+    "type" : "type",
+    "currency_code" : "currency_code",
     "is_refunded" : false,
-    "wallet_id" : 7,
+    "wallet_id" : 2,
     "balance" : 0.8008281904610115,
-    "response" : "aeiou",
+    "response" : "response",
     "invoice_id" : 5,
-    "details" : "aeiou",
+    "details" : "details",
     "id" : 1,
     "create_date" : 6,
     "user" : {
-      "avatar_url" : "aeiou",
-      "id" : 5,
-      "display_name" : "aeiou",
-      "username" : "aeiou"
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
     },
-    "value" : 2.3021358869347655,
+    "value" : 5.637376656633329,
+    "successful" : false
+  }, {
+    "transaction_id" : "transaction_id",
+    "type_hint" : "type_hint",
+    "source" : "digital",
+    "type" : "type",
+    "currency_code" : "currency_code",
+    "is_refunded" : false,
+    "wallet_id" : 2,
+    "balance" : 0.8008281904610115,
+    "response" : "response",
+    "invoice_id" : 5,
+    "details" : "details",
+    "id" : 1,
+    "create_date" : 6,
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "value" : 5.637376656633329,
     "successful" : false
   } ],
   "first" : true
 }}]
-     
      - parameter userId: (path) The ID of the user for whom wallet transactions are being retrieved 
      - parameter currencyCode: (path) Currency code of the user&#39;s wallet 
      - parameter filterType: (query) Filter for transactions with specified type (optional)
@@ -135,7 +158,6 @@ open class PaymentsWalletsAPI: APIBase {
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceWalletTransactionResource> 
      */
     open class func getUserWalletTransactionsWithRequestBuilder(userId: Int32, currencyCode: String, filterType: String? = nil, filterMaxDate: Int64? = nil, filterMinDate: Int64? = nil, filterSign: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceWalletTransactionResource> {
@@ -155,7 +177,6 @@ open class PaymentsWalletsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceWalletTransactionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -164,13 +185,12 @@ open class PaymentsWalletsAPI: APIBase {
 
     /**
      List all of a user's wallets
-     
      - parameter userId: (path) The ID of the user for whom wallets are being retrieved 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserWallets(userId: Int32, completion: @escaping ((_ data: [SimpleWallet]?,_ error: Error?) -> Void)) {
+    open class func getUserWallets(userId: Int32, completion: @escaping ((_ data: [SimpleWallet]?, _ error: ErrorResponse?) -> Void)) {
         getUserWalletsWithRequestBuilder(userId: userId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -182,15 +202,19 @@ open class PaymentsWalletsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
-  "code" : "aeiou",
-  "currency_name" : "aeiou",
+  "code" : "code",
+  "currency_name" : "currency_name",
+  "balance" : 0.8008281904610115,
+  "user_id" : 1,
+  "id" : 6
+}, {
+  "code" : "code",
+  "currency_name" : "currency_name",
   "balance" : 0.8008281904610115,
   "user_id" : 1,
   "id" : 6
 } ]}]
-     
      - parameter userId: (path) The ID of the user for whom wallets are being retrieved 
-
      - returns: RequestBuilder<[SimpleWallet]> 
      */
     open class func getUserWalletsWithRequestBuilder(userId: Int32) -> RequestBuilder<[SimpleWallet]> {
@@ -201,7 +225,6 @@ open class PaymentsWalletsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[SimpleWallet]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -209,12 +232,11 @@ open class PaymentsWalletsAPI: APIBase {
 
     /**
      Retrieves a summation of wallet balances by currency code
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getWalletBalances(completion: @escaping ((_ data: PageResourceWalletTotalResponse?,_ error: Error?) -> Void)) {
+    open class func getWalletBalances(completion: @escaping ((_ data: PageResourceWalletTotalResponse?, _ error: ErrorResponse?) -> Void)) {
         getWalletBalancesWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -233,19 +255,29 @@ open class PaymentsWalletsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
   "number_of_elements" : 1,
   "content" : [ {
     "total" : 0.8008281904610115,
-    "currency_code" : "aeiou"
+    "currency_code" : "currency_code"
+  }, {
+    "total" : 0.8008281904610115,
+    "currency_code" : "currency_code"
   } ],
   "first" : true
 }}]
-
      - returns: RequestBuilder<PageResourceWalletTotalResponse> 
      */
     open class func getWalletBalancesWithRequestBuilder() -> RequestBuilder<PageResourceWalletTotalResponse> {
@@ -254,7 +286,6 @@ open class PaymentsWalletsAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<PageResourceWalletTotalResponse>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -271,7 +302,6 @@ open class PaymentsWalletsAPI: APIBase {
 
     /**
      Retrieve wallet transactions across the system
-     
      - parameter filterInvoice: (query) Filter for transactions from a specific invoice (optional)
      - parameter filterType: (query) Filter for transactions with specified type (optional)
      - parameter filterDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
@@ -285,9 +315,9 @@ open class PaymentsWalletsAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getWalletTransactions(filterInvoice: Int32? = nil, filterType: String? = nil, filterDate: String? = nil, filterSign: FilterSign_getWalletTransactions? = nil, filterUserId: Int32? = nil, filterUsername: String? = nil, filterDetails: String? = nil, filterCurrencyCode: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceWalletTransactionResource?,_ error: Error?) -> Void)) {
+    open class func getWalletTransactions(filterInvoice: Int32? = nil, filterType: String? = nil, filterDate: String? = nil, filterSign: FilterSign_getWalletTransactions? = nil, filterUserId: Int32? = nil, filterUsername: String? = nil, filterDetails: String? = nil, filterCurrencyCode: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceWalletTransactionResource?, _ error: ErrorResponse?) -> Void)) {
         getWalletTransactionsWithRequestBuilder(filterInvoice: filterInvoice, filterType: filterType, filterDate: filterDate, filterSign: filterSign, filterUserId: filterUserId, filterUsername: filterUsername, filterDetails: filterDetails, filterCurrencyCode: filterCurrencyCode, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -299,45 +329,74 @@ open class PaymentsWalletsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 0,
   "last" : true,
-  "size" : 2,
-  "total_elements" : 4,
+  "size" : 1,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 7,
-  "number_of_elements" : 3,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ {
-    "transaction_id" : "aeiou",
-    "type_hint" : "aeiou",
+    "transaction_id" : "transaction_id",
+    "type_hint" : "type_hint",
     "source" : "digital",
-    "type" : "aeiou",
-    "currency_code" : "aeiou",
+    "type" : "type",
+    "currency_code" : "currency_code",
     "is_refunded" : false,
-    "wallet_id" : 7,
+    "wallet_id" : 2,
     "balance" : 0.8008281904610115,
-    "response" : "aeiou",
+    "response" : "response",
     "invoice_id" : 5,
-    "details" : "aeiou",
+    "details" : "details",
     "id" : 1,
     "create_date" : 6,
     "user" : {
-      "avatar_url" : "aeiou",
-      "id" : 5,
-      "display_name" : "aeiou",
-      "username" : "aeiou"
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
     },
-    "value" : 2.3021358869347655,
+    "value" : 5.637376656633329,
+    "successful" : false
+  }, {
+    "transaction_id" : "transaction_id",
+    "type_hint" : "type_hint",
+    "source" : "digital",
+    "type" : "type",
+    "currency_code" : "currency_code",
+    "is_refunded" : false,
+    "wallet_id" : 2,
+    "balance" : 0.8008281904610115,
+    "response" : "response",
+    "invoice_id" : 5,
+    "details" : "details",
+    "id" : 1,
+    "create_date" : 6,
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "value" : 5.637376656633329,
     "successful" : false
   } ],
   "first" : true
 }}]
-     
      - parameter filterInvoice: (query) Filter for transactions from a specific invoice (optional)
      - parameter filterType: (query) Filter for transactions with specified type (optional)
      - parameter filterDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
@@ -349,7 +408,6 @@ open class PaymentsWalletsAPI: APIBase {
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceWalletTransactionResource> 
      */
     open class func getWalletTransactionsWithRequestBuilder(filterInvoice: Int32? = nil, filterType: String? = nil, filterDate: String? = nil, filterSign: FilterSign_getWalletTransactions? = nil, filterUserId: Int32? = nil, filterUsername: String? = nil, filterDetails: String? = nil, filterCurrencyCode: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceWalletTransactionResource> {
@@ -371,7 +429,6 @@ open class PaymentsWalletsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceWalletTransactionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -380,15 +437,14 @@ open class PaymentsWalletsAPI: APIBase {
 
     /**
      Retrieve a list of wallets across the system
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getWallets(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceSimpleWallet?,_ error: Error?) -> Void)) {
+    open class func getWallets(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceSimpleWallet?, _ error: ErrorResponse?) -> Void)) {
         getWalletsWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -400,33 +456,45 @@ open class PaymentsWalletsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 5,
+  "number" : 0,
   "last" : true,
-  "size" : 2,
-  "total_elements" : 7,
+  "size" : 1,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 9,
-  "number_of_elements" : 5,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ {
-    "code" : "aeiou",
-    "currency_name" : "aeiou",
+    "code" : "code",
+    "currency_name" : "currency_name",
+    "balance" : 0.8008281904610115,
+    "user_id" : 1,
+    "id" : 6
+  }, {
+    "code" : "code",
+    "currency_name" : "currency_name",
     "balance" : 0.8008281904610115,
     "user_id" : 1,
     "id" : 6
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceSimpleWallet> 
      */
     open class func getWalletsWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceSimpleWallet> {
@@ -440,7 +508,6 @@ open class PaymentsWalletsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceSimpleWallet>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -449,15 +516,14 @@ open class PaymentsWalletsAPI: APIBase {
 
     /**
      Updates the balance for a user's wallet
-     
      - parameter userId: (path) The ID of the user for whom wallet is being modified 
      - parameter currencyCode: (path) Currency code of the user&#39;s wallet 
      - parameter request: (body) The requested balance modification to be made to the user&#39;s wallet (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateWalletBalance(userId: Int32, currencyCode: String, request: WalletAlterRequest? = nil, completion: @escaping ((_ data: WalletTransactionResource?,_ error: Error?) -> Void)) {
+    open class func updateWalletBalance(userId: Int32, currencyCode: String, request: WalletAlterRequest? = nil, completion: @escaping ((_ data: WalletTransactionResource?, _ error: ErrorResponse?) -> Void)) {
         updateWalletBalanceWithRequestBuilder(userId: userId, currencyCode: currencyCode, request: request).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -469,33 +535,31 @@ open class PaymentsWalletsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "transaction_id" : "aeiou",
-  "type_hint" : "aeiou",
+  "transaction_id" : "transaction_id",
+  "type_hint" : "type_hint",
   "source" : "digital",
-  "type" : "aeiou",
-  "currency_code" : "aeiou",
+  "type" : "type",
+  "currency_code" : "currency_code",
   "is_refunded" : false,
-  "wallet_id" : 7,
+  "wallet_id" : 2,
   "balance" : 0.8008281904610115,
-  "response" : "aeiou",
+  "response" : "response",
   "invoice_id" : 5,
-  "details" : "aeiou",
+  "details" : "details",
   "id" : 1,
   "create_date" : 6,
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 5,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
-  "value" : 2.3021358869347655,
+  "value" : 5.637376656633329,
   "successful" : false
 }}]
-     
      - parameter userId: (path) The ID of the user for whom wallet is being modified 
      - parameter currencyCode: (path) Currency code of the user&#39;s wallet 
      - parameter request: (body) The requested balance modification to be made to the user&#39;s wallet (optional)
-
      - returns: RequestBuilder<WalletTransactionResource> 
      */
     open class func updateWalletBalanceWithRequestBuilder(userId: Int32, currencyCode: String, request: WalletAlterRequest? = nil) -> RequestBuilder<WalletTransactionResource> {
@@ -506,7 +570,6 @@ open class PaymentsWalletsAPI: APIBase {
         let parameters = request?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<WalletTransactionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

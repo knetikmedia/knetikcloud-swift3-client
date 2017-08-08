@@ -9,16 +9,14 @@ import Foundation
 import Alamofire
 
 
-
 open class UtilMaintenanceAPI: APIBase {
     /**
      Delete maintenance info
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteMaintenance(completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteMaintenance(completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteMaintenanceWithRequestBuilder().execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -29,7 +27,6 @@ open class UtilMaintenanceAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteMaintenanceWithRequestBuilder() -> RequestBuilder<Void> {
@@ -39,7 +36,6 @@ open class UtilMaintenanceAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -47,12 +43,11 @@ open class UtilMaintenanceAPI: APIBase {
 
     /**
      Get current maintenance info
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getMaintenance(completion: @escaping ((_ data: Maintenance?,_ error: Error?) -> Void)) {
+    open class func getMaintenance(completion: @escaping ((_ data: Maintenance?, _ error: ErrorResponse?) -> Void)) {
         getMaintenanceWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -61,12 +56,12 @@ open class UtilMaintenanceAPI: APIBase {
      Get current maintenance info
      - GET /maintenance
      - Get current maintenance info. 404 if no maintenance.
+
      - examples: [{contentType=application/json, example={
   "details" : "{}",
   "access_locked" : false,
-  "message" : "aeiou"
+  "message" : "message"
 }}]
-
      - returns: RequestBuilder<Maintenance> 
      */
     open class func getMaintenanceWithRequestBuilder() -> RequestBuilder<Maintenance> {
@@ -76,7 +71,6 @@ open class UtilMaintenanceAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Maintenance>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -84,13 +78,12 @@ open class UtilMaintenanceAPI: APIBase {
 
     /**
      Set current maintenance info
-     
      - parameter maintenance: (body) The maintenance object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setMaintenance(maintenance: Maintenance? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setMaintenance(maintenance: Maintenance? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setMaintenanceWithRequestBuilder(maintenance: maintenance).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -101,9 +94,7 @@ open class UtilMaintenanceAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter maintenance: (body) The maintenance object (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func setMaintenanceWithRequestBuilder(maintenance: Maintenance? = nil) -> RequestBuilder<Void> {
@@ -113,7 +104,6 @@ open class UtilMaintenanceAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -121,13 +111,12 @@ open class UtilMaintenanceAPI: APIBase {
 
     /**
      Update current maintenance info
-     
      - parameter maintenance: (body) The maintenance object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateMaintenance(maintenance: Maintenance? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateMaintenance(maintenance: Maintenance? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateMaintenanceWithRequestBuilder(maintenance: maintenance).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -138,9 +127,7 @@ open class UtilMaintenanceAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter maintenance: (body) The maintenance object (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateMaintenanceWithRequestBuilder(maintenance: Maintenance? = nil) -> RequestBuilder<Void> {
@@ -149,7 +136,6 @@ open class UtilMaintenanceAPI: APIBase {
         let parameters = maintenance?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

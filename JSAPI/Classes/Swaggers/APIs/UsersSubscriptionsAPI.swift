@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class UsersSubscriptionsAPI: APIBase {
     /**
      Get details about a user's subscription
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserSubscriptionDetails(userId: Int32, inventoryId: Int32, completion: @escaping ((_ data: InventorySubscriptionResource?,_ error: Error?) -> Void)) {
+    open class func getUserSubscriptionDetails(userId: Int32, inventoryId: Int32, completion: @escaping ((_ data: InventorySubscriptionResource?, _ error: ErrorResponse?) -> Void)) {
         getUserSubscriptionDetailsWithRequestBuilder(userId: userId, inventoryId: inventoryId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -36,54 +34,58 @@ open class UsersSubscriptionsAPI: APIBase {
   "bill_date" : 0,
   "item_id" : 3,
   "inventory_id" : 9,
-  "price_override" : 4.965218492984954,
-  "recurring_price" : 5.025004791520295,
+  "price_override" : 2.027123023002322,
+  "recurring_price" : 4.145608029883936,
   "inventory_status" : "pending",
-  "subscription_status" : 9,
-  "price_override_reason" : "aeiou",
+  "subscription_status" : 1,
+  "price_override_reason" : "price_override_reason",
   "credit" : 6.027456183070403,
   "credit_log" : [ {
-    "reason" : "aeiou",
+    "reason" : "reason",
+    "amount" : 1.4658129805029452,
+    "inventory_id" : 2,
+    "created_date" : 5,
+    "id" : 5
+  }, {
+    "reason" : "reason",
     "amount" : 1.4658129805029452,
     "inventory_id" : 2,
     "created_date" : 5,
     "id" : 5
   } ],
-  "sku" : "aeiou",
+  "sku" : "sku",
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 6,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
   "payment_method" : {
     "payment_method_type" : {
-      "name" : "aeiou",
-      "id" : 1
+      "name" : "name",
+      "id" : 2
     },
-    "last4" : "aeiou",
-    "unique_key" : "aeiou",
+    "last4" : "last4",
+    "unique_key" : "unique_key",
     "verified" : true,
-    "sort" : 6,
-    "expiration_date" : 4,
-    "token" : "aeiou",
-    "expiration_year" : 1,
+    "sort" : 7,
+    "expiration_date" : 6,
+    "token" : "token",
+    "expiration_year" : 5,
     "default" : true,
     "payment_type" : "card",
-    "user_id" : 1,
-    "expiration_month" : 7,
-    "name" : "aeiou",
+    "user_id" : 3,
+    "expiration_month" : 1,
+    "name" : "name",
     "disabled" : false,
-    "created_date" : 2,
-    "id" : 1,
-    "updated_date" : 7
+    "created_date" : 0,
+    "id" : 5,
+    "updated_date" : 9
   },
-  "start_date" : 9
+  "start_date" : 7
 }}]
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
-
      - returns: RequestBuilder<InventorySubscriptionResource> 
      */
     open class func getUserSubscriptionDetailsWithRequestBuilder(userId: Int32, inventoryId: Int32) -> RequestBuilder<InventorySubscriptionResource> {
@@ -95,7 +97,6 @@ open class UsersSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<InventorySubscriptionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -103,13 +104,12 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Get details about a user's subscriptions
-     
      - parameter userId: (path) The id of the user 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUsersSubscriptionDetails(userId: Int32, completion: @escaping ((_ data: [InventorySubscriptionResource]?,_ error: Error?) -> Void)) {
+    open class func getUsersSubscriptionDetails(userId: Int32, completion: @escaping ((_ data: [InventorySubscriptionResource]?, _ error: ErrorResponse?) -> Void)) {
         getUsersSubscriptionDetailsWithRequestBuilder(userId: userId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -125,53 +125,111 @@ open class UsersSubscriptionsAPI: APIBase {
   "bill_date" : 0,
   "item_id" : 3,
   "inventory_id" : 9,
-  "price_override" : 4.965218492984954,
-  "recurring_price" : 5.025004791520295,
+  "price_override" : 2.027123023002322,
+  "recurring_price" : 4.145608029883936,
   "inventory_status" : "pending",
-  "subscription_status" : 9,
-  "price_override_reason" : "aeiou",
+  "subscription_status" : 1,
+  "price_override_reason" : "price_override_reason",
   "credit" : 6.027456183070403,
   "credit_log" : [ {
-    "reason" : "aeiou",
+    "reason" : "reason",
+    "amount" : 1.4658129805029452,
+    "inventory_id" : 2,
+    "created_date" : 5,
+    "id" : 5
+  }, {
+    "reason" : "reason",
     "amount" : 1.4658129805029452,
     "inventory_id" : 2,
     "created_date" : 5,
     "id" : 5
   } ],
-  "sku" : "aeiou",
+  "sku" : "sku",
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 6,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
   "payment_method" : {
     "payment_method_type" : {
-      "name" : "aeiou",
-      "id" : 1
+      "name" : "name",
+      "id" : 2
     },
-    "last4" : "aeiou",
-    "unique_key" : "aeiou",
+    "last4" : "last4",
+    "unique_key" : "unique_key",
     "verified" : true,
-    "sort" : 6,
-    "expiration_date" : 4,
-    "token" : "aeiou",
-    "expiration_year" : 1,
+    "sort" : 7,
+    "expiration_date" : 6,
+    "token" : "token",
+    "expiration_year" : 5,
     "default" : true,
     "payment_type" : "card",
-    "user_id" : 1,
-    "expiration_month" : 7,
-    "name" : "aeiou",
+    "user_id" : 3,
+    "expiration_month" : 1,
+    "name" : "name",
     "disabled" : false,
-    "created_date" : 2,
-    "id" : 1,
-    "updated_date" : 7
+    "created_date" : 0,
+    "id" : 5,
+    "updated_date" : 9
   },
-  "start_date" : 9
+  "start_date" : 7
+}, {
+  "grace_end" : 7,
+  "bill_date" : 0,
+  "item_id" : 3,
+  "inventory_id" : 9,
+  "price_override" : 2.027123023002322,
+  "recurring_price" : 4.145608029883936,
+  "inventory_status" : "pending",
+  "subscription_status" : 1,
+  "price_override_reason" : "price_override_reason",
+  "credit" : 6.027456183070403,
+  "credit_log" : [ {
+    "reason" : "reason",
+    "amount" : 1.4658129805029452,
+    "inventory_id" : 2,
+    "created_date" : 5,
+    "id" : 5
+  }, {
+    "reason" : "reason",
+    "amount" : 1.4658129805029452,
+    "inventory_id" : 2,
+    "created_date" : 5,
+    "id" : 5
+  } ],
+  "sku" : "sku",
+  "user" : {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  },
+  "payment_method" : {
+    "payment_method_type" : {
+      "name" : "name",
+      "id" : 2
+    },
+    "last4" : "last4",
+    "unique_key" : "unique_key",
+    "verified" : true,
+    "sort" : 7,
+    "expiration_date" : 6,
+    "token" : "token",
+    "expiration_year" : 5,
+    "default" : true,
+    "payment_type" : "card",
+    "user_id" : 3,
+    "expiration_month" : 1,
+    "name" : "name",
+    "disabled" : false,
+    "created_date" : 0,
+    "id" : 5,
+    "updated_date" : 9
+  },
+  "start_date" : 7
 } ]}]
-     
      - parameter userId: (path) The id of the user 
-
      - returns: RequestBuilder<[InventorySubscriptionResource]> 
      */
     open class func getUsersSubscriptionDetailsWithRequestBuilder(userId: Int32) -> RequestBuilder<[InventorySubscriptionResource]> {
@@ -182,7 +240,6 @@ open class UsersSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[InventorySubscriptionResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -190,15 +247,14 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Reactivate a subscription and charge fee
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter reactivateSubscriptionRequest: (body) The reactivate subscription request object inventory (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func reactivateUserSubscription(userId: Int32, inventoryId: Int32, reactivateSubscriptionRequest: ReactivateSubscriptionRequest? = nil, completion: @escaping ((_ data: InvoiceResource?,_ error: Error?) -> Void)) {
+    open class func reactivateUserSubscription(userId: Int32, inventoryId: Int32, reactivateSubscriptionRequest: ReactivateSubscriptionRequest? = nil, completion: @escaping ((_ data: InvoiceResource?, _ error: ErrorResponse?) -> Void)) {
         reactivateUserSubscriptionWithRequestBuilder(userId: userId, inventoryId: inventoryId, reactivateSubscriptionRequest: reactivateSubscriptionRequest).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -210,75 +266,90 @@ open class UsersSubscriptionsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "shipping_city_name" : "aeiou",
-  "order_notes" : "aeiou",
+  "shipping_city_name" : "shipping_city_name",
+  "order_notes" : "order_notes",
   "parent_invoice_id" : 1,
   "discount" : 6.027456183070403,
   "state_tax" : 4.965218492984954,
-  "cart_id" : "aeiou",
-  "name_prefix" : "aeiou",
-  "billing_postal_code" : "aeiou",
+  "cart_id" : "cart_id",
+  "name_prefix" : "name_prefix",
+  "billing_postal_code" : "billing_postal_code",
   "shipping" : 7.457744773683766,
-  "billing_state_name" : "aeiou",
-  "billing_country_name" : "aeiou",
-  "currency" : "aeiou",
-  "current_fulfillment_status" : "aeiou",
+  "billing_state_name" : "billing_state_name",
+  "billing_country_name" : "billing_country_name",
+  "currency" : "currency",
+  "current_fulfillment_status" : "current_fulfillment_status",
   "grand_total" : 5.962133916683182,
   "id" : 5,
-  "current_payment_status" : "aeiou",
-  "billing_address1" : "aeiou",
-  "invoice_number" : "aeiou",
-  "billing_address2" : "aeiou",
-  "email" : "aeiou",
-  "vendor_name" : "aeiou",
-  "billing_full_name" : "aeiou",
+  "current_payment_status" : "current_payment_status",
+  "billing_address1" : "billing_address1",
+  "invoice_number" : "invoice_number",
+  "billing_address2" : "billing_address2",
+  "email" : "email",
+  "vendor_name" : "vendor_name",
+  "billing_full_name" : "billing_full_name",
   "sort" : 1,
-  "shipping_full_name" : "aeiou",
+  "shipping_full_name" : "shipping_full_name",
   "fed_tax" : 1.4658129805029452,
   "payment_method_id" : 6,
-  "phone" : "aeiou",
-  "external_ref" : "aeiou",
-  "shipping_address2" : "aeiou",
+  "phone" : "phone",
+  "external_ref" : "external_ref",
+  "shipping_address2" : "shipping_address2",
   "subtotal" : 5.025004791520295,
-  "shipping_address1" : "aeiou",
-  "vendor_id" : 6,
-  "shipping_state_name" : "aeiou",
-  "billing_city_name" : "aeiou",
-  "phone_number" : "aeiou",
+  "shipping_address1" : "shipping_address1",
+  "vendor_id" : 9,
+  "shipping_state_name" : "shipping_state_name",
+  "billing_city_name" : "billing_city_name",
+  "phone_number" : "phone_number",
   "created_date" : 0,
-  "shipping_country_name" : "aeiou",
+  "shipping_country_name" : "shipping_country_name",
   "updated_date" : 9,
   "items" : [ {
-    "type_hint" : "aeiou",
+    "type_hint" : "type_hint",
     "total_price" : 1.2315135367772556,
     "item_id" : 9,
     "system_price" : 7.386281948385884,
-    "item_name" : "aeiou",
+    "item_name" : "item_name",
     "original_unit_price" : 2.027123023002322,
     "unit_price" : 1.0246457001441578,
     "qty" : 4,
     "invoice_id" : 7,
-    "current_fulfillment_status" : "aeiou",
+    "current_fulfillment_status" : "current_fulfillment_status",
     "id" : 2,
-    "sale_name" : "aeiou",
-    "bundle_sku" : "aeiou",
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
     "original_total_price" : 3.616076749251911,
-    "sku" : "aeiou",
-    "sku_description" : "aeiou"
+    "sku" : "sku",
+    "sku_description" : "sku_description"
+  }, {
+    "type_hint" : "type_hint",
+    "total_price" : 1.2315135367772556,
+    "item_id" : 9,
+    "system_price" : 7.386281948385884,
+    "item_name" : "item_name",
+    "original_unit_price" : 2.027123023002322,
+    "unit_price" : 1.0246457001441578,
+    "qty" : 4,
+    "invoice_id" : 7,
+    "current_fulfillment_status" : "current_fulfillment_status",
+    "id" : 2,
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
+    "original_total_price" : 3.616076749251911,
+    "sku" : "sku",
+    "sku_description" : "sku_description"
   } ],
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 9,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
-  "shipping_postal_code" : "aeiou"
+  "shipping_postal_code" : "shipping_postal_code"
 }}]
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter reactivateSubscriptionRequest: (body) The reactivate subscription request object inventory (optional)
-
      - returns: RequestBuilder<InvoiceResource> 
      */
     open class func reactivateUserSubscriptionWithRequestBuilder(userId: Int32, inventoryId: Int32, reactivateSubscriptionRequest: ReactivateSubscriptionRequest? = nil) -> RequestBuilder<InvoiceResource> {
@@ -290,7 +361,6 @@ open class UsersSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<InvoiceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -298,15 +368,14 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Set a new date to bill a subscription on
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter billDate: (body) The new bill date. Unix timestamp in seconds 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setSubscriptionBillDate(userId: Int32, inventoryId: Int32, billDate: Int64, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setSubscriptionBillDate(userId: Int32, inventoryId: Int32, billDate: Int64, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setSubscriptionBillDateWithRequestBuilder(userId: userId, inventoryId: inventoryId, billDate: billDate).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -317,11 +386,9 @@ open class UsersSubscriptionsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter billDate: (body) The new bill date. Unix timestamp in seconds 
-
      - returns: RequestBuilder<Void> 
      */
     open class func setSubscriptionBillDateWithRequestBuilder(userId: Int32, inventoryId: Int32, billDate: Int64) -> RequestBuilder<Void> {
@@ -333,7 +400,6 @@ open class UsersSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -341,15 +407,14 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Set the payment method to use for a subscription
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter paymentMethodId: (body) The id of the payment method (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setSubscriptionPaymentMethod(userId: Int32, inventoryId: Int32, paymentMethodId: Int32? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setSubscriptionPaymentMethod(userId: Int32, inventoryId: Int32, paymentMethodId: IntWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setSubscriptionPaymentMethodWithRequestBuilder(userId: userId, inventoryId: inventoryId, paymentMethodId: paymentMethodId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -361,14 +426,12 @@ open class UsersSubscriptionsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter paymentMethodId: (body) The id of the payment method (optional)
-
      - returns: RequestBuilder<Void> 
      */
-    open class func setSubscriptionPaymentMethodWithRequestBuilder(userId: Int32, inventoryId: Int32, paymentMethodId: Int32? = nil) -> RequestBuilder<Void> {
+    open class func setSubscriptionPaymentMethodWithRequestBuilder(userId: Int32, inventoryId: Int32, paymentMethodId: IntWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/users/{user_id}/subscriptions/{inventory_id}/payment-method"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{inventory_id}", with: "\(inventoryId)", options: .literal, range: nil)
@@ -377,7 +440,6 @@ open class UsersSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -385,15 +447,14 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Set the status of a subscription
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter status: (body) The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setSubscriptionStatus(userId: Int32, inventoryId: Int32, status: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setSubscriptionStatus(userId: Int32, inventoryId: Int32, status: StringWrapper, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setSubscriptionStatusWithRequestBuilder(userId: userId, inventoryId: inventoryId, status: status).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -401,18 +462,16 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Set the status of a subscription
      - PUT /users/{user_id}/subscriptions/{inventory_id}/status
-     - The body is a json string (put in quotes) that should match a desired invoice status type. Note that the new status may be blocked if the system is not configured to allow the current status to be changed to the new, to enforce proper flow. The default options for statuses are shown below but may be altered for special use cases
+     - Note that the new status may be blocked if the system is not configured to allow the current status to be changed to the new, to enforce proper flow. The default options for statuses are shown below but may be altered for special use cases
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter status: (body) The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) 
-
      - returns: RequestBuilder<Void> 
      */
-    open class func setSubscriptionStatusWithRequestBuilder(userId: Int32, inventoryId: Int32, status: String) -> RequestBuilder<Void> {
+    open class func setSubscriptionStatusWithRequestBuilder(userId: Int32, inventoryId: Int32, status: StringWrapper) -> RequestBuilder<Void> {
         var path = "/users/{user_id}/subscriptions/{inventory_id}/status"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{inventory_id}", with: "\(inventoryId)", options: .literal, range: nil)
@@ -421,7 +480,6 @@ open class UsersSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -429,15 +487,14 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Set a new subscription plan for a user
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter planId: (body) The id of the new plan. Must be from the same subscription (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setUserSubscriptionPlan(userId: Int32, inventoryId: Int32, planId: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setUserSubscriptionPlan(userId: Int32, inventoryId: Int32, planId: StringWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setUserSubscriptionPlanWithRequestBuilder(userId: userId, inventoryId: inventoryId, planId: planId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -448,14 +505,12 @@ open class UsersSubscriptionsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter planId: (body) The id of the new plan. Must be from the same subscription (optional)
-
      - returns: RequestBuilder<Void> 
      */
-    open class func setUserSubscriptionPlanWithRequestBuilder(userId: Int32, inventoryId: Int32, planId: String? = nil) -> RequestBuilder<Void> {
+    open class func setUserSubscriptionPlanWithRequestBuilder(userId: Int32, inventoryId: Int32, planId: StringWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/users/{user_id}/subscriptions/{inventory_id}/plan"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{inventory_id}", with: "\(inventoryId)", options: .literal, range: nil)
@@ -464,7 +519,6 @@ open class UsersSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -472,15 +526,14 @@ open class UsersSubscriptionsAPI: APIBase {
 
     /**
      Set a new subscription price for a user
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter theOverrideDetails: (body) override (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setUserSubscriptionPrice(userId: Int32, inventoryId: Int32, theOverrideDetails: SubscriptionPriceOverrideRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setUserSubscriptionPrice(userId: Int32, inventoryId: Int32, theOverrideDetails: SubscriptionPriceOverrideRequest? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setUserSubscriptionPriceWithRequestBuilder(userId: userId, inventoryId: inventoryId, theOverrideDetails: theOverrideDetails).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -492,11 +545,9 @@ open class UsersSubscriptionsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter theOverrideDetails: (body) override (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func setUserSubscriptionPriceWithRequestBuilder(userId: Int32, inventoryId: Int32, theOverrideDetails: SubscriptionPriceOverrideRequest? = nil) -> RequestBuilder<Void> {
@@ -507,7 +558,6 @@ open class UsersSubscriptionsAPI: APIBase {
         let parameters = theOverrideDetails?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class StoreShoppingCartsAPI: APIBase {
     /**
      Adds a custom discount to the cart
-     
      - parameter id: (path) The id of the cart 
      - parameter customDiscount: (body) The details of the discount to add (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addCustomDiscount(id: String, customDiscount: CouponDefinition? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func addCustomDiscount(id: String, customDiscount: CouponDefinition? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addCustomDiscountWithRequestBuilder(id: id, customDiscount: customDiscount).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -31,10 +29,8 @@ open class StoreShoppingCartsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the cart 
      - parameter customDiscount: (body) The details of the discount to add (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func addCustomDiscountWithRequestBuilder(id: String, customDiscount: CouponDefinition? = nil) -> RequestBuilder<Void> {
@@ -45,7 +41,6 @@ open class StoreShoppingCartsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -53,14 +48,13 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Adds a discount coupon to the cart
-     
      - parameter id: (path) The id of the cart 
      - parameter skuRequest: (body) The request of the sku (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addDiscountToCart(id: String, skuRequest: SkuRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func addDiscountToCart(id: String, skuRequest: SkuRequest? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addDiscountToCartWithRequestBuilder(id: id, skuRequest: skuRequest).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -71,10 +65,8 @@ open class StoreShoppingCartsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the cart 
      - parameter skuRequest: (body) The request of the sku (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func addDiscountToCartWithRequestBuilder(id: String, skuRequest: SkuRequest? = nil) -> RequestBuilder<Void> {
@@ -85,7 +77,6 @@ open class StoreShoppingCartsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -93,14 +84,13 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Add an item to the cart
-     
      - parameter id: (path) The id of the cart 
      - parameter cartItemRequest: (body) The cart item request object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addItemToCart(id: String, cartItemRequest: CartItemRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func addItemToCart(id: String, cartItemRequest: CartItemRequest? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addItemToCartWithRequestBuilder(id: id, cartItemRequest: cartItemRequest).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -112,10 +102,8 @@ open class StoreShoppingCartsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the cart 
      - parameter cartItemRequest: (body) The cart item request object (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func addItemToCartWithRequestBuilder(id: String, cartItemRequest: CartItemRequest? = nil) -> RequestBuilder<Void> {
@@ -126,7 +114,6 @@ open class StoreShoppingCartsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -134,14 +121,13 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Create a cart
-     
      - parameter owner: (query) Set the owner of a cart. If not specified, defaults to the calling user&#39;s id. If specified and is not the calling user&#39;s id, SHOPPING_CARTS_ADMIN permission is required (optional)
      - parameter currencyCode: (query) Set the currency for the cart, by currency code. May be disallowed by site settings. (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createCart(owner: Int32? = nil, currencyCode: String? = nil, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
+    open class func createCart(owner: Int32? = nil, currencyCode: String? = nil, completion: @escaping ((_ data: String?, _ error: ErrorResponse?) -> Void)) {
         createCartWithRequestBuilder(owner: owner, currencyCode: currencyCode).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -153,11 +139,9 @@ open class StoreShoppingCartsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example="aeiou"}]
-     
+     - examples: [{contentType=application/json, example=""}]
      - parameter owner: (query) Set the owner of a cart. If not specified, defaults to the calling user&#39;s id. If specified and is not the calling user&#39;s id, SHOPPING_CARTS_ADMIN permission is required (optional)
      - parameter currencyCode: (query) Set the currency for the cart, by currency code. May be disallowed by site settings. (optional)
-
      - returns: RequestBuilder<String> 
      */
     open class func createCartWithRequestBuilder(owner: Int32? = nil, currencyCode: String? = nil) -> RequestBuilder<String> {
@@ -170,7 +154,6 @@ open class StoreShoppingCartsAPI: APIBase {
             "owner": owner?.encodeToJSON(), 
             "currency_code": currencyCode
         ])
-        
 
         let requestBuilder: RequestBuilder<String>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -179,13 +162,12 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Returns the cart with the given GUID
-     
      - parameter id: (path) The id of the cart 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getCart(id: String, completion: @escaping ((_ data: Cart?,_ error: Error?) -> Void)) {
+    open class func getCart(id: String, completion: @escaping ((_ data: Cart?, _ error: ErrorResponse?) -> Void)) {
         getCartWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -198,28 +180,66 @@ open class StoreShoppingCartsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "country_tax" : 5.637376656633329,
-  "error_message" : "aeiou",
+  "error_message" : "error_message",
   "owner" : 9,
   "discount_total" : 1.2315135367772556,
   "shipping_cost" : 6.438423552598547,
   "created" : 7,
   "state_tax" : 3.5571952270680973,
-  "currency_code" : "aeiou",
-  "selected_shipping_options" : [ "" ],
+  "currency_code" : "currency_code",
+  "selected_shipping_options" : [ {
+    "original_price" : 0.8008281904610115,
+    "taxable" : true,
+    "shipping_item_id" : 1,
+    "price" : 6.027456183070403,
+    "vendor_id" : 5,
+    "name" : "name",
+    "description" : "description",
+    "vendor_name" : "vendor_name",
+    "sku" : "sku",
+    "currency_code" : "currency_code"
+  }, {
+    "original_price" : 0.8008281904610115,
+    "taxable" : true,
+    "shipping_item_id" : 1,
+    "price" : 6.027456183070403,
+    "vendor_id" : 5,
+    "name" : "name",
+    "description" : "description",
+    "vendor_name" : "vendor_name",
+    "sku" : "sku",
+    "currency_code" : "currency_code"
+  } ],
   "shippable" : true,
   "coupons" : [ {
-    "code" : "aeiou",
+    "code" : "code",
     "max_quantity" : 7,
-    "unique_key" : "aeiou",
+    "unique_key" : "unique_key",
     "self_exclusive" : false,
-    "description" : "aeiou",
+    "description" : "description",
     "target_item_id" : 3,
-    "valid_for_tags" : [ "aeiou" ],
+    "valid_for_tags" : [ "valid_for_tags", "valid_for_tags" ],
     "discount_type" : "value",
     "type" : "coupon_cart",
     "min_cart_total" : 9.301444243932576,
     "vendor_id" : 4,
-    "name" : "aeiou",
+    "name" : "name",
+    "exclusive" : false,
+    "max_discount" : 2.3021358869347655,
+    "value" : 2.027123023002322
+  }, {
+    "code" : "code",
+    "max_quantity" : 7,
+    "unique_key" : "unique_key",
+    "self_exclusive" : false,
+    "description" : "description",
+    "target_item_id" : 3,
+    "valid_for_tags" : [ "valid_for_tags", "valid_for_tags" ],
+    "discount_type" : "value",
+    "type" : "coupon_cart",
+    "min_cart_total" : 9.301444243932576,
+    "vendor_id" : 4,
+    "name" : "name",
     "exclusive" : false,
     "max_discount" : 2.3021358869347655,
     "value" : 2.027123023002322
@@ -228,20 +248,20 @@ open class StoreShoppingCartsAPI: APIBase {
   "invoice_id" : 6.84685269835264,
   "error_code" : 1,
   "grand_total" : 1.4894159098541704,
-  "id" : "aeiou",
+  "id" : "id",
   "shipping_address" : {
-    "zip" : "aeiou",
-    "country_code_iso3" : "aeiou",
-    "name_prefix" : "aeiou",
-    "postal_state_code" : "aeiou",
-    "city" : "aeiou",
-    "order_notes" : "aeiou",
-    "last_name" : "aeiou",
-    "shipping_address_line2" : "aeiou",
-    "phone_number" : "aeiou",
-    "shipping_address_line1" : "aeiou",
-    "first_name" : "aeiou",
-    "email" : "aeiou"
+    "zip" : "zip",
+    "country_code_iso3" : "country_code_iso3",
+    "name_prefix" : "name_prefix",
+    "postal_state_code" : "postal_state_code",
+    "city" : "city",
+    "order_notes" : "order_notes",
+    "last_name" : "last_name",
+    "shipping_address_line2" : "shipping_address_line2",
+    "phone_number" : "phone_number",
+    "shipping_address_line1" : "shipping_address_line1",
+    "first_name" : "first_name",
+    "email" : "email"
   },
   "available_shipping_options" : [ {
     "original_price" : 0.8008281904610115,
@@ -249,44 +269,78 @@ open class StoreShoppingCartsAPI: APIBase {
     "shipping_item_id" : 1,
     "price" : 6.027456183070403,
     "vendor_id" : 5,
-    "name" : "aeiou",
-    "description" : "aeiou",
-    "vendor_name" : "aeiou",
-    "sku" : "aeiou",
-    "currency_code" : "aeiou"
+    "name" : "name",
+    "description" : "description",
+    "vendor_name" : "vendor_name",
+    "sku" : "sku",
+    "currency_code" : "currency_code"
+  }, {
+    "original_price" : 0.8008281904610115,
+    "taxable" : true,
+    "shipping_item_id" : 1,
+    "price" : 6.027456183070403,
+    "vendor_id" : 5,
+    "name" : "name",
+    "description" : "description",
+    "vendor_name" : "vendor_name",
+    "sku" : "sku",
+    "currency_code" : "currency_code"
   } ],
   "items" : [ {
-    "thumb_url" : "aeiou",
+    "thumb_url" : "thumb_url",
     "store_item_id" : 9,
-    "unique_key" : "aeiou",
-    "description" : "aeiou",
+    "unique_key" : "unique_key",
+    "description" : "description",
     "discount" : {
-      "unique_key" : "aeiou",
-      "name" : "aeiou",
-      "description" : "aeiou",
-      "sku" : "aeiou",
+      "unique_key" : "unique_key",
+      "name" : "name",
+      "description" : "description",
+      "sku" : "sku",
       "value" : 7.457744773683766
     },
-    "vendor_name" : "aeiou",
+    "vendor_name" : "vendor_name",
     "original_unit_price" : 5.025004791520295,
     "original_line_total" : 4.965218492984954,
     "unit_price" : 6.683562403749608,
-    "currency_code" : "aeiou",
+    "currency_code" : "currency_code",
     "line_total" : 1.1730742509559433,
-    "tags" : [ "aeiou" ],
+    "tags" : [ "tags", "tags" ],
     "qty" : 9,
     "vendor_id" : 8,
-    "name" : "aeiou",
-    "sale_name" : "aeiou",
-    "sku" : "aeiou",
-    "sku_description" : "aeiou"
+    "name" : "name",
+    "sale_name" : "sale_name",
+    "sku" : "sku",
+    "sku_description" : "sku_description"
+  }, {
+    "thumb_url" : "thumb_url",
+    "store_item_id" : 9,
+    "unique_key" : "unique_key",
+    "description" : "description",
+    "discount" : {
+      "unique_key" : "unique_key",
+      "name" : "name",
+      "description" : "description",
+      "sku" : "sku",
+      "value" : 7.457744773683766
+    },
+    "vendor_name" : "vendor_name",
+    "original_unit_price" : 5.025004791520295,
+    "original_line_total" : 4.965218492984954,
+    "unit_price" : 6.683562403749608,
+    "currency_code" : "currency_code",
+    "line_total" : 1.1730742509559433,
+    "tags" : [ "tags", "tags" ],
+    "qty" : 9,
+    "vendor_id" : 8,
+    "name" : "name",
+    "sale_name" : "sale_name",
+    "sku" : "sku",
+    "sku_description" : "sku_description"
   } ],
   "updated" : 1,
   "status" : "active"
 }}]
-     
      - parameter id: (path) The id of the cart 
-
      - returns: RequestBuilder<Cart> 
      */
     open class func getCartWithRequestBuilder(id: String) -> RequestBuilder<Cart> {
@@ -297,7 +351,6 @@ open class StoreShoppingCartsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Cart>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -305,16 +358,15 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Get a list of carts
-     
      - parameter filterOwnerId: (query) Filter by the id of the owner (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getCarts(filterOwnerId: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceCartSummary?,_ error: Error?) -> Void)) {
+    open class func getCarts(filterOwnerId: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceCartSummary?, _ error: ErrorResponse?) -> Void)) {
         getCartsWithRequestBuilder(filterOwnerId: filterOwnerId, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -333,8 +385,16 @@ open class StoreShoppingCartsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
@@ -344,19 +404,26 @@ open class StoreShoppingCartsAPI: APIBase {
     "invoice_id" : 1.4658129805029452,
     "created_date" : 0,
     "grand_total" : 6.027456183070403,
-    "id" : "aeiou",
+    "id" : "id",
     "items_in_cart" : 5,
-    "currency_code" : "aeiou",
+    "currency_code" : "currency_code",
+    "status" : "active"
+  }, {
+    "subtotal" : 5.637376656633329,
+    "invoice_id" : 1.4658129805029452,
+    "created_date" : 0,
+    "grand_total" : 6.027456183070403,
+    "id" : "id",
+    "items_in_cart" : 5,
+    "currency_code" : "currency_code",
     "status" : "active"
   } ],
   "first" : true
 }}]
-     
      - parameter filterOwnerId: (query) Filter by the id of the owner (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceCartSummary> 
      */
     open class func getCartsWithRequestBuilder(filterOwnerId: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceCartSummary> {
@@ -371,7 +438,6 @@ open class StoreShoppingCartsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceCartSummary>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -380,13 +446,12 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Returns whether a cart requires shipping
-     
      - parameter id: (path) The id of the cart 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getShippable(id: String, completion: @escaping ((_ data: CartShippableResponse?,_ error: Error?) -> Void)) {
+    open class func getShippable(id: String, completion: @escaping ((_ data: CartShippableResponse?, _ error: ErrorResponse?) -> Void)) {
         getShippableWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -401,9 +466,7 @@ open class StoreShoppingCartsAPI: APIBase {
   "cart_id" : 0,
   "shippable" : false
 }}]
-     
      - parameter id: (path) The id of the cart 
-
      - returns: RequestBuilder<CartShippableResponse> 
      */
     open class func getShippableWithRequestBuilder(id: String) -> RequestBuilder<CartShippableResponse> {
@@ -414,7 +477,6 @@ open class StoreShoppingCartsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<CartShippableResponse>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -422,13 +484,12 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Get the list of available shipping countries per vendor
-     
      - parameter id: (path) The id of the cart 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getShippingCountries(id: String, completion: @escaping ((_ data: SampleCountriesResponse?,_ error: Error?) -> Void)) {
+    open class func getShippingCountries(id: String, completion: @escaping ((_ data: SampleCountriesResponse?, _ error: ErrorResponse?) -> Void)) {
         getShippingCountriesWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -441,17 +502,30 @@ open class StoreShoppingCartsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "vendor_id2" : [ "" ],
-  "vendor_id1" : [ {
-    "name" : "aeiou",
+  "vendor_id2" : [ {
+    "name" : "name",
     "id" : 0,
-    "iso2" : "aeiou",
-    "iso3" : "aeiou"
+    "iso2" : "iso2",
+    "iso3" : "iso3"
+  }, {
+    "name" : "name",
+    "id" : 0,
+    "iso2" : "iso2",
+    "iso3" : "iso3"
+  } ],
+  "vendor_id1" : [ {
+    "name" : "name",
+    "id" : 0,
+    "iso2" : "iso2",
+    "iso3" : "iso3"
+  }, {
+    "name" : "name",
+    "id" : 0,
+    "iso2" : "iso2",
+    "iso3" : "iso3"
   } ]
 }}]
-     
      - parameter id: (path) The id of the cart 
-
      - returns: RequestBuilder<SampleCountriesResponse> 
      */
     open class func getShippingCountriesWithRequestBuilder(id: String) -> RequestBuilder<SampleCountriesResponse> {
@@ -462,7 +536,6 @@ open class StoreShoppingCartsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<SampleCountriesResponse>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -470,14 +543,13 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Removes a discount coupon from the cart
-     
      - parameter id: (path) The id of the cart 
      - parameter code: (path) The SKU code of the coupon to remove 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func removeDiscountFromCart(id: String, code: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func removeDiscountFromCart(id: String, code: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         removeDiscountFromCartWithRequestBuilder(id: id, code: code).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -488,10 +560,8 @@ open class StoreShoppingCartsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the cart 
      - parameter code: (path) The SKU code of the coupon to remove 
-
      - returns: RequestBuilder<Void> 
      */
     open class func removeDiscountFromCartWithRequestBuilder(id: String, code: String) -> RequestBuilder<Void> {
@@ -503,7 +573,6 @@ open class StoreShoppingCartsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -511,14 +580,13 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Sets the currency to use for the cart
-     
      - parameter id: (path) The id of the cart 
      - parameter currencyCode: (body) The code of the currency (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setCartCurrency(id: String, currencyCode: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setCartCurrency(id: String, currencyCode: StringWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setCartCurrencyWithRequestBuilder(id: id, currencyCode: currencyCode).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -530,20 +598,17 @@ open class StoreShoppingCartsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the cart 
      - parameter currencyCode: (body) The code of the currency (optional)
-
      - returns: RequestBuilder<Void> 
      */
-    open class func setCartCurrencyWithRequestBuilder(id: String, currencyCode: String? = nil) -> RequestBuilder<Void> {
+    open class func setCartCurrencyWithRequestBuilder(id: String, currencyCode: StringWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/carts/{id}/currency"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = currencyCode?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -552,14 +617,13 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Sets the owner of a cart if none is set already
-     
      - parameter id: (path) The id of the cart 
      - parameter userId: (body) The id of the user (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setCartOwner(id: String, userId: Int32? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setCartOwner(id: String, userId: IntWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setCartOwnerWithRequestBuilder(id: id, userId: userId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -570,20 +634,17 @@ open class StoreShoppingCartsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the cart 
      - parameter userId: (body) The id of the user (optional)
-
      - returns: RequestBuilder<Void> 
      */
-    open class func setCartOwnerWithRequestBuilder(id: String, userId: Int32? = nil) -> RequestBuilder<Void> {
+    open class func setCartOwnerWithRequestBuilder(id: String, userId: IntWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/carts/{id}/owner"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = userId?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -592,14 +653,13 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Changes the quantity of an item already in the cart
-     
      - parameter id: (path) The id of the cart 
      - parameter cartItemRequest: (body) The cart item request object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateItemInCart(id: String, cartItemRequest: CartItemRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateItemInCart(id: String, cartItemRequest: CartItemRequest? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateItemInCartWithRequestBuilder(id: id, cartItemRequest: cartItemRequest).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -611,10 +671,8 @@ open class StoreShoppingCartsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the cart 
      - parameter cartItemRequest: (body) The cart item request object (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateItemInCartWithRequestBuilder(id: String, cartItemRequest: CartItemRequest? = nil) -> RequestBuilder<Void> {
@@ -625,7 +683,6 @@ open class StoreShoppingCartsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -633,14 +690,13 @@ open class StoreShoppingCartsAPI: APIBase {
 
     /**
      Modifies or sets the order shipping address
-     
      - parameter id: (path) The id of the cart 
      - parameter cartShippingAddressRequest: (body) The cart shipping address request object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateShippingAddress(id: String, cartShippingAddressRequest: CartShippingAddressRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateShippingAddress(id: String, cartShippingAddressRequest: CartShippingAddressRequest? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateShippingAddressWithRequestBuilder(id: id, cartShippingAddressRequest: cartShippingAddressRequest).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -651,10 +707,8 @@ open class StoreShoppingCartsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the cart 
      - parameter cartShippingAddressRequest: (body) The cart shipping address request object (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateShippingAddressWithRequestBuilder(id: String, cartShippingAddressRequest: CartShippingAddressRequest? = nil) -> RequestBuilder<Void> {
@@ -664,7 +718,6 @@ open class StoreShoppingCartsAPI: APIBase {
         let parameters = cartShippingAddressRequest?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

@@ -20,6 +20,7 @@ open class Order: JSONEncodable {
         case nullsLast = "NULLS_LAST"
     }
     public var ascending: Bool?
+    public var descending: Bool?
     public var direction: Direction?
     public var ignoreCase: Bool?
     public var nullHandling: NullHandling?
@@ -31,6 +32,7 @@ open class Order: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["ascending"] = self.ascending
+        nillableDictionary["descending"] = self.descending
         nillableDictionary["direction"] = self.direction?.rawValue
         nillableDictionary["ignore_case"] = self.ignoreCase
         nillableDictionary["null_handling"] = self.nullHandling?.rawValue

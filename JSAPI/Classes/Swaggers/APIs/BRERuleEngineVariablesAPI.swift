@@ -9,16 +9,14 @@ import Foundation
 import Alamofire
 
 
-
 open class BRERuleEngineVariablesAPI: APIBase {
     /**
      Get a list of variable types available
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBREVariableTypes(completion: @escaping ((_ data: [VariableTypeResource]?,_ error: Error?) -> Void)) {
+    open class func getBREVariableTypes(completion: @escaping ((_ data: [VariableTypeResource]?, _ error: ErrorResponse?) -> Void)) {
         getBREVariableTypesWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,10 +30,13 @@ open class BRERuleEngineVariablesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
   "enumerable" : false,
-  "name" : "aeiou",
+  "name" : "name",
+  "base" : "NUMBER"
+}, {
+  "enumerable" : false,
+  "name" : "name",
   "base" : "NUMBER"
 } ]}]
-
      - returns: RequestBuilder<[VariableTypeResource]> 
      */
     open class func getBREVariableTypesWithRequestBuilder() -> RequestBuilder<[VariableTypeResource]> {
@@ -45,7 +46,6 @@ open class BRERuleEngineVariablesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[VariableTypeResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -53,16 +53,15 @@ open class BRERuleEngineVariablesAPI: APIBase {
 
     /**
      List valid values for a type
-     
      - parameter name: (path) The name of the type 
      - parameter filterName: (query) Filter results by those with names starting with this string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBREVariableValues(name: String, filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceSimpleReferenceResourceobject?,_ error: Error?) -> Void)) {
+    open class func getBREVariableValues(name: String, filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceSimpleReferenceResourceobject?, _ error: ErrorResponse?) -> Void)) {
         getBREVariableValuesWithRequestBuilder(name: name, filterName: filterName, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -82,24 +81,33 @@ open class BRERuleEngineVariablesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 5,
   "number_of_elements" : 6,
   "content" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : "{}"
+  }, {
+    "name" : "name",
     "id" : "{}"
   } ],
   "first" : true
 }}]
-     
      - parameter name: (path) The name of the type 
      - parameter filterName: (query) Filter results by those with names starting with this string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceSimpleReferenceResourceobject> 
      */
     open class func getBREVariableValuesWithRequestBuilder(name: String, filterName: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceSimpleReferenceResourceobject> {
@@ -114,7 +122,6 @@ open class BRERuleEngineVariablesAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceSimpleReferenceResourceobject>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

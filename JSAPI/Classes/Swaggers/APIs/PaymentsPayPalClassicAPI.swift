@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class PaymentsPayPalClassicAPI: APIBase {
     /**
      Create a PayPal Classic billing agreement for the user
-     
      - parameter request: (body) The request to create a PayPal billing agreement (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createPayPalBillingAgreementUrl(request: CreateBillingAgreementRequest? = nil, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
+    open class func createPayPalBillingAgreementUrl(request: CreateBillingAgreementRequest? = nil, completion: @escaping ((_ data: String?, _ error: ErrorResponse?) -> Void)) {
         createPayPalBillingAgreementUrlWithRequestBuilder(request: request).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -31,10 +29,8 @@ open class PaymentsPayPalClassicAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example="aeiou"}]
-     
+     - examples: [{contentType=application/json, example=""}]
      - parameter request: (body) The request to create a PayPal billing agreement (optional)
-
      - returns: RequestBuilder<String> 
      */
     open class func createPayPalBillingAgreementUrlWithRequestBuilder(request: CreateBillingAgreementRequest? = nil) -> RequestBuilder<String> {
@@ -44,7 +40,6 @@ open class PaymentsPayPalClassicAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<String>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -52,13 +47,12 @@ open class PaymentsPayPalClassicAPI: APIBase {
 
     /**
      Create a payment token for PayPal express checkout
-     
      - parameter request: (body) The request to create a PayPal payment token (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createPayPalExpressCheckout(request: CreatePayPalPaymentRequest? = nil, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
+    open class func createPayPalExpressCheckout(request: CreatePayPalPaymentRequest? = nil, completion: @escaping ((_ data: String?, _ error: ErrorResponse?) -> Void)) {
         createPayPalExpressCheckoutWithRequestBuilder(request: request).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -70,10 +64,8 @@ open class PaymentsPayPalClassicAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example="aeiou"}]
-     
+     - examples: [{contentType=application/json, example=""}]
      - parameter request: (body) The request to create a PayPal payment token (optional)
-
      - returns: RequestBuilder<String> 
      */
     open class func createPayPalExpressCheckoutWithRequestBuilder(request: CreatePayPalPaymentRequest? = nil) -> RequestBuilder<String> {
@@ -83,7 +75,6 @@ open class PaymentsPayPalClassicAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<String>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -91,13 +82,12 @@ open class PaymentsPayPalClassicAPI: APIBase {
 
     /**
      Finalizes a billing agreement after the user has accepted through PayPal
-     
      - parameter request: (body) The request to finalize a PayPal billing agreement (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func finalizePayPalBillingAgreement(request: FinalizeBillingAgreementRequest? = nil, completion: @escaping ((_ data: Int32?,_ error: Error?) -> Void)) {
+    open class func finalizePayPalBillingAgreement(request: FinalizeBillingAgreementRequest? = nil, completion: @escaping ((_ data: Int32?, _ error: ErrorResponse?) -> Void)) {
         finalizePayPalBillingAgreementWithRequestBuilder(request: request).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -110,9 +100,7 @@ open class PaymentsPayPalClassicAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=0}]
-     
      - parameter request: (body) The request to finalize a PayPal billing agreement (optional)
-
      - returns: RequestBuilder<Int32> 
      */
     open class func finalizePayPalBillingAgreementWithRequestBuilder(request: FinalizeBillingAgreementRequest? = nil) -> RequestBuilder<Int32> {
@@ -122,7 +110,6 @@ open class PaymentsPayPalClassicAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Int32>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -130,13 +117,12 @@ open class PaymentsPayPalClassicAPI: APIBase {
 
     /**
      Finalizes a payment after the user has completed checkout with PayPal
-     
      - parameter request: (body) The request to finalize the payment (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func finalizePayPalCheckout(request: FinalizePayPalPaymentRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func finalizePayPalCheckout(request: FinalizePayPalPaymentRequest? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         finalizePayPalCheckoutWithRequestBuilder(request: request).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -148,9 +134,7 @@ open class PaymentsPayPalClassicAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter request: (body) The request to finalize the payment (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func finalizePayPalCheckoutWithRequestBuilder(request: FinalizePayPalPaymentRequest? = nil) -> RequestBuilder<Void> {
@@ -159,7 +143,6 @@ open class PaymentsPayPalClassicAPI: APIBase {
         let parameters = request?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

@@ -9,7 +9,6 @@ import Foundation
 import Alamofire
 
 
-
 open class ReportingUsersAPI: APIBase {
     /**
      * enum for parameter granularity
@@ -27,7 +26,6 @@ open class ReportingUsersAPI: APIBase {
 
     /**
      Get user registration info
-     
      - parameter granularity: (query) The time duration to aggregate by (optional, default to day)
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
@@ -35,9 +33,9 @@ open class ReportingUsersAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserRegistrations(granularity: Granularity_getUserRegistrations? = nil, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceAggregateCountResource?,_ error: Error?) -> Void)) {
+    open class func getUserRegistrations(granularity: Granularity_getUserRegistrations? = nil, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceAggregateCountResource?, _ error: ErrorResponse?) -> Void)) {
         getUserRegistrationsWithRequestBuilder(granularity: granularity, startDate: startDate, endDate: endDate, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -57,25 +55,34 @@ open class ReportingUsersAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
   "number_of_elements" : 1,
   "content" : [ {
-    "date" : "aeiou",
+    "date" : "date",
+    "count" : 0
+  }, {
+    "date" : "date",
     "count" : 0
   } ],
   "first" : true
 }}]
-     
      - parameter granularity: (query) The time duration to aggregate by (optional, default to day)
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceAggregateCountResource> 
      */
     open class func getUserRegistrationsWithRequestBuilder(granularity: Granularity_getUserRegistrations? = nil, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceAggregateCountResource> {
@@ -91,7 +98,6 @@ open class ReportingUsersAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceAggregateCountResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

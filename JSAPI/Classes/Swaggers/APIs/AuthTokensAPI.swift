@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class AuthTokensAPI: APIBase {
     /**
      Delete tokens by username, client id, or both
-     
      - parameter username: (query) The username of the user (optional)
      - parameter clientId: (query) The id of the client (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteTokens(username: String? = nil, clientId: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteTokens(username: String? = nil, clientId: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteTokensWithRequestBuilder(username: username, clientId: clientId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -31,10 +29,8 @@ open class AuthTokensAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter username: (query) The username of the user (optional)
      - parameter clientId: (query) The id of the client (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteTokensWithRequestBuilder(username: String? = nil, clientId: String? = nil) -> RequestBuilder<Void> {
@@ -47,7 +43,6 @@ open class AuthTokensAPI: APIBase {
             "username": username, 
             "client_id": clientId
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -56,14 +51,13 @@ open class AuthTokensAPI: APIBase {
 
     /**
      Get a single token by username and client id
-     
      - parameter username: (path) The username of the user 
      - parameter clientId: (path) The id of the client 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getToken(username: String, clientId: String, completion: @escaping ((_ data: OauthAccessTokenResource?,_ error: Error?) -> Void)) {
+    open class func getToken(username: String, clientId: String, completion: @escaping ((_ data: OauthAccessTokenResource?, _ error: ErrorResponse?) -> Void)) {
         getTokenWithRequestBuilder(username: username, clientId: clientId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -75,14 +69,12 @@ open class AuthTokensAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "client_id" : "aeiou",
-  "token" : "aeiou",
-  "username" : "aeiou"
+  "client_id" : "client_id",
+  "token" : "token",
+  "username" : "username"
 }}]
-     
      - parameter username: (path) The username of the user 
      - parameter clientId: (path) The id of the client 
-
      - returns: RequestBuilder<OauthAccessTokenResource> 
      */
     open class func getTokenWithRequestBuilder(username: String, clientId: String) -> RequestBuilder<OauthAccessTokenResource> {
@@ -94,7 +86,6 @@ open class AuthTokensAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<OauthAccessTokenResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -102,7 +93,6 @@ open class AuthTokensAPI: APIBase {
 
     /**
      List usernames and client ids
-     
      - parameter filterClientId: (query) Filters for token whose client id matches provided string (optional)
      - parameter filterUsername: (query) Filters for token whose username matches provided string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
@@ -110,9 +100,9 @@ open class AuthTokensAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getTokens(filterClientId: String? = nil, filterUsername: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceOauthAccessTokenResource?,_ error: Error?) -> Void)) {
+    open class func getTokens(filterClientId: String? = nil, filterUsername: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceOauthAccessTokenResource?, _ error: ErrorResponse?) -> Void)) {
         getTokensWithRequestBuilder(filterClientId: filterClientId, filterUsername: filterUsername, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -132,26 +122,36 @@ open class AuthTokensAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 5,
   "number_of_elements" : 6,
   "content" : [ {
-    "client_id" : "aeiou",
-    "token" : "aeiou",
-    "username" : "aeiou"
+    "client_id" : "client_id",
+    "token" : "token",
+    "username" : "username"
+  }, {
+    "client_id" : "client_id",
+    "token" : "token",
+    "username" : "username"
   } ],
   "first" : true
 }}]
-     
      - parameter filterClientId: (query) Filters for token whose client id matches provided string (optional)
      - parameter filterUsername: (query) Filters for token whose username matches provided string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
-
      - returns: RequestBuilder<PageResourceOauthAccessTokenResource> 
      */
     open class func getTokensWithRequestBuilder(filterClientId: String? = nil, filterUsername: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceOauthAccessTokenResource> {
@@ -167,7 +167,6 @@ open class AuthTokensAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceOauthAccessTokenResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class UsersGroupsAPI: APIBase {
     /**
      Adds a new member to the group
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter user: (body) The id and status for a user to add to the group 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addMemberToGroup(uniqueName: String, user: GroupMemberResource, completion: @escaping ((_ data: GroupMemberResource?,_ error: Error?) -> Void)) {
+    open class func addMemberToGroup(uniqueName: String, user: GroupMemberResource, completion: @escaping ((_ data: GroupMemberResource?, _ error: ErrorResponse?) -> Void)) {
         addMemberToGroupWithRequestBuilder(uniqueName: uniqueName, user: user).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,16 +30,14 @@ open class UsersGroupsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "avatar_url" : "aeiou",
+  "avatar_url" : "avatar_url",
   "id" : 0,
-  "display_name" : "aeiou",
+  "display_name" : "display_name",
   "status" : "moderator",
-  "username" : "aeiou"
+  "username" : "username"
 }}]
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter user: (body) The id and status for a user to add to the group 
-
      - returns: RequestBuilder<GroupMemberResource> 
      */
     open class func addMemberToGroupWithRequestBuilder(uniqueName: String, user: GroupMemberResource) -> RequestBuilder<GroupMemberResource> {
@@ -52,7 +48,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<GroupMemberResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -60,14 +55,13 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Adds multiple members to the group
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter users: (body) The id and status for a list of users to add to the group 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addMembersToGroup(uniqueName: String, users: [GroupMemberResource], completion: @escaping ((_ data: [GroupMemberResource]?,_ error: Error?) -> Void)) {
+    open class func addMembersToGroup(uniqueName: String, users: [GroupMemberResource], completion: @escaping ((_ data: [GroupMemberResource]?, _ error: ErrorResponse?) -> Void)) {
         addMembersToGroupWithRequestBuilder(uniqueName: uniqueName, users: users).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -79,16 +73,20 @@ open class UsersGroupsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
-  "avatar_url" : "aeiou",
+  "avatar_url" : "avatar_url",
   "id" : 0,
-  "display_name" : "aeiou",
+  "display_name" : "display_name",
   "status" : "moderator",
-  "username" : "aeiou"
+  "username" : "username"
+}, {
+  "avatar_url" : "avatar_url",
+  "id" : 0,
+  "display_name" : "display_name",
+  "status" : "moderator",
+  "username" : "username"
 } ]}]
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter users: (body) The id and status for a list of users to add to the group 
-
      - returns: RequestBuilder<[GroupMemberResource]> 
      */
     open class func addMembersToGroupWithRequestBuilder(uniqueName: String, users: [GroupMemberResource]) -> RequestBuilder<[GroupMemberResource]> {
@@ -99,7 +97,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[GroupMemberResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -107,13 +104,12 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Create a group
-     
      - parameter groupResource: (body) The new group (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createGroup(groupResource: GroupResource? = nil, completion: @escaping ((_ data: GroupResource?,_ error: Error?) -> Void)) {
+    open class func createGroup(groupResource: GroupResource? = nil, completion: @escaping ((_ data: GroupResource?, _ error: ErrorResponse?) -> Void)) {
         createGroupWithRequestBuilder(groupResource: groupResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -125,24 +121,22 @@ open class UsersGroupsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
-  "parent" : "aeiou",
+  "template" : "template",
+  "parent" : "parent",
   "sub_member_count" : 6,
-  "unique_name" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "unique_name" : "unique_name",
+  "name" : "name",
+  "description" : "description",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "member_count" : 0,
-  "message_of_the_day" : "aeiou",
+  "message_of_the_day" : "message_of_the_day",
   "status" : "open"
 }}]
-     
      - parameter groupResource: (body) The new group (optional)
-
      - returns: RequestBuilder<GroupResource> 
      */
     open class func createGroupWithRequestBuilder(groupResource: GroupResource? = nil) -> RequestBuilder<GroupResource> {
@@ -152,7 +146,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<GroupResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -160,13 +153,12 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Create a group template
-     
      - parameter groupTemplateResource: (body) The group template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createGroupTemplate(groupTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func createGroupTemplate(groupTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createGroupTemplateWithRequestBuilder(groupTemplateResource: groupTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -179,32 +171,95 @@ open class UsersGroupsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter groupTemplateResource: (body) The group template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func createGroupTemplateWithRequestBuilder(groupTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -214,7 +269,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -222,13 +276,12 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Removes a group from the system IF no resources are attached to it
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteGroup(uniqueName: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteGroup(uniqueName: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteGroupWithRequestBuilder(uniqueName: uniqueName).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -239,9 +292,7 @@ open class UsersGroupsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter uniqueName: (path) The group unique name 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteGroupWithRequestBuilder(uniqueName: String) -> RequestBuilder<Void> {
@@ -252,7 +303,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -260,14 +310,13 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Delete a group template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteGroupTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteGroupTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteGroupTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -279,10 +328,8 @@ open class UsersGroupsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteGroupTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -295,7 +342,6 @@ open class UsersGroupsAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -304,13 +350,12 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Loads a specific group's details
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getGroup(uniqueName: String, completion: @escaping ((_ data: GroupResource?,_ error: Error?) -> Void)) {
+    open class func getGroup(uniqueName: String, completion: @escaping ((_ data: GroupResource?, _ error: ErrorResponse?) -> Void)) {
         getGroupWithRequestBuilder(uniqueName: uniqueName).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -318,25 +363,24 @@ open class UsersGroupsAPI: APIBase {
     /**
      Loads a specific group's details
      - GET /users/groups/{unique_name}
+
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
-  "parent" : "aeiou",
+  "template" : "template",
+  "parent" : "parent",
   "sub_member_count" : 6,
-  "unique_name" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "unique_name" : "unique_name",
+  "name" : "name",
+  "description" : "description",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "member_count" : 0,
-  "message_of_the_day" : "aeiou",
+  "message_of_the_day" : "message_of_the_day",
   "status" : "open"
 }}]
-     
      - parameter uniqueName: (path) The group unique name 
-
      - returns: RequestBuilder<GroupResource> 
      */
     open class func getGroupWithRequestBuilder(uniqueName: String) -> RequestBuilder<GroupResource> {
@@ -347,7 +391,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<GroupResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -355,14 +398,13 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Get a user from a group
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter userId: (path) The id of the user 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getGroupMember(uniqueName: String, userId: Int32, completion: @escaping ((_ data: GroupMemberResource?,_ error: Error?) -> Void)) {
+    open class func getGroupMember(uniqueName: String, userId: Int32, completion: @escaping ((_ data: GroupMemberResource?, _ error: ErrorResponse?) -> Void)) {
         getGroupMemberWithRequestBuilder(uniqueName: uniqueName, userId: userId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -370,17 +412,16 @@ open class UsersGroupsAPI: APIBase {
     /**
      Get a user from a group
      - GET /users/groups/{unique_name}/members/{user_id}
+
      - examples: [{contentType=application/json, example={
-  "avatar_url" : "aeiou",
+  "avatar_url" : "avatar_url",
   "id" : 0,
-  "display_name" : "aeiou",
+  "display_name" : "display_name",
   "status" : "moderator",
-  "username" : "aeiou"
+  "username" : "username"
 }}]
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter userId: (path) The id of the user 
-
      - returns: RequestBuilder<GroupMemberResource> 
      */
     open class func getGroupMemberWithRequestBuilder(uniqueName: String, userId: Int32) -> RequestBuilder<GroupMemberResource> {
@@ -392,7 +433,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<GroupMemberResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -400,16 +440,15 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Lists members of the group
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getGroupMembers(uniqueName: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceGroupMemberResource?,_ error: Error?) -> Void)) {
+    open class func getGroupMembers(uniqueName: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceGroupMemberResource?, _ error: ErrorResponse?) -> Void)) {
         getGroupMembersWithRequestBuilder(uniqueName: uniqueName, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -417,6 +456,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Lists members of the group
      - GET /users/groups/{unique_name}/members
+
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
@@ -425,27 +465,39 @@ open class UsersGroupsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
   "number_of_elements" : 1,
   "content" : [ {
-    "avatar_url" : "aeiou",
+    "avatar_url" : "avatar_url",
     "id" : 0,
-    "display_name" : "aeiou",
+    "display_name" : "display_name",
     "status" : "moderator",
-    "username" : "aeiou"
+    "username" : "username"
+  }, {
+    "avatar_url" : "avatar_url",
+    "id" : 0,
+    "display_name" : "display_name",
+    "status" : "moderator",
+    "username" : "username"
   } ],
   "first" : true
 }}]
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceGroupMemberResource> 
      */
     open class func getGroupMembersWithRequestBuilder(uniqueName: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceGroupMemberResource> {
@@ -460,7 +512,6 @@ open class UsersGroupsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceGroupMemberResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -469,13 +520,12 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Get a single group template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getGroupTemplate(id: String, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func getGroupTemplate(id: String, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getGroupTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -487,32 +537,95 @@ open class UsersGroupsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func getGroupTemplateWithRequestBuilder(id: String) -> RequestBuilder<TemplateResource> {
@@ -523,7 +636,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -531,15 +643,14 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      List and search group templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getGroupTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getGroupTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getGroupTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -558,43 +669,202 @@ open class UsersGroupsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 0,
-    "id" : "aeiou",
+    "id" : "id",
     "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceTemplateResource> 
      */
     open class func getGroupTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceTemplateResource> {
@@ -608,7 +878,6 @@ open class UsersGroupsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -617,13 +886,12 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      List groups a user is in
-     
      - parameter userId: (path) The id of the user 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getGroupsForUser(userId: Int32, completion: @escaping ((_ data: [String]?,_ error: Error?) -> Void)) {
+    open class func getGroupsForUser(userId: Int32, completion: @escaping ((_ data: [String]?, _ error: ErrorResponse?) -> Void)) {
         getGroupsForUserWithRequestBuilder(userId: userId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -631,10 +899,9 @@ open class UsersGroupsAPI: APIBase {
     /**
      List groups a user is in
      - GET /users/{user_id}/groups
-     - examples: [{contentType=application/json, example=[ "aeiou" ]}]
-     
-     - parameter userId: (path) The id of the user 
 
+     - examples: [{contentType=application/json, example=[ "", "" ]}]
+     - parameter userId: (path) The id of the user 
      - returns: RequestBuilder<[String]> 
      */
     open class func getGroupsForUserWithRequestBuilder(userId: Int32) -> RequestBuilder<[String]> {
@@ -645,7 +912,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[String]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -653,14 +919,13 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Removes a user from a group
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter userId: (path) The id of the user to remove 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func removeGroupMember(uniqueName: String, userId: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func removeGroupMember(uniqueName: String, userId: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         removeGroupMemberWithRequestBuilder(uniqueName: uniqueName, userId: userId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -671,10 +936,8 @@ open class UsersGroupsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter userId: (path) The id of the user to remove 
-
      - returns: RequestBuilder<Void> 
      */
     open class func removeGroupMemberWithRequestBuilder(uniqueName: String, userId: Int32) -> RequestBuilder<Void> {
@@ -686,7 +949,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -694,14 +956,13 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Update a group
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter groupResource: (body) The updated group (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateGroup(uniqueName: String, groupResource: GroupResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateGroup(uniqueName: String, groupResource: GroupResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateGroupWithRequestBuilder(uniqueName: uniqueName, groupResource: groupResource).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -712,10 +973,8 @@ open class UsersGroupsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter groupResource: (body) The updated group (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateGroupWithRequestBuilder(uniqueName: String, groupResource: GroupResource? = nil) -> RequestBuilder<Void> {
@@ -726,7 +985,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -734,15 +992,14 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Change a user's status
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter userId: (path) The user id of the member to modify 
      - parameter status: (body) The new status for the user 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateGroupMemberStatus(uniqueName: String, userId: Int32, status: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateGroupMemberStatus(uniqueName: String, userId: Int32, status: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateGroupMemberStatusWithRequestBuilder(uniqueName: uniqueName, userId: userId, status: status).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -753,11 +1010,9 @@ open class UsersGroupsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter uniqueName: (path) The group unique name 
      - parameter userId: (path) The user id of the member to modify 
      - parameter status: (body) The new status for the user 
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateGroupMemberStatusWithRequestBuilder(uniqueName: String, userId: Int32, status: String) -> RequestBuilder<Void> {
@@ -769,7 +1024,6 @@ open class UsersGroupsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -777,14 +1031,13 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      Update a group template
-     
      - parameter id: (path) The id of the template 
      - parameter groupTemplateResource: (body) The group template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateGroupTemplate(id: String, groupTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateGroupTemplate(id: String, groupTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateGroupTemplateWithRequestBuilder(id: id, groupTemplateResource: groupTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -796,33 +1049,96 @@ open class UsersGroupsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter groupTemplateResource: (body) The group template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func updateGroupTemplateWithRequestBuilder(id: String, groupTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -832,7 +1148,6 @@ open class UsersGroupsAPI: APIBase {
         let parameters = groupTemplateResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -849,7 +1164,6 @@ open class UsersGroupsAPI: APIBase {
 
     /**
      List and search groups
-     
      - parameter filterTemplate: (query) Filter for groups using a specific template, by id (optional)
      - parameter filterMemberCount: (query) Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
      - parameter filterName: (query) Filter for groups with names starting with the given string (optional)
@@ -861,9 +1175,9 @@ open class UsersGroupsAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateGroups(filterTemplate: String? = nil, filterMemberCount: String? = nil, filterName: String? = nil, filterUniqueName: String? = nil, filterParent: String? = nil, filterStatus: FilterStatus_updateGroups? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceGroupResource?,_ error: Error?) -> Void)) {
+    open class func updateGroups(filterTemplate: String? = nil, filterMemberCount: String? = nil, filterName: String? = nil, filterUniqueName: String? = nil, filterParent: String? = nil, filterStatus: FilterStatus_updateGroups? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceGroupResource?, _ error: ErrorResponse?) -> Void)) {
         updateGroupsWithRequestBuilder(filterTemplate: filterTemplate, filterMemberCount: filterMemberCount, filterName: filterName, filterUniqueName: filterUniqueName, filterParent: filterParent, filterStatus: filterStatus, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -871,6 +1185,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      List and search groups
      - GET /users/groups
+
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
@@ -879,31 +1194,53 @@ open class UsersGroupsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
-    "template" : "aeiou",
-    "parent" : "aeiou",
+    "template" : "template",
+    "parent" : "parent",
     "sub_member_count" : 6,
-    "unique_name" : "aeiou",
-    "name" : "aeiou",
-    "description" : "aeiou",
+    "unique_name" : "unique_name",
+    "name" : "name",
+    "description" : "description",
     "additional_properties" : {
       "key" : {
-        "type" : "aeiou"
+        "type" : "type"
       }
     },
     "member_count" : 0,
-    "message_of_the_day" : "aeiou",
+    "message_of_the_day" : "message_of_the_day",
+    "status" : "open"
+  }, {
+    "template" : "template",
+    "parent" : "parent",
+    "sub_member_count" : 6,
+    "unique_name" : "unique_name",
+    "name" : "name",
+    "description" : "description",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "member_count" : 0,
+    "message_of_the_day" : "message_of_the_day",
     "status" : "open"
   } ],
   "first" : true
 }}]
-     
      - parameter filterTemplate: (query) Filter for groups using a specific template, by id (optional)
      - parameter filterMemberCount: (query) Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
      - parameter filterName: (query) Filter for groups with names starting with the given string (optional)
@@ -913,7 +1250,6 @@ open class UsersGroupsAPI: APIBase {
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
-
      - returns: RequestBuilder<PageResourceGroupResource> 
      */
     open class func updateGroupsWithRequestBuilder(filterTemplate: String? = nil, filterMemberCount: String? = nil, filterName: String? = nil, filterUniqueName: String? = nil, filterParent: String? = nil, filterStatus: FilterStatus_updateGroups? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceGroupResource> {
@@ -933,7 +1269,6 @@ open class UsersGroupsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceGroupResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

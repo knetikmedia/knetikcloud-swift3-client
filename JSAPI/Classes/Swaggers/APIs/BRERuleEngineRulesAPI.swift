@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class BRERuleEngineRulesAPI: APIBase {
     /**
      Create a rule
-     
      - parameter breRule: (body) The BRE rule object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createBRERule(breRule: BreRule? = nil, completion: @escaping ((_ data: BreRule?,_ error: Error?) -> Void)) {
+    open class func createBRERule(breRule: BreRule? = nil, completion: @escaping ((_ data: BreRule?, _ error: ErrorResponse?) -> Void)) {
         createBRERuleWithRequestBuilder(breRule: breRule).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -34,33 +32,35 @@ open class BRERuleEngineRulesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "end_date" : 0,
   "condition" : {
-    "args" : [ { } ],
+    "args" : [ { }, { } ],
     "operator" : { }
   },
   "system_rule" : false,
-  "condition_text" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "event_name" : "aeiou",
-  "id" : "aeiou",
+  "condition_text" : "condition_text",
+  "name" : "name",
+  "description" : "description",
+  "event_name" : "event_name",
+  "id" : "id",
   "sort" : 6,
   "actions" : {
     "variables" : [ {
-      "name" : "aeiou",
+      "name" : "name",
       "optional" : false,
-      "type" : "aeiou"
+      "type" : "type"
+    }, {
+      "name" : "name",
+      "optional" : false,
+      "type" : "type"
     } ],
-    "name" : "aeiou",
-    "description" : "aeiou",
+    "name" : "name",
+    "description" : "description",
     "category" : "achievement",
-    "tags" : [ "aeiou" ]
+    "tags" : [ "tags", "tags" ]
   },
   "enabled" : false,
   "start_date" : 1
 }}]
-     
      - parameter breRule: (body) The BRE rule object (optional)
-
      - returns: RequestBuilder<BreRule> 
      */
     open class func createBRERuleWithRequestBuilder(breRule: BreRule? = nil) -> RequestBuilder<BreRule> {
@@ -70,7 +70,6 @@ open class BRERuleEngineRulesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<BreRule>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -78,13 +77,12 @@ open class BRERuleEngineRulesAPI: APIBase {
 
     /**
      Delete a rule
-     
      - parameter id: (path) The id of the rule 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteBRERule(id: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteBRERule(id: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteBRERuleWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -96,9 +94,7 @@ open class BRERuleEngineRulesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the rule 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteBRERuleWithRequestBuilder(id: String) -> RequestBuilder<Void> {
@@ -109,7 +105,6 @@ open class BRERuleEngineRulesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -117,13 +112,12 @@ open class BRERuleEngineRulesAPI: APIBase {
 
     /**
      Returns a string representation of the provided expression
-     
      - parameter expression: (body) The expression (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBREExpressionAsString(expression: Expressionobject? = nil, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
+    open class func getBREExpressionAsString(expression: Expressionobject? = nil, completion: @escaping ((_ data: String?, _ error: ErrorResponse?) -> Void)) {
         getBREExpressionAsStringWithRequestBuilder(expression: expression).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -134,10 +128,8 @@ open class BRERuleEngineRulesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example="aeiou"}]
-     
+     - examples: [{contentType=application/json, example=""}]
      - parameter expression: (body) The expression (optional)
-
      - returns: RequestBuilder<String> 
      */
     open class func getBREExpressionAsStringWithRequestBuilder(expression: Expressionobject? = nil) -> RequestBuilder<String> {
@@ -147,7 +139,6 @@ open class BRERuleEngineRulesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<String>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -155,13 +146,12 @@ open class BRERuleEngineRulesAPI: APIBase {
 
     /**
      Get a single rule
-     
      - parameter id: (path) The id of the rule 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBRERule(id: String, completion: @escaping ((_ data: BreRule?,_ error: Error?) -> Void)) {
+    open class func getBRERule(id: String, completion: @escaping ((_ data: BreRule?, _ error: ErrorResponse?) -> Void)) {
         getBRERuleWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -175,33 +165,35 @@ open class BRERuleEngineRulesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "end_date" : 0,
   "condition" : {
-    "args" : [ { } ],
+    "args" : [ { }, { } ],
     "operator" : { }
   },
   "system_rule" : false,
-  "condition_text" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "event_name" : "aeiou",
-  "id" : "aeiou",
+  "condition_text" : "condition_text",
+  "name" : "name",
+  "description" : "description",
+  "event_name" : "event_name",
+  "id" : "id",
   "sort" : 6,
   "actions" : {
     "variables" : [ {
-      "name" : "aeiou",
+      "name" : "name",
       "optional" : false,
-      "type" : "aeiou"
+      "type" : "type"
+    }, {
+      "name" : "name",
+      "optional" : false,
+      "type" : "type"
     } ],
-    "name" : "aeiou",
-    "description" : "aeiou",
+    "name" : "name",
+    "description" : "description",
     "category" : "achievement",
-    "tags" : [ "aeiou" ]
+    "tags" : [ "tags", "tags" ]
   },
   "enabled" : false,
   "start_date" : 1
 }}]
-     
      - parameter id: (path) The id of the rule 
-
      - returns: RequestBuilder<BreRule> 
      */
     open class func getBRERuleWithRequestBuilder(id: String) -> RequestBuilder<BreRule> {
@@ -212,7 +204,6 @@ open class BRERuleEngineRulesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<BreRule>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -220,7 +211,6 @@ open class BRERuleEngineRulesAPI: APIBase {
 
     /**
      List rules
-     
      - parameter filterName: (query) Filter for rules containing the given name (optional)
      - parameter filterEnabled: (query) Filter for rules by active status, null for both (optional, default to null)
      - parameter filterSystem: (query) Filter for rules that are system rules when true, or not when false. Leave off for both mixed (optional)
@@ -231,9 +221,9 @@ open class BRERuleEngineRulesAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBRERules(filterName: String? = nil, filterEnabled: Bool? = nil, filterSystem: Bool? = nil, filterTrigger: String? = nil, filterAction: String? = nil, filterCondition: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceBreRule?,_ error: Error?) -> Void)) {
+    open class func getBRERules(filterName: String? = nil, filterEnabled: Bool? = nil, filterSystem: Bool? = nil, filterTrigger: String? = nil, filterAction: String? = nil, filterCondition: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceBreRule?, _ error: ErrorResponse?) -> Void)) {
         getBRERulesWithRequestBuilder(filterName: filterName, filterEnabled: filterEnabled, filterSystem: filterSystem, filterTrigger: filterTrigger, filterAction: filterAction, filterCondition: filterCondition, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -252,8 +242,16 @@ open class BRERuleEngineRulesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 9,
@@ -261,33 +259,66 @@ open class BRERuleEngineRulesAPI: APIBase {
   "content" : [ {
     "end_date" : 0,
     "condition" : {
-      "args" : [ { } ],
+      "args" : [ { }, { } ],
       "operator" : { }
     },
     "system_rule" : false,
-    "condition_text" : "aeiou",
-    "name" : "aeiou",
-    "description" : "aeiou",
-    "event_name" : "aeiou",
-    "id" : "aeiou",
+    "condition_text" : "condition_text",
+    "name" : "name",
+    "description" : "description",
+    "event_name" : "event_name",
+    "id" : "id",
     "sort" : 6,
     "actions" : {
       "variables" : [ {
-        "name" : "aeiou",
+        "name" : "name",
         "optional" : false,
-        "type" : "aeiou"
+        "type" : "type"
+      }, {
+        "name" : "name",
+        "optional" : false,
+        "type" : "type"
       } ],
-      "name" : "aeiou",
-      "description" : "aeiou",
+      "name" : "name",
+      "description" : "description",
       "category" : "achievement",
-      "tags" : [ "aeiou" ]
+      "tags" : [ "tags", "tags" ]
+    },
+    "enabled" : false,
+    "start_date" : 1
+  }, {
+    "end_date" : 0,
+    "condition" : {
+      "args" : [ { }, { } ],
+      "operator" : { }
+    },
+    "system_rule" : false,
+    "condition_text" : "condition_text",
+    "name" : "name",
+    "description" : "description",
+    "event_name" : "event_name",
+    "id" : "id",
+    "sort" : 6,
+    "actions" : {
+      "variables" : [ {
+        "name" : "name",
+        "optional" : false,
+        "type" : "type"
+      }, {
+        "name" : "name",
+        "optional" : false,
+        "type" : "type"
+      } ],
+      "name" : "name",
+      "description" : "description",
+      "category" : "achievement",
+      "tags" : [ "tags", "tags" ]
     },
     "enabled" : false,
     "start_date" : 1
   } ],
   "first" : true
 }}]
-     
      - parameter filterName: (query) Filter for rules containing the given name (optional)
      - parameter filterEnabled: (query) Filter for rules by active status, null for both (optional, default to null)
      - parameter filterSystem: (query) Filter for rules that are system rules when true, or not when false. Leave off for both mixed (optional)
@@ -296,7 +327,6 @@ open class BRERuleEngineRulesAPI: APIBase {
      - parameter filterCondition: (query) Filter for rules that have a condition containing the given string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceBreRule> 
      */
     open class func getBRERulesWithRequestBuilder(filterName: String? = nil, filterEnabled: Bool? = nil, filterSystem: Bool? = nil, filterTrigger: String? = nil, filterAction: String? = nil, filterCondition: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceBreRule> {
@@ -315,7 +345,6 @@ open class BRERuleEngineRulesAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceBreRule>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -324,14 +353,13 @@ open class BRERuleEngineRulesAPI: APIBase {
 
     /**
      Enable or disable a rule
-     
      - parameter id: (path) The id of the rule 
      - parameter enabled: (body) The boolean value (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setBRERule(id: String, enabled: BooleanResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setBRERule(id: String, enabled: BooleanResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setBRERuleWithRequestBuilder(id: id, enabled: enabled).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -343,10 +371,8 @@ open class BRERuleEngineRulesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the rule 
      - parameter enabled: (body) The boolean value (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func setBRERuleWithRequestBuilder(id: String, enabled: BooleanResource? = nil) -> RequestBuilder<Void> {
@@ -357,7 +383,6 @@ open class BRERuleEngineRulesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -365,14 +390,13 @@ open class BRERuleEngineRulesAPI: APIBase {
 
     /**
      Update a rule
-     
      - parameter id: (path) The id of the rule 
      - parameter breRule: (body) The BRE rule object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateBRERule(id: String, breRule: BreRule? = nil, completion: @escaping ((_ data: BreRule?,_ error: Error?) -> Void)) {
+    open class func updateBRERule(id: String, breRule: BreRule? = nil, completion: @escaping ((_ data: BreRule?, _ error: ErrorResponse?) -> Void)) {
         updateBRERuleWithRequestBuilder(id: id, breRule: breRule).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -387,34 +411,36 @@ open class BRERuleEngineRulesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "end_date" : 0,
   "condition" : {
-    "args" : [ { } ],
+    "args" : [ { }, { } ],
     "operator" : { }
   },
   "system_rule" : false,
-  "condition_text" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "event_name" : "aeiou",
-  "id" : "aeiou",
+  "condition_text" : "condition_text",
+  "name" : "name",
+  "description" : "description",
+  "event_name" : "event_name",
+  "id" : "id",
   "sort" : 6,
   "actions" : {
     "variables" : [ {
-      "name" : "aeiou",
+      "name" : "name",
       "optional" : false,
-      "type" : "aeiou"
+      "type" : "type"
+    }, {
+      "name" : "name",
+      "optional" : false,
+      "type" : "type"
     } ],
-    "name" : "aeiou",
-    "description" : "aeiou",
+    "name" : "name",
+    "description" : "description",
     "category" : "achievement",
-    "tags" : [ "aeiou" ]
+    "tags" : [ "tags", "tags" ]
   },
   "enabled" : false,
   "start_date" : 1
 }}]
-     
      - parameter id: (path) The id of the rule 
      - parameter breRule: (body) The BRE rule object (optional)
-
      - returns: RequestBuilder<BreRule> 
      */
     open class func updateBRERuleWithRequestBuilder(id: String, breRule: BreRule? = nil) -> RequestBuilder<BreRule> {
@@ -424,7 +450,6 @@ open class BRERuleEngineRulesAPI: APIBase {
         let parameters = breRule?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<BreRule>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

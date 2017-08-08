@@ -9,7 +9,6 @@ import Foundation
 import Alamofire
 
 
-
 open class ReportingUsageAPI: APIBase {
     /**
      * enum for parameter method
@@ -27,7 +26,6 @@ open class ReportingUsageAPI: APIBase {
 
     /**
      Returns aggregated endpoint usage information by day
-     
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
      - parameter combineEndpoints: (query) Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
@@ -37,9 +35,9 @@ open class ReportingUsageAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUsageByDay(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByDay? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUsageInfo?,_ error: Error?) -> Void)) {
+    open class func getUsageByDay(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByDay? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUsageInfo?, _ error: ErrorResponse?) -> Void)) {
         getUsageByDayWithRequestBuilder(startDate: startDate, endDate: endDate, combineEndpoints: combineEndpoints, method: method, url: url, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -58,21 +56,33 @@ open class ReportingUsageAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
     "date" : 6,
-    "method" : "aeiou",
+    "method" : "method",
     "count" : 0,
-    "url" : "aeiou"
+    "url" : "url"
+  }, {
+    "date" : 6,
+    "method" : "method",
+    "count" : 0,
+    "url" : "url"
   } ],
   "first" : true
 }}]
-     
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
      - parameter combineEndpoints: (query) Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
@@ -80,7 +90,6 @@ open class ReportingUsageAPI: APIBase {
      - parameter url: (query) Filter for a certain endpoint.  Must include method as well to work (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceUsageInfo> 
      */
     open class func getUsageByDayWithRequestBuilder(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByDay? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUsageInfo> {
@@ -98,7 +107,6 @@ open class ReportingUsageAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUsageInfo>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -121,7 +129,6 @@ open class ReportingUsageAPI: APIBase {
 
     /**
      Returns aggregated endpoint usage information by hour
-     
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
      - parameter combineEndpoints: (query) Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
@@ -131,9 +138,9 @@ open class ReportingUsageAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUsageByHour(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByHour? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUsageInfo?,_ error: Error?) -> Void)) {
+    open class func getUsageByHour(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByHour? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUsageInfo?, _ error: ErrorResponse?) -> Void)) {
         getUsageByHourWithRequestBuilder(startDate: startDate, endDate: endDate, combineEndpoints: combineEndpoints, method: method, url: url, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -152,21 +159,33 @@ open class ReportingUsageAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
     "date" : 6,
-    "method" : "aeiou",
+    "method" : "method",
     "count" : 0,
-    "url" : "aeiou"
+    "url" : "url"
+  }, {
+    "date" : 6,
+    "method" : "method",
+    "count" : 0,
+    "url" : "url"
   } ],
   "first" : true
 }}]
-     
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
      - parameter combineEndpoints: (query) Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
@@ -174,7 +193,6 @@ open class ReportingUsageAPI: APIBase {
      - parameter url: (query) Filter for a certain endpoint.  Must include method as well to work (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceUsageInfo> 
      */
     open class func getUsageByHourWithRequestBuilder(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByHour? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUsageInfo> {
@@ -192,7 +210,6 @@ open class ReportingUsageAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUsageInfo>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -215,7 +232,6 @@ open class ReportingUsageAPI: APIBase {
 
     /**
      Returns aggregated endpoint usage information by minute
-     
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
      - parameter combineEndpoints: (query) Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
@@ -225,9 +241,9 @@ open class ReportingUsageAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUsageByMinute(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByMinute? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUsageInfo?,_ error: Error?) -> Void)) {
+    open class func getUsageByMinute(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByMinute? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUsageInfo?, _ error: ErrorResponse?) -> Void)) {
         getUsageByMinuteWithRequestBuilder(startDate: startDate, endDate: endDate, combineEndpoints: combineEndpoints, method: method, url: url, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -246,21 +262,33 @@ open class ReportingUsageAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
     "date" : 6,
-    "method" : "aeiou",
+    "method" : "method",
     "count" : 0,
-    "url" : "aeiou"
+    "url" : "url"
+  }, {
+    "date" : 6,
+    "method" : "method",
+    "count" : 0,
+    "url" : "url"
   } ],
   "first" : true
 }}]
-     
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
      - parameter combineEndpoints: (query) Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
@@ -268,7 +296,6 @@ open class ReportingUsageAPI: APIBase {
      - parameter url: (query) Filter for a certain endpoint.  Must include method as well to work (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceUsageInfo> 
      */
     open class func getUsageByMinuteWithRequestBuilder(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByMinute? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUsageInfo> {
@@ -286,7 +313,6 @@ open class ReportingUsageAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUsageInfo>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -309,7 +335,6 @@ open class ReportingUsageAPI: APIBase {
 
     /**
      Returns aggregated endpoint usage information by month
-     
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
      - parameter combineEndpoints: (query) Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
@@ -319,9 +344,9 @@ open class ReportingUsageAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUsageByMonth(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByMonth? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUsageInfo?,_ error: Error?) -> Void)) {
+    open class func getUsageByMonth(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByMonth? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUsageInfo?, _ error: ErrorResponse?) -> Void)) {
         getUsageByMonthWithRequestBuilder(startDate: startDate, endDate: endDate, combineEndpoints: combineEndpoints, method: method, url: url, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -340,21 +365,33 @@ open class ReportingUsageAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
     "date" : 6,
-    "method" : "aeiou",
+    "method" : "method",
     "count" : 0,
-    "url" : "aeiou"
+    "url" : "url"
+  }, {
+    "date" : 6,
+    "method" : "method",
+    "count" : 0,
+    "url" : "url"
   } ],
   "first" : true
 }}]
-     
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
      - parameter combineEndpoints: (query) Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
@@ -362,7 +399,6 @@ open class ReportingUsageAPI: APIBase {
      - parameter url: (query) Filter for a certain endpoint.  Must include method as well to work (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceUsageInfo> 
      */
     open class func getUsageByMonthWithRequestBuilder(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByMonth? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUsageInfo> {
@@ -380,7 +416,6 @@ open class ReportingUsageAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUsageInfo>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -403,7 +438,6 @@ open class ReportingUsageAPI: APIBase {
 
     /**
      Returns aggregated endpoint usage information by year
-     
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
      - parameter combineEndpoints: (query) Whether to combine counts from different endpoints. Removes the url and method from the result object (optional, default to false)
@@ -413,9 +447,9 @@ open class ReportingUsageAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUsageByYear(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByYear? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUsageInfo?,_ error: Error?) -> Void)) {
+    open class func getUsageByYear(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByYear? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUsageInfo?, _ error: ErrorResponse?) -> Void)) {
         getUsageByYearWithRequestBuilder(startDate: startDate, endDate: endDate, combineEndpoints: combineEndpoints, method: method, url: url, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -434,21 +468,33 @@ open class ReportingUsageAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
     "date" : 6,
-    "method" : "aeiou",
+    "method" : "method",
     "count" : 0,
-    "url" : "aeiou"
+    "url" : "url"
+  }, {
+    "date" : 6,
+    "method" : "method",
+    "count" : 0,
+    "url" : "url"
   } ],
   "first" : true
 }}]
-     
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
      - parameter combineEndpoints: (query) Whether to combine counts from different endpoints. Removes the url and method from the result object (optional, default to false)
@@ -456,7 +502,6 @@ open class ReportingUsageAPI: APIBase {
      - parameter url: (query) Filter for a certain endpoint.  Must include method as well to work (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceUsageInfo> 
      */
     open class func getUsageByYearWithRequestBuilder(startDate: Int64, endDate: Int64, combineEndpoints: Bool? = nil, method: Method_getUsageByYear? = nil, url: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUsageInfo> {
@@ -474,7 +519,6 @@ open class ReportingUsageAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUsageInfo>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -483,14 +527,13 @@ open class ReportingUsageAPI: APIBase {
 
     /**
      Returns list of endpoints called (method and url)
-     
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUsageEndpoints(startDate: Int64, endDate: Int64, completion: @escaping ((_ data: [String]?,_ error: Error?) -> Void)) {
+    open class func getUsageEndpoints(startDate: Int64, endDate: Int64, completion: @escaping ((_ data: [String]?, _ error: ErrorResponse?) -> Void)) {
         getUsageEndpointsWithRequestBuilder(startDate: startDate, endDate: endDate).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -501,11 +544,9 @@ open class ReportingUsageAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example=[ "aeiou" ]}]
-     
+     - examples: [{contentType=application/json, example=[ "", "" ]}]
      - parameter startDate: (query) The beginning of the range being requested, unix timestamp in seconds 
      - parameter endDate: (query) The ending of the range being requested, unix timestamp in seconds 
-
      - returns: RequestBuilder<[String]> 
      */
     open class func getUsageEndpointsWithRequestBuilder(startDate: Int64, endDate: Int64) -> RequestBuilder<[String]> {
@@ -518,7 +559,6 @@ open class ReportingUsageAPI: APIBase {
             "start_date": startDate.encodeToJSON(), 
             "end_date": endDate.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<[String]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

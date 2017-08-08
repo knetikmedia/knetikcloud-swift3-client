@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class UsersFriendshipsAPI: APIBase {
     /**
      Add a friend
-     
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
      - parameter id: (path) The id of the user to befriend 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addFriend(userId: String, id: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func addFriend(userId: String, id: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addFriendWithRequestBuilder(userId: userId, id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -32,10 +30,8 @@ open class UsersFriendshipsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
      - parameter id: (path) The id of the user to befriend 
-
      - returns: RequestBuilder<Void> 
      */
     open class func addFriendWithRequestBuilder(userId: String, id: Int32) -> RequestBuilder<Void> {
@@ -47,7 +43,6 @@ open class UsersFriendshipsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -55,15 +50,14 @@ open class UsersFriendshipsAPI: APIBase {
 
     /**
      Get friends list
-     
      - parameter userId: (path) The id of the user or &#39;me&#39; 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getFriends(userId: String, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceSimpleUserResource?,_ error: Error?) -> Void)) {
+    open class func getFriends(userId: String, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceSimpleUserResource?, _ error: ErrorResponse?) -> Void)) {
         getFriendsWithRequestBuilder(userId: userId, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -75,32 +69,43 @@ open class UsersFriendshipsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 0,
   "last" : true,
-  "size" : 5,
+  "size" : 1,
   "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 2,
-  "number_of_elements" : 1,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ {
-    "avatar_url" : "aeiou",
-    "id" : 0,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  }, {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   } ],
   "first" : true
 }}]
-     
      - parameter userId: (path) The id of the user or &#39;me&#39; 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceSimpleUserResource> 
      */
     open class func getFriendsWithRequestBuilder(userId: String, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceSimpleUserResource> {
@@ -114,7 +119,6 @@ open class UsersFriendshipsAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceSimpleUserResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -123,13 +127,12 @@ open class UsersFriendshipsAPI: APIBase {
 
     /**
      Returns the invite token
-     
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInviteToken(userId: String, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
+    open class func getInviteToken(userId: String, completion: @escaping ((_ data: String?, _ error: ErrorResponse?) -> Void)) {
         getInviteTokenWithRequestBuilder(userId: userId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -141,10 +144,8 @@ open class UsersFriendshipsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example="aeiou"}]
-     
+     - examples: [{contentType=application/json, example=""}]
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
-
      - returns: RequestBuilder<String> 
      */
     open class func getInviteTokenWithRequestBuilder(userId: String) -> RequestBuilder<String> {
@@ -155,7 +156,6 @@ open class UsersFriendshipsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<String>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -163,15 +163,14 @@ open class UsersFriendshipsAPI: APIBase {
 
     /**
      Get pending invites
-     
      - parameter userId: (path) The id of the user or &#39;me&#39; 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInvites(userId: String, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceSimpleUserResource?,_ error: Error?) -> Void)) {
+    open class func getInvites(userId: String, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceSimpleUserResource?, _ error: ErrorResponse?) -> Void)) {
         getInvitesWithRequestBuilder(userId: userId, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -184,32 +183,43 @@ open class UsersFriendshipsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 0,
   "last" : true,
-  "size" : 5,
+  "size" : 1,
   "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 2,
-  "number_of_elements" : 1,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ {
-    "avatar_url" : "aeiou",
-    "id" : 0,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  }, {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   } ],
   "first" : true
 }}]
-     
      - parameter userId: (path) The id of the user or &#39;me&#39; 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceSimpleUserResource> 
      */
     open class func getInvitesWithRequestBuilder(userId: String, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceSimpleUserResource> {
@@ -223,7 +233,6 @@ open class UsersFriendshipsAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceSimpleUserResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -232,14 +241,13 @@ open class UsersFriendshipsAPI: APIBase {
 
     /**
      Redeem friendship token
-     
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
      - parameter token: (body) The invite token (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func redeemFriendshipToken(userId: String, token: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func redeemFriendshipToken(userId: String, token: StringWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         redeemFriendshipTokenWithRequestBuilder(userId: userId, token: token).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -251,20 +259,17 @@ open class UsersFriendshipsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
      - parameter token: (body) The invite token (optional)
-
      - returns: RequestBuilder<Void> 
      */
-    open class func redeemFriendshipTokenWithRequestBuilder(userId: String, token: String? = nil) -> RequestBuilder<Void> {
+    open class func redeemFriendshipTokenWithRequestBuilder(userId: String, token: StringWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/users/{user_id}/friends/tokens"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = token?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -273,14 +278,13 @@ open class UsersFriendshipsAPI: APIBase {
 
     /**
      Remove or decline a friend
-     
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
      - parameter id: (path) The id of the user to befriend 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func removeOrDeclineFriend(userId: String, id: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func removeOrDeclineFriend(userId: String, id: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         removeOrDeclineFriendWithRequestBuilder(userId: userId, id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -291,10 +295,8 @@ open class UsersFriendshipsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
      - parameter id: (path) The id of the user to befriend 
-
      - returns: RequestBuilder<Void> 
      */
     open class func removeOrDeclineFriendWithRequestBuilder(userId: String, id: Int32) -> RequestBuilder<Void> {
@@ -305,7 +307,6 @@ open class UsersFriendshipsAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

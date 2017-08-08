@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class CampaignsAPI: APIBase {
     /**
      Add a challenge to a campaign
-     
      - parameter id: (path) The id of the campaign 
      - parameter challengeId: (body) The id of the challenge (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addChallengeToCampaign(id: Int64, challengeId: Int64? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func addChallengeToCampaign(id: Int64, challengeId: Int64? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addChallengeToCampaignWithRequestBuilder(id: id, challengeId: challengeId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -31,10 +29,8 @@ open class CampaignsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the campaign 
      - parameter challengeId: (body) The id of the challenge (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func addChallengeToCampaignWithRequestBuilder(id: Int64, challengeId: Int64? = nil) -> RequestBuilder<Void> {
@@ -45,7 +41,6 @@ open class CampaignsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -53,13 +48,12 @@ open class CampaignsAPI: APIBase {
 
     /**
      Create a campaign
-     
      - parameter campaignResource: (body) The campaign resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createCampaign(campaignResource: CampaignResource? = nil, completion: @escaping ((_ data: CampaignResource?,_ error: Error?) -> Void)) {
+    open class func createCampaign(campaignResource: CampaignResource? = nil, completion: @escaping ((_ data: CampaignResource?, _ error: ErrorResponse?) -> Void)) {
         createCampaignWithRequestBuilder(campaignResource: campaignResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -71,52 +65,63 @@ open class CampaignsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
+  "template" : "template",
   "reward_set" : {
-    "short_description" : "aeiou",
-    "unique_key" : "aeiou",
+    "short_description" : "short_description",
+    "unique_key" : "unique_key",
     "currency_rewards" : [ {
-      "currency_name" : "aeiou",
-      "max_rank" : 5,
-      "min_rank" : 2,
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 7.061401241503109,
-      "currency_code" : "aeiou"
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    }, {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
     } ],
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 5,
-    "id" : 9,
-    "long_description" : "aeiou",
+    "id" : 3,
+    "long_description" : "long_description",
     "max_placing" : 1,
     "updated_date" : 1,
     "item_rewards" : [ {
-      "quantity" : 7,
-      "item_id" : 3,
-      "max_rank" : 2,
-      "item_name" : "aeiou",
-      "min_rank" : 4
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    }, {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
     } ]
   },
-  "short_description" : "aeiou",
+  "short_description" : "short_description",
   "next_challenge_date" : 1,
   "active" : false,
-  "long_description" : "aeiou",
-  "leaderboard_strategy" : "aeiou",
-  "next_challenge" : "aeiou",
-  "name" : "aeiou",
+  "long_description" : "long_description",
+  "leaderboard_strategy" : "leaderboard_strategy",
+  "next_challenge" : "next_challenge",
+  "name" : "name",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
   "id" : 6,
-  "updated_date" : 1,
+  "updated_date" : 5,
   "reward_status" : "pending"
 }}]
-     
      - parameter campaignResource: (body) The campaign resource object (optional)
-
      - returns: RequestBuilder<CampaignResource> 
      */
     open class func createCampaignWithRequestBuilder(campaignResource: CampaignResource? = nil) -> RequestBuilder<CampaignResource> {
@@ -126,7 +131,6 @@ open class CampaignsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<CampaignResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -134,13 +138,12 @@ open class CampaignsAPI: APIBase {
 
     /**
      Create a campaign template
-     
      - parameter campaignTemplateResource: (body) The campaign template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createCampaignTemplate(campaignTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func createCampaignTemplate(campaignTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createCampaignTemplateWithRequestBuilder(campaignTemplateResource: campaignTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -153,32 +156,95 @@ open class CampaignsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter campaignTemplateResource: (body) The campaign template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func createCampaignTemplateWithRequestBuilder(campaignTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -188,7 +254,6 @@ open class CampaignsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -196,13 +261,12 @@ open class CampaignsAPI: APIBase {
 
     /**
      Delete a campaign
-     
      - parameter id: (path) The campaign id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteCampaign(id: Int64, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteCampaign(id: Int64, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteCampaignWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -213,9 +277,7 @@ open class CampaignsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The campaign id 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteCampaignWithRequestBuilder(id: Int64) -> RequestBuilder<Void> {
@@ -226,7 +288,6 @@ open class CampaignsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -234,14 +295,13 @@ open class CampaignsAPI: APIBase {
 
     /**
      Delete a campaign template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteCampaignTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteCampaignTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteCampaignTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -253,10 +313,8 @@ open class CampaignsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteCampaignTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -269,7 +327,6 @@ open class CampaignsAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -278,13 +335,12 @@ open class CampaignsAPI: APIBase {
 
     /**
      Returns a single campaign
-     
      - parameter id: (path) The campaign id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getCampaign(id: Int64, completion: @escaping ((_ data: CampaignResource?,_ error: Error?) -> Void)) {
+    open class func getCampaign(id: Int64, completion: @escaping ((_ data: CampaignResource?, _ error: ErrorResponse?) -> Void)) {
         getCampaignWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -292,53 +348,65 @@ open class CampaignsAPI: APIBase {
     /**
      Returns a single campaign
      - GET /campaigns/{id}
+
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
+  "template" : "template",
   "reward_set" : {
-    "short_description" : "aeiou",
-    "unique_key" : "aeiou",
+    "short_description" : "short_description",
+    "unique_key" : "unique_key",
     "currency_rewards" : [ {
-      "currency_name" : "aeiou",
-      "max_rank" : 5,
-      "min_rank" : 2,
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 7.061401241503109,
-      "currency_code" : "aeiou"
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    }, {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
     } ],
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 5,
-    "id" : 9,
-    "long_description" : "aeiou",
+    "id" : 3,
+    "long_description" : "long_description",
     "max_placing" : 1,
     "updated_date" : 1,
     "item_rewards" : [ {
-      "quantity" : 7,
-      "item_id" : 3,
-      "max_rank" : 2,
-      "item_name" : "aeiou",
-      "min_rank" : 4
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    }, {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
     } ]
   },
-  "short_description" : "aeiou",
+  "short_description" : "short_description",
   "next_challenge_date" : 1,
   "active" : false,
-  "long_description" : "aeiou",
-  "leaderboard_strategy" : "aeiou",
-  "next_challenge" : "aeiou",
-  "name" : "aeiou",
+  "long_description" : "long_description",
+  "leaderboard_strategy" : "leaderboard_strategy",
+  "next_challenge" : "next_challenge",
+  "name" : "name",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
   "id" : 6,
-  "updated_date" : 1,
+  "updated_date" : 5,
   "reward_status" : "pending"
 }}]
-     
      - parameter id: (path) The campaign id 
-
      - returns: RequestBuilder<CampaignResource> 
      */
     open class func getCampaignWithRequestBuilder(id: Int64) -> RequestBuilder<CampaignResource> {
@@ -349,7 +417,6 @@ open class CampaignsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<CampaignResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -357,7 +424,6 @@ open class CampaignsAPI: APIBase {
 
     /**
      List the challenges associated with a campaign
-     
      - parameter id: (path) The campaign id 
      - parameter filterStartDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterEndDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
@@ -366,9 +432,9 @@ open class CampaignsAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getCampaignChallenges(id: Int64, filterStartDate: String? = nil, filterEndDate: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceChallengeResource?,_ error: Error?) -> Void)) {
+    open class func getCampaignChallenges(id: Int64, filterStartDate: String? = nil, filterEndDate: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceChallengeResource?, _ error: ErrorResponse?) -> Void)) {
         getCampaignChallengesWithRequestBuilder(id: id, filterStartDate: filterStartDate, filterEndDate: filterEndDate, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -376,82 +442,166 @@ open class CampaignsAPI: APIBase {
     /**
      List the challenges associated with a campaign
      - GET /campaigns/{id}/challenges
+
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 7,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 6,
+  "size" : 1,
+  "total_elements" : 1,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 3,
-  "number_of_elements" : 8,
+  "total_pages" : 6,
+  "number_of_elements" : 1,
   "content" : [ {
     "end_date" : 5,
-    "template" : "aeiou",
+    "template" : "template",
     "reward_set" : {
-      "short_description" : "aeiou",
-      "unique_key" : "aeiou",
+      "short_description" : "short_description",
+      "unique_key" : "unique_key",
       "currency_rewards" : [ {
-        "currency_name" : "aeiou",
+        "currency_name" : "currency_name",
         "max_rank" : 2,
-        "min_rank" : 4,
+        "min_rank" : 7,
         "percent" : false,
-        "value" : 7.386281948385884,
-        "currency_code" : "aeiou"
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
+      }, {
+        "currency_name" : "currency_name",
+        "max_rank" : 2,
+        "min_rank" : 7,
+        "percent" : false,
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
       } ],
-      "name" : "aeiou",
-      "created_date" : 3,
-      "id" : 1,
-      "long_description" : "aeiou",
+      "name" : "name",
+      "created_date" : 5,
+      "id" : 3,
+      "long_description" : "long_description",
       "max_placing" : 1,
-      "updated_date" : 4,
+      "updated_date" : 1,
       "item_rewards" : [ {
-        "quantity" : 7,
-        "item_id" : 1,
-        "max_rank" : 1,
-        "item_name" : "aeiou",
-        "min_rank" : 6
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
+      }, {
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
       } ]
     },
-    "short_description" : "aeiou",
+    "short_description" : "short_description",
     "next_event_date" : 7,
-    "long_description" : "aeiou",
+    "long_description" : "long_description",
     "reward_lag_minutes" : 9,
-    "leaderboard_strategy" : "aeiou",
+    "leaderboard_strategy" : "leaderboard_strategy",
     "schedule" : {
-      "duration" : 5,
+      "duration" : 3,
       "repeat" : "DAILY",
       "duration_unit" : "millisecond"
     },
     "copy_of" : 1,
     "activities" : 0,
-    "name" : "aeiou",
+    "name" : "name",
     "additional_properties" : {
       "key" : {
-        "type" : "aeiou"
+        "type" : "type"
       }
     },
     "created_date" : 5,
     "id" : 2,
-    "updated_date" : 9,
+    "updated_date" : 4,
     "campaign_id" : 6,
-    "start_date" : 9
+    "start_date" : 2
+  }, {
+    "end_date" : 5,
+    "template" : "template",
+    "reward_set" : {
+      "short_description" : "short_description",
+      "unique_key" : "unique_key",
+      "currency_rewards" : [ {
+        "currency_name" : "currency_name",
+        "max_rank" : 2,
+        "min_rank" : 7,
+        "percent" : false,
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
+      }, {
+        "currency_name" : "currency_name",
+        "max_rank" : 2,
+        "min_rank" : 7,
+        "percent" : false,
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
+      } ],
+      "name" : "name",
+      "created_date" : 5,
+      "id" : 3,
+      "long_description" : "long_description",
+      "max_placing" : 1,
+      "updated_date" : 1,
+      "item_rewards" : [ {
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
+      }, {
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
+      } ]
+    },
+    "short_description" : "short_description",
+    "next_event_date" : 7,
+    "long_description" : "long_description",
+    "reward_lag_minutes" : 9,
+    "leaderboard_strategy" : "leaderboard_strategy",
+    "schedule" : {
+      "duration" : 3,
+      "repeat" : "DAILY",
+      "duration_unit" : "millisecond"
+    },
+    "copy_of" : 1,
+    "activities" : 0,
+    "name" : "name",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "created_date" : 5,
+    "id" : 2,
+    "updated_date" : 4,
+    "campaign_id" : 6,
+    "start_date" : 2
   } ],
   "first" : true
 }}]
-     
      - parameter id: (path) The campaign id 
      - parameter filterStartDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterEndDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceChallengeResource> 
      */
     open class func getCampaignChallengesWithRequestBuilder(id: Int64, filterStartDate: String? = nil, filterEndDate: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceChallengeResource> {
@@ -468,7 +618,6 @@ open class CampaignsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceChallengeResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -477,13 +626,12 @@ open class CampaignsAPI: APIBase {
 
     /**
      Get a single campaign template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getCampaignTemplate(id: String, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func getCampaignTemplate(id: String, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getCampaignTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -495,32 +643,95 @@ open class CampaignsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func getCampaignTemplateWithRequestBuilder(id: String) -> RequestBuilder<TemplateResource> {
@@ -531,7 +742,6 @@ open class CampaignsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -539,15 +749,14 @@ open class CampaignsAPI: APIBase {
 
     /**
      List and search campaign templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getCampaignTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getCampaignTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getCampaignTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -566,43 +775,202 @@ open class CampaignsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 0,
-    "id" : "aeiou",
+    "id" : "id",
     "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceTemplateResource> 
      */
     open class func getCampaignTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceTemplateResource> {
@@ -616,7 +984,6 @@ open class CampaignsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -625,16 +992,15 @@ open class CampaignsAPI: APIBase {
 
     /**
      List and search campaigns
-     
      - parameter filterActive: (query) Filter for campaigns that are active (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getCampaigns(filterActive: Bool? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceCampaignResource?,_ error: Error?) -> Void)) {
+    open class func getCampaigns(filterActive: Bool? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceCampaignResource?, _ error: ErrorResponse?) -> Void)) {
         getCampaignsWithRequestBuilder(filterActive: filterActive, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -642,72 +1008,148 @@ open class CampaignsAPI: APIBase {
     /**
      List and search campaigns
      - GET /campaigns
+
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 5,
   "last" : true,
-  "size" : 1,
-  "total_elements" : 4,
+  "size" : 7,
+  "total_elements" : 9,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 5,
-  "number_of_elements" : 7,
+  "total_pages" : 3,
+  "number_of_elements" : 2,
   "content" : [ {
-    "template" : "aeiou",
+    "template" : "template",
     "reward_set" : {
-      "short_description" : "aeiou",
-      "unique_key" : "aeiou",
+      "short_description" : "short_description",
+      "unique_key" : "unique_key",
       "currency_rewards" : [ {
-        "currency_name" : "aeiou",
-        "max_rank" : 5,
-        "min_rank" : 2,
+        "currency_name" : "currency_name",
+        "max_rank" : 2,
+        "min_rank" : 7,
         "percent" : false,
-        "value" : 7.061401241503109,
-        "currency_code" : "aeiou"
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
+      }, {
+        "currency_name" : "currency_name",
+        "max_rank" : 2,
+        "min_rank" : 7,
+        "percent" : false,
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
       } ],
-      "name" : "aeiou",
+      "name" : "name",
       "created_date" : 5,
-      "id" : 9,
-      "long_description" : "aeiou",
+      "id" : 3,
+      "long_description" : "long_description",
       "max_placing" : 1,
       "updated_date" : 1,
       "item_rewards" : [ {
-        "quantity" : 7,
-        "item_id" : 3,
-        "max_rank" : 2,
-        "item_name" : "aeiou",
-        "min_rank" : 4
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
+      }, {
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
       } ]
     },
-    "short_description" : "aeiou",
+    "short_description" : "short_description",
     "next_challenge_date" : 1,
     "active" : false,
-    "long_description" : "aeiou",
-    "leaderboard_strategy" : "aeiou",
-    "next_challenge" : "aeiou",
-    "name" : "aeiou",
+    "long_description" : "long_description",
+    "leaderboard_strategy" : "leaderboard_strategy",
+    "next_challenge" : "next_challenge",
+    "name" : "name",
     "additional_properties" : {
       "key" : {
-        "type" : "aeiou"
+        "type" : "type"
       }
     },
     "created_date" : 0,
     "id" : 6,
-    "updated_date" : 1,
+    "updated_date" : 5,
+    "reward_status" : "pending"
+  }, {
+    "template" : "template",
+    "reward_set" : {
+      "short_description" : "short_description",
+      "unique_key" : "unique_key",
+      "currency_rewards" : [ {
+        "currency_name" : "currency_name",
+        "max_rank" : 2,
+        "min_rank" : 7,
+        "percent" : false,
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
+      }, {
+        "currency_name" : "currency_name",
+        "max_rank" : 2,
+        "min_rank" : 7,
+        "percent" : false,
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
+      } ],
+      "name" : "name",
+      "created_date" : 5,
+      "id" : 3,
+      "long_description" : "long_description",
+      "max_placing" : 1,
+      "updated_date" : 1,
+      "item_rewards" : [ {
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
+      }, {
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
+      } ]
+    },
+    "short_description" : "short_description",
+    "next_challenge_date" : 1,
+    "active" : false,
+    "long_description" : "long_description",
+    "leaderboard_strategy" : "leaderboard_strategy",
+    "next_challenge" : "next_challenge",
+    "name" : "name",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "created_date" : 0,
+    "id" : 6,
+    "updated_date" : 5,
     "reward_status" : "pending"
   } ],
   "first" : true
 }}]
-     
      - parameter filterActive: (query) Filter for campaigns that are active (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceCampaignResource> 
      */
     open class func getCampaignsWithRequestBuilder(filterActive: Bool? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceCampaignResource> {
@@ -722,7 +1164,6 @@ open class CampaignsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceCampaignResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -731,14 +1172,13 @@ open class CampaignsAPI: APIBase {
 
     /**
      Remove a challenge from a campaign
-     
      - parameter campaignId: (path) The campaign id 
      - parameter id: (path) The challenge id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func removeChallengeFromCampaign(campaignId: Int64, id: Int64, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func removeChallengeFromCampaign(campaignId: Int64, id: Int64, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         removeChallengeFromCampaignWithRequestBuilder(campaignId: campaignId, id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -749,10 +1189,8 @@ open class CampaignsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter campaignId: (path) The campaign id 
      - parameter id: (path) The challenge id 
-
      - returns: RequestBuilder<Void> 
      */
     open class func removeChallengeFromCampaignWithRequestBuilder(campaignId: Int64, id: Int64) -> RequestBuilder<Void> {
@@ -764,7 +1202,6 @@ open class CampaignsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -772,14 +1209,13 @@ open class CampaignsAPI: APIBase {
 
     /**
      Update a campaign
-     
      - parameter id: (path) The campaign id 
      - parameter campaignResource: (body) The campaign resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateCampaign(id: Int64, campaignResource: CampaignResource? = nil, completion: @escaping ((_ data: CampaignResource?,_ error: Error?) -> Void)) {
+    open class func updateCampaign(id: Int64, campaignResource: CampaignResource? = nil, completion: @escaping ((_ data: CampaignResource?, _ error: ErrorResponse?) -> Void)) {
         updateCampaignWithRequestBuilder(id: id, campaignResource: campaignResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -791,53 +1227,64 @@ open class CampaignsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
+  "template" : "template",
   "reward_set" : {
-    "short_description" : "aeiou",
-    "unique_key" : "aeiou",
+    "short_description" : "short_description",
+    "unique_key" : "unique_key",
     "currency_rewards" : [ {
-      "currency_name" : "aeiou",
-      "max_rank" : 5,
-      "min_rank" : 2,
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 7.061401241503109,
-      "currency_code" : "aeiou"
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    }, {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
     } ],
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 5,
-    "id" : 9,
-    "long_description" : "aeiou",
+    "id" : 3,
+    "long_description" : "long_description",
     "max_placing" : 1,
     "updated_date" : 1,
     "item_rewards" : [ {
-      "quantity" : 7,
-      "item_id" : 3,
-      "max_rank" : 2,
-      "item_name" : "aeiou",
-      "min_rank" : 4
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    }, {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
     } ]
   },
-  "short_description" : "aeiou",
+  "short_description" : "short_description",
   "next_challenge_date" : 1,
   "active" : false,
-  "long_description" : "aeiou",
-  "leaderboard_strategy" : "aeiou",
-  "next_challenge" : "aeiou",
-  "name" : "aeiou",
+  "long_description" : "long_description",
+  "leaderboard_strategy" : "leaderboard_strategy",
+  "next_challenge" : "next_challenge",
+  "name" : "name",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
   "id" : 6,
-  "updated_date" : 1,
+  "updated_date" : 5,
   "reward_status" : "pending"
 }}]
-     
      - parameter id: (path) The campaign id 
      - parameter campaignResource: (body) The campaign resource object (optional)
-
      - returns: RequestBuilder<CampaignResource> 
      */
     open class func updateCampaignWithRequestBuilder(id: Int64, campaignResource: CampaignResource? = nil) -> RequestBuilder<CampaignResource> {
@@ -848,7 +1295,6 @@ open class CampaignsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<CampaignResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -856,14 +1302,13 @@ open class CampaignsAPI: APIBase {
 
     /**
      Update an campaign template
-     
      - parameter id: (path) The id of the template 
      - parameter campaignTemplateResource: (body) The campaign template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateCampaignTemplate(id: String, campaignTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateCampaignTemplate(id: String, campaignTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateCampaignTemplateWithRequestBuilder(id: id, campaignTemplateResource: campaignTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -875,33 +1320,96 @@ open class CampaignsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter campaignTemplateResource: (body) The campaign template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func updateCampaignTemplateWithRequestBuilder(id: String, campaignTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -911,7 +1419,6 @@ open class CampaignsAPI: APIBase {
         let parameters = campaignTemplateResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

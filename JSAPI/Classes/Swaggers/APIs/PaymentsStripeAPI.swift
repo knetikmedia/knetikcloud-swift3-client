@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class PaymentsStripeAPI: APIBase {
     /**
      Create a Stripe payment method for a user
-     
      - parameter request: (body) The request to create a Stripe customer with payment info (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createStripePaymentMethod(request: StripeCreatePaymentMethod? = nil, completion: @escaping ((_ data: PaymentMethodResource?,_ error: Error?) -> Void)) {
+    open class func createStripePaymentMethod(request: StripeCreatePaymentMethod? = nil, completion: @escaping ((_ data: PaymentMethodResource?, _ error: ErrorResponse?) -> Void)) {
         createStripePaymentMethodWithRequestBuilder(request: request).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -33,29 +31,27 @@ open class PaymentsStripeAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 2
   },
-  "last4" : "aeiou",
-  "unique_key" : "aeiou",
+  "last4" : "last4",
+  "unique_key" : "unique_key",
   "verified" : true,
   "sort" : 7,
   "expiration_date" : 6,
-  "token" : "aeiou",
+  "token" : "token",
   "expiration_year" : 5,
   "default" : true,
   "payment_type" : "card",
   "user_id" : 3,
   "expiration_month" : 1,
-  "name" : "aeiou",
+  "name" : "name",
   "disabled" : false,
   "created_date" : 0,
   "id" : 5,
   "updated_date" : 9
 }}]
-     
      - parameter request: (body) The request to create a Stripe customer with payment info (optional)
-
      - returns: RequestBuilder<PaymentMethodResource> 
      */
     open class func createStripePaymentMethodWithRequestBuilder(request: StripeCreatePaymentMethod? = nil) -> RequestBuilder<PaymentMethodResource> {
@@ -65,7 +61,6 @@ open class PaymentsStripeAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<PaymentMethodResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -73,13 +68,12 @@ open class PaymentsStripeAPI: APIBase {
 
     /**
      Pay with a single use token
-     
      - parameter request: (body) The request to pay an invoice (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func payStripeInvoice(request: StripePaymentRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func payStripeInvoice(request: StripePaymentRequest? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         payStripeInvoiceWithRequestBuilder(request: request).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -87,9 +81,8 @@ open class PaymentsStripeAPI: APIBase {
     /**
      Pay with a single use token
      - POST /payment/provider/stripe/payments
-     
-     - parameter request: (body) The request to pay an invoice (optional)
 
+     - parameter request: (body) The request to pay an invoice (optional)
      - returns: RequestBuilder<Void> 
      */
     open class func payStripeInvoiceWithRequestBuilder(request: StripePaymentRequest? = nil) -> RequestBuilder<Void> {
@@ -98,7 +91,6 @@ open class PaymentsStripeAPI: APIBase {
         let parameters = request?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

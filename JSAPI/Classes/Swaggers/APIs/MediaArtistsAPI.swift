@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class MediaArtistsAPI: APIBase {
     /**
      Adds a new artist in the system
-     
      - parameter artistResource: (body) The new artist (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addArtist(artistResource: ArtistResource? = nil, completion: @escaping ((_ data: ArtistResource?,_ error: Error?) -> Void)) {
+    open class func addArtist(artistResource: ArtistResource? = nil, completion: @escaping ((_ data: ArtistResource?, _ error: ErrorResponse?) -> Void)) {
         addArtistWithRequestBuilder(artistResource: artistResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -33,33 +31,44 @@ open class MediaArtistsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "contribution_count" : 0,
-  "template" : "aeiou",
-  "short_description" : "aeiou",
-  "born" : "aeiou",
-  "died" : "aeiou",
-  "long_description" : "aeiou",
+  "template" : "template",
+  "short_description" : "short_description",
+  "born" : "born",
+  "died" : "died",
+  "long_description" : "long_description",
   "priority" : 5,
   "contributions" : [ {
-    "role" : "aeiou",
+    "role" : "role",
     "artist" : {
-      "name" : "aeiou",
+      "name" : "name",
       "id" : 6
     },
-    "media" : ""
+    "media" : {
+      "name" : "name",
+      "id" : 6
+    }
+  }, {
+    "role" : "role",
+    "artist" : {
+      "name" : "name",
+      "id" : 6
+    },
+    "media" : {
+      "name" : "name",
+      "id" : 6
+    }
   } ],
-  "name" : "aeiou",
+  "name" : "name",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 1,
   "id" : 5,
   "updated_date" : 2
 }}]
-     
      - parameter artistResource: (body) The new artist (optional)
-
      - returns: RequestBuilder<ArtistResource> 
      */
     open class func addArtistWithRequestBuilder(artistResource: ArtistResource? = nil) -> RequestBuilder<ArtistResource> {
@@ -69,7 +78,6 @@ open class MediaArtistsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ArtistResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -77,13 +85,12 @@ open class MediaArtistsAPI: APIBase {
 
     /**
      Create an artist template
-     
      - parameter artistTemplateResource: (body) The artist template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createArtistTemplate(artistTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func createArtistTemplate(artistTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createArtistTemplateWithRequestBuilder(artistTemplateResource: artistTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -96,32 +103,95 @@ open class MediaArtistsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter artistTemplateResource: (body) The artist template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func createArtistTemplateWithRequestBuilder(artistTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -131,7 +201,6 @@ open class MediaArtistsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -139,13 +208,12 @@ open class MediaArtistsAPI: APIBase {
 
     /**
      Removes an artist from the system IF no resources are attached to it
-     
      - parameter id: (path) The artist id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteArtist(id: Int64, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteArtist(id: Int64, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteArtistWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -156,9 +224,7 @@ open class MediaArtistsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The artist id 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteArtistWithRequestBuilder(id: Int64) -> RequestBuilder<Void> {
@@ -169,7 +235,6 @@ open class MediaArtistsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -177,14 +242,13 @@ open class MediaArtistsAPI: APIBase {
 
     /**
      Delete an artist template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteArtistTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteArtistTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteArtistTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -196,10 +260,8 @@ open class MediaArtistsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteArtistTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -212,7 +274,6 @@ open class MediaArtistsAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -221,14 +282,13 @@ open class MediaArtistsAPI: APIBase {
 
     /**
      Loads a specific artist details
-     
      - parameter id: (path) The artist id 
      - parameter showContributions: (query) The number of contributions to show fetch (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getArtist(id: Int64, showContributions: Int32? = nil, completion: @escaping ((_ data: ArtistResource?,_ error: Error?) -> Void)) {
+    open class func getArtist(id: Int64, showContributions: Int32? = nil, completion: @escaping ((_ data: ArtistResource?, _ error: ErrorResponse?) -> Void)) {
         getArtistWithRequestBuilder(id: id, showContributions: showContributions).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -236,36 +296,48 @@ open class MediaArtistsAPI: APIBase {
     /**
      Loads a specific artist details
      - GET /media/artists/{id}
+
      - examples: [{contentType=application/json, example={
   "contribution_count" : 0,
-  "template" : "aeiou",
-  "short_description" : "aeiou",
-  "born" : "aeiou",
-  "died" : "aeiou",
-  "long_description" : "aeiou",
+  "template" : "template",
+  "short_description" : "short_description",
+  "born" : "born",
+  "died" : "died",
+  "long_description" : "long_description",
   "priority" : 5,
   "contributions" : [ {
-    "role" : "aeiou",
+    "role" : "role",
     "artist" : {
-      "name" : "aeiou",
+      "name" : "name",
       "id" : 6
     },
-    "media" : ""
+    "media" : {
+      "name" : "name",
+      "id" : 6
+    }
+  }, {
+    "role" : "role",
+    "artist" : {
+      "name" : "name",
+      "id" : 6
+    },
+    "media" : {
+      "name" : "name",
+      "id" : 6
+    }
   } ],
-  "name" : "aeiou",
+  "name" : "name",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 1,
   "id" : 5,
   "updated_date" : 2
 }}]
-     
      - parameter id: (path) The artist id 
      - parameter showContributions: (query) The number of contributions to show fetch (optional)
-
      - returns: RequestBuilder<ArtistResource> 
      */
     open class func getArtistWithRequestBuilder(id: Int64, showContributions: Int32? = nil) -> RequestBuilder<ArtistResource> {
@@ -278,7 +350,6 @@ open class MediaArtistsAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "show_contributions": showContributions?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<ArtistResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -287,13 +358,12 @@ open class MediaArtistsAPI: APIBase {
 
     /**
      Get a single artist template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getArtistTemplate(id: String, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func getArtistTemplate(id: String, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getArtistTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -305,32 +375,95 @@ open class MediaArtistsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func getArtistTemplateWithRequestBuilder(id: String) -> RequestBuilder<TemplateResource> {
@@ -341,7 +474,6 @@ open class MediaArtistsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -349,15 +481,14 @@ open class MediaArtistsAPI: APIBase {
 
     /**
      List and search artist templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getArtistTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getArtistTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getArtistTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -376,43 +507,202 @@ open class MediaArtistsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 0,
-    "id" : "aeiou",
+    "id" : "id",
     "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceTemplateResource> 
      */
     open class func getArtistTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceTemplateResource> {
@@ -426,7 +716,6 @@ open class MediaArtistsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -435,16 +724,15 @@ open class MediaArtistsAPI: APIBase {
 
     /**
      Search for artists
-     
      - parameter filterArtistsByName: (query) Filter for artists which name *STARTS* with the given string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getArtists(filterArtistsByName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceArtistResource?,_ error: Error?) -> Void)) {
+    open class func getArtists(filterArtistsByName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceArtistResource?, _ error: ErrorResponse?) -> Void)) {
         getArtistsWithRequestBuilder(filterArtistsByName: filterArtistsByName, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -452,6 +740,7 @@ open class MediaArtistsAPI: APIBase {
     /**
      Search for artists
      - GET /media/artists
+
      - examples: [{contentType=application/json, example={
   "number" : 7,
   "last" : true,
@@ -460,32 +749,91 @@ open class MediaArtistsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 4,
   "number_of_elements" : 9,
   "content" : [ {
     "contribution_count" : 0,
-    "template" : "aeiou",
-    "short_description" : "aeiou",
-    "born" : "aeiou",
-    "died" : "aeiou",
-    "long_description" : "aeiou",
+    "template" : "template",
+    "short_description" : "short_description",
+    "born" : "born",
+    "died" : "died",
+    "long_description" : "long_description",
     "priority" : 5,
     "contributions" : [ {
-      "role" : "aeiou",
+      "role" : "role",
       "artist" : {
-        "name" : "aeiou",
+        "name" : "name",
         "id" : 6
       },
-      "media" : ""
+      "media" : {
+        "name" : "name",
+        "id" : 6
+      }
+    }, {
+      "role" : "role",
+      "artist" : {
+        "name" : "name",
+        "id" : 6
+      },
+      "media" : {
+        "name" : "name",
+        "id" : 6
+      }
     } ],
-    "name" : "aeiou",
+    "name" : "name",
     "additional_properties" : {
       "key" : {
-        "type" : "aeiou"
+        "type" : "type"
+      }
+    },
+    "created_date" : 1,
+    "id" : 5,
+    "updated_date" : 2
+  }, {
+    "contribution_count" : 0,
+    "template" : "template",
+    "short_description" : "short_description",
+    "born" : "born",
+    "died" : "died",
+    "long_description" : "long_description",
+    "priority" : 5,
+    "contributions" : [ {
+      "role" : "role",
+      "artist" : {
+        "name" : "name",
+        "id" : 6
+      },
+      "media" : {
+        "name" : "name",
+        "id" : 6
+      }
+    }, {
+      "role" : "role",
+      "artist" : {
+        "name" : "name",
+        "id" : 6
+      },
+      "media" : {
+        "name" : "name",
+        "id" : 6
+      }
+    } ],
+    "name" : "name",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
       }
     },
     "created_date" : 1,
@@ -494,12 +842,10 @@ open class MediaArtistsAPI: APIBase {
   } ],
   "first" : true
 }}]
-     
      - parameter filterArtistsByName: (query) Filter for artists which name *STARTS* with the given string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceArtistResource> 
      */
     open class func getArtistsWithRequestBuilder(filterArtistsByName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceArtistResource> {
@@ -514,7 +860,6 @@ open class MediaArtistsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceArtistResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -523,14 +868,13 @@ open class MediaArtistsAPI: APIBase {
 
     /**
      Modifies an artist details
-     
      - parameter id: (path) The artist id 
      - parameter artistResource: (body) The new artist (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateArtist(id: Int64, artistResource: ArtistResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateArtist(id: Int64, artistResource: ArtistResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateArtistWithRequestBuilder(id: id, artistResource: artistResource).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -541,10 +885,8 @@ open class MediaArtistsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The artist id 
      - parameter artistResource: (body) The new artist (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateArtistWithRequestBuilder(id: Int64, artistResource: ArtistResource? = nil) -> RequestBuilder<Void> {
@@ -555,7 +897,6 @@ open class MediaArtistsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -563,14 +904,13 @@ open class MediaArtistsAPI: APIBase {
 
     /**
      Update an artist template
-     
      - parameter id: (path) The id of the template 
      - parameter artistTemplateResource: (body) The artist template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateArtistTemplate(id: String, artistTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateArtistTemplate(id: String, artistTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateArtistTemplateWithRequestBuilder(id: id, artistTemplateResource: artistTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -582,33 +922,96 @@ open class MediaArtistsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter artistTemplateResource: (body) The artist template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func updateArtistTemplateWithRequestBuilder(id: String, artistTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -618,7 +1021,6 @@ open class MediaArtistsAPI: APIBase {
         let parameters = artistTemplateResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

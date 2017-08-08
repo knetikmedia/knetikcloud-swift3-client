@@ -9,19 +9,17 @@ import Foundation
 import Alamofire
 
 
-
 open class ReportingRevenueAPI: APIBase {
     /**
      Get item revenue info
-     
      - parameter currencyCode: (path) The code for a currency to get sales data for 
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getItemRevenue(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, completion: @escaping ((_ data: RevenueReportResource?,_ error: Error?) -> Void)) {
+    open class func getItemRevenue(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, completion: @escaping ((_ data: RevenueReportResource?, _ error: ErrorResponse?) -> Void)) {
         getItemRevenueWithRequestBuilder(currencyCode: currencyCode, startDate: startDate, endDate: endDate).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -39,11 +37,9 @@ open class ReportingRevenueAPI: APIBase {
   "sales_total" : 5.962133916683182,
   "customer_count" : 0
 }}]
-     
      - parameter currencyCode: (path) The code for a currency to get sales data for 
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
-
      - returns: RequestBuilder<RevenueReportResource> 
      */
     open class func getItemRevenueWithRequestBuilder(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil) -> RequestBuilder<RevenueReportResource> {
@@ -57,7 +53,6 @@ open class ReportingRevenueAPI: APIBase {
             "start_date": startDate?.encodeToJSON(), 
             "end_date": endDate?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<RevenueReportResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -66,15 +61,14 @@ open class ReportingRevenueAPI: APIBase {
 
     /**
      Get refund revenue info
-     
      - parameter currencyCode: (path) The code for a currency to get refund data for 
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getRefundRevenue(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, completion: @escaping ((_ data: RevenueReportResource?,_ error: Error?) -> Void)) {
+    open class func getRefundRevenue(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, completion: @escaping ((_ data: RevenueReportResource?, _ error: ErrorResponse?) -> Void)) {
         getRefundRevenueWithRequestBuilder(currencyCode: currencyCode, startDate: startDate, endDate: endDate).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -92,11 +86,9 @@ open class ReportingRevenueAPI: APIBase {
   "sales_total" : 5.962133916683182,
   "customer_count" : 0
 }}]
-     
      - parameter currencyCode: (path) The code for a currency to get refund data for 
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
-
      - returns: RequestBuilder<RevenueReportResource> 
      */
     open class func getRefundRevenueWithRequestBuilder(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil) -> RequestBuilder<RevenueReportResource> {
@@ -110,7 +102,6 @@ open class ReportingRevenueAPI: APIBase {
             "start_date": startDate?.encodeToJSON(), 
             "end_date": endDate?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<RevenueReportResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -119,7 +110,6 @@ open class ReportingRevenueAPI: APIBase {
 
     /**
      Get revenue info by country
-     
      - parameter currencyCode: (path) The code for a currency to get sales data for 
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
@@ -127,9 +117,9 @@ open class ReportingRevenueAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getRevenueByCountry(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceRevenueCountryReportResource?,_ error: Error?) -> Void)) {
+    open class func getRevenueByCountry(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceRevenueCountryReportResource?, _ error: ErrorResponse?) -> Void)) {
         getRevenueByCountryWithRequestBuilder(currencyCode: currencyCode, startDate: startDate, endDate: endDate, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -149,26 +139,36 @@ open class ReportingRevenueAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
     "volume" : 6,
-    "country" : "aeiou",
+    "country" : "country",
+    "revenue" : 0.8008281904610115
+  }, {
+    "volume" : 6,
+    "country" : "country",
     "revenue" : 0.8008281904610115
   } ],
   "first" : true
 }}]
-     
      - parameter currencyCode: (path) The code for a currency to get sales data for 
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceRevenueCountryReportResource> 
      */
     open class func getRevenueByCountryWithRequestBuilder(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceRevenueCountryReportResource> {
@@ -184,7 +184,6 @@ open class ReportingRevenueAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceRevenueCountryReportResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -193,7 +192,6 @@ open class ReportingRevenueAPI: APIBase {
 
     /**
      Get revenue info by item
-     
      - parameter currencyCode: (path) The code for a currency to get sales data for 
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
@@ -201,9 +199,9 @@ open class ReportingRevenueAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getRevenueByItem(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceRevenueProductReportResource?,_ error: Error?) -> Void)) {
+    open class func getRevenueByItem(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceRevenueProductReportResource?, _ error: ErrorResponse?) -> Void)) {
         getRevenueByItemWithRequestBuilder(currencyCode: currencyCode, startDate: startDate, endDate: endDate, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -223,8 +221,16 @@ open class ReportingRevenueAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 9,
@@ -233,17 +239,20 @@ open class ReportingRevenueAPI: APIBase {
     "volume" : 1,
     "revenue" : 6.027456183070403,
     "item_id" : 0,
-    "item_name" : "aeiou"
+    "item_name" : "item_name"
+  }, {
+    "volume" : 1,
+    "revenue" : 6.027456183070403,
+    "item_id" : 0,
+    "item_name" : "item_name"
   } ],
   "first" : true
 }}]
-     
      - parameter currencyCode: (path) The code for a currency to get sales data for 
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceRevenueProductReportResource> 
      */
     open class func getRevenueByItemWithRequestBuilder(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceRevenueProductReportResource> {
@@ -259,7 +268,6 @@ open class ReportingRevenueAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceRevenueProductReportResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -268,15 +276,14 @@ open class ReportingRevenueAPI: APIBase {
 
     /**
      Get subscription revenue info
-     
      - parameter currencyCode: (path) The code for a currency to get sales data for 
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getSubscriptionRevenue(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, completion: @escaping ((_ data: RevenueReportResource?,_ error: Error?) -> Void)) {
+    open class func getSubscriptionRevenue(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil, completion: @escaping ((_ data: RevenueReportResource?, _ error: ErrorResponse?) -> Void)) {
         getSubscriptionRevenueWithRequestBuilder(currencyCode: currencyCode, startDate: startDate, endDate: endDate).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -294,11 +301,9 @@ open class ReportingRevenueAPI: APIBase {
   "sales_total" : 5.962133916683182,
   "customer_count" : 0
 }}]
-     
      - parameter currencyCode: (path) The code for a currency to get sales data for 
      - parameter startDate: (query) The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      - parameter endDate: (query) The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
-
      - returns: RequestBuilder<RevenueReportResource> 
      */
     open class func getSubscriptionRevenueWithRequestBuilder(currencyCode: String, startDate: Int64? = nil, endDate: Int64? = nil) -> RequestBuilder<RevenueReportResource> {
@@ -312,7 +317,6 @@ open class ReportingRevenueAPI: APIBase {
             "start_date": startDate?.encodeToJSON(), 
             "end_date": endDate?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<RevenueReportResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

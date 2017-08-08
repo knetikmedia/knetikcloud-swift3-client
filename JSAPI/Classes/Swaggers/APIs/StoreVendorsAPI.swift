@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class StoreVendorsAPI: APIBase {
     /**
      Create a vendor
-     
      - parameter vendor: (body) The vendor (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createVendor(vendor: VendorResource? = nil, completion: @escaping ((_ data: VendorResource?,_ error: Error?) -> Void)) {
+    open class func createVendor(vendor: VendorResource? = nil, completion: @escaping ((_ data: VendorResource?, _ error: ErrorResponse?) -> Void)) {
         createVendorWithRequestBuilder(vendor: vendor).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -31,30 +29,28 @@ open class StoreVendorsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
-  "primary_contact_email" : "aeiou",
-  "image_url" : "aeiou",
+  "template" : "template",
+  "primary_contact_email" : "primary_contact_email",
+  "image_url" : "image_url",
   "active" : false,
-  "description" : "aeiou",
-  "primary_contact_name" : "aeiou",
-  "primary_contact_phone" : "aeiou",
+  "description" : "description",
+  "primary_contact_name" : "primary_contact_name",
+  "primary_contact_phone" : "primary_contact_phone",
   "update_date" : 1,
-  "url" : "aeiou",
-  "support_email" : "aeiou",
-  "name" : "aeiou",
-  "sales_email" : "aeiou",
+  "url" : "url",
+  "support_email" : "support_email",
+  "name" : "name",
+  "sales_email" : "sales_email",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "id" : 6,
   "create_date" : 0,
   "manual_approval" : false
 }}]
-     
      - parameter vendor: (body) The vendor (optional)
-
      - returns: RequestBuilder<VendorResource> 
      */
     open class func createVendorWithRequestBuilder(vendor: VendorResource? = nil) -> RequestBuilder<VendorResource> {
@@ -64,7 +60,6 @@ open class StoreVendorsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<VendorResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -72,13 +67,12 @@ open class StoreVendorsAPI: APIBase {
 
     /**
      Create a vendor template
-     
      - parameter vendorTemplateResource: (body) The new vendor template (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createVendorTemplate(vendorTemplateResource: ItemTemplateResource? = nil, completion: @escaping ((_ data: ItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func createVendorTemplate(vendorTemplateResource: ItemTemplateResource? = nil, completion: @escaping ((_ data: ItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createVendorTemplateWithRequestBuilder(vendorTemplateResource: vendorTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -93,38 +87,108 @@ open class StoreVendorsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
-      "type_hint" : "aeiou",
-      "description" : "aeiou"
+      "type_hint" : "type_hint",
+      "description" : "description"
+    },
+    "modifiable" : false,
+    "required" : false
+  }, {
+    "behavior" : {
+      "type_hint" : "type_hint",
+      "description" : "description"
     },
     "modifiable" : false,
     "required" : false
   } ],
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter vendorTemplateResource: (body) The new vendor template (optional)
-
      - returns: RequestBuilder<ItemTemplateResource> 
      */
     open class func createVendorTemplateWithRequestBuilder(vendorTemplateResource: ItemTemplateResource? = nil) -> RequestBuilder<ItemTemplateResource> {
@@ -134,7 +198,6 @@ open class StoreVendorsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -142,13 +205,12 @@ open class StoreVendorsAPI: APIBase {
 
     /**
      Delete a vendor
-     
      - parameter id: (path) The id of the vendor 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteVendor(id: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteVendor(id: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteVendorWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -159,9 +221,7 @@ open class StoreVendorsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the vendor 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteVendorWithRequestBuilder(id: Int32) -> RequestBuilder<Void> {
@@ -172,7 +232,6 @@ open class StoreVendorsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -180,14 +239,13 @@ open class StoreVendorsAPI: APIBase {
 
     /**
      Delete a vendor template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteVendorTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteVendorTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteVendorTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -198,10 +256,8 @@ open class StoreVendorsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteVendorTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -214,7 +270,6 @@ open class StoreVendorsAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -223,13 +278,12 @@ open class StoreVendorsAPI: APIBase {
 
     /**
      Get a single vendor
-     
      - parameter id: (path) The id of the vendor 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getVendor(id: Int32, completion: @escaping ((_ data: VendorResource?,_ error: Error?) -> Void)) {
+    open class func getVendor(id: Int32, completion: @escaping ((_ data: VendorResource?, _ error: ErrorResponse?) -> Void)) {
         getVendorWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -237,31 +291,30 @@ open class StoreVendorsAPI: APIBase {
     /**
      Get a single vendor
      - GET /vendors/{id}
+
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
-  "primary_contact_email" : "aeiou",
-  "image_url" : "aeiou",
+  "template" : "template",
+  "primary_contact_email" : "primary_contact_email",
+  "image_url" : "image_url",
   "active" : false,
-  "description" : "aeiou",
-  "primary_contact_name" : "aeiou",
-  "primary_contact_phone" : "aeiou",
+  "description" : "description",
+  "primary_contact_name" : "primary_contact_name",
+  "primary_contact_phone" : "primary_contact_phone",
   "update_date" : 1,
-  "url" : "aeiou",
-  "support_email" : "aeiou",
-  "name" : "aeiou",
-  "sales_email" : "aeiou",
+  "url" : "url",
+  "support_email" : "support_email",
+  "name" : "name",
+  "sales_email" : "sales_email",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "id" : 6,
   "create_date" : 0,
   "manual_approval" : false
 }}]
-     
      - parameter id: (path) The id of the vendor 
-
      - returns: RequestBuilder<VendorResource> 
      */
     open class func getVendorWithRequestBuilder(id: Int32) -> RequestBuilder<VendorResource> {
@@ -272,7 +325,6 @@ open class StoreVendorsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<VendorResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -280,13 +332,12 @@ open class StoreVendorsAPI: APIBase {
 
     /**
      Get a single vendor template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getVendorTemplate(id: String, completion: @escaping ((_ data: ItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getVendorTemplate(id: String, completion: @escaping ((_ data: ItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getVendorTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -301,38 +352,108 @@ open class StoreVendorsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
-      "type_hint" : "aeiou",
-      "description" : "aeiou"
+      "type_hint" : "type_hint",
+      "description" : "description"
+    },
+    "modifiable" : false,
+    "required" : false
+  }, {
+    "behavior" : {
+      "type_hint" : "type_hint",
+      "description" : "description"
     },
     "modifiable" : false,
     "required" : false
   } ],
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<ItemTemplateResource> 
      */
     open class func getVendorTemplateWithRequestBuilder(id: String) -> RequestBuilder<ItemTemplateResource> {
@@ -343,7 +464,6 @@ open class StoreVendorsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -351,15 +471,14 @@ open class StoreVendorsAPI: APIBase {
 
     /**
      List and search vendor templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getVendorTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getVendorTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getVendorTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -378,8 +497,16 @@ open class StoreVendorsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
@@ -387,42 +514,215 @@ open class StoreVendorsAPI: APIBase {
   "content" : [ {
     "behaviors" : [ {
       "behavior" : {
-        "type_hint" : "aeiou",
-        "description" : "aeiou"
+        "type_hint" : "type_hint",
+        "description" : "description"
+      },
+      "modifiable" : false,
+      "required" : false
+    }, {
+      "behavior" : {
+        "type_hint" : "type_hint",
+        "description" : "description"
       },
       "modifiable" : false,
       "required" : false
     } ],
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 0,
-    "id" : "aeiou",
+    "id" : "id",
     "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "behaviors" : [ {
+      "behavior" : {
+        "type_hint" : "type_hint",
+        "description" : "description"
+      },
+      "modifiable" : false,
+      "required" : false
+    }, {
+      "behavior" : {
+        "type_hint" : "type_hint",
+        "description" : "description"
+      },
+      "modifiable" : false,
+      "required" : false
+    } ],
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceItemTemplateResource> 
      */
     open class func getVendorTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceItemTemplateResource> {
@@ -436,7 +736,6 @@ open class StoreVendorsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -445,16 +744,15 @@ open class StoreVendorsAPI: APIBase {
 
     /**
      List and search vendors
-     
      - parameter filterName: (query) Filters vendors by name starting with the text provided in the filter (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getVendors(filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceVendorResource?,_ error: Error?) -> Void)) {
+    open class func getVendors(filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceVendorResource?, _ error: ErrorResponse?) -> Void)) {
         getVendorsWithRequestBuilder(filterName: filterName, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -462,6 +760,7 @@ open class StoreVendorsAPI: APIBase {
     /**
      List and search vendors
      - GET /vendors
+
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -470,28 +769,57 @@ open class StoreVendorsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 9,
   "number_of_elements" : 5,
   "content" : [ {
-    "template" : "aeiou",
-    "primary_contact_email" : "aeiou",
-    "image_url" : "aeiou",
+    "template" : "template",
+    "primary_contact_email" : "primary_contact_email",
+    "image_url" : "image_url",
     "active" : false,
-    "description" : "aeiou",
-    "primary_contact_name" : "aeiou",
-    "primary_contact_phone" : "aeiou",
+    "description" : "description",
+    "primary_contact_name" : "primary_contact_name",
+    "primary_contact_phone" : "primary_contact_phone",
     "update_date" : 1,
-    "url" : "aeiou",
-    "support_email" : "aeiou",
-    "name" : "aeiou",
-    "sales_email" : "aeiou",
+    "url" : "url",
+    "support_email" : "support_email",
+    "name" : "name",
+    "sales_email" : "sales_email",
     "additional_properties" : {
       "key" : {
-        "type" : "aeiou"
+        "type" : "type"
+      }
+    },
+    "id" : 6,
+    "create_date" : 0,
+    "manual_approval" : false
+  }, {
+    "template" : "template",
+    "primary_contact_email" : "primary_contact_email",
+    "image_url" : "image_url",
+    "active" : false,
+    "description" : "description",
+    "primary_contact_name" : "primary_contact_name",
+    "primary_contact_phone" : "primary_contact_phone",
+    "update_date" : 1,
+    "url" : "url",
+    "support_email" : "support_email",
+    "name" : "name",
+    "sales_email" : "sales_email",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
       }
     },
     "id" : 6,
@@ -500,12 +828,10 @@ open class StoreVendorsAPI: APIBase {
   } ],
   "first" : true
 }}]
-     
      - parameter filterName: (query) Filters vendors by name starting with the text provided in the filter (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceVendorResource> 
      */
     open class func getVendorsWithRequestBuilder(filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceVendorResource> {
@@ -520,7 +846,6 @@ open class StoreVendorsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceVendorResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -529,14 +854,13 @@ open class StoreVendorsAPI: APIBase {
 
     /**
      Update a vendor
-     
      - parameter id: (path) The id of the vendor 
      - parameter vendor: (body) The vendor (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateVendor(id: Int32, vendor: VendorResource? = nil, completion: @escaping ((_ data: VendorResource?,_ error: Error?) -> Void)) {
+    open class func updateVendor(id: Int32, vendor: VendorResource? = nil, completion: @escaping ((_ data: VendorResource?, _ error: ErrorResponse?) -> Void)) {
         updateVendorWithRequestBuilder(id: id, vendor: vendor).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -548,31 +872,29 @@ open class StoreVendorsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
-  "primary_contact_email" : "aeiou",
-  "image_url" : "aeiou",
+  "template" : "template",
+  "primary_contact_email" : "primary_contact_email",
+  "image_url" : "image_url",
   "active" : false,
-  "description" : "aeiou",
-  "primary_contact_name" : "aeiou",
-  "primary_contact_phone" : "aeiou",
+  "description" : "description",
+  "primary_contact_name" : "primary_contact_name",
+  "primary_contact_phone" : "primary_contact_phone",
   "update_date" : 1,
-  "url" : "aeiou",
-  "support_email" : "aeiou",
-  "name" : "aeiou",
-  "sales_email" : "aeiou",
+  "url" : "url",
+  "support_email" : "support_email",
+  "name" : "name",
+  "sales_email" : "sales_email",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "id" : 6,
   "create_date" : 0,
   "manual_approval" : false
 }}]
-     
      - parameter id: (path) The id of the vendor 
      - parameter vendor: (body) The vendor (optional)
-
      - returns: RequestBuilder<VendorResource> 
      */
     open class func updateVendorWithRequestBuilder(id: Int32, vendor: VendorResource? = nil) -> RequestBuilder<VendorResource> {
@@ -583,7 +905,6 @@ open class StoreVendorsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<VendorResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -591,14 +912,13 @@ open class StoreVendorsAPI: APIBase {
 
     /**
      Update a vendor template
-     
      - parameter id: (path) The id of the template 
      - parameter vendorTemplateResource: (body) The vendor template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateVendorTemplate(id: String, vendorTemplateResource: ItemTemplateResource? = nil, completion: @escaping ((_ data: ItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateVendorTemplate(id: String, vendorTemplateResource: ItemTemplateResource? = nil, completion: @escaping ((_ data: ItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateVendorTemplateWithRequestBuilder(id: id, vendorTemplateResource: vendorTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -612,39 +932,109 @@ open class StoreVendorsAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
-      "type_hint" : "aeiou",
-      "description" : "aeiou"
+      "type_hint" : "type_hint",
+      "description" : "description"
+    },
+    "modifiable" : false,
+    "required" : false
+  }, {
+    "behavior" : {
+      "type_hint" : "type_hint",
+      "description" : "description"
     },
     "modifiable" : false,
     "required" : false
   } ],
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter vendorTemplateResource: (body) The vendor template resource object (optional)
-
      - returns: RequestBuilder<ItemTemplateResource> 
      */
     open class func updateVendorTemplateWithRequestBuilder(id: String, vendorTemplateResource: ItemTemplateResource? = nil) -> RequestBuilder<ItemTemplateResource> {
@@ -654,7 +1044,6 @@ open class StoreVendorsAPI: APIBase {
         let parameters = vendorTemplateResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<ItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

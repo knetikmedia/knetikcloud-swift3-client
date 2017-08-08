@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class PaymentsAPI: APIBase {
     /**
      Create a new payment method for a user
-     
      - parameter userId: (path) ID of the user for whom the payment method is being created 
      - parameter paymentMethod: (body) Payment method being created (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createPaymentMethod(userId: Int32, paymentMethod: PaymentMethodResource? = nil, completion: @escaping ((_ data: PaymentMethodResource?,_ error: Error?) -> Void)) {
+    open class func createPaymentMethod(userId: Int32, paymentMethod: PaymentMethodResource? = nil, completion: @escaping ((_ data: PaymentMethodResource?, _ error: ErrorResponse?) -> Void)) {
         createPaymentMethodWithRequestBuilder(userId: userId, paymentMethod: paymentMethod).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -33,30 +31,28 @@ open class PaymentsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 2
   },
-  "last4" : "aeiou",
-  "unique_key" : "aeiou",
+  "last4" : "last4",
+  "unique_key" : "unique_key",
   "verified" : true,
   "sort" : 7,
   "expiration_date" : 6,
-  "token" : "aeiou",
+  "token" : "token",
   "expiration_year" : 5,
   "default" : true,
   "payment_type" : "card",
   "user_id" : 3,
   "expiration_month" : 1,
-  "name" : "aeiou",
+  "name" : "name",
   "disabled" : false,
   "created_date" : 0,
   "id" : 5,
   "updated_date" : 9
 }}]
-     
      - parameter userId: (path) ID of the user for whom the payment method is being created 
      - parameter paymentMethod: (body) Payment method being created (optional)
-
      - returns: RequestBuilder<PaymentMethodResource> 
      */
     open class func createPaymentMethodWithRequestBuilder(userId: Int32, paymentMethod: PaymentMethodResource? = nil) -> RequestBuilder<PaymentMethodResource> {
@@ -67,7 +63,6 @@ open class PaymentsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<PaymentMethodResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -75,14 +70,13 @@ open class PaymentsAPI: APIBase {
 
     /**
      Delete an existing payment method for a user
-     
      - parameter userId: (path) ID of the user for whom the payment method is being updated 
      - parameter id: (path) ID of the payment method being deleted 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deletePaymentMethod(userId: Int32, id: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deletePaymentMethod(userId: Int32, id: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deletePaymentMethodWithRequestBuilder(userId: userId, id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -93,10 +87,8 @@ open class PaymentsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) ID of the user for whom the payment method is being updated 
      - parameter id: (path) ID of the payment method being deleted 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deletePaymentMethodWithRequestBuilder(userId: Int32, id: Int32) -> RequestBuilder<Void> {
@@ -108,7 +100,6 @@ open class PaymentsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -116,14 +107,13 @@ open class PaymentsAPI: APIBase {
 
     /**
      Get a single payment method for a user
-     
      - parameter userId: (path) ID of the user for whom the payment method is being retrieved 
      - parameter id: (path) ID of the payment method being retrieved 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getPaymentMethod(userId: Int32, id: Int32, completion: @escaping ((_ data: PaymentMethodResource?,_ error: Error?) -> Void)) {
+    open class func getPaymentMethod(userId: Int32, id: Int32, completion: @escaping ((_ data: PaymentMethodResource?, _ error: ErrorResponse?) -> Void)) {
         getPaymentMethodWithRequestBuilder(userId: userId, id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -136,30 +126,28 @@ open class PaymentsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 2
   },
-  "last4" : "aeiou",
-  "unique_key" : "aeiou",
+  "last4" : "last4",
+  "unique_key" : "unique_key",
   "verified" : true,
   "sort" : 7,
   "expiration_date" : 6,
-  "token" : "aeiou",
+  "token" : "token",
   "expiration_year" : 5,
   "default" : true,
   "payment_type" : "card",
   "user_id" : 3,
   "expiration_month" : 1,
-  "name" : "aeiou",
+  "name" : "name",
   "disabled" : false,
   "created_date" : 0,
   "id" : 5,
   "updated_date" : 9
 }}]
-     
      - parameter userId: (path) ID of the user for whom the payment method is being retrieved 
      - parameter id: (path) ID of the payment method being retrieved 
-
      - returns: RequestBuilder<PaymentMethodResource> 
      */
     open class func getPaymentMethodWithRequestBuilder(userId: Int32, id: Int32) -> RequestBuilder<PaymentMethodResource> {
@@ -170,7 +158,6 @@ open class PaymentsAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<PaymentMethodResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -187,7 +174,6 @@ open class PaymentsAPI: APIBase {
 
     /**
      Get all payment methods for a user
-     
      - parameter userId: (path) ID of the user for whom the payment methods are being retrieved 
      - parameter filterName: (query) Filter for payment methods whose name starts with a given string (optional)
      - parameter filterPaymentType: (query) Filter for payment methods with a specific payment type (optional)
@@ -198,9 +184,9 @@ open class PaymentsAPI: APIBase {
      - parameter order: (query) a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getPaymentMethods(userId: Int32, filterName: String? = nil, filterPaymentType: FilterPaymentType_getPaymentMethods? = nil, filterPaymentMethodTypeId: Int32? = nil, filterPaymentMethodTypeName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: [PaymentMethodResource]?,_ error: Error?) -> Void)) {
+    open class func getPaymentMethods(userId: Int32, filterName: String? = nil, filterPaymentType: FilterPaymentType_getPaymentMethods? = nil, filterPaymentMethodTypeId: Int32? = nil, filterPaymentMethodTypeName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: [PaymentMethodResource]?, _ error: ErrorResponse?) -> Void)) {
         getPaymentMethodsWithRequestBuilder(userId: userId, filterName: filterName, filterPaymentType: filterPaymentType, filterPaymentMethodTypeId: filterPaymentMethodTypeId, filterPaymentMethodTypeName: filterPaymentMethodTypeName, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -213,27 +199,47 @@ open class PaymentsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
   "payment_method_type" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 2
   },
-  "last4" : "aeiou",
-  "unique_key" : "aeiou",
+  "last4" : "last4",
+  "unique_key" : "unique_key",
   "verified" : true,
   "sort" : 7,
   "expiration_date" : 6,
-  "token" : "aeiou",
+  "token" : "token",
   "expiration_year" : 5,
   "default" : true,
   "payment_type" : "card",
   "user_id" : 3,
   "expiration_month" : 1,
-  "name" : "aeiou",
+  "name" : "name",
+  "disabled" : false,
+  "created_date" : 0,
+  "id" : 5,
+  "updated_date" : 9
+}, {
+  "payment_method_type" : {
+    "name" : "name",
+    "id" : 2
+  },
+  "last4" : "last4",
+  "unique_key" : "unique_key",
+  "verified" : true,
+  "sort" : 7,
+  "expiration_date" : 6,
+  "token" : "token",
+  "expiration_year" : 5,
+  "default" : true,
+  "payment_type" : "card",
+  "user_id" : 3,
+  "expiration_month" : 1,
+  "name" : "name",
   "disabled" : false,
   "created_date" : 0,
   "id" : 5,
   "updated_date" : 9
 } ]}]
-     
      - parameter userId: (path) ID of the user for whom the payment methods are being retrieved 
      - parameter filterName: (query) Filter for payment methods whose name starts with a given string (optional)
      - parameter filterPaymentType: (query) Filter for payment methods with a specific payment type (optional)
@@ -242,7 +248,6 @@ open class PaymentsAPI: APIBase {
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<[PaymentMethodResource]> 
      */
     open class func getPaymentMethodsWithRequestBuilder(userId: Int32, filterName: String? = nil, filterPaymentType: FilterPaymentType_getPaymentMethods? = nil, filterPaymentMethodTypeId: Int32? = nil, filterPaymentMethodTypeName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<[PaymentMethodResource]> {
@@ -261,7 +266,6 @@ open class PaymentsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<[PaymentMethodResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -270,13 +274,12 @@ open class PaymentsAPI: APIBase {
 
     /**
      Authorize payment of an invoice for later capture
-     
      - parameter request: (body) Payment authorization request (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func paymentAuthorization(request: PaymentAuthorizationResource? = nil, completion: @escaping ((_ data: PaymentAuthorizationResource?,_ error: Error?) -> Void)) {
+    open class func paymentAuthorization(request: PaymentAuthorizationResource? = nil, completion: @escaping ((_ data: PaymentAuthorizationResource?, _ error: ErrorResponse?) -> Void)) {
         paymentAuthorizationWithRequestBuilder(request: request).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -289,7 +292,7 @@ open class PaymentsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "payment_type" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 5
   },
   "created" : 0,
@@ -298,9 +301,7 @@ open class PaymentsAPI: APIBase {
   "id" : 6,
   "invoice" : 1
 }}]
-     
      - parameter request: (body) Payment authorization request (optional)
-
      - returns: RequestBuilder<PaymentAuthorizationResource> 
      */
     open class func paymentAuthorizationWithRequestBuilder(request: PaymentAuthorizationResource? = nil) -> RequestBuilder<PaymentAuthorizationResource> {
@@ -310,7 +311,6 @@ open class PaymentsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<PaymentAuthorizationResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -318,13 +318,12 @@ open class PaymentsAPI: APIBase {
 
     /**
      Capture an existing invoice payment authorization
-     
      - parameter id: (path) ID of the payment authorization to capture 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func paymentCapture(id: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func paymentCapture(id: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         paymentCaptureWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -335,9 +334,7 @@ open class PaymentsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) ID of the payment authorization to capture 
-
      - returns: RequestBuilder<Void> 
      */
     open class func paymentCaptureWithRequestBuilder(id: Int32) -> RequestBuilder<Void> {
@@ -348,7 +345,6 @@ open class PaymentsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -356,15 +352,14 @@ open class PaymentsAPI: APIBase {
 
     /**
      Update an existing payment method for a user
-     
      - parameter userId: (path) ID of the user for whom the payment method is being updated 
      - parameter id: (path) ID of the payment method being updated 
      - parameter paymentMethod: (body) The updated payment method data (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updatePaymentMethod(userId: Int32, id: Int32, paymentMethod: PaymentMethodResource? = nil, completion: @escaping ((_ data: PaymentMethodResource?,_ error: Error?) -> Void)) {
+    open class func updatePaymentMethod(userId: Int32, id: Int32, paymentMethod: PaymentMethodResource? = nil, completion: @escaping ((_ data: PaymentMethodResource?, _ error: ErrorResponse?) -> Void)) {
         updatePaymentMethodWithRequestBuilder(userId: userId, id: id, paymentMethod: paymentMethod).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -377,31 +372,29 @@ open class PaymentsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 2
   },
-  "last4" : "aeiou",
-  "unique_key" : "aeiou",
+  "last4" : "last4",
+  "unique_key" : "unique_key",
   "verified" : true,
   "sort" : 7,
   "expiration_date" : 6,
-  "token" : "aeiou",
+  "token" : "token",
   "expiration_year" : 5,
   "default" : true,
   "payment_type" : "card",
   "user_id" : 3,
   "expiration_month" : 1,
-  "name" : "aeiou",
+  "name" : "name",
   "disabled" : false,
   "created_date" : 0,
   "id" : 5,
   "updated_date" : 9
 }}]
-     
      - parameter userId: (path) ID of the user for whom the payment method is being updated 
      - parameter id: (path) ID of the payment method being updated 
      - parameter paymentMethod: (body) The updated payment method data (optional)
-
      - returns: RequestBuilder<PaymentMethodResource> 
      */
     open class func updatePaymentMethodWithRequestBuilder(userId: Int32, id: Int32, paymentMethod: PaymentMethodResource? = nil) -> RequestBuilder<PaymentMethodResource> {
@@ -412,7 +405,6 @@ open class PaymentsAPI: APIBase {
         let parameters = paymentMethod?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<PaymentMethodResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

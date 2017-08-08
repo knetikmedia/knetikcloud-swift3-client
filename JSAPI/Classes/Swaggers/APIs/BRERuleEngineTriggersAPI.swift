@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class BRERuleEngineTriggersAPI: APIBase {
     /**
      Create a trigger
-     
      - parameter breTriggerResource: (body) The BRE trigger resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createBRETrigger(breTriggerResource: BreTriggerResource? = nil, completion: @escaping ((_ data: BreTriggerResource?,_ error: Error?) -> Void)) {
+    open class func createBRETrigger(breTriggerResource: BreTriggerResource? = nil, completion: @escaping ((_ data: BreTriggerResource?, _ error: ErrorResponse?) -> Void)) {
         createBRETriggerWithRequestBuilder(breTriggerResource: breTriggerResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,21 +30,23 @@ open class BRERuleEngineTriggersAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "trigger_name" : "aeiou",
+  "trigger_name" : "trigger_name",
   "system_trigger" : false,
-  "event_name" : "aeiou",
+  "event_name" : "event_name",
   "category" : "achievement",
   "parameters" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "optional" : false,
-    "type" : "aeiou"
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
   } ],
-  "tags" : [ "aeiou" ],
-  "trigger_description" : "aeiou"
+  "tags" : [ "tags", "tags" ],
+  "trigger_description" : "trigger_description"
 }}]
-     
      - parameter breTriggerResource: (body) The BRE trigger resource object (optional)
-
      - returns: RequestBuilder<BreTriggerResource> 
      */
     open class func createBRETriggerWithRequestBuilder(breTriggerResource: BreTriggerResource? = nil) -> RequestBuilder<BreTriggerResource> {
@@ -56,7 +56,6 @@ open class BRERuleEngineTriggersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<BreTriggerResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -64,13 +63,12 @@ open class BRERuleEngineTriggersAPI: APIBase {
 
     /**
      Delete a trigger
-     
      - parameter eventName: (path) The trigger event name 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteBRETrigger(eventName: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteBRETrigger(eventName: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteBRETriggerWithRequestBuilder(eventName: eventName).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -82,9 +80,7 @@ open class BRERuleEngineTriggersAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter eventName: (path) The trigger event name 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteBRETriggerWithRequestBuilder(eventName: String) -> RequestBuilder<Void> {
@@ -95,7 +91,6 @@ open class BRERuleEngineTriggersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -103,13 +98,12 @@ open class BRERuleEngineTriggersAPI: APIBase {
 
     /**
      Get a single trigger
-     
      - parameter eventName: (path) The trigger event name 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBRETrigger(eventName: String, completion: @escaping ((_ data: BreTriggerResource?,_ error: Error?) -> Void)) {
+    open class func getBRETrigger(eventName: String, completion: @escaping ((_ data: BreTriggerResource?, _ error: ErrorResponse?) -> Void)) {
         getBRETriggerWithRequestBuilder(eventName: eventName).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -121,21 +115,23 @@ open class BRERuleEngineTriggersAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "trigger_name" : "aeiou",
+  "trigger_name" : "trigger_name",
   "system_trigger" : false,
-  "event_name" : "aeiou",
+  "event_name" : "event_name",
   "category" : "achievement",
   "parameters" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "optional" : false,
-    "type" : "aeiou"
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
   } ],
-  "tags" : [ "aeiou" ],
-  "trigger_description" : "aeiou"
+  "tags" : [ "tags", "tags" ],
+  "trigger_description" : "trigger_description"
 }}]
-     
      - parameter eventName: (path) The trigger event name 
-
      - returns: RequestBuilder<BreTriggerResource> 
      */
     open class func getBRETriggerWithRequestBuilder(eventName: String) -> RequestBuilder<BreTriggerResource> {
@@ -145,7 +141,6 @@ open class BRERuleEngineTriggersAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<BreTriggerResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -182,7 +177,6 @@ open class BRERuleEngineTriggersAPI: APIBase {
 
     /**
      List triggers
-     
      - parameter filterSystem: (query) Filter for triggers that are system triggers when true, or not when false. Leave off for both mixed (optional)
      - parameter filterCategory: (query) Filter for triggers that are within a specific category (optional)
      - parameter filterTags: (query) Filter for triggers that have all of the given tags (comma separated list) (optional)
@@ -192,9 +186,9 @@ open class BRERuleEngineTriggersAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBRETriggers(filterSystem: Bool? = nil, filterCategory: FilterCategory_getBRETriggers? = nil, filterTags: String? = nil, filterName: String? = nil, filterSearch: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceBreTriggerResource?,_ error: Error?) -> Void)) {
+    open class func getBRETriggers(filterSystem: Bool? = nil, filterCategory: FilterCategory_getBRETriggers? = nil, filterTags: String? = nil, filterName: String? = nil, filterSearch: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceBreTriggerResource?, _ error: ErrorResponse?) -> Void)) {
         getBRETriggersWithRequestBuilder(filterSystem: filterSystem, filterCategory: filterCategory, filterTags: filterTags, filterName: filterName, filterSearch: filterSearch, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -213,28 +207,55 @@ open class BRERuleEngineTriggersAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 5,
   "number_of_elements" : 6,
   "content" : [ {
-    "trigger_name" : "aeiou",
+    "trigger_name" : "trigger_name",
     "system_trigger" : false,
-    "event_name" : "aeiou",
+    "event_name" : "event_name",
     "category" : "achievement",
     "parameters" : [ {
-      "name" : "aeiou",
+      "name" : "name",
       "optional" : false,
-      "type" : "aeiou"
+      "type" : "type"
+    }, {
+      "name" : "name",
+      "optional" : false,
+      "type" : "type"
     } ],
-    "tags" : [ "aeiou" ],
-    "trigger_description" : "aeiou"
+    "tags" : [ "tags", "tags" ],
+    "trigger_description" : "trigger_description"
+  }, {
+    "trigger_name" : "trigger_name",
+    "system_trigger" : false,
+    "event_name" : "event_name",
+    "category" : "achievement",
+    "parameters" : [ {
+      "name" : "name",
+      "optional" : false,
+      "type" : "type"
+    }, {
+      "name" : "name",
+      "optional" : false,
+      "type" : "type"
+    } ],
+    "tags" : [ "tags", "tags" ],
+    "trigger_description" : "trigger_description"
   } ],
   "first" : true
 }}]
-     
      - parameter filterSystem: (query) Filter for triggers that are system triggers when true, or not when false. Leave off for both mixed (optional)
      - parameter filterCategory: (query) Filter for triggers that are within a specific category (optional)
      - parameter filterTags: (query) Filter for triggers that have all of the given tags (comma separated list) (optional)
@@ -242,7 +263,6 @@ open class BRERuleEngineTriggersAPI: APIBase {
      - parameter filterSearch: (query) Filter for triggers containing the given words somewhere within name, description and tags (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceBreTriggerResource> 
      */
     open class func getBRETriggersWithRequestBuilder(filterSystem: Bool? = nil, filterCategory: FilterCategory_getBRETriggers? = nil, filterTags: String? = nil, filterName: String? = nil, filterSearch: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceBreTriggerResource> {
@@ -260,7 +280,6 @@ open class BRERuleEngineTriggersAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceBreTriggerResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -269,14 +288,13 @@ open class BRERuleEngineTriggersAPI: APIBase {
 
     /**
      Update a trigger
-     
      - parameter eventName: (path) The trigger event name 
      - parameter breTriggerResource: (body) The BRE trigger resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateBRETrigger(eventName: String, breTriggerResource: BreTriggerResource? = nil, completion: @escaping ((_ data: BreTriggerResource?,_ error: Error?) -> Void)) {
+    open class func updateBRETrigger(eventName: String, breTriggerResource: BreTriggerResource? = nil, completion: @escaping ((_ data: BreTriggerResource?, _ error: ErrorResponse?) -> Void)) {
         updateBRETriggerWithRequestBuilder(eventName: eventName, breTriggerResource: breTriggerResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -289,22 +307,24 @@ open class BRERuleEngineTriggersAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "trigger_name" : "aeiou",
+  "trigger_name" : "trigger_name",
   "system_trigger" : false,
-  "event_name" : "aeiou",
+  "event_name" : "event_name",
   "category" : "achievement",
   "parameters" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "optional" : false,
-    "type" : "aeiou"
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
   } ],
-  "tags" : [ "aeiou" ],
-  "trigger_description" : "aeiou"
+  "tags" : [ "tags", "tags" ],
+  "trigger_description" : "trigger_description"
 }}]
-     
      - parameter eventName: (path) The trigger event name 
      - parameter breTriggerResource: (body) The BRE trigger resource object (optional)
-
      - returns: RequestBuilder<BreTriggerResource> 
      */
     open class func updateBRETriggerWithRequestBuilder(eventName: String, breTriggerResource: BreTriggerResource? = nil) -> RequestBuilder<BreTriggerResource> {
@@ -314,7 +334,6 @@ open class BRERuleEngineTriggersAPI: APIBase {
         let parameters = breTriggerResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<BreTriggerResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

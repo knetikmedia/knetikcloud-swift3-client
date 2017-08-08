@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class TemplatesPropertiesAPI: APIBase {
     /**
      Get details for a template property type
-     
      - parameter type: (path) type 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getTemplatePropertyType(type: String, completion: @escaping ((_ data: PropertyFieldListResource?,_ error: Error?) -> Void)) {
+    open class func getTemplatePropertyType(type: String, completion: @escaping ((_ data: PropertyFieldListResource?, _ error: ErrorResponse?) -> Void)) {
         getTemplatePropertyTypeWithRequestBuilder(type: type).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -27,22 +25,45 @@ open class TemplatesPropertiesAPI: APIBase {
     /**
      Get details for a template property type
      - GET /templates/properties/{type}
+
      - examples: [{contentType=application/json, example={
   "property_definition_fields" : [ {
     "inner_type" : "integer",
-    "valid_values" : [ "aeiou" ],
-    "name" : "aeiou",
-    "description" : "aeiou",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
     "type" : "integer",
-    "inner_type_fields" : [ "" ],
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  }, {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
     "required" : false
   } ],
-  "property_type" : "aeiou",
-  "property_fields" : [ "" ]
+  "property_type" : "property_type",
+  "property_fields" : [ {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  }, {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  } ]
 }}]
-     
      - parameter type: (path) type 
-
      - returns: RequestBuilder<PropertyFieldListResource> 
      */
     open class func getTemplatePropertyTypeWithRequestBuilder(type: String) -> RequestBuilder<PropertyFieldListResource> {
@@ -53,7 +74,6 @@ open class TemplatesPropertiesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<PropertyFieldListResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -61,12 +81,11 @@ open class TemplatesPropertiesAPI: APIBase {
 
     /**
      List template property types
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getTemplatePropertyTypes(completion: @escaping ((_ data: [PropertyFieldListResource]?,_ error: Error?) -> Void)) {
+    open class func getTemplatePropertyTypes(completion: @escaping ((_ data: [PropertyFieldListResource]?, _ error: ErrorResponse?) -> Void)) {
         getTemplatePropertyTypesWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -74,20 +93,80 @@ open class TemplatesPropertiesAPI: APIBase {
     /**
      List template property types
      - GET /templates/properties
+
      - examples: [{contentType=application/json, example=[ {
   "property_definition_fields" : [ {
     "inner_type" : "integer",
-    "valid_values" : [ "aeiou" ],
-    "name" : "aeiou",
-    "description" : "aeiou",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
     "type" : "integer",
-    "inner_type_fields" : [ "" ],
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  }, {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
     "required" : false
   } ],
-  "property_type" : "aeiou",
-  "property_fields" : [ "" ]
+  "property_type" : "property_type",
+  "property_fields" : [ {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  }, {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  } ]
+}, {
+  "property_definition_fields" : [ {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  }, {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  } ],
+  "property_type" : "property_type",
+  "property_fields" : [ {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  }, {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  } ]
 } ]}]
-
      - returns: RequestBuilder<[PropertyFieldListResource]> 
      */
     open class func getTemplatePropertyTypesWithRequestBuilder() -> RequestBuilder<[PropertyFieldListResource]> {
@@ -96,7 +175,6 @@ open class TemplatesPropertiesAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<[PropertyFieldListResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

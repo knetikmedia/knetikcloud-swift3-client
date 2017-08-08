@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class ReportingSubscriptionsAPI: APIBase {
     /**
      Get a list of available subscription reports in most recent first order
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getSubscriptionReports(size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceBillingReport?,_ error: Error?) -> Void)) {
+    open class func getSubscriptionReports(size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceBillingReport?, _ error: ErrorResponse?) -> Void)) {
         getSubscriptionReportsWithRequestBuilder(size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -39,26 +37,39 @@ open class ReportingSubscriptionsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
-    "last_known_failures" : [ "aeiou" ],
+    "last_known_failures" : [ "last_known_failures", "last_known_failures" ],
     "created" : 0,
-    "id" : "aeiou",
+    "id" : "id",
+    "statistics" : {
+      "key" : 6
+    }
+  }, {
+    "last_known_failures" : [ "last_known_failures", "last_known_failures" ],
+    "created" : 0,
+    "id" : "id",
     "statistics" : {
       "key" : 6
     }
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceBillingReport> 
      */
     open class func getSubscriptionReportsWithRequestBuilder(size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceBillingReport> {
@@ -71,7 +82,6 @@ open class ReportingSubscriptionsAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceBillingReport>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

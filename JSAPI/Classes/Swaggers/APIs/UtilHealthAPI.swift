@@ -9,16 +9,14 @@ import Foundation
 import Alamofire
 
 
-
 open class UtilHealthAPI: APIBase {
     /**
      Get health info
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getHealth(completion: @escaping ((_ data: Any?,_ error: Error?) -> Void)) {
+    open class func getHealth(completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
         getHealthWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -26,8 +24,8 @@ open class UtilHealthAPI: APIBase {
     /**
      Get health info
      - GET /health
-     - examples: [{contentType=application/json, example="{}"}]
 
+     - examples: [{contentType=application/json, example="{}"}]
      - returns: RequestBuilder<Any> 
      */
     open class func getHealthWithRequestBuilder() -> RequestBuilder<Any> {
@@ -36,7 +34,6 @@ open class UtilHealthAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

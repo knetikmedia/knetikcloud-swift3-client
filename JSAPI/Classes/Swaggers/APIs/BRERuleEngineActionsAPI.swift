@@ -9,7 +9,6 @@ import Foundation
 import Alamofire
 
 
-
 open class BRERuleEngineActionsAPI: APIBase {
     /**
      * enum for parameter filterCategory
@@ -41,16 +40,15 @@ open class BRERuleEngineActionsAPI: APIBase {
 
     /**
      Get a list of available actions
-     
      - parameter filterCategory: (query) Filter for actions that are within a specific category (optional)
      - parameter filterName: (query) Filter for actions that have names containing the given string (optional)
      - parameter filterTags: (query) Filter for actions that have all of the given tags (comma separated list) (optional)
      - parameter filterSearch: (query) Filter for actions containing the given words somewhere within name, description and tags (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBREActions(filterCategory: FilterCategory_getBREActions? = nil, filterName: String? = nil, filterTags: String? = nil, filterSearch: String? = nil, completion: @escaping ((_ data: [ActionResource]?,_ error: Error?) -> Void)) {
+    open class func getBREActions(filterCategory: FilterCategory_getBREActions? = nil, filterName: String? = nil, filterTags: String? = nil, filterSearch: String? = nil, completion: @escaping ((_ data: [ActionResource]?, _ error: ErrorResponse?) -> Void)) {
         getBREActionsWithRequestBuilder(filterCategory: filterCategory, filterName: filterName, filterTags: filterTags, filterSearch: filterSearch).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -63,21 +61,37 @@ open class BRERuleEngineActionsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
   "variables" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "optional" : false,
-    "type" : "aeiou"
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
   } ],
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "name" : "name",
+  "description" : "description",
   "category" : "achievement",
-  "tags" : [ "aeiou" ]
+  "tags" : [ "tags", "tags" ]
+}, {
+  "variables" : [ {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
+  } ],
+  "name" : "name",
+  "description" : "description",
+  "category" : "achievement",
+  "tags" : [ "tags", "tags" ]
 } ]}]
-     
      - parameter filterCategory: (query) Filter for actions that are within a specific category (optional)
      - parameter filterName: (query) Filter for actions that have names containing the given string (optional)
      - parameter filterTags: (query) Filter for actions that have all of the given tags (comma separated list) (optional)
      - parameter filterSearch: (query) Filter for actions containing the given words somewhere within name, description and tags (optional)
-
      - returns: RequestBuilder<[ActionResource]> 
      */
     open class func getBREActionsWithRequestBuilder(filterCategory: FilterCategory_getBREActions? = nil, filterName: String? = nil, filterTags: String? = nil, filterSearch: String? = nil) -> RequestBuilder<[ActionResource]> {
@@ -92,7 +106,6 @@ open class BRERuleEngineActionsAPI: APIBase {
             "filter_tags": filterTags, 
             "filter_search": filterSearch
         ])
-        
 
         let requestBuilder: RequestBuilder<[ActionResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

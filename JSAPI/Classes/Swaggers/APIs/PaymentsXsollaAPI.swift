@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class PaymentsXsollaAPI: APIBase {
     /**
      Create a payment token that should be used to forward the user to Xsolla so they can complete payment
-     
      - parameter request: (body) The payment request to be sent to XSolla (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createXsollaTokenUrl(request: XsollaPaymentRequest? = nil, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
+    open class func createXsollaTokenUrl(request: XsollaPaymentRequest? = nil, completion: @escaping ((_ data: String?, _ error: ErrorResponse?) -> Void)) {
         createXsollaTokenUrlWithRequestBuilder(request: request).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -30,10 +28,8 @@ open class PaymentsXsollaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example="aeiou"}]
-     
+     - examples: [{contentType=application/json, example=""}]
      - parameter request: (body) The payment request to be sent to XSolla (optional)
-
      - returns: RequestBuilder<String> 
      */
     open class func createXsollaTokenUrlWithRequestBuilder(request: XsollaPaymentRequest? = nil) -> RequestBuilder<String> {
@@ -43,7 +39,6 @@ open class PaymentsXsollaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<String>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -51,12 +46,11 @@ open class PaymentsXsollaAPI: APIBase {
 
     /**
      Receives payment response from Xsolla
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func receiveXsollaNotification(completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func receiveXsollaNotification(completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         receiveXsollaNotificationWithRequestBuilder().execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -74,7 +68,6 @@ open class PaymentsXsollaAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

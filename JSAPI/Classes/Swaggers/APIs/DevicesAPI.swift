@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class DevicesAPI: APIBase {
     /**
      Add device users
-     
      - parameter userResources: (body) userResources 
      - parameter id: (path) id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addDeviceUsers(userResources: [SimpleUserResource], id: Int32, completion: @escaping ((_ data: DeviceResource?,_ error: Error?) -> Void)) {
+    open class func addDeviceUsers(userResources: [SimpleUserResource], id: Int32, completion: @escaping ((_ data: DeviceResource?, _ error: ErrorResponse?) -> Void)) {
         addDeviceUsersWithRequestBuilder(userResources: userResources, id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -33,35 +31,43 @@ open class DevicesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "data" : {
-    "key" : "aeiou"
+    "key" : "data"
   },
-  "os" : "aeiou",
-  "description" : "aeiou",
-  "device_type" : "aeiou",
-  "users" : [ "" ],
-  "authorization" : "aeiou",
+  "os" : "os",
+  "description" : "description",
+  "device_type" : "device_type",
+  "users" : [ {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  }, {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  } ],
+  "authorization" : "authorization",
   "condition" : "New",
-  "serial" : "aeiou",
-  "mac_address" : "aeiou",
-  "name" : "aeiou",
-  "location" : "aeiou",
-  "model" : "aeiou",
+  "serial" : "serial",
+  "mac_address" : "mac_address",
+  "name" : "name",
+  "location" : "location",
+  "model" : "model",
   "created_date" : 0,
   "id" : 6,
   "updated_date" : 1,
-  "make" : "aeiou",
+  "make" : "make",
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 5,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
   "status" : "Active"
 }}]
-     
      - parameter userResources: (body) userResources 
      - parameter id: (path) id 
-
      - returns: RequestBuilder<DeviceResource> 
      */
     open class func addDeviceUsersWithRequestBuilder(userResources: [SimpleUserResource], id: Int32) -> RequestBuilder<DeviceResource> {
@@ -72,7 +78,6 @@ open class DevicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<DeviceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -80,13 +85,12 @@ open class DevicesAPI: APIBase {
 
     /**
      Create a device
-     
      - parameter device: (body) device 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createDevice(device: DeviceResource, completion: @escaping ((_ data: DeviceResource?,_ error: Error?) -> Void)) {
+    open class func createDevice(device: DeviceResource, completion: @escaping ((_ data: DeviceResource?, _ error: ErrorResponse?) -> Void)) {
         createDeviceWithRequestBuilder(device: device).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -99,34 +103,42 @@ open class DevicesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "data" : {
-    "key" : "aeiou"
+    "key" : "data"
   },
-  "os" : "aeiou",
-  "description" : "aeiou",
-  "device_type" : "aeiou",
-  "users" : [ "" ],
-  "authorization" : "aeiou",
+  "os" : "os",
+  "description" : "description",
+  "device_type" : "device_type",
+  "users" : [ {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  }, {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  } ],
+  "authorization" : "authorization",
   "condition" : "New",
-  "serial" : "aeiou",
-  "mac_address" : "aeiou",
-  "name" : "aeiou",
-  "location" : "aeiou",
-  "model" : "aeiou",
+  "serial" : "serial",
+  "mac_address" : "mac_address",
+  "name" : "name",
+  "location" : "location",
+  "model" : "model",
   "created_date" : 0,
   "id" : 6,
   "updated_date" : 1,
-  "make" : "aeiou",
+  "make" : "make",
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 5,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
   "status" : "Active"
 }}]
-     
      - parameter device: (body) device 
-
      - returns: RequestBuilder<DeviceResource> 
      */
     open class func createDeviceWithRequestBuilder(device: DeviceResource) -> RequestBuilder<DeviceResource> {
@@ -136,7 +148,6 @@ open class DevicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<DeviceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -144,13 +155,12 @@ open class DevicesAPI: APIBase {
 
     /**
      Delete a device
-     
      - parameter id: (path) id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteDevice(id: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteDevice(id: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteDeviceWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -161,9 +171,7 @@ open class DevicesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) id 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteDeviceWithRequestBuilder(id: Int32) -> RequestBuilder<Void> {
@@ -174,7 +182,6 @@ open class DevicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -182,14 +189,13 @@ open class DevicesAPI: APIBase {
 
     /**
      Delete a device user
-     
      - parameter id: (path) The id of the device 
      - parameter userId: (path) The user id of the device user 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteDeviceUser(id: Int32, userId: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteDeviceUser(id: Int32, userId: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteDeviceUserWithRequestBuilder(id: id, userId: userId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -200,10 +206,8 @@ open class DevicesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the device 
      - parameter userId: (path) The user id of the device user 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteDeviceUserWithRequestBuilder(id: Int32, userId: Int32) -> RequestBuilder<Void> {
@@ -215,7 +219,6 @@ open class DevicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -223,14 +226,13 @@ open class DevicesAPI: APIBase {
 
     /**
      Delete all device users
-     
      - parameter id: (path) The id of the device 
      - parameter filterId: (query) Filter for device users to delete with a user id in a given comma separated list of ids (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteDeviceUsers(id: Int32, filterId: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteDeviceUsers(id: Int32, filterId: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteDeviceUsersWithRequestBuilder(id: id, filterId: filterId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -241,10 +243,8 @@ open class DevicesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the device 
      - parameter filterId: (query) Filter for device users to delete with a user id in a given comma separated list of ids (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteDeviceUsersWithRequestBuilder(id: Int32, filterId: String? = nil) -> RequestBuilder<Void> {
@@ -257,7 +257,6 @@ open class DevicesAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "filter_id": filterId
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -266,13 +265,12 @@ open class DevicesAPI: APIBase {
 
     /**
      Get a single device
-     
      - parameter id: (path) id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getDevice(id: Int32, completion: @escaping ((_ data: DeviceResource?,_ error: Error?) -> Void)) {
+    open class func getDevice(id: Int32, completion: @escaping ((_ data: DeviceResource?, _ error: ErrorResponse?) -> Void)) {
         getDeviceWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -285,34 +283,42 @@ open class DevicesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "data" : {
-    "key" : "aeiou"
+    "key" : "data"
   },
-  "os" : "aeiou",
-  "description" : "aeiou",
-  "device_type" : "aeiou",
-  "users" : [ "" ],
-  "authorization" : "aeiou",
+  "os" : "os",
+  "description" : "description",
+  "device_type" : "device_type",
+  "users" : [ {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  }, {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  } ],
+  "authorization" : "authorization",
   "condition" : "New",
-  "serial" : "aeiou",
-  "mac_address" : "aeiou",
-  "name" : "aeiou",
-  "location" : "aeiou",
-  "model" : "aeiou",
+  "serial" : "serial",
+  "mac_address" : "mac_address",
+  "name" : "name",
+  "location" : "location",
+  "model" : "model",
   "created_date" : 0,
   "id" : 6,
   "updated_date" : 1,
-  "make" : "aeiou",
+  "make" : "make",
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 5,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
   "status" : "Active"
 }}]
-     
      - parameter id: (path) id 
-
      - returns: RequestBuilder<DeviceResource> 
      */
     open class func getDeviceWithRequestBuilder(id: Int32) -> RequestBuilder<DeviceResource> {
@@ -323,7 +329,6 @@ open class DevicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<DeviceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -331,7 +336,6 @@ open class DevicesAPI: APIBase {
 
     /**
      List and search devices
-     
      - parameter filterMake: (query) Filter for devices with specified make (optional)
      - parameter filterModel: (query) Filter for devices with specified model (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
@@ -339,9 +343,9 @@ open class DevicesAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getDevices(filterMake: String? = nil, filterModel: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceDeviceResource?,_ error: Error?) -> Void)) {
+    open class func getDevices(filterMake: String? = nil, filterModel: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceDeviceResource?, _ error: ErrorResponse?) -> Void)) {
         getDevicesWithRequestBuilder(filterMake: filterMake, filterModel: filterModel, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -356,53 +360,105 @@ open class DevicesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
-  "size" : 7,
-  "total_elements" : 9,
+  "size" : 2,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 3,
-  "number_of_elements" : 2,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "data" : {
-      "key" : "aeiou"
+      "key" : "data"
     },
-    "os" : "aeiou",
-    "description" : "aeiou",
-    "device_type" : "aeiou",
-    "users" : [ "" ],
-    "authorization" : "aeiou",
+    "os" : "os",
+    "description" : "description",
+    "device_type" : "device_type",
+    "users" : [ {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    }, {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    } ],
+    "authorization" : "authorization",
     "condition" : "New",
-    "serial" : "aeiou",
-    "mac_address" : "aeiou",
-    "name" : "aeiou",
-    "location" : "aeiou",
-    "model" : "aeiou",
+    "serial" : "serial",
+    "mac_address" : "mac_address",
+    "name" : "name",
+    "location" : "location",
+    "model" : "model",
     "created_date" : 0,
     "id" : 6,
     "updated_date" : 1,
-    "make" : "aeiou",
+    "make" : "make",
     "user" : {
-      "avatar_url" : "aeiou",
-      "id" : 5,
-      "display_name" : "aeiou",
-      "username" : "aeiou"
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "status" : "Active"
+  }, {
+    "data" : {
+      "key" : "data"
+    },
+    "os" : "os",
+    "description" : "description",
+    "device_type" : "device_type",
+    "users" : [ {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    }, {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    } ],
+    "authorization" : "authorization",
+    "condition" : "New",
+    "serial" : "serial",
+    "mac_address" : "mac_address",
+    "name" : "name",
+    "location" : "location",
+    "model" : "model",
+    "created_date" : 0,
+    "id" : 6,
+    "updated_date" : 1,
+    "make" : "make",
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
     },
     "status" : "Active"
   } ],
   "first" : true
 }}]
-     
      - parameter filterMake: (query) Filter for devices with specified make (optional)
      - parameter filterModel: (query) Filter for devices with specified model (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceDeviceResource> 
      */
     open class func getDevicesWithRequestBuilder(filterMake: String? = nil, filterModel: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceDeviceResource> {
@@ -418,7 +474,6 @@ open class DevicesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceDeviceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -427,14 +482,13 @@ open class DevicesAPI: APIBase {
 
     /**
      Update a device
-     
      - parameter device: (body) device 
      - parameter id: (path) id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateDevice(device: DeviceResource, id: Int32, completion: @escaping ((_ data: DeviceResource?,_ error: Error?) -> Void)) {
+    open class func updateDevice(device: DeviceResource, id: Int32, completion: @escaping ((_ data: DeviceResource?, _ error: ErrorResponse?) -> Void)) {
         updateDeviceWithRequestBuilder(device: device, id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -447,35 +501,43 @@ open class DevicesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "data" : {
-    "key" : "aeiou"
+    "key" : "data"
   },
-  "os" : "aeiou",
-  "description" : "aeiou",
-  "device_type" : "aeiou",
-  "users" : [ "" ],
-  "authorization" : "aeiou",
+  "os" : "os",
+  "description" : "description",
+  "device_type" : "device_type",
+  "users" : [ {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  }, {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  } ],
+  "authorization" : "authorization",
   "condition" : "New",
-  "serial" : "aeiou",
-  "mac_address" : "aeiou",
-  "name" : "aeiou",
-  "location" : "aeiou",
-  "model" : "aeiou",
+  "serial" : "serial",
+  "mac_address" : "mac_address",
+  "name" : "name",
+  "location" : "location",
+  "model" : "model",
   "created_date" : 0,
   "id" : 6,
   "updated_date" : 1,
-  "make" : "aeiou",
+  "make" : "make",
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 5,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
   "status" : "Active"
 }}]
-     
      - parameter device: (body) device 
      - parameter id: (path) id 
-
      - returns: RequestBuilder<DeviceResource> 
      */
     open class func updateDeviceWithRequestBuilder(device: DeviceResource, id: Int32) -> RequestBuilder<DeviceResource> {
@@ -485,7 +547,6 @@ open class DevicesAPI: APIBase {
         let parameters = device.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<DeviceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

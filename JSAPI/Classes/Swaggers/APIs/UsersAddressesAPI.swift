@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class UsersAddressesAPI: APIBase {
     /**
      Create a new address
-     
      - parameter userId: (path) The id of the user 
      - parameter savedAddressResource: (body) The new address (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createAddress(userId: String, savedAddressResource: SavedAddressResource? = nil, completion: @escaping ((_ data: SavedAddressResource?,_ error: Error?) -> Void)) {
+    open class func createAddress(userId: String, savedAddressResource: SavedAddressResource? = nil, completion: @escaping ((_ data: SavedAddressResource?, _ error: ErrorResponse?) -> Void)) {
         createAddressWithRequestBuilder(userId: userId, savedAddressResource: savedAddressResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,24 +30,22 @@ open class UsersAddressesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "address2" : "aeiou",
-  "city" : "aeiou",
-  "address1" : "aeiou",
-  "phone2" : "aeiou",
-  "last_name" : "aeiou",
-  "phone1" : "aeiou",
-  "country_code" : "aeiou",
+  "address2" : "address2",
+  "city" : "city",
+  "address1" : "address1",
+  "phone2" : "phone2",
+  "last_name" : "last_name",
+  "phone1" : "phone1",
+  "country_code" : "country_code",
   "default" : true,
-  "name" : "aeiou",
+  "name" : "name",
   "id" : 0,
-  "postal_code" : "aeiou",
-  "state_code" : "aeiou",
-  "first_name" : "aeiou"
+  "postal_code" : "postal_code",
+  "state_code" : "state_code",
+  "first_name" : "first_name"
 }}]
-     
      - parameter userId: (path) The id of the user 
      - parameter savedAddressResource: (body) The new address (optional)
-
      - returns: RequestBuilder<SavedAddressResource> 
      */
     open class func createAddressWithRequestBuilder(userId: String, savedAddressResource: SavedAddressResource? = nil) -> RequestBuilder<SavedAddressResource> {
@@ -60,7 +56,6 @@ open class UsersAddressesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<SavedAddressResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -68,14 +63,13 @@ open class UsersAddressesAPI: APIBase {
 
     /**
      Delete an address
-     
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the address 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteAddress(userId: String, id: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteAddress(userId: String, id: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteAddressWithRequestBuilder(userId: userId, id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -86,10 +80,8 @@ open class UsersAddressesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the address 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteAddressWithRequestBuilder(userId: String, id: Int32) -> RequestBuilder<Void> {
@@ -101,7 +93,6 @@ open class UsersAddressesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -109,14 +100,13 @@ open class UsersAddressesAPI: APIBase {
 
     /**
      Get a single address
-     
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the address 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAddress(userId: String, id: Int32, completion: @escaping ((_ data: SavedAddressResource?,_ error: Error?) -> Void)) {
+    open class func getAddress(userId: String, id: Int32, completion: @escaping ((_ data: SavedAddressResource?, _ error: ErrorResponse?) -> Void)) {
         getAddressWithRequestBuilder(userId: userId, id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -128,24 +118,22 @@ open class UsersAddressesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "address2" : "aeiou",
-  "city" : "aeiou",
-  "address1" : "aeiou",
-  "phone2" : "aeiou",
-  "last_name" : "aeiou",
-  "phone1" : "aeiou",
-  "country_code" : "aeiou",
+  "address2" : "address2",
+  "city" : "city",
+  "address1" : "address1",
+  "phone2" : "phone2",
+  "last_name" : "last_name",
+  "phone1" : "phone1",
+  "country_code" : "country_code",
   "default" : true,
-  "name" : "aeiou",
+  "name" : "name",
   "id" : 0,
-  "postal_code" : "aeiou",
-  "state_code" : "aeiou",
-  "first_name" : "aeiou"
+  "postal_code" : "postal_code",
+  "state_code" : "state_code",
+  "first_name" : "first_name"
 }}]
-     
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the address 
-
      - returns: RequestBuilder<SavedAddressResource> 
      */
     open class func getAddressWithRequestBuilder(userId: String, id: Int32) -> RequestBuilder<SavedAddressResource> {
@@ -157,7 +145,6 @@ open class UsersAddressesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<SavedAddressResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -165,16 +152,15 @@ open class UsersAddressesAPI: APIBase {
 
     /**
      List and search addresses
-     
      - parameter userId: (path) The id of the user 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAddresses(userId: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceSavedAddressResource?,_ error: Error?) -> Void)) {
+    open class func getAddresses(userId: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceSavedAddressResource?, _ error: ErrorResponse?) -> Void)) {
         getAddressesWithRequestBuilder(userId: userId, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -193,35 +179,55 @@ open class UsersAddressesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
   "number_of_elements" : 1,
   "content" : [ {
-    "address2" : "aeiou",
-    "city" : "aeiou",
-    "address1" : "aeiou",
-    "phone2" : "aeiou",
-    "last_name" : "aeiou",
-    "phone1" : "aeiou",
-    "country_code" : "aeiou",
+    "address2" : "address2",
+    "city" : "city",
+    "address1" : "address1",
+    "phone2" : "phone2",
+    "last_name" : "last_name",
+    "phone1" : "phone1",
+    "country_code" : "country_code",
     "default" : true,
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 0,
-    "postal_code" : "aeiou",
-    "state_code" : "aeiou",
-    "first_name" : "aeiou"
+    "postal_code" : "postal_code",
+    "state_code" : "state_code",
+    "first_name" : "first_name"
+  }, {
+    "address2" : "address2",
+    "city" : "city",
+    "address1" : "address1",
+    "phone2" : "phone2",
+    "last_name" : "last_name",
+    "phone1" : "phone1",
+    "country_code" : "country_code",
+    "default" : true,
+    "name" : "name",
+    "id" : 0,
+    "postal_code" : "postal_code",
+    "state_code" : "state_code",
+    "first_name" : "first_name"
   } ],
   "first" : true
 }}]
-     
      - parameter userId: (path) The id of the user 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceSavedAddressResource> 
      */
     open class func getAddressesWithRequestBuilder(userId: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceSavedAddressResource> {
@@ -236,7 +242,6 @@ open class UsersAddressesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceSavedAddressResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -245,15 +250,14 @@ open class UsersAddressesAPI: APIBase {
 
     /**
      Update an address
-     
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the address 
      - parameter savedAddressResource: (body) The saved address resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateAddress(userId: String, id: Int32, savedAddressResource: SavedAddressResource? = nil, completion: @escaping ((_ data: SavedAddressResource?,_ error: Error?) -> Void)) {
+    open class func updateAddress(userId: String, id: Int32, savedAddressResource: SavedAddressResource? = nil, completion: @escaping ((_ data: SavedAddressResource?, _ error: ErrorResponse?) -> Void)) {
         updateAddressWithRequestBuilder(userId: userId, id: id, savedAddressResource: savedAddressResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -265,25 +269,23 @@ open class UsersAddressesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "address2" : "aeiou",
-  "city" : "aeiou",
-  "address1" : "aeiou",
-  "phone2" : "aeiou",
-  "last_name" : "aeiou",
-  "phone1" : "aeiou",
-  "country_code" : "aeiou",
+  "address2" : "address2",
+  "city" : "city",
+  "address1" : "address1",
+  "phone2" : "phone2",
+  "last_name" : "last_name",
+  "phone1" : "phone1",
+  "country_code" : "country_code",
   "default" : true,
-  "name" : "aeiou",
+  "name" : "name",
   "id" : 0,
-  "postal_code" : "aeiou",
-  "state_code" : "aeiou",
-  "first_name" : "aeiou"
+  "postal_code" : "postal_code",
+  "state_code" : "state_code",
+  "first_name" : "first_name"
 }}]
-     
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the address 
      - parameter savedAddressResource: (body) The saved address resource object (optional)
-
      - returns: RequestBuilder<SavedAddressResource> 
      */
     open class func updateAddressWithRequestBuilder(userId: String, id: Int32, savedAddressResource: SavedAddressResource? = nil) -> RequestBuilder<SavedAddressResource> {
@@ -294,7 +296,6 @@ open class UsersAddressesAPI: APIBase {
         let parameters = savedAddressResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<SavedAddressResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

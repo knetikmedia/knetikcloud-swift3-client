@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class GamificationMetricsAPI: APIBase {
     /**
      Add a metric
-     
      - parameter metric: (body) The new metric (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addMetric(metric: MetricResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func addMetric(metric: MetricResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addMetricWithRequestBuilder(metric: metric).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -31,9 +29,7 @@ open class GamificationMetricsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter metric: (body) The new metric (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func addMetricWithRequestBuilder(metric: MetricResource? = nil) -> RequestBuilder<Void> {
@@ -42,7 +38,6 @@ open class GamificationMetricsAPI: APIBase {
         let parameters = metric?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

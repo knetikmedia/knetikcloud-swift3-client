@@ -9,20 +9,18 @@ import Foundation
 import Alamofire
 
 
-
 open class UtilSecurityAPI: APIBase {
     /**
      Returns the authentication log for a user
-     
      - parameter userId: (query) The user id (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserLocationLog(userId: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceLocationLogResource?,_ error: Error?) -> Void)) {
+    open class func getUserLocationLog(userId: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceLocationLogResource?, _ error: ErrorResponse?) -> Void)) {
         getUserLocationLogWithRequestBuilder(userId: userId, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -42,25 +40,35 @@ open class UtilSecurityAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
   "number_of_elements" : 1,
   "content" : [ {
-    "country" : "aeiou",
-    "ip" : "aeiou",
+    "country" : "country",
+    "ip" : "ip",
+    "time" : 0
+  }, {
+    "country" : "country",
+    "ip" : "ip",
     "time" : 0
   } ],
   "first" : true
 }}]
-     
      - parameter userId: (query) The user id (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
-
      - returns: RequestBuilder<PageResourceLocationLogResource> 
      */
     open class func getUserLocationLogWithRequestBuilder(userId: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceLocationLogResource> {
@@ -75,7 +83,6 @@ open class UtilSecurityAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceLocationLogResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -84,12 +91,11 @@ open class UtilSecurityAPI: APIBase {
 
     /**
      Returns the authentication token details. Use /users endpoint for detailed user's info
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserTokenDetails(completion: @escaping ((_ data: TokenDetailsResource?,_ error: Error?) -> Void)) {
+    open class func getUserTokenDetails(completion: @escaping ((_ data: TokenDetailsResource?, _ error: ErrorResponse?) -> Void)) {
         getUserTokenDetailsWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -102,10 +108,9 @@ open class UtilSecurityAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "user_id" : 0,
-  "roles" : [ "aeiou" ],
-  "client_id" : "aeiou"
+  "roles" : [ "roles", "roles" ],
+  "client_id" : "client_id"
 }}]
-
      - returns: RequestBuilder<TokenDetailsResource> 
      */
     open class func getUserTokenDetailsWithRequestBuilder() -> RequestBuilder<TokenDetailsResource> {
@@ -114,7 +119,6 @@ open class UtilSecurityAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<TokenDetailsResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class CampaignsRewardsAPI: APIBase {
     /**
      Create a reward set
-     
      - parameter rewardSetResource: (body) The reward set resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createRewardSet(rewardSetResource: RewardSetResource? = nil, completion: @escaping ((_ data: RewardSetResource?,_ error: Error?) -> Void)) {
+    open class func createRewardSet(rewardSetResource: RewardSetResource? = nil, completion: @escaping ((_ data: RewardSetResource?, _ error: ErrorResponse?) -> Void)) {
         createRewardSetWithRequestBuilder(rewardSetResource: rewardSetResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -31,33 +29,44 @@ open class CampaignsRewardsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "short_description" : "aeiou",
-  "unique_key" : "aeiou",
+  "short_description" : "short_description",
+  "unique_key" : "unique_key",
   "currency_rewards" : [ {
-    "currency_name" : "aeiou",
-    "max_rank" : 6,
-    "min_rank" : 1,
+    "currency_name" : "currency_name",
+    "max_rank" : 2,
+    "min_rank" : 7,
     "percent" : false,
-    "value" : 5.962133916683182,
-    "currency_code" : "aeiou"
+    "value" : 9.301444243932576,
+    "currency_code" : "currency_code"
+  }, {
+    "currency_name" : "currency_name",
+    "max_rank" : 2,
+    "min_rank" : 7,
+    "percent" : false,
+    "value" : 9.301444243932576,
+    "currency_code" : "currency_code"
   } ],
-  "name" : "aeiou",
-  "created_date" : 0,
-  "id" : 5,
-  "long_description" : "aeiou",
-  "max_placing" : 2,
-  "updated_date" : 4,
+  "name" : "name",
+  "created_date" : 5,
+  "id" : 3,
+  "long_description" : "long_description",
+  "max_placing" : 1,
+  "updated_date" : 1,
   "item_rewards" : [ {
-    "quantity" : 3,
+    "quantity" : 1,
     "item_id" : 2,
-    "max_rank" : 7,
-    "item_name" : "aeiou",
-    "min_rank" : 9
+    "max_rank" : 4,
+    "item_name" : "item_name",
+    "min_rank" : 7
+  }, {
+    "quantity" : 1,
+    "item_id" : 2,
+    "max_rank" : 4,
+    "item_name" : "item_name",
+    "min_rank" : 7
   } ]
 }}]
-     
      - parameter rewardSetResource: (body) The reward set resource object (optional)
-
      - returns: RequestBuilder<RewardSetResource> 
      */
     open class func createRewardSetWithRequestBuilder(rewardSetResource: RewardSetResource? = nil) -> RequestBuilder<RewardSetResource> {
@@ -67,7 +76,6 @@ open class CampaignsRewardsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<RewardSetResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -75,13 +83,12 @@ open class CampaignsRewardsAPI: APIBase {
 
     /**
      Delete a reward set
-     
      - parameter id: (path) The reward id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteRewardSet(id: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteRewardSet(id: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteRewardSetWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -92,9 +99,7 @@ open class CampaignsRewardsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The reward id 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteRewardSetWithRequestBuilder(id: Int32) -> RequestBuilder<Void> {
@@ -105,7 +110,6 @@ open class CampaignsRewardsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -113,13 +117,12 @@ open class CampaignsRewardsAPI: APIBase {
 
     /**
      Get a single reward set
-     
      - parameter id: (path) The reward id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getRewardSet(id: Int32, completion: @escaping ((_ data: RewardSetResource?,_ error: Error?) -> Void)) {
+    open class func getRewardSet(id: Int32, completion: @escaping ((_ data: RewardSetResource?, _ error: ErrorResponse?) -> Void)) {
         getRewardSetWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -127,34 +130,46 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      Get a single reward set
      - GET /rewards/{id}
+
      - examples: [{contentType=application/json, example={
-  "short_description" : "aeiou",
-  "unique_key" : "aeiou",
+  "short_description" : "short_description",
+  "unique_key" : "unique_key",
   "currency_rewards" : [ {
-    "currency_name" : "aeiou",
-    "max_rank" : 6,
-    "min_rank" : 1,
+    "currency_name" : "currency_name",
+    "max_rank" : 2,
+    "min_rank" : 7,
     "percent" : false,
-    "value" : 5.962133916683182,
-    "currency_code" : "aeiou"
+    "value" : 9.301444243932576,
+    "currency_code" : "currency_code"
+  }, {
+    "currency_name" : "currency_name",
+    "max_rank" : 2,
+    "min_rank" : 7,
+    "percent" : false,
+    "value" : 9.301444243932576,
+    "currency_code" : "currency_code"
   } ],
-  "name" : "aeiou",
-  "created_date" : 0,
-  "id" : 5,
-  "long_description" : "aeiou",
-  "max_placing" : 2,
-  "updated_date" : 4,
+  "name" : "name",
+  "created_date" : 5,
+  "id" : 3,
+  "long_description" : "long_description",
+  "max_placing" : 1,
+  "updated_date" : 1,
   "item_rewards" : [ {
-    "quantity" : 3,
+    "quantity" : 1,
     "item_id" : 2,
-    "max_rank" : 7,
-    "item_name" : "aeiou",
-    "min_rank" : 9
+    "max_rank" : 4,
+    "item_name" : "item_name",
+    "min_rank" : 7
+  }, {
+    "quantity" : 1,
+    "item_id" : 2,
+    "max_rank" : 4,
+    "item_name" : "item_name",
+    "min_rank" : 7
   } ]
 }}]
-     
      - parameter id: (path) The reward id 
-
      - returns: RequestBuilder<RewardSetResource> 
      */
     open class func getRewardSetWithRequestBuilder(id: Int32) -> RequestBuilder<RewardSetResource> {
@@ -165,7 +180,6 @@ open class CampaignsRewardsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<RewardSetResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -173,15 +187,14 @@ open class CampaignsRewardsAPI: APIBase {
 
     /**
      List and search reward sets
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getRewardSets(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceRewardSetResource?,_ error: Error?) -> Void)) {
+    open class func getRewardSets(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceRewardSetResource?, _ error: ErrorResponse?) -> Void)) {
         getRewardSetsWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -189,52 +202,109 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      List and search reward sets
      - GET /rewards
+
      - examples: [{contentType=application/json, example={
-  "number" : 7,
+  "number" : 0,
   "last" : true,
   "size" : 1,
-  "total_elements" : 1,
+  "total_elements" : 5,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 6,
-  "number_of_elements" : 1,
+  "total_pages" : 5,
+  "number_of_elements" : 6,
   "content" : [ {
-    "short_description" : "aeiou",
-    "unique_key" : "aeiou",
+    "short_description" : "short_description",
+    "unique_key" : "unique_key",
     "currency_rewards" : [ {
-      "currency_name" : "aeiou",
-      "max_rank" : 6,
-      "min_rank" : 1,
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 5.962133916683182,
-      "currency_code" : "aeiou"
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    }, {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
     } ],
-    "name" : "aeiou",
-    "created_date" : 0,
-    "id" : 5,
-    "long_description" : "aeiou",
-    "max_placing" : 2,
-    "updated_date" : 4,
+    "name" : "name",
+    "created_date" : 5,
+    "id" : 3,
+    "long_description" : "long_description",
+    "max_placing" : 1,
+    "updated_date" : 1,
     "item_rewards" : [ {
-      "quantity" : 3,
+      "quantity" : 1,
       "item_id" : 2,
-      "max_rank" : 7,
-      "item_name" : "aeiou",
-      "min_rank" : 9
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    }, {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    } ]
+  }, {
+    "short_description" : "short_description",
+    "unique_key" : "unique_key",
+    "currency_rewards" : [ {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    }, {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    } ],
+    "name" : "name",
+    "created_date" : 5,
+    "id" : 3,
+    "long_description" : "long_description",
+    "max_placing" : 1,
+    "updated_date" : 1,
+    "item_rewards" : [ {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    }, {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
     } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceRewardSetResource> 
      */
     open class func getRewardSetsWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceRewardSetResource> {
@@ -248,7 +318,6 @@ open class CampaignsRewardsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceRewardSetResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -257,14 +326,13 @@ open class CampaignsRewardsAPI: APIBase {
 
     /**
      Update a reward set
-     
      - parameter id: (path) The reward id 
      - parameter rewardSetResource: (body) The reward set resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateRewardSet(id: Int32, rewardSetResource: RewardSetResource? = nil, completion: @escaping ((_ data: RewardSetResource?,_ error: Error?) -> Void)) {
+    open class func updateRewardSet(id: Int32, rewardSetResource: RewardSetResource? = nil, completion: @escaping ((_ data: RewardSetResource?, _ error: ErrorResponse?) -> Void)) {
         updateRewardSetWithRequestBuilder(id: id, rewardSetResource: rewardSetResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -276,34 +344,45 @@ open class CampaignsRewardsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "short_description" : "aeiou",
-  "unique_key" : "aeiou",
+  "short_description" : "short_description",
+  "unique_key" : "unique_key",
   "currency_rewards" : [ {
-    "currency_name" : "aeiou",
-    "max_rank" : 6,
-    "min_rank" : 1,
+    "currency_name" : "currency_name",
+    "max_rank" : 2,
+    "min_rank" : 7,
     "percent" : false,
-    "value" : 5.962133916683182,
-    "currency_code" : "aeiou"
+    "value" : 9.301444243932576,
+    "currency_code" : "currency_code"
+  }, {
+    "currency_name" : "currency_name",
+    "max_rank" : 2,
+    "min_rank" : 7,
+    "percent" : false,
+    "value" : 9.301444243932576,
+    "currency_code" : "currency_code"
   } ],
-  "name" : "aeiou",
-  "created_date" : 0,
-  "id" : 5,
-  "long_description" : "aeiou",
-  "max_placing" : 2,
-  "updated_date" : 4,
+  "name" : "name",
+  "created_date" : 5,
+  "id" : 3,
+  "long_description" : "long_description",
+  "max_placing" : 1,
+  "updated_date" : 1,
   "item_rewards" : [ {
-    "quantity" : 3,
+    "quantity" : 1,
     "item_id" : 2,
-    "max_rank" : 7,
-    "item_name" : "aeiou",
-    "min_rank" : 9
+    "max_rank" : 4,
+    "item_name" : "item_name",
+    "min_rank" : 7
+  }, {
+    "quantity" : 1,
+    "item_id" : 2,
+    "max_rank" : 4,
+    "item_name" : "item_name",
+    "min_rank" : 7
   } ]
 }}]
-     
      - parameter id: (path) The reward id 
      - parameter rewardSetResource: (body) The reward set resource object (optional)
-
      - returns: RequestBuilder<RewardSetResource> 
      */
     open class func updateRewardSetWithRequestBuilder(id: Int32, rewardSetResource: RewardSetResource? = nil) -> RequestBuilder<RewardSetResource> {
@@ -313,7 +392,6 @@ open class CampaignsRewardsAPI: APIBase {
         let parameters = rewardSetResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<RewardSetResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

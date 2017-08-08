@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class GamificationLevelingAPI: APIBase {
     /**
      Create a level schema
-     
      - parameter level: (body) The level schema definition (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createLevel(level: LevelingResource? = nil, completion: @escaping ((_ data: LevelingResource?,_ error: Error?) -> Void)) {
+    open class func createLevel(level: LevelingResource? = nil, completion: @escaping ((_ data: LevelingResource?, _ error: ErrorResponse?) -> Void)) {
         createLevelWithRequestBuilder(level: level).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,26 +30,35 @@ open class GamificationLevelingAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "tiers" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "additional_properties" : {
-      "key" : ""
+      "key" : {
+        "type" : "type"
+      }
     },
     "required_progress" : 6,
-    "trigger_event_name" : "aeiou"
+    "trigger_event_name" : "trigger_event_name"
+  }, {
+    "name" : "name",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "required_progress" : 6,
+    "trigger_event_name" : "trigger_event_name"
   } ],
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "name" : "name",
+  "description" : "description",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
   "updated_date" : 1
 }}]
-     
      - parameter level: (body) The level schema definition (optional)
-
      - returns: RequestBuilder<LevelingResource> 
      */
     open class func createLevelWithRequestBuilder(level: LevelingResource? = nil) -> RequestBuilder<LevelingResource> {
@@ -61,7 +68,6 @@ open class GamificationLevelingAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<LevelingResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -69,13 +75,12 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Delete a level
-     
      - parameter name: (path) The level schema name 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteLevel(name: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteLevel(name: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteLevelWithRequestBuilder(name: name).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -86,9 +91,7 @@ open class GamificationLevelingAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter name: (path) The level schema name 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteLevelWithRequestBuilder(name: String) -> RequestBuilder<Void> {
@@ -99,7 +102,6 @@ open class GamificationLevelingAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -107,13 +109,12 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Retrieve a level
-     
      - parameter name: (path) The level schema name 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getLevel(name: String, completion: @escaping ((_ data: LevelingResource?,_ error: Error?) -> Void)) {
+    open class func getLevel(name: String, completion: @escaping ((_ data: LevelingResource?, _ error: ErrorResponse?) -> Void)) {
         getLevelWithRequestBuilder(name: name).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -126,26 +127,35 @@ open class GamificationLevelingAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "tiers" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "additional_properties" : {
-      "key" : ""
+      "key" : {
+        "type" : "type"
+      }
     },
     "required_progress" : 6,
-    "trigger_event_name" : "aeiou"
+    "trigger_event_name" : "trigger_event_name"
+  }, {
+    "name" : "name",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "required_progress" : 6,
+    "trigger_event_name" : "trigger_event_name"
   } ],
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "name" : "name",
+  "description" : "description",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
   "updated_date" : 1
 }}]
-     
      - parameter name: (path) The level schema name 
-
      - returns: RequestBuilder<LevelingResource> 
      */
     open class func getLevelWithRequestBuilder(name: String) -> RequestBuilder<LevelingResource> {
@@ -156,7 +166,6 @@ open class GamificationLevelingAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<LevelingResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -164,12 +173,11 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Get the list of triggers that can be used to trigger a leveling progress update
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getLevelTriggers(completion: @escaping ((_ data: [BreTriggerResource]?,_ error: Error?) -> Void)) {
+    open class func getLevelTriggers(completion: @escaping ((_ data: [BreTriggerResource]?, _ error: ErrorResponse?) -> Void)) {
         getLevelTriggersWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -181,19 +189,38 @@ open class GamificationLevelingAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
-  "trigger_name" : "aeiou",
+  "trigger_name" : "trigger_name",
   "system_trigger" : false,
-  "event_name" : "aeiou",
+  "event_name" : "event_name",
   "category" : "achievement",
   "parameters" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "optional" : false,
-    "type" : "aeiou"
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
   } ],
-  "tags" : [ "aeiou" ],
-  "trigger_description" : "aeiou"
+  "tags" : [ "tags", "tags" ],
+  "trigger_description" : "trigger_description"
+}, {
+  "trigger_name" : "trigger_name",
+  "system_trigger" : false,
+  "event_name" : "event_name",
+  "category" : "achievement",
+  "parameters" : [ {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
+  } ],
+  "tags" : [ "tags", "tags" ],
+  "trigger_description" : "trigger_description"
 } ]}]
-
      - returns: RequestBuilder<[BreTriggerResource]> 
      */
     open class func getLevelTriggersWithRequestBuilder() -> RequestBuilder<[BreTriggerResource]> {
@@ -203,7 +230,6 @@ open class GamificationLevelingAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[BreTriggerResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -211,16 +237,15 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      List and search levels
-     
      - parameter filterName: (query) Filter for level schemas whose name contains a given string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getLevels(filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceLevelingResource?,_ error: Error?) -> Void)) {
+    open class func getLevels(filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceLevelingResource?, _ error: ErrorResponse?) -> Void)) {
         getLevelsWithRequestBuilder(filterName: filterName, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -240,26 +265,74 @@ open class GamificationLevelingAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 9,
   "number_of_elements" : 5,
   "content" : [ {
     "tiers" : [ {
-      "name" : "aeiou",
+      "name" : "name",
       "additional_properties" : {
-        "key" : ""
+        "key" : {
+          "type" : "type"
+        }
       },
       "required_progress" : 6,
-      "trigger_event_name" : "aeiou"
+      "trigger_event_name" : "trigger_event_name"
+    }, {
+      "name" : "name",
+      "additional_properties" : {
+        "key" : {
+          "type" : "type"
+        }
+      },
+      "required_progress" : 6,
+      "trigger_event_name" : "trigger_event_name"
     } ],
-    "name" : "aeiou",
-    "description" : "aeiou",
+    "name" : "name",
+    "description" : "description",
     "additional_properties" : {
       "key" : {
-        "type" : "aeiou"
+        "type" : "type"
+      }
+    },
+    "created_date" : 0,
+    "updated_date" : 1
+  }, {
+    "tiers" : [ {
+      "name" : "name",
+      "additional_properties" : {
+        "key" : {
+          "type" : "type"
+        }
+      },
+      "required_progress" : 6,
+      "trigger_event_name" : "trigger_event_name"
+    }, {
+      "name" : "name",
+      "additional_properties" : {
+        "key" : {
+          "type" : "type"
+        }
+      },
+      "required_progress" : 6,
+      "trigger_event_name" : "trigger_event_name"
+    } ],
+    "name" : "name",
+    "description" : "description",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
       }
     },
     "created_date" : 0,
@@ -267,12 +340,10 @@ open class GamificationLevelingAPI: APIBase {
   } ],
   "first" : true
 }}]
-     
      - parameter filterName: (query) Filter for level schemas whose name contains a given string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
-
      - returns: RequestBuilder<PageResourceLevelingResource> 
      */
     open class func getLevelsWithRequestBuilder(filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceLevelingResource> {
@@ -287,7 +358,6 @@ open class GamificationLevelingAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceLevelingResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -296,14 +366,13 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Get a user's progress for a given level schema
-     
      - parameter userId: (path) The id of the user 
      - parameter name: (path) The level schema name 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserLevel(userId: Int32, name: String, completion: @escaping ((_ data: UserLevelingResource?,_ error: Error?) -> Void)) {
+    open class func getUserLevel(userId: Int32, name: String, completion: @escaping ((_ data: UserLevelingResource?, _ error: ErrorResponse?) -> Void)) {
         getUserLevelWithRequestBuilder(userId: userId, name: name).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -315,19 +384,17 @@ open class GamificationLevelingAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "last_tier_name" : "aeiou",
-  "level_name" : "aeiou",
-  "next_tier_name" : "aeiou",
-  "tier_names" : [ "aeiou" ],
+  "last_tier_name" : "last_tier_name",
+  "level_name" : "level_name",
+  "next_tier_name" : "next_tier_name",
+  "tier_names" : [ "tier_names", "tier_names" ],
   "user_id" : 5,
   "progress" : 1,
   "last_tier_progress" : 0,
   "next_tier_progress" : 6
 }}]
-     
      - parameter userId: (path) The id of the user 
      - parameter name: (path) The level schema name 
-
      - returns: RequestBuilder<UserLevelingResource> 
      */
     open class func getUserLevelWithRequestBuilder(userId: Int32, name: String) -> RequestBuilder<UserLevelingResource> {
@@ -339,7 +406,6 @@ open class GamificationLevelingAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<UserLevelingResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -347,7 +413,6 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Get a user's progress for all level schemas
-     
      - parameter userId: (path) The id of the user 
      - parameter filterName: (query) Filter for level schemas whose name contains a given string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
@@ -355,9 +420,9 @@ open class GamificationLevelingAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserLevels(userId: Int32, filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceUserLevelingResource?,_ error: Error?) -> Void)) {
+    open class func getUserLevels(userId: Int32, filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceUserLevelingResource?, _ error: ErrorResponse?) -> Void)) {
         getUserLevelsWithRequestBuilder(userId: userId, filterName: filterName, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -377,17 +442,34 @@ open class GamificationLevelingAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 3,
   "number_of_elements" : 2,
   "content" : [ {
-    "last_tier_name" : "aeiou",
-    "level_name" : "aeiou",
-    "next_tier_name" : "aeiou",
-    "tier_names" : [ "aeiou" ],
+    "last_tier_name" : "last_tier_name",
+    "level_name" : "level_name",
+    "next_tier_name" : "next_tier_name",
+    "tier_names" : [ "tier_names", "tier_names" ],
+    "user_id" : 5,
+    "progress" : 1,
+    "last_tier_progress" : 0,
+    "next_tier_progress" : 6
+  }, {
+    "last_tier_name" : "last_tier_name",
+    "level_name" : "level_name",
+    "next_tier_name" : "next_tier_name",
+    "tier_names" : [ "tier_names", "tier_names" ],
     "user_id" : 5,
     "progress" : 1,
     "last_tier_progress" : 0,
@@ -395,13 +477,11 @@ open class GamificationLevelingAPI: APIBase {
   } ],
   "first" : true
 }}]
-     
      - parameter userId: (path) The id of the user 
      - parameter filterName: (query) Filter for level schemas whose name contains a given string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
-
      - returns: RequestBuilder<PageResourceUserLevelingResource> 
      */
     open class func getUserLevelsWithRequestBuilder(userId: Int32, filterName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceUserLevelingResource> {
@@ -417,7 +497,6 @@ open class GamificationLevelingAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUserLevelingResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -426,15 +505,14 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Update or create a leveling progress record for a user
-     
      - parameter userId: (path) The id of the user 
      - parameter name: (path) The level schema name 
      - parameter progress: (body) The amount of progress to add (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func incrementProgress(userId: Int32, name: String, progress: Int32? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func incrementProgress(userId: Int32, name: String, progress: IntWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         incrementProgressWithRequestBuilder(userId: userId, name: name, progress: progress).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -446,14 +524,12 @@ open class GamificationLevelingAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter name: (path) The level schema name 
      - parameter progress: (body) The amount of progress to add (optional)
-
      - returns: RequestBuilder<Void> 
      */
-    open class func incrementProgressWithRequestBuilder(userId: Int32, name: String, progress: Int32? = nil) -> RequestBuilder<Void> {
+    open class func incrementProgressWithRequestBuilder(userId: Int32, name: String, progress: IntWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/users/{user_id}/leveling/{name}/progress"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{name}", with: "\(name)", options: .literal, range: nil)
@@ -462,7 +538,6 @@ open class GamificationLevelingAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -470,15 +545,14 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Set leveling progress for a user
-     
      - parameter userId: (path) The id of the user 
      - parameter name: (path) The level schema name 
      - parameter progress: (body) The new progress amount (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setProgress(userId: Int32, name: String, progress: Int32? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setProgress(userId: Int32, name: String, progress: IntWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setProgressWithRequestBuilder(userId: userId, name: name, progress: progress).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -490,14 +564,12 @@ open class GamificationLevelingAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter name: (path) The level schema name 
      - parameter progress: (body) The new progress amount (optional)
-
      - returns: RequestBuilder<Void> 
      */
-    open class func setProgressWithRequestBuilder(userId: Int32, name: String, progress: Int32? = nil) -> RequestBuilder<Void> {
+    open class func setProgressWithRequestBuilder(userId: Int32, name: String, progress: IntWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/users/{user_id}/leveling/{name}/progress"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{name}", with: "\(name)", options: .literal, range: nil)
@@ -506,7 +578,6 @@ open class GamificationLevelingAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -514,14 +585,13 @@ open class GamificationLevelingAPI: APIBase {
 
     /**
      Update a level
-     
      - parameter name: (path) The level schema name 
      - parameter newLevel: (body) The level schema definition (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateLevel(name: String, newLevel: LevelingResource? = nil, completion: @escaping ((_ data: LevelingResource?,_ error: Error?) -> Void)) {
+    open class func updateLevel(name: String, newLevel: LevelingResource? = nil, completion: @escaping ((_ data: LevelingResource?, _ error: ErrorResponse?) -> Void)) {
         updateLevelWithRequestBuilder(name: name, newLevel: newLevel).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -534,27 +604,36 @@ open class GamificationLevelingAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "tiers" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "additional_properties" : {
-      "key" : ""
+      "key" : {
+        "type" : "type"
+      }
     },
     "required_progress" : 6,
-    "trigger_event_name" : "aeiou"
+    "trigger_event_name" : "trigger_event_name"
+  }, {
+    "name" : "name",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "required_progress" : 6,
+    "trigger_event_name" : "trigger_event_name"
   } ],
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "name" : "name",
+  "description" : "description",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
   "updated_date" : 1
 }}]
-     
      - parameter name: (path) The level schema name 
      - parameter newLevel: (body) The level schema definition (optional)
-
      - returns: RequestBuilder<LevelingResource> 
      */
     open class func updateLevelWithRequestBuilder(name: String, newLevel: LevelingResource? = nil) -> RequestBuilder<LevelingResource> {
@@ -564,7 +643,6 @@ open class GamificationLevelingAPI: APIBase {
         let parameters = newLevel?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<LevelingResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

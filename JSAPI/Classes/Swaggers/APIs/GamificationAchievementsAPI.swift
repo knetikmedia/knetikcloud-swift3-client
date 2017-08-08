@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class GamificationAchievementsAPI: APIBase {
     /**
      Create a new achievement definition
-     
      - parameter achievement: (body) The achievement definition (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createAchievement(achievement: AchievementDefinitionResource? = nil, completion: @escaping ((_ data: AchievementDefinitionResource?,_ error: Error?) -> Void)) {
+    open class func createAchievement(achievement: AchievementDefinitionResource? = nil, completion: @escaping ((_ data: AchievementDefinitionResource?, _ error: ErrorResponse?) -> Void)) {
         createAchievementWithRequestBuilder(achievement: achievement).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,25 +30,23 @@ open class GamificationAchievementsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "rule_id" : "aeiou",
-  "template" : "aeiou",
+  "rule_id" : "rule_id",
+  "template" : "template",
   "hidden" : false,
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "name" : "name",
+  "description" : "description",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
   "required_progress" : 6,
-  "trigger_event_name" : "aeiou",
+  "trigger_event_name" : "trigger_event_name",
   "updated_date" : 1,
-  "tags" : [ "aeiou" ]
+  "tags" : [ "tags", "tags" ]
 }}]
-     
      - parameter achievement: (body) The achievement definition (optional)
-
      - returns: RequestBuilder<AchievementDefinitionResource> 
      */
     open class func createAchievementWithRequestBuilder(achievement: AchievementDefinitionResource? = nil) -> RequestBuilder<AchievementDefinitionResource> {
@@ -60,7 +56,6 @@ open class GamificationAchievementsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<AchievementDefinitionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -68,13 +63,12 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Create an achievement template
-     
      - parameter template: (body) The achievement template to be created (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createAchievementTemplate(template: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func createAchievementTemplate(template: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createAchievementTemplateWithRequestBuilder(template: template).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -87,32 +81,95 @@ open class GamificationAchievementsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter template: (body) The achievement template to be created (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func createAchievementTemplateWithRequestBuilder(template: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -122,7 +179,6 @@ open class GamificationAchievementsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -130,13 +186,12 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Delete an achievement definition
-     
      - parameter name: (path) The name of the achievement 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteAchievement(name: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteAchievement(name: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteAchievementWithRequestBuilder(name: name).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -148,9 +203,7 @@ open class GamificationAchievementsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter name: (path) The name of the achievement 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteAchievementWithRequestBuilder(name: String) -> RequestBuilder<Void> {
@@ -161,7 +214,6 @@ open class GamificationAchievementsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -169,14 +221,13 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Delete an achievement template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteAchievementTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteAchievementTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteAchievementTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -188,10 +239,8 @@ open class GamificationAchievementsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteAchievementTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -204,7 +253,6 @@ open class GamificationAchievementsAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -213,13 +261,12 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Get a single achievement definition
-     
      - parameter name: (path) The name of the achievement 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAchievement(name: String, completion: @escaping ((_ data: AchievementDefinitionResource?,_ error: Error?) -> Void)) {
+    open class func getAchievement(name: String, completion: @escaping ((_ data: AchievementDefinitionResource?, _ error: ErrorResponse?) -> Void)) {
         getAchievementWithRequestBuilder(name: name).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -231,25 +278,23 @@ open class GamificationAchievementsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "rule_id" : "aeiou",
-  "template" : "aeiou",
+  "rule_id" : "rule_id",
+  "template" : "template",
   "hidden" : false,
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "name" : "name",
+  "description" : "description",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
   "required_progress" : 6,
-  "trigger_event_name" : "aeiou",
+  "trigger_event_name" : "trigger_event_name",
   "updated_date" : 1,
-  "tags" : [ "aeiou" ]
+  "tags" : [ "tags", "tags" ]
 }}]
-     
      - parameter name: (path) The name of the achievement 
-
      - returns: RequestBuilder<AchievementDefinitionResource> 
      */
     open class func getAchievementWithRequestBuilder(name: String) -> RequestBuilder<AchievementDefinitionResource> {
@@ -260,7 +305,6 @@ open class GamificationAchievementsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<AchievementDefinitionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -268,13 +312,12 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Get a single achievement template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAchievementTemplate(id: String, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func getAchievementTemplate(id: String, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getAchievementTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -286,32 +329,95 @@ open class GamificationAchievementsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func getAchievementTemplateWithRequestBuilder(id: String) -> RequestBuilder<TemplateResource> {
@@ -322,7 +428,6 @@ open class GamificationAchievementsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -330,15 +435,14 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      List and search achievement templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAchievementTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getAchievementTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getAchievementTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -357,43 +461,202 @@ open class GamificationAchievementsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 0,
-    "id" : "aeiou",
+    "id" : "id",
     "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceTemplateResource> 
      */
     open class func getAchievementTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceTemplateResource> {
@@ -407,7 +670,6 @@ open class GamificationAchievementsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -416,12 +678,11 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Get the list of triggers that can be used to trigger an achievement progress update
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAchievementTriggers(completion: @escaping ((_ data: [BreTriggerResource]?,_ error: Error?) -> Void)) {
+    open class func getAchievementTriggers(completion: @escaping ((_ data: [BreTriggerResource]?, _ error: ErrorResponse?) -> Void)) {
         getAchievementTriggersWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -433,19 +694,38 @@ open class GamificationAchievementsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
-  "trigger_name" : "aeiou",
+  "trigger_name" : "trigger_name",
   "system_trigger" : false,
-  "event_name" : "aeiou",
+  "event_name" : "event_name",
   "category" : "achievement",
   "parameters" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "optional" : false,
-    "type" : "aeiou"
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
   } ],
-  "tags" : [ "aeiou" ],
-  "trigger_description" : "aeiou"
+  "tags" : [ "tags", "tags" ],
+  "trigger_description" : "trigger_description"
+}, {
+  "trigger_name" : "trigger_name",
+  "system_trigger" : false,
+  "event_name" : "event_name",
+  "category" : "achievement",
+  "parameters" : [ {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "optional" : false,
+    "type" : "type"
+  } ],
+  "tags" : [ "tags", "tags" ],
+  "trigger_description" : "trigger_description"
 } ]}]
-
      - returns: RequestBuilder<[BreTriggerResource]> 
      */
     open class func getAchievementTriggersWithRequestBuilder() -> RequestBuilder<[BreTriggerResource]> {
@@ -455,7 +735,6 @@ open class GamificationAchievementsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[BreTriggerResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -463,7 +742,6 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Get all achievement definitions in the system
-     
      - parameter filterTagset: (query) Filter for achievements with specified tags (separated by comma) (optional)
      - parameter filterName: (query) Filter for achievements whose name contains a string (optional)
      - parameter filterHidden: (query) Filter for achievements that are hidden or not (optional)
@@ -473,9 +751,9 @@ open class GamificationAchievementsAPI: APIBase {
      - parameter filterDerived: (query) Filter for achievements that are derived from other services (optional, default to false)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAchievements(filterTagset: String? = nil, filterName: String? = nil, filterHidden: Bool? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, filterDerived: Bool? = nil, completion: @escaping ((_ data: PageResourceAchievementDefinitionResource?,_ error: Error?) -> Void)) {
+    open class func getAchievements(filterTagset: String? = nil, filterName: String? = nil, filterHidden: Bool? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, filterDerived: Bool? = nil, completion: @escaping ((_ data: PageResourceAchievementDefinitionResource?, _ error: ErrorResponse?) -> Void)) {
         getAchievementsWithRequestBuilder(filterTagset: filterTagset, filterName: filterName, filterHidden: filterHidden, size: size, page: page, order: order, filterDerived: filterDerived).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -494,32 +772,55 @@ open class GamificationAchievementsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 9,
   "number_of_elements" : 5,
   "content" : [ {
-    "rule_id" : "aeiou",
-    "template" : "aeiou",
+    "rule_id" : "rule_id",
+    "template" : "template",
     "hidden" : false,
-    "name" : "aeiou",
-    "description" : "aeiou",
+    "name" : "name",
+    "description" : "description",
     "additional_properties" : {
       "key" : {
-        "type" : "aeiou"
+        "type" : "type"
       }
     },
     "created_date" : 0,
     "required_progress" : 6,
-    "trigger_event_name" : "aeiou",
+    "trigger_event_name" : "trigger_event_name",
     "updated_date" : 1,
-    "tags" : [ "aeiou" ]
+    "tags" : [ "tags", "tags" ]
+  }, {
+    "rule_id" : "rule_id",
+    "template" : "template",
+    "hidden" : false,
+    "name" : "name",
+    "description" : "description",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "created_date" : 0,
+    "required_progress" : 6,
+    "trigger_event_name" : "trigger_event_name",
+    "updated_date" : 1,
+    "tags" : [ "tags", "tags" ]
   } ],
   "first" : true
 }}]
-     
      - parameter filterTagset: (query) Filter for achievements with specified tags (separated by comma) (optional)
      - parameter filterName: (query) Filter for achievements whose name contains a string (optional)
      - parameter filterHidden: (query) Filter for achievements that are hidden or not (optional)
@@ -527,7 +828,6 @@ open class GamificationAchievementsAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
      - parameter filterDerived: (query) Filter for achievements that are derived from other services (optional, default to false)
-
      - returns: RequestBuilder<PageResourceAchievementDefinitionResource> 
      */
     open class func getAchievementsWithRequestBuilder(filterTagset: String? = nil, filterName: String? = nil, filterHidden: Bool? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, filterDerived: Bool? = nil) -> RequestBuilder<PageResourceAchievementDefinitionResource> {
@@ -545,7 +845,6 @@ open class GamificationAchievementsAPI: APIBase {
             "order": order, 
             "filter_derived": filterDerived
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceAchievementDefinitionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -554,13 +853,12 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Get a list of derived achievements
-     
      - parameter name: (path) The name of the derived achievement 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getDerivedAchievements(name: String, completion: @escaping ((_ data: [AchievementDefinitionResource]?,_ error: Error?) -> Void)) {
+    open class func getDerivedAchievements(name: String, completion: @escaping ((_ data: [AchievementDefinitionResource]?, _ error: ErrorResponse?) -> Void)) {
         getDerivedAchievementsWithRequestBuilder(name: name).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -573,25 +871,39 @@ open class GamificationAchievementsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
-  "rule_id" : "aeiou",
-  "template" : "aeiou",
+  "rule_id" : "rule_id",
+  "template" : "template",
   "hidden" : false,
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "name" : "name",
+  "description" : "description",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
   "required_progress" : 6,
-  "trigger_event_name" : "aeiou",
+  "trigger_event_name" : "trigger_event_name",
   "updated_date" : 1,
-  "tags" : [ "aeiou" ]
+  "tags" : [ "tags", "tags" ]
+}, {
+  "rule_id" : "rule_id",
+  "template" : "template",
+  "hidden" : false,
+  "name" : "name",
+  "description" : "description",
+  "additional_properties" : {
+    "key" : {
+      "type" : "type"
+    }
+  },
+  "created_date" : 0,
+  "required_progress" : 6,
+  "trigger_event_name" : "trigger_event_name",
+  "updated_date" : 1,
+  "tags" : [ "tags", "tags" ]
 } ]}]
-     
      - parameter name: (path) The name of the derived achievement 
-
      - returns: RequestBuilder<[AchievementDefinitionResource]> 
      */
     open class func getDerivedAchievementsWithRequestBuilder(name: String) -> RequestBuilder<[AchievementDefinitionResource]> {
@@ -602,7 +914,6 @@ open class GamificationAchievementsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[AchievementDefinitionResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -610,14 +921,13 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Retrieve progress on a given achievement for a given user
-     
      - parameter userId: (path) The user&#39;s id 
      - parameter achievementName: (path) The achievement&#39;s name 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserAchievementProgress(userId: Int32, achievementName: String, completion: @escaping ((_ data: UserAchievementGroupResource?,_ error: Error?) -> Void)) {
+    open class func getUserAchievementProgress(userId: Int32, achievementName: String, completion: @escaping ((_ data: UserAchievementGroupResource?, _ error: ErrorResponse?) -> Void)) {
         getUserAchievementProgressWithRequestBuilder(userId: userId, achievementName: achievementName).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -631,21 +941,25 @@ open class GamificationAchievementsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "achievements" : [ {
-    "achievement_name" : "aeiou",
+    "achievement_name" : "achievement_name",
+    "achieved" : false,
+    "earned_date" : 6,
+    "created_date" : 0,
+    "updated_date" : 1
+  }, {
+    "achievement_name" : "achievement_name",
     "achieved" : false,
     "earned_date" : 6,
     "created_date" : 0,
     "updated_date" : 1
   } ],
-  "group_name" : "aeiou",
+  "group_name" : "group_name",
   "user_id" : 5,
   "progress" : 5,
-  "id" : "aeiou"
+  "id" : "id"
 }}]
-     
      - parameter userId: (path) The user&#39;s id 
      - parameter achievementName: (path) The achievement&#39;s name 
-
      - returns: RequestBuilder<UserAchievementGroupResource> 
      */
     open class func getUserAchievementProgressWithRequestBuilder(userId: Int32, achievementName: String) -> RequestBuilder<UserAchievementGroupResource> {
@@ -657,7 +971,6 @@ open class GamificationAchievementsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<UserAchievementGroupResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -665,7 +978,6 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Retrieve progress on achievements for a given user
-     
      - parameter userId: (path) The user&#39;s id 
      - parameter filterAchievementDerived: (query) Filter for achievements that are derived from other services (optional)
      - parameter filterAchievementTagset: (query) Filter for achievements with specified tags (separated by comma) (optional)
@@ -674,9 +986,9 @@ open class GamificationAchievementsAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserAchievementsProgress(userId: Int32, filterAchievementDerived: Bool? = nil, filterAchievementTagset: String? = nil, filterAchievementName: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUserAchievementGroupResource?,_ error: Error?) -> Void)) {
+    open class func getUserAchievementsProgress(userId: Int32, filterAchievementDerived: Bool? = nil, filterAchievementTagset: String? = nil, filterAchievementName: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUserAchievementGroupResource?, _ error: ErrorResponse?) -> Void)) {
         getUserAchievementsProgressWithRequestBuilder(userId: userId, filterAchievementDerived: filterAchievementDerived, filterAchievementTagset: filterAchievementTagset, filterAchievementName: filterAchievementName, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -696,35 +1008,65 @@ open class GamificationAchievementsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
   "number_of_elements" : 7,
   "content" : [ {
     "achievements" : [ {
-      "achievement_name" : "aeiou",
+      "achievement_name" : "achievement_name",
+      "achieved" : false,
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
+    }, {
+      "achievement_name" : "achievement_name",
       "achieved" : false,
       "earned_date" : 6,
       "created_date" : 0,
       "updated_date" : 1
     } ],
-    "group_name" : "aeiou",
+    "group_name" : "group_name",
     "user_id" : 5,
     "progress" : 5,
-    "id" : "aeiou"
+    "id" : "id"
+  }, {
+    "achievements" : [ {
+      "achievement_name" : "achievement_name",
+      "achieved" : false,
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
+    }, {
+      "achievement_name" : "achievement_name",
+      "achieved" : false,
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
+    } ],
+    "group_name" : "group_name",
+    "user_id" : 5,
+    "progress" : 5,
+    "id" : "id"
   } ],
   "first" : true
 }}]
-     
      - parameter userId: (path) The user&#39;s id 
      - parameter filterAchievementDerived: (query) Filter for achievements that are derived from other services (optional)
      - parameter filterAchievementTagset: (query) Filter for achievements with specified tags (separated by comma) (optional)
      - parameter filterAchievementName: (query) Filter for achievements whose name contains a string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceUserAchievementGroupResource> 
      */
     open class func getUserAchievementsProgressWithRequestBuilder(userId: Int32, filterAchievementDerived: Bool? = nil, filterAchievementTagset: String? = nil, filterAchievementName: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUserAchievementGroupResource> {
@@ -741,7 +1083,6 @@ open class GamificationAchievementsAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUserAchievementGroupResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -750,7 +1091,6 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Retrieve progress on a given achievement for all users
-     
      - parameter achievementName: (path) The achievement&#39;s name 
      - parameter filterAchievementDerived: (query) Filter for achievements that are derived from other services (optional)
      - parameter filterAchievementTagset: (query) Filter for achievements with specified tags (separated by comma) (optional)
@@ -759,9 +1099,9 @@ open class GamificationAchievementsAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUsersAchievementProgress(achievementName: String, filterAchievementDerived: Bool? = nil, filterAchievementTagset: String? = nil, filterAchievementName: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUserAchievementGroupResource?,_ error: Error?) -> Void)) {
+    open class func getUsersAchievementProgress(achievementName: String, filterAchievementDerived: Bool? = nil, filterAchievementTagset: String? = nil, filterAchievementName: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUserAchievementGroupResource?, _ error: ErrorResponse?) -> Void)) {
         getUsersAchievementProgressWithRequestBuilder(achievementName: achievementName, filterAchievementDerived: filterAchievementDerived, filterAchievementTagset: filterAchievementTagset, filterAchievementName: filterAchievementName, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -781,35 +1121,65 @@ open class GamificationAchievementsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
   "number_of_elements" : 7,
   "content" : [ {
     "achievements" : [ {
-      "achievement_name" : "aeiou",
+      "achievement_name" : "achievement_name",
+      "achieved" : false,
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
+    }, {
+      "achievement_name" : "achievement_name",
       "achieved" : false,
       "earned_date" : 6,
       "created_date" : 0,
       "updated_date" : 1
     } ],
-    "group_name" : "aeiou",
+    "group_name" : "group_name",
     "user_id" : 5,
     "progress" : 5,
-    "id" : "aeiou"
+    "id" : "id"
+  }, {
+    "achievements" : [ {
+      "achievement_name" : "achievement_name",
+      "achieved" : false,
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
+    }, {
+      "achievement_name" : "achievement_name",
+      "achieved" : false,
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
+    } ],
+    "group_name" : "group_name",
+    "user_id" : 5,
+    "progress" : 5,
+    "id" : "id"
   } ],
   "first" : true
 }}]
-     
      - parameter achievementName: (path) The achievement&#39;s name 
      - parameter filterAchievementDerived: (query) Filter for achievements that are derived from other services (optional)
      - parameter filterAchievementTagset: (query) Filter for achievements with specified tags (separated by comma) (optional)
      - parameter filterAchievementName: (query) Filter for achievements whose name contains a string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceUserAchievementGroupResource> 
      */
     open class func getUsersAchievementProgressWithRequestBuilder(achievementName: String, filterAchievementDerived: Bool? = nil, filterAchievementTagset: String? = nil, filterAchievementName: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUserAchievementGroupResource> {
@@ -826,7 +1196,6 @@ open class GamificationAchievementsAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUserAchievementGroupResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -835,7 +1204,6 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Retrieve progress on achievements for all users
-     
      - parameter filterAchievementDerived: (query) Filter for achievements that are derived from other services (optional)
      - parameter filterAchievementTagset: (query) Filter for achievements with specified tags (separated by comma) (optional)
      - parameter filterAchievementName: (query) Filter for achievements whose name contains a string (optional)
@@ -843,9 +1211,9 @@ open class GamificationAchievementsAPI: APIBase {
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUsersAchievementsProgress(filterAchievementDerived: Bool? = nil, filterAchievementTagset: String? = nil, filterAchievementName: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUserAchievementGroupResource?,_ error: Error?) -> Void)) {
+    open class func getUsersAchievementsProgress(filterAchievementDerived: Bool? = nil, filterAchievementTagset: String? = nil, filterAchievementName: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUserAchievementGroupResource?, _ error: ErrorResponse?) -> Void)) {
         getUsersAchievementsProgressWithRequestBuilder(filterAchievementDerived: filterAchievementDerived, filterAchievementTagset: filterAchievementTagset, filterAchievementName: filterAchievementName, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -865,34 +1233,64 @@ open class GamificationAchievementsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
   "number_of_elements" : 7,
   "content" : [ {
     "achievements" : [ {
-      "achievement_name" : "aeiou",
+      "achievement_name" : "achievement_name",
+      "achieved" : false,
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
+    }, {
+      "achievement_name" : "achievement_name",
       "achieved" : false,
       "earned_date" : 6,
       "created_date" : 0,
       "updated_date" : 1
     } ],
-    "group_name" : "aeiou",
+    "group_name" : "group_name",
     "user_id" : 5,
     "progress" : 5,
-    "id" : "aeiou"
+    "id" : "id"
+  }, {
+    "achievements" : [ {
+      "achievement_name" : "achievement_name",
+      "achieved" : false,
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
+    }, {
+      "achievement_name" : "achievement_name",
+      "achieved" : false,
+      "earned_date" : 6,
+      "created_date" : 0,
+      "updated_date" : 1
+    } ],
+    "group_name" : "group_name",
+    "user_id" : 5,
+    "progress" : 5,
+    "id" : "id"
   } ],
   "first" : true
 }}]
-     
      - parameter filterAchievementDerived: (query) Filter for achievements that are derived from other services (optional)
      - parameter filterAchievementTagset: (query) Filter for achievements with specified tags (separated by comma) (optional)
      - parameter filterAchievementName: (query) Filter for achievements whose name contains a string (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceUserAchievementGroupResource> 
      */
     open class func getUsersAchievementsProgressWithRequestBuilder(filterAchievementDerived: Bool? = nil, filterAchievementTagset: String? = nil, filterAchievementName: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUserAchievementGroupResource> {
@@ -908,7 +1306,6 @@ open class GamificationAchievementsAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUserAchievementGroupResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -917,15 +1314,14 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Increment an achievement progress record for a user
-     
      - parameter userId: (path) The user&#39;s id 
      - parameter achievementName: (path) The achievement&#39;s name 
      - parameter progress: (body) The amount to add to the progress value (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func incrementAchievementProgress(userId: Int32, achievementName: String, progress: Int32? = nil, completion: @escaping ((_ data: UserAchievementGroupResource?,_ error: Error?) -> Void)) {
+    open class func incrementAchievementProgress(userId: Int32, achievementName: String, progress: IntWrapper? = nil, completion: @escaping ((_ data: UserAchievementGroupResource?, _ error: ErrorResponse?) -> Void)) {
         incrementAchievementProgressWithRequestBuilder(userId: userId, achievementName: achievementName, progress: progress).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -939,25 +1335,29 @@ open class GamificationAchievementsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "achievements" : [ {
-    "achievement_name" : "aeiou",
+    "achievement_name" : "achievement_name",
+    "achieved" : false,
+    "earned_date" : 6,
+    "created_date" : 0,
+    "updated_date" : 1
+  }, {
+    "achievement_name" : "achievement_name",
     "achieved" : false,
     "earned_date" : 6,
     "created_date" : 0,
     "updated_date" : 1
   } ],
-  "group_name" : "aeiou",
+  "group_name" : "group_name",
   "user_id" : 5,
   "progress" : 5,
-  "id" : "aeiou"
+  "id" : "id"
 }}]
-     
      - parameter userId: (path) The user&#39;s id 
      - parameter achievementName: (path) The achievement&#39;s name 
      - parameter progress: (body) The amount to add to the progress value (optional)
-
      - returns: RequestBuilder<UserAchievementGroupResource> 
      */
-    open class func incrementAchievementProgressWithRequestBuilder(userId: Int32, achievementName: String, progress: Int32? = nil) -> RequestBuilder<UserAchievementGroupResource> {
+    open class func incrementAchievementProgressWithRequestBuilder(userId: Int32, achievementName: String, progress: IntWrapper? = nil) -> RequestBuilder<UserAchievementGroupResource> {
         var path = "/users/{user_id}/achievements/{achievement_name}/progress"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{achievement_name}", with: "\(achievementName)", options: .literal, range: nil)
@@ -966,7 +1366,6 @@ open class GamificationAchievementsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<UserAchievementGroupResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -974,15 +1373,14 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Set an achievement progress record for a user
-     
      - parameter userId: (path) The user&#39;s id 
      - parameter achievementName: (path) The achievement&#39;s name 
      - parameter progress: (body) The new progress value (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setAchievementProgress(userId: Int32, achievementName: String, progress: Int32? = nil, completion: @escaping ((_ data: UserAchievementGroupResource?,_ error: Error?) -> Void)) {
+    open class func setAchievementProgress(userId: Int32, achievementName: String, progress: IntWrapper? = nil, completion: @escaping ((_ data: UserAchievementGroupResource?, _ error: ErrorResponse?) -> Void)) {
         setAchievementProgressWithRequestBuilder(userId: userId, achievementName: achievementName, progress: progress).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -996,25 +1394,29 @@ open class GamificationAchievementsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "achievements" : [ {
-    "achievement_name" : "aeiou",
+    "achievement_name" : "achievement_name",
+    "achieved" : false,
+    "earned_date" : 6,
+    "created_date" : 0,
+    "updated_date" : 1
+  }, {
+    "achievement_name" : "achievement_name",
     "achieved" : false,
     "earned_date" : 6,
     "created_date" : 0,
     "updated_date" : 1
   } ],
-  "group_name" : "aeiou",
+  "group_name" : "group_name",
   "user_id" : 5,
   "progress" : 5,
-  "id" : "aeiou"
+  "id" : "id"
 }}]
-     
      - parameter userId: (path) The user&#39;s id 
      - parameter achievementName: (path) The achievement&#39;s name 
      - parameter progress: (body) The new progress value (optional)
-
      - returns: RequestBuilder<UserAchievementGroupResource> 
      */
-    open class func setAchievementProgressWithRequestBuilder(userId: Int32, achievementName: String, progress: Int32? = nil) -> RequestBuilder<UserAchievementGroupResource> {
+    open class func setAchievementProgressWithRequestBuilder(userId: Int32, achievementName: String, progress: IntWrapper? = nil) -> RequestBuilder<UserAchievementGroupResource> {
         var path = "/users/{user_id}/achievements/{achievement_name}/progress"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{achievement_name}", with: "\(achievementName)", options: .literal, range: nil)
@@ -1023,7 +1425,6 @@ open class GamificationAchievementsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<UserAchievementGroupResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1031,14 +1432,13 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Update an achievement definition
-     
      - parameter name: (path) The name of the achievement 
      - parameter achievement: (body) The achievement definition (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateAchievement(name: String, achievement: AchievementDefinitionResource? = nil, completion: @escaping ((_ data: AchievementDefinitionResource?,_ error: Error?) -> Void)) {
+    open class func updateAchievement(name: String, achievement: AchievementDefinitionResource? = nil, completion: @escaping ((_ data: AchievementDefinitionResource?, _ error: ErrorResponse?) -> Void)) {
         updateAchievementWithRequestBuilder(name: name, achievement: achievement).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1051,26 +1451,24 @@ open class GamificationAchievementsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "rule_id" : "aeiou",
-  "template" : "aeiou",
+  "rule_id" : "rule_id",
+  "template" : "template",
   "hidden" : false,
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "name" : "name",
+  "description" : "description",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
   "required_progress" : 6,
-  "trigger_event_name" : "aeiou",
+  "trigger_event_name" : "trigger_event_name",
   "updated_date" : 1,
-  "tags" : [ "aeiou" ]
+  "tags" : [ "tags", "tags" ]
 }}]
-     
      - parameter name: (path) The name of the achievement 
      - parameter achievement: (body) The achievement definition (optional)
-
      - returns: RequestBuilder<AchievementDefinitionResource> 
      */
     open class func updateAchievementWithRequestBuilder(name: String, achievement: AchievementDefinitionResource? = nil) -> RequestBuilder<AchievementDefinitionResource> {
@@ -1081,7 +1479,6 @@ open class GamificationAchievementsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<AchievementDefinitionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1089,14 +1486,13 @@ open class GamificationAchievementsAPI: APIBase {
 
     /**
      Update an achievement template
-     
      - parameter id: (path) The id of the template 
      - parameter template: (body) The updated template (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateAchievementTemplate(id: String, template: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateAchievementTemplate(id: String, template: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateAchievementTemplateWithRequestBuilder(id: id, template: template).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1108,33 +1504,96 @@ open class GamificationAchievementsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter template: (body) The updated template (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func updateAchievementTemplateWithRequestBuilder(id: String, template: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -1144,7 +1603,6 @@ open class GamificationAchievementsAPI: APIBase {
         let parameters = template?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

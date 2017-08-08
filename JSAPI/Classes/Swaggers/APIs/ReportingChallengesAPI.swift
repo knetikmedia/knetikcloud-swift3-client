@@ -9,20 +9,18 @@ import Foundation
 import Alamofire
 
 
-
 open class ReportingChallengesAPI: APIBase {
     /**
      Retrieve a challenge event leaderboard details
-     
      - parameter filterEvent: (query) A sepecific challenge event id (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallengeEventLeaderboard(filterEvent: Int64? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceChallengeEventParticipantResource?,_ error: Error?) -> Void)) {
+    open class func getChallengeEventLeaderboard(filterEvent: Int64? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceChallengeEventParticipantResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengeEventLeaderboardWithRequestBuilder(filterEvent: filterEvent, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -42,8 +40,16 @@ open class ReportingChallengesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
@@ -51,18 +57,22 @@ open class ReportingChallengesAPI: APIBase {
   "content" : [ {
     "score" : 0,
     "user_id" : 6,
-    "fullname" : "aeiou",
-    "email" : "aeiou",
-    "username" : "aeiou"
+    "fullname" : "fullname",
+    "email" : "email",
+    "username" : "username"
+  }, {
+    "score" : 0,
+    "user_id" : 6,
+    "fullname" : "fullname",
+    "email" : "email",
+    "username" : "username"
   } ],
   "first" : true
 }}]
-     
      - parameter filterEvent: (query) A sepecific challenge event id (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
-
      - returns: RequestBuilder<PageResourceChallengeEventParticipantResource> 
      */
     open class func getChallengeEventLeaderboardWithRequestBuilder(filterEvent: Int64? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceChallengeEventParticipantResource> {
@@ -77,7 +87,6 @@ open class ReportingChallengesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceChallengeEventParticipantResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -86,16 +95,15 @@ open class ReportingChallengesAPI: APIBase {
 
     /**
      Retrieve a challenge event participant details
-     
      - parameter filterEvent: (query) A sepecific challenge event id (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallengeEventParticipants(filterEvent: Int64? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceChallengeEventParticipantResource?,_ error: Error?) -> Void)) {
+    open class func getChallengeEventParticipants(filterEvent: Int64? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceChallengeEventParticipantResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengeEventParticipantsWithRequestBuilder(filterEvent: filterEvent, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -115,8 +123,16 @@ open class ReportingChallengesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
@@ -124,18 +140,22 @@ open class ReportingChallengesAPI: APIBase {
   "content" : [ {
     "score" : 0,
     "user_id" : 6,
-    "fullname" : "aeiou",
-    "email" : "aeiou",
-    "username" : "aeiou"
+    "fullname" : "fullname",
+    "email" : "email",
+    "username" : "username"
+  }, {
+    "score" : 0,
+    "user_id" : 6,
+    "fullname" : "fullname",
+    "email" : "email",
+    "username" : "username"
   } ],
   "first" : true
 }}]
-     
      - parameter filterEvent: (query) A sepecific challenge event id (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
-
      - returns: RequestBuilder<PageResourceChallengeEventParticipantResource> 
      */
     open class func getChallengeEventParticipantsWithRequestBuilder(filterEvent: Int64? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceChallengeEventParticipantResource> {
@@ -150,7 +170,6 @@ open class ReportingChallengesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceChallengeEventParticipantResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

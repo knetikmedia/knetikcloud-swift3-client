@@ -9,16 +9,14 @@ import Foundation
 import Alamofire
 
 
-
 open class UtilVersionAPI: APIBase {
     /**
      Get current version info
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getVersion(completion: @escaping ((_ data: Version?,_ error: Error?) -> Void)) {
+    open class func getVersion(completion: @escaping ((_ data: Version?, _ error: ErrorResponse?) -> Void)) {
         getVersionWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -26,10 +24,10 @@ open class UtilVersionAPI: APIBase {
     /**
      Get current version info
      - GET /version
-     - examples: [{contentType=application/json, example={
-  "version" : "aeiou"
-}}]
 
+     - examples: [{contentType=application/json, example={
+  "version" : "version"
+}}]
      - returns: RequestBuilder<Version> 
      */
     open class func getVersionWithRequestBuilder() -> RequestBuilder<Version> {
@@ -38,7 +36,6 @@ open class UtilVersionAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Version>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

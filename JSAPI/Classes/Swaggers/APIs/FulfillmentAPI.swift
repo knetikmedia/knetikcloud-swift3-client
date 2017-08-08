@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class FulfillmentAPI: APIBase {
     /**
      Create a fulfillment type
-     
      - parameter type: (body) The fulfillment type (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createFulfillmentType(type: FulfillmentType? = nil, completion: @escaping ((_ data: FulfillmentType?,_ error: Error?) -> Void)) {
+    open class func createFulfillmentType(type: FulfillmentType? = nil, completion: @escaping ((_ data: FulfillmentType?, _ error: ErrorResponse?) -> Void)) {
         createFulfillmentTypeWithRequestBuilder(type: type).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,13 +30,11 @@ open class FulfillmentAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "core" : false,
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "name" : "name",
+  "description" : "description",
   "id" : 0
 }}]
-     
      - parameter type: (body) The fulfillment type (optional)
-
      - returns: RequestBuilder<FulfillmentType> 
      */
     open class func createFulfillmentTypeWithRequestBuilder(type: FulfillmentType? = nil) -> RequestBuilder<FulfillmentType> {
@@ -48,7 +44,6 @@ open class FulfillmentAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<FulfillmentType>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -56,13 +51,12 @@ open class FulfillmentAPI: APIBase {
 
     /**
      Delete a fulfillment type
-     
      - parameter id: (path) The id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteFulfillmentType(id: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteFulfillmentType(id: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteFulfillmentTypeWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -73,9 +67,7 @@ open class FulfillmentAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteFulfillmentTypeWithRequestBuilder(id: Int32) -> RequestBuilder<Void> {
@@ -86,7 +78,6 @@ open class FulfillmentAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -94,13 +85,12 @@ open class FulfillmentAPI: APIBase {
 
     /**
      Get a single fulfillment type
-     
      - parameter id: (path) The id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getFulfillmentType(id: Int32, completion: @escaping ((_ data: FulfillmentType?,_ error: Error?) -> Void)) {
+    open class func getFulfillmentType(id: Int32, completion: @escaping ((_ data: FulfillmentType?, _ error: ErrorResponse?) -> Void)) {
         getFulfillmentTypeWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -108,15 +98,14 @@ open class FulfillmentAPI: APIBase {
     /**
      Get a single fulfillment type
      - GET /store/fulfillment/types/{id}
+
      - examples: [{contentType=application/json, example={
   "core" : false,
-  "name" : "aeiou",
-  "description" : "aeiou",
+  "name" : "name",
+  "description" : "description",
   "id" : 0
 }}]
-     
      - parameter id: (path) The id 
-
      - returns: RequestBuilder<FulfillmentType> 
      */
     open class func getFulfillmentTypeWithRequestBuilder(id: Int32) -> RequestBuilder<FulfillmentType> {
@@ -127,7 +116,6 @@ open class FulfillmentAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<FulfillmentType>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -135,15 +123,14 @@ open class FulfillmentAPI: APIBase {
 
     /**
      List and search fulfillment types
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getFulfillmentTypes(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceFulfillmentType?,_ error: Error?) -> Void)) {
+    open class func getFulfillmentTypes(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceFulfillmentType?, _ error: ErrorResponse?) -> Void)) {
         getFulfillmentTypesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -151,6 +138,7 @@ open class FulfillmentAPI: APIBase {
     /**
      List and search fulfillment types
      - GET /store/fulfillment/types
+
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
@@ -159,25 +147,36 @@ open class FulfillmentAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
   "number_of_elements" : 1,
   "content" : [ {
     "core" : false,
-    "name" : "aeiou",
-    "description" : "aeiou",
+    "name" : "name",
+    "description" : "description",
+    "id" : 0
+  }, {
+    "core" : false,
+    "name" : "name",
+    "description" : "description",
     "id" : 0
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceFulfillmentType> 
      */
     open class func getFulfillmentTypesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceFulfillmentType> {
@@ -191,7 +190,6 @@ open class FulfillmentAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceFulfillmentType>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -200,14 +198,13 @@ open class FulfillmentAPI: APIBase {
 
     /**
      Update a fulfillment type
-     
      - parameter id: (path) The id 
      - parameter fulfillmentType: (body) The fulfillment type (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateFulfillmentType(id: Int32, fulfillmentType: FulfillmentType? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateFulfillmentType(id: Int32, fulfillmentType: FulfillmentType? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateFulfillmentTypeWithRequestBuilder(id: id, fulfillmentType: fulfillmentType).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -218,10 +215,8 @@ open class FulfillmentAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id 
      - parameter fulfillmentType: (body) The fulfillment type (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateFulfillmentTypeWithRequestBuilder(id: Int32, fulfillmentType: FulfillmentType? = nil) -> RequestBuilder<Void> {
@@ -231,7 +226,6 @@ open class FulfillmentAPI: APIBase {
         let parameters = fulfillmentType?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

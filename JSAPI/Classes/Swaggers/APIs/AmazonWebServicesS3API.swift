@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class AmazonWebServicesS3API: APIBase {
     /**
      Get a signed S3 URL
-     
      - parameter filename: (query) The file name (optional)
      - parameter contentType: (query) The content type (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getSignedS3URL(filename: String? = nil, contentType: String? = nil, completion: @escaping ((_ data: AmazonS3Activity?,_ error: Error?) -> Void)) {
+    open class func getSignedS3URL(filename: String? = nil, contentType: String? = nil, completion: @escaping ((_ data: AmazonS3Activity?, _ error: ErrorResponse?) -> Void)) {
         getSignedS3URLWithRequestBuilder(filename: filename, contentType: contentType).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -33,18 +31,17 @@ open class AmazonWebServicesS3API: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "filename" : "aeiou",
-  "object_key" : "aeiou",
+  "filename" : "filename",
+  "object_key" : "object_key",
+  "cdn_url" : "cdn_url",
   "user_id" : 1,
-  "action" : "aeiou",
+  "action" : "action",
   "created_date" : 0,
   "id" : 6,
-  "url" : "aeiou"
+  "url" : "url"
 }}]
-     
      - parameter filename: (query) The file name (optional)
      - parameter contentType: (query) The content type (optional)
-
      - returns: RequestBuilder<AmazonS3Activity> 
      */
     open class func getSignedS3URLWithRequestBuilder(filename: String? = nil, contentType: String? = nil) -> RequestBuilder<AmazonS3Activity> {
@@ -57,7 +54,6 @@ open class AmazonWebServicesS3API: APIBase {
             "filename": filename, 
             "content_type": contentType
         ])
-        
 
         let requestBuilder: RequestBuilder<AmazonS3Activity>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

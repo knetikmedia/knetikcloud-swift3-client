@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class GamificationTriviaAPI: APIBase {
     /**
      Add an answer to a question
-     
      - parameter questionId: (path) The id of the question 
      - parameter answer: (body) The new answer (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addQuestionAnswers(questionId: String, answer: AnswerResource? = nil, completion: @escaping ((_ data: AnswerResource?,_ error: Error?) -> Void)) {
+    open class func addQuestionAnswers(questionId: String, answer: AnswerResource? = nil, completion: @escaping ((_ data: AnswerResource?, _ error: ErrorResponse?) -> Void)) {
         addQuestionAnswersWithRequestBuilder(questionId: questionId, answer: answer).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -33,15 +31,13 @@ open class GamificationTriviaAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "answer" : {
-    "type" : "aeiou"
+    "type" : "type"
   },
   "correct" : false,
-  "id" : "aeiou"
+  "id" : "id"
 }}]
-     
      - parameter questionId: (path) The id of the question 
      - parameter answer: (body) The new answer (optional)
-
      - returns: RequestBuilder<AnswerResource> 
      */
     open class func addQuestionAnswersWithRequestBuilder(questionId: String, answer: AnswerResource? = nil) -> RequestBuilder<AnswerResource> {
@@ -52,7 +48,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<AnswerResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -60,14 +55,13 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Add a tag to a question
-     
      - parameter id: (path) The id of the question 
      - parameter tag: (body) The new tag (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addQuestionTag(id: String, tag: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func addQuestionTag(id: String, tag: StringWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addQuestionTagWithRequestBuilder(id: id, tag: tag).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -78,20 +72,17 @@ open class GamificationTriviaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the question 
      - parameter tag: (body) The new tag (optional)
-
      - returns: RequestBuilder<Void> 
      */
-    open class func addQuestionTagWithRequestBuilder(id: String, tag: String? = nil) -> RequestBuilder<Void> {
+    open class func addQuestionTagWithRequestBuilder(id: String, tag: StringWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/trivia/questions/{id}/tags"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = tag?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -110,7 +101,6 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Add a tag to a batch of questions
-     
      - parameter tag: (body) The tag to add (optional)
      - parameter filterSearch: (query) Filter for documents whose question, answers or tags contains provided string (optional)
      - parameter filterIdset: (query) Filter for documents whose id is in the comma separated list provided (optional)
@@ -122,9 +112,9 @@ open class GamificationTriviaAPI: APIBase {
      - parameter filterImportId: (query) Filter for questions from a specific import job (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addTagToQuestionsBatch(tag: String? = nil, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTag: String? = nil, filterTagset: String? = nil, filterType: FilterType_addTagToQuestionsBatch? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil, completion: @escaping ((_ data: Int32?,_ error: Error?) -> Void)) {
+    open class func addTagToQuestionsBatch(tag: StringWrapper? = nil, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTag: String? = nil, filterTagset: String? = nil, filterType: FilterType_addTagToQuestionsBatch? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil, completion: @escaping ((_ data: Int32?, _ error: ErrorResponse?) -> Void)) {
         addTagToQuestionsBatchWithRequestBuilder(tag: tag, filterSearch: filterSearch, filterIdset: filterIdset, filterCategory: filterCategory, filterTag: filterTag, filterTagset: filterTagset, filterType: filterType, filterPublished: filterPublished, filterImportId: filterImportId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -137,7 +127,6 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=0}]
-     
      - parameter tag: (body) The tag to add (optional)
      - parameter filterSearch: (query) Filter for documents whose question, answers or tags contains provided string (optional)
      - parameter filterIdset: (query) Filter for documents whose id is in the comma separated list provided (optional)
@@ -147,10 +136,9 @@ open class GamificationTriviaAPI: APIBase {
      - parameter filterType: (query) Filter for questions with specified type (optional)
      - parameter filterPublished: (query) Filter for questions currenctly published or not (optional)
      - parameter filterImportId: (query) Filter for questions from a specific import job (optional)
-
      - returns: RequestBuilder<Int32> 
      */
-    open class func addTagToQuestionsBatchWithRequestBuilder(tag: String? = nil, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTag: String? = nil, filterTagset: String? = nil, filterType: FilterType_addTagToQuestionsBatch? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil) -> RequestBuilder<Int32> {
+    open class func addTagToQuestionsBatchWithRequestBuilder(tag: StringWrapper? = nil, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTag: String? = nil, filterTagset: String? = nil, filterType: FilterType_addTagToQuestionsBatch? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil) -> RequestBuilder<Int32> {
         let path = "/trivia/questions/tags"
         let URLString = JSAPIAPI.basePath + path
         let parameters = tag?.encodeToJSON() as? [String:AnyObject]
@@ -166,7 +154,6 @@ open class GamificationTriviaAPI: APIBase {
             "filter_published": filterPublished, 
             "filter_import_id": filterImportId?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<Int32>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -175,13 +162,12 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Create an import job
-     
      - parameter request: (body) The new import job (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createImportJob(request: ImportJobResource? = nil, completion: @escaping ((_ data: ImportJobResource?,_ error: Error?) -> Void)) {
+    open class func createImportJob(request: ImportJobResource? = nil, completion: @escaping ((_ data: ImportJobResource?, _ error: ErrorResponse?) -> Void)) {
         createImportJobWithRequestBuilder(request: request).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -196,21 +182,22 @@ open class GamificationTriviaAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "output" : [ {
     "line_number" : 1,
-    "description" : "aeiou"
+    "description" : "description"
+  }, {
+    "line_number" : 1,
+    "description" : "description"
   } ],
   "record_count" : 5,
-  "category_id" : "aeiou",
-  "vendor" : "aeiou",
-  "name" : "aeiou",
+  "category_id" : "category_id",
+  "vendor" : "vendor",
+  "name" : "name",
   "created_date" : 0,
   "id" : 6,
   "updated_date" : 5,
-  "url" : "aeiou",
+  "url" : "url",
   "status" : "PENDING_VALIDATION"
 }}]
-     
      - parameter request: (body) The new import job (optional)
-
      - returns: RequestBuilder<ImportJobResource> 
      */
     open class func createImportJobWithRequestBuilder(request: ImportJobResource? = nil) -> RequestBuilder<ImportJobResource> {
@@ -220,7 +207,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ImportJobResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -228,13 +214,12 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Create a question
-     
      - parameter question: (body) The new question (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createQuestion(question: QuestionResource? = nil, completion: @escaping ((_ data: QuestionResource?,_ error: Error?) -> Void)) {
+    open class func createQuestion(question: QuestionResource? = nil, completion: @escaping ((_ data: QuestionResource?, _ error: ErrorResponse?) -> Void)) {
         createQuestionWithRequestBuilder(question: question).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -246,37 +231,45 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
-  "question" : "",
+  "template" : "template",
+  "question" : {
+    "type" : "type"
+  },
   "import_id" : 1,
   "answers" : [ {
-    "answer" : "",
+    "answer" : {
+      "type" : "type"
+    },
     "correct" : false,
-    "id" : "aeiou"
+    "id" : "id"
+  }, {
+    "answer" : {
+      "type" : "type"
+    },
+    "correct" : false,
+    "id" : "id"
   } ],
-  "source1" : "aeiou",
-  "source2" : "aeiou",
-  "tags" : [ "aeiou" ],
+  "source1" : "source1",
+  "source2" : "source2",
+  "tags" : [ "tags", "tags" ],
   "difficulty" : 6,
-  "vendor" : "aeiou",
+  "vendor" : "vendor",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 5,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "active" : false,
-    "id" : "aeiou"
+    "id" : "id"
   },
   "published_date" : 5
 }}]
-     
      - parameter question: (body) The new question (optional)
-
      - returns: RequestBuilder<QuestionResource> 
      */
     open class func createQuestionWithRequestBuilder(question: QuestionResource? = nil) -> RequestBuilder<QuestionResource> {
@@ -286,7 +279,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<QuestionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -294,13 +286,12 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Create a question template
-     
      - parameter questionTemplateResource: (body) The question template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createQuestionTemplate(questionTemplateResource: QuestionTemplateResource? = nil, completion: @escaping ((_ data: QuestionTemplateResource?,_ error: Error?) -> Void)) {
+    open class func createQuestionTemplate(questionTemplateResource: QuestionTemplateResource? = nil, completion: @escaping ((_ data: QuestionTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createQuestionTemplateWithRequestBuilder(questionTemplateResource: questionTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -313,34 +304,179 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "question_property" : "",
-  "answer_property" : {
-    "name" : "aeiou",
-    "type" : "aeiou",
+  "question_property" : {
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   },
-  "name" : "aeiou",
+  "answer_property" : {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  },
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
-  "properties" : [ "" ]
+  "properties" : [ {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  } ]
 }}]
-     
      - parameter questionTemplateResource: (body) The question template resource object (optional)
-
      - returns: RequestBuilder<QuestionTemplateResource> 
      */
     open class func createQuestionTemplateWithRequestBuilder(questionTemplateResource: QuestionTemplateResource? = nil) -> RequestBuilder<QuestionTemplateResource> {
@@ -350,7 +486,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<QuestionTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -358,13 +493,12 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Delete an import job
-     
      - parameter id: (path) The id of the job 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteImportJob(id: Int64, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteImportJob(id: Int64, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteImportJobWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -376,9 +510,7 @@ open class GamificationTriviaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the job 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteImportJobWithRequestBuilder(id: Int64) -> RequestBuilder<Void> {
@@ -389,7 +521,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -397,13 +528,12 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Delete a question
-     
      - parameter id: (path) The id of the question 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteQuestion(id: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteQuestion(id: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteQuestionWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -414,9 +544,7 @@ open class GamificationTriviaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the question 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteQuestionWithRequestBuilder(id: String) -> RequestBuilder<Void> {
@@ -427,7 +555,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -435,14 +562,13 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Remove an answer from a question
-     
      - parameter questionId: (path) The id of the question 
      - parameter id: (path) The id of the answer 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteQuestionAnswers(questionId: String, id: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteQuestionAnswers(questionId: String, id: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteQuestionAnswersWithRequestBuilder(questionId: questionId, id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -453,10 +579,8 @@ open class GamificationTriviaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter questionId: (path) The id of the question 
      - parameter id: (path) The id of the answer 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteQuestionAnswersWithRequestBuilder(questionId: String, id: String) -> RequestBuilder<Void> {
@@ -468,7 +592,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -476,14 +599,13 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Delete a question template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteQuestionTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteQuestionTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteQuestionTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -495,10 +617,8 @@ open class GamificationTriviaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteQuestionTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -511,7 +631,6 @@ open class GamificationTriviaAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -520,13 +639,12 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Get an import job
-     
      - parameter id: (path) The id of the job 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getImportJob(id: Int64, completion: @escaping ((_ data: ImportJobResource?,_ error: Error?) -> Void)) {
+    open class func getImportJob(id: Int64, completion: @escaping ((_ data: ImportJobResource?, _ error: ErrorResponse?) -> Void)) {
         getImportJobWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -540,21 +658,22 @@ open class GamificationTriviaAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "output" : [ {
     "line_number" : 1,
-    "description" : "aeiou"
+    "description" : "description"
+  }, {
+    "line_number" : 1,
+    "description" : "description"
   } ],
   "record_count" : 5,
-  "category_id" : "aeiou",
-  "vendor" : "aeiou",
-  "name" : "aeiou",
+  "category_id" : "category_id",
+  "vendor" : "vendor",
+  "name" : "name",
   "created_date" : 0,
   "id" : 6,
   "updated_date" : 5,
-  "url" : "aeiou",
+  "url" : "url",
   "status" : "PENDING_VALIDATION"
 }}]
-     
      - parameter id: (path) The id of the job 
-
      - returns: RequestBuilder<ImportJobResource> 
      */
     open class func getImportJobWithRequestBuilder(id: Int64) -> RequestBuilder<ImportJobResource> {
@@ -565,7 +684,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ImportJobResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -573,7 +691,6 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Get a list of import job
-     
      - parameter filterVendor: (query) Filter for jobs by vendor id (optional)
      - parameter filterCategory: (query) Filter for jobs by category id (optional)
      - parameter filterName: (query) Filter for jobs which name *STARTS* with the given string (optional)
@@ -583,9 +700,9 @@ open class GamificationTriviaAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getImportJobs(filterVendor: String? = nil, filterCategory: String? = nil, filterName: String? = nil, filterStatus: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceImportJobResource?,_ error: Error?) -> Void)) {
+    open class func getImportJobs(filterVendor: String? = nil, filterCategory: String? = nil, filterName: String? = nil, filterStatus: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceImportJobResource?, _ error: ErrorResponse?) -> Void)) {
         getImportJobsWithRequestBuilder(filterVendor: filterVendor, filterCategory: filterCategory, filterName: filterName, filterStatus: filterStatus, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -604,8 +721,16 @@ open class GamificationTriviaAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
@@ -613,21 +738,40 @@ open class GamificationTriviaAPI: APIBase {
   "content" : [ {
     "output" : [ {
       "line_number" : 1,
-      "description" : "aeiou"
+      "description" : "description"
+    }, {
+      "line_number" : 1,
+      "description" : "description"
     } ],
     "record_count" : 5,
-    "category_id" : "aeiou",
-    "vendor" : "aeiou",
-    "name" : "aeiou",
+    "category_id" : "category_id",
+    "vendor" : "vendor",
+    "name" : "name",
     "created_date" : 0,
     "id" : 6,
     "updated_date" : 5,
-    "url" : "aeiou",
+    "url" : "url",
+    "status" : "PENDING_VALIDATION"
+  }, {
+    "output" : [ {
+      "line_number" : 1,
+      "description" : "description"
+    }, {
+      "line_number" : 1,
+      "description" : "description"
+    } ],
+    "record_count" : 5,
+    "category_id" : "category_id",
+    "vendor" : "vendor",
+    "name" : "name",
+    "created_date" : 0,
+    "id" : 6,
+    "updated_date" : 5,
+    "url" : "url",
     "status" : "PENDING_VALIDATION"
   } ],
   "first" : true
 }}]
-     
      - parameter filterVendor: (query) Filter for jobs by vendor id (optional)
      - parameter filterCategory: (query) Filter for jobs by category id (optional)
      - parameter filterName: (query) Filter for jobs which name *STARTS* with the given string (optional)
@@ -635,7 +779,6 @@ open class GamificationTriviaAPI: APIBase {
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceImportJobResource> 
      */
     open class func getImportJobsWithRequestBuilder(filterVendor: String? = nil, filterCategory: String? = nil, filterName: String? = nil, filterStatus: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceImportJobResource> {
@@ -653,7 +796,6 @@ open class GamificationTriviaAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceImportJobResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -662,13 +804,12 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Get a single question
-     
      - parameter id: (path) The id of the question 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getQuestion(id: String, completion: @escaping ((_ data: QuestionResource?,_ error: Error?) -> Void)) {
+    open class func getQuestion(id: String, completion: @escaping ((_ data: QuestionResource?, _ error: ErrorResponse?) -> Void)) {
         getQuestionWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -680,37 +821,45 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
-  "question" : "",
+  "template" : "template",
+  "question" : {
+    "type" : "type"
+  },
   "import_id" : 1,
   "answers" : [ {
-    "answer" : "",
+    "answer" : {
+      "type" : "type"
+    },
     "correct" : false,
-    "id" : "aeiou"
+    "id" : "id"
+  }, {
+    "answer" : {
+      "type" : "type"
+    },
+    "correct" : false,
+    "id" : "id"
   } ],
-  "source1" : "aeiou",
-  "source2" : "aeiou",
-  "tags" : [ "aeiou" ],
+  "source1" : "source1",
+  "source2" : "source2",
+  "tags" : [ "tags", "tags" ],
   "difficulty" : 6,
-  "vendor" : "aeiou",
+  "vendor" : "vendor",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 5,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "active" : false,
-    "id" : "aeiou"
+    "id" : "id"
   },
   "published_date" : 5
 }}]
-     
      - parameter id: (path) The id of the question 
-
      - returns: RequestBuilder<QuestionResource> 
      */
     open class func getQuestionWithRequestBuilder(id: String) -> RequestBuilder<QuestionResource> {
@@ -721,7 +870,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<QuestionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -729,14 +877,13 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Get an answer for a question
-     
      - parameter questionId: (path) The id of the question 
      - parameter id: (path) The id of the answer 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getQuestionAnswer(questionId: String, id: String, completion: @escaping ((_ data: AnswerResource?,_ error: Error?) -> Void)) {
+    open class func getQuestionAnswer(questionId: String, id: String, completion: @escaping ((_ data: AnswerResource?, _ error: ErrorResponse?) -> Void)) {
         getQuestionAnswerWithRequestBuilder(questionId: questionId, id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -749,15 +896,13 @@ open class GamificationTriviaAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "answer" : {
-    "type" : "aeiou"
+    "type" : "type"
   },
   "correct" : false,
-  "id" : "aeiou"
+  "id" : "id"
 }}]
-     
      - parameter questionId: (path) The id of the question 
      - parameter id: (path) The id of the answer 
-
      - returns: RequestBuilder<AnswerResource> 
      */
     open class func getQuestionAnswerWithRequestBuilder(questionId: String, id: String) -> RequestBuilder<AnswerResource> {
@@ -769,7 +914,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<AnswerResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -777,13 +921,12 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      List the answers available for a question
-     
      - parameter questionId: (path) The id of the question 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getQuestionAnswers(questionId: String, completion: @escaping ((_ data: [AnswerResource]?,_ error: Error?) -> Void)) {
+    open class func getQuestionAnswers(questionId: String, completion: @escaping ((_ data: [AnswerResource]?, _ error: ErrorResponse?) -> Void)) {
         getQuestionAnswersWithRequestBuilder(questionId: questionId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -796,14 +939,18 @@ open class GamificationTriviaAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
   "answer" : {
-    "type" : "aeiou"
+    "type" : "type"
   },
   "correct" : false,
-  "id" : "aeiou"
+  "id" : "id"
+}, {
+  "answer" : {
+    "type" : "type"
+  },
+  "correct" : false,
+  "id" : "id"
 } ]}]
-     
      - parameter questionId: (path) The id of the question 
-
      - returns: RequestBuilder<[AnswerResource]> 
      */
     open class func getQuestionAnswersWithRequestBuilder(questionId: String) -> RequestBuilder<[AnswerResource]> {
@@ -814,7 +961,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[AnswerResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -822,13 +968,12 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      List question deltas in ascending order of updated date
-     
      - parameter since: (query) Timestamp in seconds (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getQuestionDeltas(since: Int64? = nil, completion: @escaping ((_ data: [DeltaResource]?,_ error: Error?) -> Void)) {
+    open class func getQuestionDeltas(since: Int64? = nil, completion: @escaping ((_ data: [DeltaResource]?, _ error: ErrorResponse?) -> Void)) {
         getQuestionDeltasWithRequestBuilder(since: since).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -841,16 +986,21 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
-  "category_id" : "aeiou",
-  "media_type" : "aeiou",
+  "category_id" : "category_id",
+  "media_type" : "media_type",
   "state" : "UPDATED",
   "updated_date" : 0,
-  "question_id" : "aeiou",
-  "tags" : [ "aeiou" ]
+  "question_id" : "question_id",
+  "tags" : [ "tags", "tags" ]
+}, {
+  "category_id" : "category_id",
+  "media_type" : "media_type",
+  "state" : "UPDATED",
+  "updated_date" : 0,
+  "question_id" : "question_id",
+  "tags" : [ "tags", "tags" ]
 } ]}]
-     
      - parameter since: (query) Timestamp in seconds (optional)
-
      - returns: RequestBuilder<[DeltaResource]> 
      */
     open class func getQuestionDeltasWithRequestBuilder(since: Int64? = nil) -> RequestBuilder<[DeltaResource]> {
@@ -862,7 +1012,6 @@ open class GamificationTriviaAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "since": since?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<[DeltaResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -871,13 +1020,12 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      List the tags for a question
-     
      - parameter id: (path) The id of the question 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getQuestionTags(id: String, completion: @escaping ((_ data: [String]?,_ error: Error?) -> Void)) {
+    open class func getQuestionTags(id: String, completion: @escaping ((_ data: [String]?, _ error: ErrorResponse?) -> Void)) {
         getQuestionTagsWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -888,10 +1036,8 @@ open class GamificationTriviaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example=[ "aeiou" ]}]
-     
+     - examples: [{contentType=application/json, example=[ "", "" ]}]
      - parameter id: (path) The id of the question 
-
      - returns: RequestBuilder<[String]> 
      */
     open class func getQuestionTagsWithRequestBuilder(id: String) -> RequestBuilder<[String]> {
@@ -902,7 +1048,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[String]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -910,13 +1055,12 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Get a single question template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getQuestionTemplate(id: String, completion: @escaping ((_ data: QuestionTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getQuestionTemplate(id: String, completion: @escaping ((_ data: QuestionTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getQuestionTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -928,34 +1072,179 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "question_property" : "",
-  "answer_property" : {
-    "name" : "aeiou",
-    "type" : "aeiou",
+  "question_property" : {
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   },
-  "name" : "aeiou",
+  "answer_property" : {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  },
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
-  "properties" : [ "" ]
+  "properties" : [ {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<QuestionTemplateResource> 
      */
     open class func getQuestionTemplateWithRequestBuilder(id: String) -> RequestBuilder<QuestionTemplateResource> {
@@ -966,7 +1255,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<QuestionTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -974,15 +1262,14 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      List and search question templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getQuestionTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceQuestionTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getQuestionTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceQuestionTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getQuestionTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1001,45 +1288,370 @@ open class GamificationTriviaAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
-    "question_property" : "",
-    "answer_property" : {
-      "name" : "aeiou",
-      "type" : "aeiou",
+    "question_property" : {
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     },
-    "name" : "aeiou",
+    "answer_property" : {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    },
+    "name" : "name",
     "created_date" : 0,
-    "id" : "aeiou",
+    "id" : "id",
     "updated_date" : 6,
-    "properties" : [ "" ]
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "question_property" : {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    },
+    "answer_property" : {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    },
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceQuestionTemplateResource> 
      */
     open class func getQuestionTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceQuestionTemplateResource> {
@@ -1053,7 +1665,6 @@ open class GamificationTriviaAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceQuestionTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -1062,7 +1673,6 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      List and search questions
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
@@ -1076,9 +1686,9 @@ open class GamificationTriviaAPI: APIBase {
      - parameter filterImportId: (query) Filter for questions from a specific import job (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getQuestions(size: Int32? = nil, page: Int32? = nil, order: String? = nil, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTagset: String? = nil, filterTag: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil, completion: @escaping ((_ data: PageResourceQuestionResource?,_ error: Error?) -> Void)) {
+    open class func getQuestions(size: Int32? = nil, page: Int32? = nil, order: String? = nil, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTagset: String? = nil, filterTag: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil, completion: @escaping ((_ data: PageResourceQuestionResource?, _ error: ErrorResponse?) -> Void)) {
         getQuestionsWithRequestBuilder(size: size, page: page, order: order, filterSearch: filterSearch, filterIdset: filterIdset, filterCategory: filterCategory, filterTagset: filterTagset, filterTag: filterTag, filterType: filterType, filterPublished: filterPublished, filterImportId: filterImportId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1097,44 +1707,99 @@ open class GamificationTriviaAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
   "number_of_elements" : 7,
   "content" : [ {
-    "template" : "aeiou",
-    "question" : "",
+    "template" : "template",
+    "question" : {
+      "type" : "type"
+    },
     "import_id" : 1,
     "answers" : [ {
-      "answer" : "",
+      "answer" : {
+        "type" : "type"
+      },
       "correct" : false,
-      "id" : "aeiou"
+      "id" : "id"
+    }, {
+      "answer" : {
+        "type" : "type"
+      },
+      "correct" : false,
+      "id" : "id"
     } ],
-    "source1" : "aeiou",
-    "source2" : "aeiou",
-    "tags" : [ "aeiou" ],
+    "source1" : "source1",
+    "source2" : "source2",
+    "tags" : [ "tags", "tags" ],
     "difficulty" : 6,
-    "vendor" : "aeiou",
+    "vendor" : "vendor",
     "additional_properties" : {
       "key" : {
-        "type" : "aeiou"
+        "type" : "type"
       }
     },
     "created_date" : 0,
-    "id" : "aeiou",
+    "id" : "id",
     "updated_date" : 5,
     "category" : {
-      "name" : "aeiou",
+      "name" : "name",
       "active" : false,
-      "id" : "aeiou"
+      "id" : "id"
+    },
+    "published_date" : 5
+  }, {
+    "template" : "template",
+    "question" : {
+      "type" : "type"
+    },
+    "import_id" : 1,
+    "answers" : [ {
+      "answer" : {
+        "type" : "type"
+      },
+      "correct" : false,
+      "id" : "id"
+    }, {
+      "answer" : {
+        "type" : "type"
+      },
+      "correct" : false,
+      "id" : "id"
+    } ],
+    "source1" : "source1",
+    "source2" : "source2",
+    "tags" : [ "tags", "tags" ],
+    "difficulty" : 6,
+    "vendor" : "vendor",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 5,
+    "category" : {
+      "name" : "name",
+      "active" : false,
+      "id" : "id"
     },
     "published_date" : 5
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
@@ -1146,7 +1811,6 @@ open class GamificationTriviaAPI: APIBase {
      - parameter filterType: (query) Filter for questions with specified type.  Allowable values: (&#39;TEXT&#39;, &#39;IMAGE&#39;, &#39;VIDEO&#39;, &#39;AUDIO&#39;) (optional)
      - parameter filterPublished: (query) Filter for questions currenctly published or not (optional)
      - parameter filterImportId: (query) Filter for questions from a specific import job (optional)
-
      - returns: RequestBuilder<PageResourceQuestionResource> 
      */
     open class func getQuestionsWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTagset: String? = nil, filterTag: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil) -> RequestBuilder<PageResourceQuestionResource> {
@@ -1168,7 +1832,6 @@ open class GamificationTriviaAPI: APIBase {
             "filter_published": filterPublished, 
             "filter_import_id": filterImportId?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceQuestionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -1177,7 +1840,6 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Count questions based on filters
-     
      - parameter filterSearch: (query) Filter for documents whose question, answers or tags contains provided string (optional)
      - parameter filterIdset: (query) Filter for documents whose id is in the comma separated list provided (optional)
      - parameter filterCategory: (query) Filter for questions with specified category, by id (optional)
@@ -1187,9 +1849,9 @@ open class GamificationTriviaAPI: APIBase {
      - parameter filterPublished: (query) Filter for questions currenctly published or not (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getQuestionsCount(filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTag: String? = nil, filterTagset: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil, completion: @escaping ((_ data: Int64?,_ error: Error?) -> Void)) {
+    open class func getQuestionsCount(filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTag: String? = nil, filterTagset: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil, completion: @escaping ((_ data: Int64?, _ error: ErrorResponse?) -> Void)) {
         getQuestionsCountWithRequestBuilder(filterSearch: filterSearch, filterIdset: filterIdset, filterCategory: filterCategory, filterTag: filterTag, filterTagset: filterTagset, filterType: filterType, filterPublished: filterPublished).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1202,7 +1864,6 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=0}]
-     
      - parameter filterSearch: (query) Filter for documents whose question, answers or tags contains provided string (optional)
      - parameter filterIdset: (query) Filter for documents whose id is in the comma separated list provided (optional)
      - parameter filterCategory: (query) Filter for questions with specified category, by id (optional)
@@ -1210,7 +1871,6 @@ open class GamificationTriviaAPI: APIBase {
      - parameter filterTagset: (query) Filter for questions with specified tags (separated by comma) (optional)
      - parameter filterType: (query) Filter for questions with specified type.  Allowable values: (&#39;TEXT&#39;, &#39;IMAGE&#39;, &#39;VIDEO&#39;, &#39;AUDIO&#39;) (optional)
      - parameter filterPublished: (query) Filter for questions currenctly published or not (optional)
-
      - returns: RequestBuilder<Int64> 
      */
     open class func getQuestionsCountWithRequestBuilder(filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTag: String? = nil, filterTagset: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil) -> RequestBuilder<Int64> {
@@ -1228,7 +1888,6 @@ open class GamificationTriviaAPI: APIBase {
             "filter_type": filterType, 
             "filter_published": filterPublished
         ])
-        
 
         let requestBuilder: RequestBuilder<Int64>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -1237,14 +1896,13 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Start processing an import job
-     
      - parameter id: (path) The id of the job 
      - parameter publishNow: (query) Whether the new questions should be published live immediately 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func processImportJob(id: Int64, publishNow: Bool, completion: @escaping ((_ data: ImportJobResource?,_ error: Error?) -> Void)) {
+    open class func processImportJob(id: Int64, publishNow: Bool, completion: @escaping ((_ data: ImportJobResource?, _ error: ErrorResponse?) -> Void)) {
         processImportJobWithRequestBuilder(id: id, publishNow: publishNow).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1259,22 +1917,23 @@ open class GamificationTriviaAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "output" : [ {
     "line_number" : 1,
-    "description" : "aeiou"
+    "description" : "description"
+  }, {
+    "line_number" : 1,
+    "description" : "description"
   } ],
   "record_count" : 5,
-  "category_id" : "aeiou",
-  "vendor" : "aeiou",
-  "name" : "aeiou",
+  "category_id" : "category_id",
+  "vendor" : "vendor",
+  "name" : "name",
   "created_date" : 0,
   "id" : 6,
   "updated_date" : 5,
-  "url" : "aeiou",
+  "url" : "url",
   "status" : "PENDING_VALIDATION"
 }}]
-     
      - parameter id: (path) The id of the job 
      - parameter publishNow: (query) Whether the new questions should be published live immediately 
-
      - returns: RequestBuilder<ImportJobResource> 
      */
     open class func processImportJobWithRequestBuilder(id: Int64, publishNow: Bool) -> RequestBuilder<ImportJobResource> {
@@ -1287,7 +1946,6 @@ open class GamificationTriviaAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "publish_now": publishNow
         ])
-        
 
         let requestBuilder: RequestBuilder<ImportJobResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -1296,14 +1954,13 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Remove a tag from a question
-     
      - parameter id: (path) The id of the question 
      - parameter tag: (path) The tag to remove 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func removeQuestionTag(id: String, tag: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func removeQuestionTag(id: String, tag: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         removeQuestionTagWithRequestBuilder(id: id, tag: tag).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -1314,10 +1971,8 @@ open class GamificationTriviaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the question 
      - parameter tag: (path) The tag to remove 
-
      - returns: RequestBuilder<Void> 
      */
     open class func removeQuestionTagWithRequestBuilder(id: String, tag: String) -> RequestBuilder<Void> {
@@ -1329,7 +1984,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -1337,7 +1991,6 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Remove a tag from a batch of questions
-     
      - parameter tag: (path) The tag to remove 
      - parameter filterSearch: (query) Filter for documents whose question, answers or tags contains provided string (optional)
      - parameter filterIdset: (query) Filter for documents whose id is in the comma separated list provided (optional)
@@ -1349,9 +2002,9 @@ open class GamificationTriviaAPI: APIBase {
      - parameter filterImportId: (query) Filter for questions from a specific import job (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func removeTagToQuestionsBatch(tag: String, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTag: String? = nil, filterTagset: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil, completion: @escaping ((_ data: Int32?,_ error: Error?) -> Void)) {
+    open class func removeTagToQuestionsBatch(tag: String, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTag: String? = nil, filterTagset: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil, completion: @escaping ((_ data: Int32?, _ error: ErrorResponse?) -> Void)) {
         removeTagToQuestionsBatchWithRequestBuilder(tag: tag, filterSearch: filterSearch, filterIdset: filterIdset, filterCategory: filterCategory, filterTag: filterTag, filterTagset: filterTagset, filterType: filterType, filterPublished: filterPublished, filterImportId: filterImportId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1364,7 +2017,6 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=0}]
-     
      - parameter tag: (path) The tag to remove 
      - parameter filterSearch: (query) Filter for documents whose question, answers or tags contains provided string (optional)
      - parameter filterIdset: (query) Filter for documents whose id is in the comma separated list provided (optional)
@@ -1374,7 +2026,6 @@ open class GamificationTriviaAPI: APIBase {
      - parameter filterType: (query) Filter for questions with specified type.  Allowable values: (&#39;TEXT&#39;, &#39;IMAGE&#39;, &#39;VIDEO&#39;, &#39;AUDIO&#39;) (optional)
      - parameter filterPublished: (query) Filter for questions currenctly published or not (optional)
      - parameter filterImportId: (query) Filter for questions from a specific import job (optional)
-
      - returns: RequestBuilder<Int32> 
      */
     open class func removeTagToQuestionsBatchWithRequestBuilder(tag: String, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTag: String? = nil, filterTagset: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil) -> RequestBuilder<Int32> {
@@ -1394,7 +2045,6 @@ open class GamificationTriviaAPI: APIBase {
             "filter_published": filterPublished, 
             "filter_import_id": filterImportId?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<Int32>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -1403,15 +2053,14 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      List and search tags by the beginning of the string
-     
      - parameter filterSearch: (query) Filter for tags starting with the given text (optional)
      - parameter filterCategory: (query) Filter for tags on questions from a specific category (optional)
      - parameter filterImportId: (query) Filter for tags on questions from a specific import job (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func searchQuestionTags(filterSearch: String? = nil, filterCategory: String? = nil, filterImportId: Int64? = nil, completion: @escaping ((_ data: Collectionstring?,_ error: Error?) -> Void)) {
+    open class func searchQuestionTags(filterSearch: String? = nil, filterCategory: String? = nil, filterImportId: Int64? = nil, completion: @escaping ((_ data: Collectionstring?, _ error: ErrorResponse?) -> Void)) {
         searchQuestionTagsWithRequestBuilder(filterSearch: filterSearch, filterCategory: filterCategory, filterImportId: filterImportId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1424,11 +2073,9 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={ }}]
-     
      - parameter filterSearch: (query) Filter for tags starting with the given text (optional)
      - parameter filterCategory: (query) Filter for tags on questions from a specific category (optional)
      - parameter filterImportId: (query) Filter for tags on questions from a specific import job (optional)
-
      - returns: RequestBuilder<Collectionstring> 
      */
     open class func searchQuestionTagsWithRequestBuilder(filterSearch: String? = nil, filterCategory: String? = nil, filterImportId: Int64? = nil) -> RequestBuilder<Collectionstring> {
@@ -1442,7 +2089,6 @@ open class GamificationTriviaAPI: APIBase {
             "filter_category": filterCategory, 
             "filter_import_id": filterImportId?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<Collectionstring>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -1451,14 +2097,13 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Update an import job
-     
      - parameter id: (path) The id of the job 
      - parameter request: (body) The updated job (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateImportJob(id: Int64, request: ImportJobResource? = nil, completion: @escaping ((_ data: ImportJobResource?,_ error: Error?) -> Void)) {
+    open class func updateImportJob(id: Int64, request: ImportJobResource? = nil, completion: @escaping ((_ data: ImportJobResource?, _ error: ErrorResponse?) -> Void)) {
         updateImportJobWithRequestBuilder(id: id, request: request).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1473,22 +2118,23 @@ open class GamificationTriviaAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "output" : [ {
     "line_number" : 1,
-    "description" : "aeiou"
+    "description" : "description"
+  }, {
+    "line_number" : 1,
+    "description" : "description"
   } ],
   "record_count" : 5,
-  "category_id" : "aeiou",
-  "vendor" : "aeiou",
-  "name" : "aeiou",
+  "category_id" : "category_id",
+  "vendor" : "vendor",
+  "name" : "name",
   "created_date" : 0,
   "id" : 6,
   "updated_date" : 5,
-  "url" : "aeiou",
+  "url" : "url",
   "status" : "PENDING_VALIDATION"
 }}]
-     
      - parameter id: (path) The id of the job 
      - parameter request: (body) The updated job (optional)
-
      - returns: RequestBuilder<ImportJobResource> 
      */
     open class func updateImportJobWithRequestBuilder(id: Int64, request: ImportJobResource? = nil) -> RequestBuilder<ImportJobResource> {
@@ -1499,7 +2145,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ImportJobResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1507,14 +2152,13 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Update a question
-     
      - parameter id: (path) The id of the question 
      - parameter question: (body) The updated question (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateQuestion(id: String, question: QuestionResource? = nil, completion: @escaping ((_ data: QuestionResource?,_ error: Error?) -> Void)) {
+    open class func updateQuestion(id: String, question: QuestionResource? = nil, completion: @escaping ((_ data: QuestionResource?, _ error: ErrorResponse?) -> Void)) {
         updateQuestionWithRequestBuilder(id: id, question: question).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1526,38 +2170,46 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
-  "question" : "",
+  "template" : "template",
+  "question" : {
+    "type" : "type"
+  },
   "import_id" : 1,
   "answers" : [ {
-    "answer" : "",
+    "answer" : {
+      "type" : "type"
+    },
     "correct" : false,
-    "id" : "aeiou"
+    "id" : "id"
+  }, {
+    "answer" : {
+      "type" : "type"
+    },
+    "correct" : false,
+    "id" : "id"
   } ],
-  "source1" : "aeiou",
-  "source2" : "aeiou",
-  "tags" : [ "aeiou" ],
+  "source1" : "source1",
+  "source2" : "source2",
+  "tags" : [ "tags", "tags" ],
   "difficulty" : 6,
-  "vendor" : "aeiou",
+  "vendor" : "vendor",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 5,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "active" : false,
-    "id" : "aeiou"
+    "id" : "id"
   },
   "published_date" : 5
 }}]
-     
      - parameter id: (path) The id of the question 
      - parameter question: (body) The updated question (optional)
-
      - returns: RequestBuilder<QuestionResource> 
      */
     open class func updateQuestionWithRequestBuilder(id: String, question: QuestionResource? = nil) -> RequestBuilder<QuestionResource> {
@@ -1568,7 +2220,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<QuestionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1576,15 +2227,14 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Update an answer for a question
-     
      - parameter questionId: (path) The id of the question 
      - parameter id: (path) The id of the answer 
      - parameter answer: (body) The updated answer (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateQuestionAnswer(questionId: String, id: String, answer: AnswerResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateQuestionAnswer(questionId: String, id: String, answer: AnswerResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateQuestionAnswerWithRequestBuilder(questionId: questionId, id: id, answer: answer).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -1595,11 +2245,9 @@ open class GamificationTriviaAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter questionId: (path) The id of the question 
      - parameter id: (path) The id of the answer 
      - parameter answer: (body) The updated answer (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateQuestionAnswerWithRequestBuilder(questionId: String, id: String, answer: AnswerResource? = nil) -> RequestBuilder<Void> {
@@ -1611,7 +2259,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1619,14 +2266,13 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Update a question template
-     
      - parameter id: (path) The id of the template 
      - parameter questionTemplateResource: (body) The question template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateQuestionTemplate(id: String, questionTemplateResource: QuestionTemplateResource? = nil, completion: @escaping ((_ data: QuestionTemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateQuestionTemplate(id: String, questionTemplateResource: QuestionTemplateResource? = nil, completion: @escaping ((_ data: QuestionTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateQuestionTemplateWithRequestBuilder(id: id, questionTemplateResource: questionTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1638,35 +2284,180 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "question_property" : "",
-  "answer_property" : {
-    "name" : "aeiou",
-    "type" : "aeiou",
+  "question_property" : {
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   },
-  "name" : "aeiou",
+  "answer_property" : {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  },
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
-  "properties" : [ "" ]
+  "properties" : [ {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter questionTemplateResource: (body) The question template resource object (optional)
-
      - returns: RequestBuilder<QuestionTemplateResource> 
      */
     open class func updateQuestionTemplateWithRequestBuilder(id: String, questionTemplateResource: QuestionTemplateResource? = nil) -> RequestBuilder<QuestionTemplateResource> {
@@ -1677,7 +2468,6 @@ open class GamificationTriviaAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<QuestionTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1685,7 +2475,6 @@ open class GamificationTriviaAPI: APIBase {
 
     /**
      Bulk update questions
-     
      - parameter question: (body) New values for a set of question fields (optional)
      - parameter filterSearch: (query) Filter for documents whose question, answers or tags contains provided string (optional)
      - parameter filterIdset: (query) Filter for documents whose id is in the comma separated list provided (optional)
@@ -1696,9 +2485,9 @@ open class GamificationTriviaAPI: APIBase {
      - parameter filterImportId: (query) Filter for questions from a specific import job (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateQuestionsInBulk(question: QuestionResource? = nil, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTagset: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil, completion: @escaping ((_ data: Int32?,_ error: Error?) -> Void)) {
+    open class func updateQuestionsInBulk(question: QuestionResource? = nil, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTagset: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil, completion: @escaping ((_ data: Int32?, _ error: ErrorResponse?) -> Void)) {
         updateQuestionsInBulkWithRequestBuilder(question: question, filterSearch: filterSearch, filterIdset: filterIdset, filterCategory: filterCategory, filterTagset: filterTagset, filterType: filterType, filterPublished: filterPublished, filterImportId: filterImportId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1711,7 +2500,6 @@ open class GamificationTriviaAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=0}]
-     
      - parameter question: (body) New values for a set of question fields (optional)
      - parameter filterSearch: (query) Filter for documents whose question, answers or tags contains provided string (optional)
      - parameter filterIdset: (query) Filter for documents whose id is in the comma separated list provided (optional)
@@ -1720,7 +2508,6 @@ open class GamificationTriviaAPI: APIBase {
      - parameter filterType: (query) Filter for questions with specified type.  Allowable values: (&#39;TEXT&#39;, &#39;IMAGE&#39;, &#39;VIDEO&#39;, &#39;AUDIO&#39;) (optional)
      - parameter filterPublished: (query) Filter for questions currenctly published or not (optional)
      - parameter filterImportId: (query) Filter for questions from a specific import job (optional)
-
      - returns: RequestBuilder<Int32> 
      */
     open class func updateQuestionsInBulkWithRequestBuilder(question: QuestionResource? = nil, filterSearch: String? = nil, filterIdset: String? = nil, filterCategory: String? = nil, filterTagset: String? = nil, filterType: String? = nil, filterPublished: Bool? = nil, filterImportId: Int64? = nil) -> RequestBuilder<Int32> {
@@ -1738,7 +2525,6 @@ open class GamificationTriviaAPI: APIBase {
             "filter_published": filterPublished, 
             "filter_import_id": filterImportId?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<Int32>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

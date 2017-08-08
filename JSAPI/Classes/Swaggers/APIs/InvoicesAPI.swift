@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class InvoicesAPI: APIBase {
     /**
      Create an invoice
-     
      - parameter req: (body) Invoice to be created (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createInvoice(req: InvoiceCreateRequest? = nil, completion: @escaping ((_ data: [InvoiceResource]?,_ error: Error?) -> Void)) {
+    open class func createInvoice(req: InvoiceCreateRequest? = nil, completion: @escaping ((_ data: [InvoiceResource]?, _ error: ErrorResponse?) -> Void)) {
         createInvoiceWithRequestBuilder(req: req).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,73 +30,169 @@ open class InvoicesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
-  "shipping_city_name" : "aeiou",
-  "order_notes" : "aeiou",
+  "shipping_city_name" : "shipping_city_name",
+  "order_notes" : "order_notes",
   "parent_invoice_id" : 1,
   "discount" : 6.027456183070403,
   "state_tax" : 4.965218492984954,
-  "cart_id" : "aeiou",
-  "name_prefix" : "aeiou",
-  "billing_postal_code" : "aeiou",
+  "cart_id" : "cart_id",
+  "name_prefix" : "name_prefix",
+  "billing_postal_code" : "billing_postal_code",
   "shipping" : 7.457744773683766,
-  "billing_state_name" : "aeiou",
-  "billing_country_name" : "aeiou",
-  "currency" : "aeiou",
-  "current_fulfillment_status" : "aeiou",
+  "billing_state_name" : "billing_state_name",
+  "billing_country_name" : "billing_country_name",
+  "currency" : "currency",
+  "current_fulfillment_status" : "current_fulfillment_status",
   "grand_total" : 5.962133916683182,
   "id" : 5,
-  "current_payment_status" : "aeiou",
-  "billing_address1" : "aeiou",
-  "invoice_number" : "aeiou",
-  "billing_address2" : "aeiou",
-  "email" : "aeiou",
-  "vendor_name" : "aeiou",
-  "billing_full_name" : "aeiou",
+  "current_payment_status" : "current_payment_status",
+  "billing_address1" : "billing_address1",
+  "invoice_number" : "invoice_number",
+  "billing_address2" : "billing_address2",
+  "email" : "email",
+  "vendor_name" : "vendor_name",
+  "billing_full_name" : "billing_full_name",
   "sort" : 1,
-  "shipping_full_name" : "aeiou",
+  "shipping_full_name" : "shipping_full_name",
   "fed_tax" : 1.4658129805029452,
   "payment_method_id" : 6,
-  "phone" : "aeiou",
-  "external_ref" : "aeiou",
-  "shipping_address2" : "aeiou",
+  "phone" : "phone",
+  "external_ref" : "external_ref",
+  "shipping_address2" : "shipping_address2",
   "subtotal" : 5.025004791520295,
-  "shipping_address1" : "aeiou",
-  "vendor_id" : 6,
-  "shipping_state_name" : "aeiou",
-  "billing_city_name" : "aeiou",
-  "phone_number" : "aeiou",
+  "shipping_address1" : "shipping_address1",
+  "vendor_id" : 9,
+  "shipping_state_name" : "shipping_state_name",
+  "billing_city_name" : "billing_city_name",
+  "phone_number" : "phone_number",
   "created_date" : 0,
-  "shipping_country_name" : "aeiou",
+  "shipping_country_name" : "shipping_country_name",
   "updated_date" : 9,
   "items" : [ {
-    "type_hint" : "aeiou",
+    "type_hint" : "type_hint",
     "total_price" : 1.2315135367772556,
     "item_id" : 9,
     "system_price" : 7.386281948385884,
-    "item_name" : "aeiou",
+    "item_name" : "item_name",
     "original_unit_price" : 2.027123023002322,
     "unit_price" : 1.0246457001441578,
     "qty" : 4,
     "invoice_id" : 7,
-    "current_fulfillment_status" : "aeiou",
+    "current_fulfillment_status" : "current_fulfillment_status",
     "id" : 2,
-    "sale_name" : "aeiou",
-    "bundle_sku" : "aeiou",
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
     "original_total_price" : 3.616076749251911,
-    "sku" : "aeiou",
-    "sku_description" : "aeiou"
+    "sku" : "sku",
+    "sku_description" : "sku_description"
+  }, {
+    "type_hint" : "type_hint",
+    "total_price" : 1.2315135367772556,
+    "item_id" : 9,
+    "system_price" : 7.386281948385884,
+    "item_name" : "item_name",
+    "original_unit_price" : 2.027123023002322,
+    "unit_price" : 1.0246457001441578,
+    "qty" : 4,
+    "invoice_id" : 7,
+    "current_fulfillment_status" : "current_fulfillment_status",
+    "id" : 2,
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
+    "original_total_price" : 3.616076749251911,
+    "sku" : "sku",
+    "sku_description" : "sku_description"
   } ],
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 9,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
-  "shipping_postal_code" : "aeiou"
+  "shipping_postal_code" : "shipping_postal_code"
+}, {
+  "shipping_city_name" : "shipping_city_name",
+  "order_notes" : "order_notes",
+  "parent_invoice_id" : 1,
+  "discount" : 6.027456183070403,
+  "state_tax" : 4.965218492984954,
+  "cart_id" : "cart_id",
+  "name_prefix" : "name_prefix",
+  "billing_postal_code" : "billing_postal_code",
+  "shipping" : 7.457744773683766,
+  "billing_state_name" : "billing_state_name",
+  "billing_country_name" : "billing_country_name",
+  "currency" : "currency",
+  "current_fulfillment_status" : "current_fulfillment_status",
+  "grand_total" : 5.962133916683182,
+  "id" : 5,
+  "current_payment_status" : "current_payment_status",
+  "billing_address1" : "billing_address1",
+  "invoice_number" : "invoice_number",
+  "billing_address2" : "billing_address2",
+  "email" : "email",
+  "vendor_name" : "vendor_name",
+  "billing_full_name" : "billing_full_name",
+  "sort" : 1,
+  "shipping_full_name" : "shipping_full_name",
+  "fed_tax" : 1.4658129805029452,
+  "payment_method_id" : 6,
+  "phone" : "phone",
+  "external_ref" : "external_ref",
+  "shipping_address2" : "shipping_address2",
+  "subtotal" : 5.025004791520295,
+  "shipping_address1" : "shipping_address1",
+  "vendor_id" : 9,
+  "shipping_state_name" : "shipping_state_name",
+  "billing_city_name" : "billing_city_name",
+  "phone_number" : "phone_number",
+  "created_date" : 0,
+  "shipping_country_name" : "shipping_country_name",
+  "updated_date" : 9,
+  "items" : [ {
+    "type_hint" : "type_hint",
+    "total_price" : 1.2315135367772556,
+    "item_id" : 9,
+    "system_price" : 7.386281948385884,
+    "item_name" : "item_name",
+    "original_unit_price" : 2.027123023002322,
+    "unit_price" : 1.0246457001441578,
+    "qty" : 4,
+    "invoice_id" : 7,
+    "current_fulfillment_status" : "current_fulfillment_status",
+    "id" : 2,
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
+    "original_total_price" : 3.616076749251911,
+    "sku" : "sku",
+    "sku_description" : "sku_description"
+  }, {
+    "type_hint" : "type_hint",
+    "total_price" : 1.2315135367772556,
+    "item_id" : 9,
+    "system_price" : 7.386281948385884,
+    "item_name" : "item_name",
+    "original_unit_price" : 2.027123023002322,
+    "unit_price" : 1.0246457001441578,
+    "qty" : 4,
+    "invoice_id" : 7,
+    "current_fulfillment_status" : "current_fulfillment_status",
+    "id" : 2,
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
+    "original_total_price" : 3.616076749251911,
+    "sku" : "sku",
+    "sku_description" : "sku_description"
+  } ],
+  "user" : {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  },
+  "shipping_postal_code" : "shipping_postal_code"
 } ]}]
-     
      - parameter req: (body) Invoice to be created (optional)
-
      - returns: RequestBuilder<[InvoiceResource]> 
      */
     open class func createInvoiceWithRequestBuilder(req: InvoiceCreateRequest? = nil) -> RequestBuilder<[InvoiceResource]> {
@@ -108,7 +202,6 @@ open class InvoicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[InvoiceResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -116,12 +209,11 @@ open class InvoicesAPI: APIBase {
 
     /**
      Lists available fulfillment statuses
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getFulFillmentStatuses(completion: @escaping ((_ data: [String]?,_ error: Error?) -> Void)) {
+    open class func getFulFillmentStatuses(completion: @escaping ((_ data: [String]?, _ error: ErrorResponse?) -> Void)) {
         getFulFillmentStatusesWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -129,8 +221,8 @@ open class InvoicesAPI: APIBase {
     /**
      Lists available fulfillment statuses
      - GET /invoices/fulfillment-statuses
-     - examples: [{contentType=application/json, example=[ "aeiou" ]}]
 
+     - examples: [{contentType=application/json, example=[ "", "" ]}]
      - returns: RequestBuilder<[String]> 
      */
     open class func getFulFillmentStatusesWithRequestBuilder() -> RequestBuilder<[String]> {
@@ -140,7 +232,6 @@ open class InvoicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[String]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -148,13 +239,12 @@ open class InvoicesAPI: APIBase {
 
     /**
      Retrieve an invoice
-     
      - parameter id: (path) The id of the invoice 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInvoice(id: Int32, completion: @escaping ((_ data: InvoiceResource?,_ error: Error?) -> Void)) {
+    open class func getInvoice(id: Int32, completion: @escaping ((_ data: InvoiceResource?, _ error: ErrorResponse?) -> Void)) {
         getInvoiceWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -166,73 +256,88 @@ open class InvoicesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "shipping_city_name" : "aeiou",
-  "order_notes" : "aeiou",
+  "shipping_city_name" : "shipping_city_name",
+  "order_notes" : "order_notes",
   "parent_invoice_id" : 1,
   "discount" : 6.027456183070403,
   "state_tax" : 4.965218492984954,
-  "cart_id" : "aeiou",
-  "name_prefix" : "aeiou",
-  "billing_postal_code" : "aeiou",
+  "cart_id" : "cart_id",
+  "name_prefix" : "name_prefix",
+  "billing_postal_code" : "billing_postal_code",
   "shipping" : 7.457744773683766,
-  "billing_state_name" : "aeiou",
-  "billing_country_name" : "aeiou",
-  "currency" : "aeiou",
-  "current_fulfillment_status" : "aeiou",
+  "billing_state_name" : "billing_state_name",
+  "billing_country_name" : "billing_country_name",
+  "currency" : "currency",
+  "current_fulfillment_status" : "current_fulfillment_status",
   "grand_total" : 5.962133916683182,
   "id" : 5,
-  "current_payment_status" : "aeiou",
-  "billing_address1" : "aeiou",
-  "invoice_number" : "aeiou",
-  "billing_address2" : "aeiou",
-  "email" : "aeiou",
-  "vendor_name" : "aeiou",
-  "billing_full_name" : "aeiou",
+  "current_payment_status" : "current_payment_status",
+  "billing_address1" : "billing_address1",
+  "invoice_number" : "invoice_number",
+  "billing_address2" : "billing_address2",
+  "email" : "email",
+  "vendor_name" : "vendor_name",
+  "billing_full_name" : "billing_full_name",
   "sort" : 1,
-  "shipping_full_name" : "aeiou",
+  "shipping_full_name" : "shipping_full_name",
   "fed_tax" : 1.4658129805029452,
   "payment_method_id" : 6,
-  "phone" : "aeiou",
-  "external_ref" : "aeiou",
-  "shipping_address2" : "aeiou",
+  "phone" : "phone",
+  "external_ref" : "external_ref",
+  "shipping_address2" : "shipping_address2",
   "subtotal" : 5.025004791520295,
-  "shipping_address1" : "aeiou",
-  "vendor_id" : 6,
-  "shipping_state_name" : "aeiou",
-  "billing_city_name" : "aeiou",
-  "phone_number" : "aeiou",
+  "shipping_address1" : "shipping_address1",
+  "vendor_id" : 9,
+  "shipping_state_name" : "shipping_state_name",
+  "billing_city_name" : "billing_city_name",
+  "phone_number" : "phone_number",
   "created_date" : 0,
-  "shipping_country_name" : "aeiou",
+  "shipping_country_name" : "shipping_country_name",
   "updated_date" : 9,
   "items" : [ {
-    "type_hint" : "aeiou",
+    "type_hint" : "type_hint",
     "total_price" : 1.2315135367772556,
     "item_id" : 9,
     "system_price" : 7.386281948385884,
-    "item_name" : "aeiou",
+    "item_name" : "item_name",
     "original_unit_price" : 2.027123023002322,
     "unit_price" : 1.0246457001441578,
     "qty" : 4,
     "invoice_id" : 7,
-    "current_fulfillment_status" : "aeiou",
+    "current_fulfillment_status" : "current_fulfillment_status",
     "id" : 2,
-    "sale_name" : "aeiou",
-    "bundle_sku" : "aeiou",
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
     "original_total_price" : 3.616076749251911,
-    "sku" : "aeiou",
-    "sku_description" : "aeiou"
+    "sku" : "sku",
+    "sku_description" : "sku_description"
+  }, {
+    "type_hint" : "type_hint",
+    "total_price" : 1.2315135367772556,
+    "item_id" : 9,
+    "system_price" : 7.386281948385884,
+    "item_name" : "item_name",
+    "original_unit_price" : 2.027123023002322,
+    "unit_price" : 1.0246457001441578,
+    "qty" : 4,
+    "invoice_id" : 7,
+    "current_fulfillment_status" : "current_fulfillment_status",
+    "id" : 2,
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
+    "original_total_price" : 3.616076749251911,
+    "sku" : "sku",
+    "sku_description" : "sku_description"
   } ],
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 9,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
-  "shipping_postal_code" : "aeiou"
+  "shipping_postal_code" : "shipping_postal_code"
 }}]
-     
      - parameter id: (path) The id of the invoice 
-
      - returns: RequestBuilder<InvoiceResource> 
      */
     open class func getInvoiceWithRequestBuilder(id: Int32) -> RequestBuilder<InvoiceResource> {
@@ -243,7 +348,6 @@ open class InvoicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<InvoiceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -251,15 +355,14 @@ open class InvoicesAPI: APIBase {
 
     /**
      List invoice logs
-     
      - parameter id: (path) The id of the invoice 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInvoiceLogs(id: Int32, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceInvoiceLogEntry?,_ error: Error?) -> Void)) {
+    open class func getInvoiceLogs(id: Int32, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceInvoiceLogEntry?, _ error: ErrorResponse?) -> Void)) {
         getInvoiceLogsWithRequestBuilder(id: id, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -278,8 +381,16 @@ open class InvoicesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
@@ -287,16 +398,19 @@ open class InvoicesAPI: APIBase {
   "content" : [ {
     "date" : 0,
     "invoice_id" : 6,
-    "message" : "aeiou",
-    "type" : "aeiou"
+    "message" : "message",
+    "type" : "type"
+  }, {
+    "date" : 0,
+    "invoice_id" : 6,
+    "message" : "message",
+    "type" : "type"
   } ],
   "first" : true
 }}]
-     
      - parameter id: (path) The id of the invoice 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceInvoiceLogEntry> 
      */
     open class func getInvoiceLogsWithRequestBuilder(id: Int32, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceInvoiceLogEntry> {
@@ -310,7 +424,6 @@ open class InvoicesAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceInvoiceLogEntry>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -319,7 +432,6 @@ open class InvoicesAPI: APIBase {
 
     /**
      Retrieve invoices
-     
      - parameter filterUser: (query) The id of a user to get invoices for. Automtically added if not being called with admin permissions. (optional)
      - parameter filterEmail: (query) Filters invoices by customer&#39;s email. Admins only. (optional)
      - parameter filterFulfillmentStatus: (query) Filters invoices by fulfillment status type. Can be a comma separated list of statuses (optional)
@@ -339,9 +451,9 @@ open class InvoicesAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInvoices(filterUser: Int32? = nil, filterEmail: String? = nil, filterFulfillmentStatus: String? = nil, filterPaymentStatus: String? = nil, filterItemName: String? = nil, filterExternalRef: String? = nil, filterCreatedDate: String? = nil, filterVendorIds: String? = nil, filterCurrency: String? = nil, filterShippingStateName: String? = nil, filterShippingCountryName: String? = nil, filterShipping: String? = nil, filterVendorName: String? = nil, filterSku: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceInvoiceResource?,_ error: Error?) -> Void)) {
+    open class func getInvoices(filterUser: Int32? = nil, filterEmail: String? = nil, filterFulfillmentStatus: String? = nil, filterPaymentStatus: String? = nil, filterItemName: String? = nil, filterExternalRef: String? = nil, filterCreatedDate: String? = nil, filterVendorIds: String? = nil, filterCurrency: String? = nil, filterShippingStateName: String? = nil, filterShippingCountryName: String? = nil, filterShipping: String? = nil, filterVendorName: String? = nil, filterSku: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceInvoiceResource?, _ error: ErrorResponse?) -> Void)) {
         getInvoicesWithRequestBuilder(filterUser: filterUser, filterEmail: filterEmail, filterFulfillmentStatus: filterFulfillmentStatus, filterPaymentStatus: filterPaymentStatus, filterItemName: filterItemName, filterExternalRef: filterExternalRef, filterCreatedDate: filterCreatedDate, filterVendorIds: filterVendorIds, filterCurrency: filterCurrency, filterShippingStateName: filterShippingStateName, filterShippingCountryName: filterShippingCountryName, filterShipping: filterShipping, filterVendorName: filterVendorName, filterSku: filterSku, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -354,87 +466,192 @@ open class InvoicesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 8,
+  "number" : 6,
   "last" : true,
-  "size" : 6,
-  "total_elements" : 3,
+  "size" : 9,
+  "total_elements" : 6,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 6,
-  "number_of_elements" : 9,
+  "total_pages" : 3,
+  "number_of_elements" : 8,
   "content" : [ {
-    "shipping_city_name" : "aeiou",
-    "order_notes" : "aeiou",
+    "shipping_city_name" : "shipping_city_name",
+    "order_notes" : "order_notes",
     "parent_invoice_id" : 1,
     "discount" : 6.027456183070403,
     "state_tax" : 4.965218492984954,
-    "cart_id" : "aeiou",
-    "name_prefix" : "aeiou",
-    "billing_postal_code" : "aeiou",
+    "cart_id" : "cart_id",
+    "name_prefix" : "name_prefix",
+    "billing_postal_code" : "billing_postal_code",
     "shipping" : 7.457744773683766,
-    "billing_state_name" : "aeiou",
-    "billing_country_name" : "aeiou",
-    "currency" : "aeiou",
-    "current_fulfillment_status" : "aeiou",
+    "billing_state_name" : "billing_state_name",
+    "billing_country_name" : "billing_country_name",
+    "currency" : "currency",
+    "current_fulfillment_status" : "current_fulfillment_status",
     "grand_total" : 5.962133916683182,
     "id" : 5,
-    "current_payment_status" : "aeiou",
-    "billing_address1" : "aeiou",
-    "invoice_number" : "aeiou",
-    "billing_address2" : "aeiou",
-    "email" : "aeiou",
-    "vendor_name" : "aeiou",
-    "billing_full_name" : "aeiou",
+    "current_payment_status" : "current_payment_status",
+    "billing_address1" : "billing_address1",
+    "invoice_number" : "invoice_number",
+    "billing_address2" : "billing_address2",
+    "email" : "email",
+    "vendor_name" : "vendor_name",
+    "billing_full_name" : "billing_full_name",
     "sort" : 1,
-    "shipping_full_name" : "aeiou",
+    "shipping_full_name" : "shipping_full_name",
     "fed_tax" : 1.4658129805029452,
     "payment_method_id" : 6,
-    "phone" : "aeiou",
-    "external_ref" : "aeiou",
-    "shipping_address2" : "aeiou",
+    "phone" : "phone",
+    "external_ref" : "external_ref",
+    "shipping_address2" : "shipping_address2",
     "subtotal" : 5.025004791520295,
-    "shipping_address1" : "aeiou",
-    "vendor_id" : 6,
-    "shipping_state_name" : "aeiou",
-    "billing_city_name" : "aeiou",
-    "phone_number" : "aeiou",
+    "shipping_address1" : "shipping_address1",
+    "vendor_id" : 9,
+    "shipping_state_name" : "shipping_state_name",
+    "billing_city_name" : "billing_city_name",
+    "phone_number" : "phone_number",
     "created_date" : 0,
-    "shipping_country_name" : "aeiou",
+    "shipping_country_name" : "shipping_country_name",
     "updated_date" : 9,
     "items" : [ {
-      "type_hint" : "aeiou",
+      "type_hint" : "type_hint",
       "total_price" : 1.2315135367772556,
       "item_id" : 9,
       "system_price" : 7.386281948385884,
-      "item_name" : "aeiou",
+      "item_name" : "item_name",
       "original_unit_price" : 2.027123023002322,
       "unit_price" : 1.0246457001441578,
       "qty" : 4,
       "invoice_id" : 7,
-      "current_fulfillment_status" : "aeiou",
+      "current_fulfillment_status" : "current_fulfillment_status",
       "id" : 2,
-      "sale_name" : "aeiou",
-      "bundle_sku" : "aeiou",
+      "sale_name" : "sale_name",
+      "bundle_sku" : "bundle_sku",
       "original_total_price" : 3.616076749251911,
-      "sku" : "aeiou",
-      "sku_description" : "aeiou"
+      "sku" : "sku",
+      "sku_description" : "sku_description"
+    }, {
+      "type_hint" : "type_hint",
+      "total_price" : 1.2315135367772556,
+      "item_id" : 9,
+      "system_price" : 7.386281948385884,
+      "item_name" : "item_name",
+      "original_unit_price" : 2.027123023002322,
+      "unit_price" : 1.0246457001441578,
+      "qty" : 4,
+      "invoice_id" : 7,
+      "current_fulfillment_status" : "current_fulfillment_status",
+      "id" : 2,
+      "sale_name" : "sale_name",
+      "bundle_sku" : "bundle_sku",
+      "original_total_price" : 3.616076749251911,
+      "sku" : "sku",
+      "sku_description" : "sku_description"
     } ],
     "user" : {
-      "avatar_url" : "aeiou",
-      "id" : 9,
-      "display_name" : "aeiou",
-      "username" : "aeiou"
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
     },
-    "shipping_postal_code" : "aeiou"
+    "shipping_postal_code" : "shipping_postal_code"
+  }, {
+    "shipping_city_name" : "shipping_city_name",
+    "order_notes" : "order_notes",
+    "parent_invoice_id" : 1,
+    "discount" : 6.027456183070403,
+    "state_tax" : 4.965218492984954,
+    "cart_id" : "cart_id",
+    "name_prefix" : "name_prefix",
+    "billing_postal_code" : "billing_postal_code",
+    "shipping" : 7.457744773683766,
+    "billing_state_name" : "billing_state_name",
+    "billing_country_name" : "billing_country_name",
+    "currency" : "currency",
+    "current_fulfillment_status" : "current_fulfillment_status",
+    "grand_total" : 5.962133916683182,
+    "id" : 5,
+    "current_payment_status" : "current_payment_status",
+    "billing_address1" : "billing_address1",
+    "invoice_number" : "invoice_number",
+    "billing_address2" : "billing_address2",
+    "email" : "email",
+    "vendor_name" : "vendor_name",
+    "billing_full_name" : "billing_full_name",
+    "sort" : 1,
+    "shipping_full_name" : "shipping_full_name",
+    "fed_tax" : 1.4658129805029452,
+    "payment_method_id" : 6,
+    "phone" : "phone",
+    "external_ref" : "external_ref",
+    "shipping_address2" : "shipping_address2",
+    "subtotal" : 5.025004791520295,
+    "shipping_address1" : "shipping_address1",
+    "vendor_id" : 9,
+    "shipping_state_name" : "shipping_state_name",
+    "billing_city_name" : "billing_city_name",
+    "phone_number" : "phone_number",
+    "created_date" : 0,
+    "shipping_country_name" : "shipping_country_name",
+    "updated_date" : 9,
+    "items" : [ {
+      "type_hint" : "type_hint",
+      "total_price" : 1.2315135367772556,
+      "item_id" : 9,
+      "system_price" : 7.386281948385884,
+      "item_name" : "item_name",
+      "original_unit_price" : 2.027123023002322,
+      "unit_price" : 1.0246457001441578,
+      "qty" : 4,
+      "invoice_id" : 7,
+      "current_fulfillment_status" : "current_fulfillment_status",
+      "id" : 2,
+      "sale_name" : "sale_name",
+      "bundle_sku" : "bundle_sku",
+      "original_total_price" : 3.616076749251911,
+      "sku" : "sku",
+      "sku_description" : "sku_description"
+    }, {
+      "type_hint" : "type_hint",
+      "total_price" : 1.2315135367772556,
+      "item_id" : 9,
+      "system_price" : 7.386281948385884,
+      "item_name" : "item_name",
+      "original_unit_price" : 2.027123023002322,
+      "unit_price" : 1.0246457001441578,
+      "qty" : 4,
+      "invoice_id" : 7,
+      "current_fulfillment_status" : "current_fulfillment_status",
+      "id" : 2,
+      "sale_name" : "sale_name",
+      "bundle_sku" : "bundle_sku",
+      "original_total_price" : 3.616076749251911,
+      "sku" : "sku",
+      "sku_description" : "sku_description"
+    } ],
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "shipping_postal_code" : "shipping_postal_code"
   } ],
   "first" : true
 }}]
-     
      - parameter filterUser: (query) The id of a user to get invoices for. Automtically added if not being called with admin permissions. (optional)
      - parameter filterEmail: (query) Filters invoices by customer&#39;s email. Admins only. (optional)
      - parameter filterFulfillmentStatus: (query) Filters invoices by fulfillment status type. Can be a comma separated list of statuses (optional)
@@ -452,7 +669,6 @@ open class InvoicesAPI: APIBase {
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceInvoiceResource> 
      */
     open class func getInvoicesWithRequestBuilder(filterUser: Int32? = nil, filterEmail: String? = nil, filterFulfillmentStatus: String? = nil, filterPaymentStatus: String? = nil, filterItemName: String? = nil, filterExternalRef: String? = nil, filterCreatedDate: String? = nil, filterVendorIds: String? = nil, filterCurrency: String? = nil, filterShippingStateName: String? = nil, filterShippingCountryName: String? = nil, filterShipping: String? = nil, filterVendorName: String? = nil, filterSku: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceInvoiceResource> {
@@ -480,7 +696,6 @@ open class InvoicesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceInvoiceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -489,12 +704,11 @@ open class InvoicesAPI: APIBase {
 
     /**
      Lists available payment statuses
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getPaymentStatuses(completion: @escaping ((_ data: [String]?,_ error: Error?) -> Void)) {
+    open class func getPaymentStatuses(completion: @escaping ((_ data: [String]?, _ error: ErrorResponse?) -> Void)) {
         getPaymentStatusesWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -502,8 +716,8 @@ open class InvoicesAPI: APIBase {
     /**
      Lists available payment statuses
      - GET /invoices/payment-statuses
-     - examples: [{contentType=application/json, example=[ "aeiou" ]}]
 
+     - examples: [{contentType=application/json, example=[ "", "" ]}]
      - returns: RequestBuilder<[String]> 
      */
     open class func getPaymentStatusesWithRequestBuilder() -> RequestBuilder<[String]> {
@@ -513,36 +727,32 @@ open class InvoicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[String]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
-     Trigger payment of an invoice
-     
+     Pay an invoice using a saved payment method
      - parameter id: (path) The id of the invoice 
-     - parameter request: (body) Payment info (optional)
+     - parameter request: (body) The payment method details. Will default to the appropriate user&#39;s wallet in the invoice currency if ommited. (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func payInvoice(id: Int32, request: PayBySavedMethodRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func payInvoice(id: Int32, request: PayBySavedMethodRequest? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         payInvoiceWithRequestBuilder(id: id, request: request).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
 
     /**
-     Trigger payment of an invoice
+     Pay an invoice using a saved payment method
      - POST /invoices/{id}/payments
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the invoice 
-     - parameter request: (body) Payment info (optional)
-
+     - parameter request: (body) The payment method details. Will default to the appropriate user&#39;s wallet in the invoice currency if ommited. (optional)
      - returns: RequestBuilder<Void> 
      */
     open class func payInvoiceWithRequestBuilder(id: Int32, request: PayBySavedMethodRequest? = nil) -> RequestBuilder<Void> {
@@ -553,7 +763,6 @@ open class InvoicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -561,16 +770,15 @@ open class InvoicesAPI: APIBase {
 
     /**
      Set the fulfillment status of a bundled invoice item
-     
      - parameter id: (path) The id of the invoice 
      - parameter bundleSku: (path) The sku of the bundle in the invoice that contains the given target 
      - parameter sku: (path) The sku of an item in the bundle in the invoice 
      - parameter status: (body) The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setBundledInvoiceItemFulfillmentStatus(id: Int32, bundleSku: String, sku: String, status: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setBundledInvoiceItemFulfillmentStatus(id: Int32, bundleSku: String, sku: String, status: StringWrapper, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setBundledInvoiceItemFulfillmentStatusWithRequestBuilder(id: id, bundleSku: bundleSku, sku: sku, status: status).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -582,15 +790,13 @@ open class InvoicesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the invoice 
      - parameter bundleSku: (path) The sku of the bundle in the invoice that contains the given target 
      - parameter sku: (path) The sku of an item in the bundle in the invoice 
      - parameter status: (body) The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; 
-
      - returns: RequestBuilder<Void> 
      */
-    open class func setBundledInvoiceItemFulfillmentStatusWithRequestBuilder(id: Int32, bundleSku: String, sku: String, status: String) -> RequestBuilder<Void> {
+    open class func setBundledInvoiceItemFulfillmentStatusWithRequestBuilder(id: Int32, bundleSku: String, sku: String, status: StringWrapper) -> RequestBuilder<Void> {
         var path = "/invoices/{id}/items/{bundleSku}/bundled-skus/{sku}/fulfillment-status"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{bundleSku}", with: "\(bundleSku)", options: .literal, range: nil)
@@ -600,7 +806,6 @@ open class InvoicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -608,14 +813,13 @@ open class InvoicesAPI: APIBase {
 
     /**
      Set the external reference of an invoice
-     
      - parameter id: (path) The id of the invoice 
      - parameter externalRef: (body) External reference info (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setExternalRef(id: Int32, externalRef: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setExternalRef(id: Int32, externalRef: StringWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setExternalRefWithRequestBuilder(id: id, externalRef: externalRef).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -626,20 +830,17 @@ open class InvoicesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the invoice 
      - parameter externalRef: (body) External reference info (optional)
-
      - returns: RequestBuilder<Void> 
      */
-    open class func setExternalRefWithRequestBuilder(id: Int32, externalRef: String? = nil) -> RequestBuilder<Void> {
+    open class func setExternalRefWithRequestBuilder(id: Int32, externalRef: StringWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/invoices/{id}/external-ref"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = externalRef?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -648,15 +849,14 @@ open class InvoicesAPI: APIBase {
 
     /**
      Set the fulfillment status of an invoice item
-     
      - parameter id: (path) The id of the invoice 
      - parameter sku: (path) The sku of an item in the invoice 
      - parameter status: (body) The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setInvoiceItemFulfillmentStatus(id: Int32, sku: String, status: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setInvoiceItemFulfillmentStatus(id: Int32, sku: String, status: StringWrapper, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setInvoiceItemFulfillmentStatusWithRequestBuilder(id: id, sku: sku, status: status).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -668,14 +868,12 @@ open class InvoicesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the invoice 
      - parameter sku: (path) The sku of an item in the invoice 
      - parameter status: (body) The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; 
-
      - returns: RequestBuilder<Void> 
      */
-    open class func setInvoiceItemFulfillmentStatusWithRequestBuilder(id: Int32, sku: String, status: String) -> RequestBuilder<Void> {
+    open class func setInvoiceItemFulfillmentStatusWithRequestBuilder(id: Int32, sku: String, status: StringWrapper) -> RequestBuilder<Void> {
         var path = "/invoices/{id}/items/{sku}/fulfillment-status"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{sku}", with: "\(sku)", options: .literal, range: nil)
@@ -684,7 +882,6 @@ open class InvoicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -692,14 +889,13 @@ open class InvoicesAPI: APIBase {
 
     /**
      Set the order notes of an invoice
-     
      - parameter id: (path) The id of the invoice 
      - parameter orderNotes: (body) Payment status info (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setOrderNotes(id: Int32, orderNotes: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setOrderNotes(id: Int32, orderNotes: StringWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setOrderNotesWithRequestBuilder(id: id, orderNotes: orderNotes).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -710,20 +906,17 @@ open class InvoicesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the invoice 
      - parameter orderNotes: (body) Payment status info (optional)
-
      - returns: RequestBuilder<Void> 
      */
-    open class func setOrderNotesWithRequestBuilder(id: Int32, orderNotes: String? = nil) -> RequestBuilder<Void> {
+    open class func setOrderNotesWithRequestBuilder(id: Int32, orderNotes: StringWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/invoices/{id}/order-notes"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = orderNotes?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -732,14 +925,13 @@ open class InvoicesAPI: APIBase {
 
     /**
      Set the payment status of an invoice
-     
      - parameter id: (path) The id of the invoice 
      - parameter request: (body) Payment status info (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setPaymentStatus(id: Int32, request: InvoicePaymentStatusRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setPaymentStatus(id: Int32, request: InvoicePaymentStatusRequest? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setPaymentStatusWithRequestBuilder(id: id, request: request).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -751,10 +943,8 @@ open class InvoicesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the invoice 
      - parameter request: (body) Payment status info (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func setPaymentStatusWithRequestBuilder(id: Int32, request: InvoicePaymentStatusRequest? = nil) -> RequestBuilder<Void> {
@@ -765,7 +955,6 @@ open class InvoicesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -773,14 +962,13 @@ open class InvoicesAPI: APIBase {
 
     /**
      Set or update billing info
-     
      - parameter id: (path) The id of the invoice 
      - parameter billingInfoRequest: (body) Address info (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateBillingInfo(id: Int32, billingInfoRequest: AddressResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateBillingInfo(id: Int32, billingInfoRequest: AddressResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateBillingInfoWithRequestBuilder(id: id, billingInfoRequest: billingInfoRequest).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -791,10 +979,8 @@ open class InvoicesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the invoice 
      - parameter billingInfoRequest: (body) Address info (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateBillingInfoWithRequestBuilder(id: Int32, billingInfoRequest: AddressResource? = nil) -> RequestBuilder<Void> {
@@ -804,7 +990,6 @@ open class InvoicesAPI: APIBase {
         let parameters = billingInfoRequest?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

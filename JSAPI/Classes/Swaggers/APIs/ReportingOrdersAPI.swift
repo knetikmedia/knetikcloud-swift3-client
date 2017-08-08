@@ -9,7 +9,6 @@ import Foundation
 import Alamofire
 
 
-
 open class ReportingOrdersAPI: APIBase {
     /**
      * enum for parameter granularity
@@ -27,7 +26,6 @@ open class ReportingOrdersAPI: APIBase {
 
     /**
      Retrieve invoice counts aggregated by time ranges
-     
      - parameter currencyCode: (path) The code for a currency to get sales data for 
      - parameter granularity: (query) The time duration to aggregate by (optional, default to day)
      - parameter filterPaymentStatus: (query) A payment status to filter results by, can be a comma separated list (optional)
@@ -38,9 +36,9 @@ open class ReportingOrdersAPI: APIBase {
      - parameter page: (query) The number of the page returned (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInvoiceReports(currencyCode: String, granularity: Granularity_getInvoiceReports? = nil, filterPaymentStatus: String? = nil, filterFulfillmentStatus: String? = nil, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceAggregateInvoiceReportResource?,_ error: Error?) -> Void)) {
+    open class func getInvoiceReports(currencyCode: String, granularity: Granularity_getInvoiceReports? = nil, filterPaymentStatus: String? = nil, filterFulfillmentStatus: String? = nil, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceAggregateInvoiceReportResource?, _ error: ErrorResponse?) -> Void)) {
         getInvoiceReportsWithRequestBuilder(currencyCode: currencyCode, granularity: granularity, filterPaymentStatus: filterPaymentStatus, filterFulfillmentStatus: filterFulfillmentStatus, startDate: startDate, endDate: endDate, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -59,21 +57,33 @@ open class ReportingOrdersAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 9,
   "number_of_elements" : 5,
   "content" : [ {
-    "date" : "aeiou",
+    "date" : "date",
+    "revenue" : 6.027456183070403,
+    "user_count" : 1,
+    "count" : 0
+  }, {
+    "date" : "date",
     "revenue" : 6.027456183070403,
     "user_count" : 1,
     "count" : 0
   } ],
   "first" : true
 }}]
-     
      - parameter currencyCode: (path) The code for a currency to get sales data for 
      - parameter granularity: (query) The time duration to aggregate by (optional, default to day)
      - parameter filterPaymentStatus: (query) A payment status to filter results by, can be a comma separated list (optional)
@@ -82,7 +92,6 @@ open class ReportingOrdersAPI: APIBase {
      - parameter endDate: (query) The end of the time range to return, unix timestamp in seconds. Default is end of time (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceAggregateInvoiceReportResource> 
      */
     open class func getInvoiceReportsWithRequestBuilder(currencyCode: String, granularity: Granularity_getInvoiceReports? = nil, filterPaymentStatus: String? = nil, filterFulfillmentStatus: String? = nil, startDate: Int64? = nil, endDate: Int64? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceAggregateInvoiceReportResource> {
@@ -101,7 +110,6 @@ open class ReportingOrdersAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceAggregateInvoiceReportResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

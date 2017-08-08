@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class BRERuleEngineGlobalsAPI: APIBase {
     /**
      Create a global definition
-     
      - parameter breGlobalResource: (body) The BRE global resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createBREGlobal(breGlobalResource: BreGlobalResource? = nil, completion: @escaping ((_ data: BreGlobalResource?,_ error: Error?) -> Void)) {
+    open class func createBREGlobal(breGlobalResource: BreGlobalResource? = nil, completion: @escaping ((_ data: BreGlobalResource?, _ error: ErrorResponse?) -> Void)) {
         createBREGlobalWithRequestBuilder(breGlobalResource: breGlobalResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,20 +30,21 @@ open class BRERuleEngineGlobalsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "id" : "aeiou",
+  "name" : "name",
+  "description" : "description",
+  "id" : "id",
   "scopes" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou"
+    "name" : "name",
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "type" : "type"
   } ],
   "system_global" : false,
-  "type" : "aeiou",
-  "key" : "aeiou"
+  "type" : "type",
+  "key" : "key"
 }}]
-     
      - parameter breGlobalResource: (body) The BRE global resource object (optional)
-
      - returns: RequestBuilder<BreGlobalResource> 
      */
     open class func createBREGlobalWithRequestBuilder(breGlobalResource: BreGlobalResource? = nil) -> RequestBuilder<BreGlobalResource> {
@@ -55,7 +54,6 @@ open class BRERuleEngineGlobalsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<BreGlobalResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -63,13 +61,12 @@ open class BRERuleEngineGlobalsAPI: APIBase {
 
     /**
      Delete a global
-     
      - parameter id: (path) The id of the global definition 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteBREGlobal(id: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteBREGlobal(id: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteBREGlobalWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -81,9 +78,7 @@ open class BRERuleEngineGlobalsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the global definition 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteBREGlobalWithRequestBuilder(id: String) -> RequestBuilder<Void> {
@@ -94,7 +89,6 @@ open class BRERuleEngineGlobalsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -102,13 +96,12 @@ open class BRERuleEngineGlobalsAPI: APIBase {
 
     /**
      Get a single global definition
-     
      - parameter id: (path) The id of the global definition 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBREGlobal(id: String, completion: @escaping ((_ data: BreGlobalResource?,_ error: Error?) -> Void)) {
+    open class func getBREGlobal(id: String, completion: @escaping ((_ data: BreGlobalResource?, _ error: ErrorResponse?) -> Void)) {
         getBREGlobalWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -120,20 +113,21 @@ open class BRERuleEngineGlobalsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "id" : "aeiou",
+  "name" : "name",
+  "description" : "description",
+  "id" : "id",
   "scopes" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou"
+    "name" : "name",
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "type" : "type"
   } ],
   "system_global" : false,
-  "type" : "aeiou",
-  "key" : "aeiou"
+  "type" : "type",
+  "key" : "key"
 }}]
-     
      - parameter id: (path) The id of the global definition 
-
      - returns: RequestBuilder<BreGlobalResource> 
      */
     open class func getBREGlobalWithRequestBuilder(id: String) -> RequestBuilder<BreGlobalResource> {
@@ -144,7 +138,6 @@ open class BRERuleEngineGlobalsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<BreGlobalResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -152,15 +145,14 @@ open class BRERuleEngineGlobalsAPI: APIBase {
 
     /**
      List global definitions
-     
      - parameter filterSystem: (query) Filter for globals that are system globals when true, or not when false. Leave off for both mixed (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBREGlobals(filterSystem: Bool? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceBreGlobalResource?,_ error: Error?) -> Void)) {
+    open class func getBREGlobals(filterSystem: Bool? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceBreGlobalResource?, _ error: ErrorResponse?) -> Void)) {
         getBREGlobalsWithRequestBuilder(filterSystem: filterSystem, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -179,31 +171,54 @@ open class BRERuleEngineGlobalsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 5,
   "number_of_elements" : 6,
   "content" : [ {
-    "name" : "aeiou",
-    "description" : "aeiou",
-    "id" : "aeiou",
+    "name" : "name",
+    "description" : "description",
+    "id" : "id",
     "scopes" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou"
+      "name" : "name",
+      "type" : "type"
+    }, {
+      "name" : "name",
+      "type" : "type"
     } ],
     "system_global" : false,
-    "type" : "aeiou",
-    "key" : "aeiou"
+    "type" : "type",
+    "key" : "key"
+  }, {
+    "name" : "name",
+    "description" : "description",
+    "id" : "id",
+    "scopes" : [ {
+      "name" : "name",
+      "type" : "type"
+    }, {
+      "name" : "name",
+      "type" : "type"
+    } ],
+    "system_global" : false,
+    "type" : "type",
+    "key" : "key"
   } ],
   "first" : true
 }}]
-     
      - parameter filterSystem: (query) Filter for globals that are system globals when true, or not when false. Leave off for both mixed (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceBreGlobalResource> 
      */
     open class func getBREGlobalsWithRequestBuilder(filterSystem: Bool? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceBreGlobalResource> {
@@ -217,7 +232,6 @@ open class BRERuleEngineGlobalsAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceBreGlobalResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -226,14 +240,13 @@ open class BRERuleEngineGlobalsAPI: APIBase {
 
     /**
      Update a global definition
-     
      - parameter id: (path) The id of the global definition 
      - parameter breGlobalResource: (body) The BRE global resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateBREGlobal(id: String, breGlobalResource: BreGlobalResource? = nil, completion: @escaping ((_ data: BreGlobalResource?,_ error: Error?) -> Void)) {
+    open class func updateBREGlobal(id: String, breGlobalResource: BreGlobalResource? = nil, completion: @escaping ((_ data: BreGlobalResource?, _ error: ErrorResponse?) -> Void)) {
         updateBREGlobalWithRequestBuilder(id: id, breGlobalResource: breGlobalResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -246,21 +259,22 @@ open class BRERuleEngineGlobalsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "id" : "aeiou",
+  "name" : "name",
+  "description" : "description",
+  "id" : "id",
   "scopes" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou"
+    "name" : "name",
+    "type" : "type"
+  }, {
+    "name" : "name",
+    "type" : "type"
   } ],
   "system_global" : false,
-  "type" : "aeiou",
-  "key" : "aeiou"
+  "type" : "type",
+  "key" : "key"
 }}]
-     
      - parameter id: (path) The id of the global definition 
      - parameter breGlobalResource: (body) The BRE global resource object (optional)
-
      - returns: RequestBuilder<BreGlobalResource> 
      */
     open class func updateBREGlobalWithRequestBuilder(id: String, breGlobalResource: BreGlobalResource? = nil) -> RequestBuilder<BreGlobalResource> {
@@ -270,7 +284,6 @@ open class BRERuleEngineGlobalsAPI: APIBase {
         let parameters = breGlobalResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<BreGlobalResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

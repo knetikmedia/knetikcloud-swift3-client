@@ -12,6 +12,8 @@ open class AmazonS3Activity: JSONEncodable {
 
     /** S3 action (i.e., &#39;PUT&#39;) associated with the activity */
     public var action: String?
+    /** URL for accessing the resource via CDN if configured (will default to the main url if not) */
+    public var cdnUrl: String?
     /** Date the resource was created in S3 */
     public var createdDate: Int64?
     /** Name of the file being processed as a resource in S3 */
@@ -20,7 +22,7 @@ open class AmazonS3Activity: JSONEncodable {
     public var id: Int64?
     /** S3 object key for the resource */
     public var objectKey: String?
-    /** URL for accessing the S3 resource */
+    /** URL for posting and later accessing the S3 resource */
     public var url: String?
     /** The id of the user that created this S3 activity */
     public var userId: Int32?
@@ -31,6 +33,7 @@ open class AmazonS3Activity: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["action"] = self.action
+        nillableDictionary["cdn_url"] = self.cdnUrl
         nillableDictionary["created_date"] = self.createdDate?.encodeToJSON()
         nillableDictionary["filename"] = self.filename
         nillableDictionary["id"] = self.id?.encodeToJSON()

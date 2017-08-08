@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class SocialGoogleAPI: APIBase {
     /**
      Link google account
-     
      - parameter googleToken: (body) The token from google (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func linkAccounts1(googleToken: GoogleToken? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func linkAccounts1(googleToken: GoogleToken? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         linkAccounts1WithRequestBuilder(googleToken: googleToken).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -31,9 +29,7 @@ open class SocialGoogleAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter googleToken: (body) The token from google (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func linkAccounts1WithRequestBuilder(googleToken: GoogleToken? = nil) -> RequestBuilder<Void> {
@@ -42,7 +38,6 @@ open class SocialGoogleAPI: APIBase {
         let parameters = googleToken?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

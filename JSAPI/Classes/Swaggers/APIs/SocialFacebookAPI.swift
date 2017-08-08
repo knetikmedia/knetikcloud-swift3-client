@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class SocialFacebookAPI: APIBase {
     /**
      Link facebook account
-     
      - parameter facebookToken: (body) The token from facebook (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func linkAccounts(facebookToken: FacebookToken? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func linkAccounts(facebookToken: FacebookToken? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         linkAccountsWithRequestBuilder(facebookToken: facebookToken).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -31,9 +29,7 @@ open class SocialFacebookAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter facebookToken: (body) The token from facebook (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func linkAccountsWithRequestBuilder(facebookToken: FacebookToken? = nil) -> RequestBuilder<Void> {
@@ -42,7 +38,6 @@ open class SocialFacebookAPI: APIBase {
         let parameters = facebookToken?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

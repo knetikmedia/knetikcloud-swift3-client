@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class BRERuleEngineEventsAPI: APIBase {
     /**
      Fire a new event, based on an existing trigger
-     
      - parameter breEvent: (body) The BRE event object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func sendBREEvent(breEvent: BreEvent? = nil, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
+    open class func sendBREEvent(breEvent: BreEvent? = nil, completion: @escaping ((_ data: String?, _ error: ErrorResponse?) -> Void)) {
         sendBREEventWithRequestBuilder(breEvent: breEvent).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -31,10 +29,8 @@ open class BRERuleEngineEventsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example="aeiou"}]
-     
+     - examples: [{contentType=application/json, example=""}]
      - parameter breEvent: (body) The BRE event object (optional)
-
      - returns: RequestBuilder<String> 
      */
     open class func sendBREEventWithRequestBuilder(breEvent: BreEvent? = nil) -> RequestBuilder<String> {
@@ -43,7 +39,6 @@ open class BRERuleEngineEventsAPI: APIBase {
         let parameters = breEvent?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<String>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

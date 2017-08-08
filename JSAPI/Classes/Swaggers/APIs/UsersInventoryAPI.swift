@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class UsersInventoryAPI: APIBase {
     /**
      Adds an item to the user inventory
-     
      - parameter id: (path) The id of the user 
      - parameter userInventoryAddRequest: (body) The user inventory add request object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addItemToUserInventory(id: Int32, userInventoryAddRequest: UserInventoryAddRequest? = nil, completion: @escaping ((_ data: InvoiceResource?,_ error: Error?) -> Void)) {
+    open class func addItemToUserInventory(id: Int32, userInventoryAddRequest: UserInventoryAddRequest? = nil, completion: @escaping ((_ data: InvoiceResource?, _ error: ErrorResponse?) -> Void)) {
         addItemToUserInventoryWithRequestBuilder(id: id, userInventoryAddRequest: userInventoryAddRequest).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -33,74 +31,89 @@ open class UsersInventoryAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "shipping_city_name" : "aeiou",
-  "order_notes" : "aeiou",
+  "shipping_city_name" : "shipping_city_name",
+  "order_notes" : "order_notes",
   "parent_invoice_id" : 1,
   "discount" : 6.027456183070403,
   "state_tax" : 4.965218492984954,
-  "cart_id" : "aeiou",
-  "name_prefix" : "aeiou",
-  "billing_postal_code" : "aeiou",
+  "cart_id" : "cart_id",
+  "name_prefix" : "name_prefix",
+  "billing_postal_code" : "billing_postal_code",
   "shipping" : 7.457744773683766,
-  "billing_state_name" : "aeiou",
-  "billing_country_name" : "aeiou",
-  "currency" : "aeiou",
-  "current_fulfillment_status" : "aeiou",
+  "billing_state_name" : "billing_state_name",
+  "billing_country_name" : "billing_country_name",
+  "currency" : "currency",
+  "current_fulfillment_status" : "current_fulfillment_status",
   "grand_total" : 5.962133916683182,
   "id" : 5,
-  "current_payment_status" : "aeiou",
-  "billing_address1" : "aeiou",
-  "invoice_number" : "aeiou",
-  "billing_address2" : "aeiou",
-  "email" : "aeiou",
-  "vendor_name" : "aeiou",
-  "billing_full_name" : "aeiou",
+  "current_payment_status" : "current_payment_status",
+  "billing_address1" : "billing_address1",
+  "invoice_number" : "invoice_number",
+  "billing_address2" : "billing_address2",
+  "email" : "email",
+  "vendor_name" : "vendor_name",
+  "billing_full_name" : "billing_full_name",
   "sort" : 1,
-  "shipping_full_name" : "aeiou",
+  "shipping_full_name" : "shipping_full_name",
   "fed_tax" : 1.4658129805029452,
   "payment_method_id" : 6,
-  "phone" : "aeiou",
-  "external_ref" : "aeiou",
-  "shipping_address2" : "aeiou",
+  "phone" : "phone",
+  "external_ref" : "external_ref",
+  "shipping_address2" : "shipping_address2",
   "subtotal" : 5.025004791520295,
-  "shipping_address1" : "aeiou",
-  "vendor_id" : 6,
-  "shipping_state_name" : "aeiou",
-  "billing_city_name" : "aeiou",
-  "phone_number" : "aeiou",
+  "shipping_address1" : "shipping_address1",
+  "vendor_id" : 9,
+  "shipping_state_name" : "shipping_state_name",
+  "billing_city_name" : "billing_city_name",
+  "phone_number" : "phone_number",
   "created_date" : 0,
-  "shipping_country_name" : "aeiou",
+  "shipping_country_name" : "shipping_country_name",
   "updated_date" : 9,
   "items" : [ {
-    "type_hint" : "aeiou",
+    "type_hint" : "type_hint",
     "total_price" : 1.2315135367772556,
     "item_id" : 9,
     "system_price" : 7.386281948385884,
-    "item_name" : "aeiou",
+    "item_name" : "item_name",
     "original_unit_price" : 2.027123023002322,
     "unit_price" : 1.0246457001441578,
     "qty" : 4,
     "invoice_id" : 7,
-    "current_fulfillment_status" : "aeiou",
+    "current_fulfillment_status" : "current_fulfillment_status",
     "id" : 2,
-    "sale_name" : "aeiou",
-    "bundle_sku" : "aeiou",
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
     "original_total_price" : 3.616076749251911,
-    "sku" : "aeiou",
-    "sku_description" : "aeiou"
+    "sku" : "sku",
+    "sku_description" : "sku_description"
+  }, {
+    "type_hint" : "type_hint",
+    "total_price" : 1.2315135367772556,
+    "item_id" : 9,
+    "system_price" : 7.386281948385884,
+    "item_name" : "item_name",
+    "original_unit_price" : 2.027123023002322,
+    "unit_price" : 1.0246457001441578,
+    "qty" : 4,
+    "invoice_id" : 7,
+    "current_fulfillment_status" : "current_fulfillment_status",
+    "id" : 2,
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
+    "original_total_price" : 3.616076749251911,
+    "sku" : "sku",
+    "sku_description" : "sku_description"
   } ],
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 9,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
-  "shipping_postal_code" : "aeiou"
+  "shipping_postal_code" : "shipping_postal_code"
 }}]
-     
      - parameter id: (path) The id of the user 
      - parameter userInventoryAddRequest: (body) The user inventory add request object (optional)
-
      - returns: RequestBuilder<InvoiceResource> 
      */
     open class func addItemToUserInventoryWithRequestBuilder(id: Int32, userInventoryAddRequest: UserInventoryAddRequest? = nil) -> RequestBuilder<InvoiceResource> {
@@ -111,7 +124,6 @@ open class UsersInventoryAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<InvoiceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -119,15 +131,14 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Check for access to an item without consuming
-     
      - parameter userId: (path) The id of the user to check for or &#39;me&#39; for logged in user 
      - parameter itemId: (path) The id of the item 
      - parameter sku: (query) The specific sku of an entitlement list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func checkUserEntitlementItem(userId: String, itemId: Int32, sku: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func checkUserEntitlementItem(userId: String, itemId: Int32, sku: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         checkUserEntitlementItemWithRequestBuilder(userId: userId, itemId: itemId, sku: sku).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -139,11 +150,9 @@ open class UsersInventoryAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user to check for or &#39;me&#39; for logged in user 
      - parameter itemId: (path) The id of the item 
      - parameter sku: (query) The specific sku of an entitlement list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func checkUserEntitlementItemWithRequestBuilder(userId: String, itemId: Int32, sku: String? = nil) -> RequestBuilder<Void> {
@@ -157,7 +166,6 @@ open class UsersInventoryAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "sku": sku
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -166,14 +174,13 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Create an entitlement item
-     
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter entitlementItem: (body) The entitlement item object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createEntitlementItem(cascade: Bool? = nil, entitlementItem: EntitlementItem? = nil, completion: @escaping ((_ data: EntitlementItem?,_ error: Error?) -> Void)) {
+    open class func createEntitlementItem(cascade: Bool? = nil, entitlementItem: EntitlementItem? = nil, completion: @escaping ((_ data: EntitlementItem?, _ error: ErrorResponse?) -> Void)) {
         createEntitlementItemWithRequestBuilder(cascade: cascade, entitlementItem: entitlementItem).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -185,10 +192,8 @@ open class UsersInventoryAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=""}]
-     
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter entitlementItem: (body) The entitlement item object (optional)
-
      - returns: RequestBuilder<EntitlementItem> 
      */
     open class func createEntitlementItemWithRequestBuilder(cascade: Bool? = nil, entitlementItem: EntitlementItem? = nil) -> RequestBuilder<EntitlementItem> {
@@ -200,7 +205,6 @@ open class UsersInventoryAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<EntitlementItem>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -209,13 +213,12 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Create an entitlement template
-     
      - parameter template: (body) The entitlement template to be created (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createEntitlementTemplate(template: ItemTemplateResource? = nil, completion: @escaping ((_ data: ItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func createEntitlementTemplate(template: ItemTemplateResource? = nil, completion: @escaping ((_ data: ItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createEntitlementTemplateWithRequestBuilder(template: template).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -230,38 +233,108 @@ open class UsersInventoryAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
-      "type_hint" : "aeiou",
-      "description" : "aeiou"
+      "type_hint" : "type_hint",
+      "description" : "description"
+    },
+    "modifiable" : false,
+    "required" : false
+  }, {
+    "behavior" : {
+      "type_hint" : "type_hint",
+      "description" : "description"
     },
     "modifiable" : false,
     "required" : false
   } ],
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter template: (body) The entitlement template to be created (optional)
-
      - returns: RequestBuilder<ItemTemplateResource> 
      */
     open class func createEntitlementTemplateWithRequestBuilder(template: ItemTemplateResource? = nil) -> RequestBuilder<ItemTemplateResource> {
@@ -271,7 +344,6 @@ open class UsersInventoryAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -279,13 +351,12 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Delete an entitlement item
-     
      - parameter entitlementId: (path) The id of the entitlement 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteEntitlementItem(entitlementId: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteEntitlementItem(entitlementId: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteEntitlementItemWithRequestBuilder(entitlementId: entitlementId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -296,9 +367,7 @@ open class UsersInventoryAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter entitlementId: (path) The id of the entitlement 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteEntitlementItemWithRequestBuilder(entitlementId: Int32) -> RequestBuilder<Void> {
@@ -309,7 +378,6 @@ open class UsersInventoryAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -317,14 +385,13 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Delete an entitlement template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteEntitlementTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteEntitlementTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteEntitlementTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -336,10 +403,8 @@ open class UsersInventoryAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteEntitlementTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -352,7 +417,6 @@ open class UsersInventoryAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -361,13 +425,12 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Get a single entitlement item
-     
      - parameter entitlementId: (path) The id of the entitlement 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getEntitlementItem(entitlementId: Int32, completion: @escaping ((_ data: EntitlementItem?,_ error: Error?) -> Void)) {
+    open class func getEntitlementItem(entitlementId: Int32, completion: @escaping ((_ data: EntitlementItem?, _ error: ErrorResponse?) -> Void)) {
         getEntitlementItemWithRequestBuilder(entitlementId: entitlementId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -375,10 +438,9 @@ open class UsersInventoryAPI: APIBase {
     /**
      Get a single entitlement item
      - GET /entitlements/{entitlement_id}
-     - examples: [{contentType=application/json, example=""}]
-     
-     - parameter entitlementId: (path) The id of the entitlement 
 
+     - examples: [{contentType=application/json, example=""}]
+     - parameter entitlementId: (path) The id of the entitlement 
      - returns: RequestBuilder<EntitlementItem> 
      */
     open class func getEntitlementItemWithRequestBuilder(entitlementId: Int32) -> RequestBuilder<EntitlementItem> {
@@ -389,7 +451,6 @@ open class UsersInventoryAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<EntitlementItem>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -397,15 +458,14 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      List and search entitlement items
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getEntitlementItems(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceEntitlementItem?,_ error: Error?) -> Void)) {
+    open class func getEntitlementItems(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceEntitlementItem?, _ error: ErrorResponse?) -> Void)) {
         getEntitlementItemsWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -413,6 +473,7 @@ open class UsersInventoryAPI: APIBase {
     /**
      List and search entitlement items
      - GET /entitlements
+
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,
@@ -421,20 +482,26 @@ open class UsersInventoryAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 5,
   "number_of_elements" : 6,
-  "content" : [ "" ],
+  "content" : [ "", "" ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceEntitlementItem> 
      */
     open class func getEntitlementItemsWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceEntitlementItem> {
@@ -448,7 +515,6 @@ open class UsersInventoryAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceEntitlementItem>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -457,13 +523,12 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Get a single entitlement template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getEntitlementTemplate(id: String, completion: @escaping ((_ data: ItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getEntitlementTemplate(id: String, completion: @escaping ((_ data: ItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getEntitlementTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -477,38 +542,108 @@ open class UsersInventoryAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
-      "type_hint" : "aeiou",
-      "description" : "aeiou"
+      "type_hint" : "type_hint",
+      "description" : "description"
+    },
+    "modifiable" : false,
+    "required" : false
+  }, {
+    "behavior" : {
+      "type_hint" : "type_hint",
+      "description" : "description"
     },
     "modifiable" : false,
     "required" : false
   } ],
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<ItemTemplateResource> 
      */
     open class func getEntitlementTemplateWithRequestBuilder(id: String) -> RequestBuilder<ItemTemplateResource> {
@@ -519,7 +654,6 @@ open class UsersInventoryAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -527,15 +661,14 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      List and search entitlement templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getEntitlementTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getEntitlementTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getEntitlementTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -554,8 +687,16 @@ open class UsersInventoryAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
@@ -563,42 +704,215 @@ open class UsersInventoryAPI: APIBase {
   "content" : [ {
     "behaviors" : [ {
       "behavior" : {
-        "type_hint" : "aeiou",
-        "description" : "aeiou"
+        "type_hint" : "type_hint",
+        "description" : "description"
+      },
+      "modifiable" : false,
+      "required" : false
+    }, {
+      "behavior" : {
+        "type_hint" : "type_hint",
+        "description" : "description"
       },
       "modifiable" : false,
       "required" : false
     } ],
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 0,
-    "id" : "aeiou",
+    "id" : "id",
     "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "behaviors" : [ {
+      "behavior" : {
+        "type_hint" : "type_hint",
+        "description" : "description"
+      },
+      "modifiable" : false,
+      "required" : false
+    }, {
+      "behavior" : {
+        "type_hint" : "type_hint",
+        "description" : "description"
+      },
+      "modifiable" : false,
+      "required" : false
+    } ],
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceItemTemplateResource> 
      */
     open class func getEntitlementTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceItemTemplateResource> {
@@ -612,7 +926,6 @@ open class UsersInventoryAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -621,7 +934,6 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      List the user inventory entries for a given user
-     
      - parameter id: (path) The id of the user 
      - parameter inactive: (query) If true, accepts inactive user inventories (optional, default to false)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
@@ -633,9 +945,9 @@ open class UsersInventoryAPI: APIBase {
      - parameter filterDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserInventories(id: Int32, inactive: Bool? = nil, size: Int32? = nil, page: Int32? = nil, filterItemName: String? = nil, filterItemId: Int32? = nil, filterUsername: String? = nil, filterGroup: String? = nil, filterDate: String? = nil, completion: @escaping ((_ data: PageResourceUserInventoryResource?,_ error: Error?) -> Void)) {
+    open class func getUserInventories(id: Int32, inactive: Bool? = nil, size: Int32? = nil, page: Int32? = nil, filterItemName: String? = nil, filterItemId: Int32? = nil, filterUsername: String? = nil, filterGroup: String? = nil, filterDate: String? = nil, completion: @escaping ((_ data: PageResourceUserInventoryResource?, _ error: ErrorResponse?) -> Void)) {
         getUserInventoriesWithRequestBuilder(id: id, inactive: inactive, size: size, page: page, filterItemName: filterItemName, filterItemId: filterItemId, filterUsername: filterUsername, filterGroup: filterGroup, filterDate: filterDate).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -647,40 +959,64 @@ open class UsersInventoryAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 7,
   "last" : true,
-  "size" : 2,
-  "total_elements" : 4,
+  "size" : 3,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 7,
-  "number_of_elements" : 3,
+  "total_pages" : 4,
+  "number_of_elements" : 9,
   "content" : [ {
     "behavior_data" : "{}",
     "expires" : 6,
     "item_id" : 5,
     "invoice_id" : 5,
-    "item_name" : "aeiou",
+    "item_name" : "item_name",
     "created_date" : 0,
     "id" : 1,
     "updated_date" : 2,
-    "item_type_hint" : "aeiou",
+    "item_type_hint" : "item_type_hint",
     "user" : {
-      "avatar_url" : "aeiou",
-      "id" : 7,
-      "display_name" : "aeiou",
-      "username" : "aeiou"
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "status" : "pending"
+  }, {
+    "behavior_data" : "{}",
+    "expires" : 6,
+    "item_id" : 5,
+    "invoice_id" : 5,
+    "item_name" : "item_name",
+    "created_date" : 0,
+    "id" : 1,
+    "updated_date" : 2,
+    "item_type_hint" : "item_type_hint",
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
     },
     "status" : "pending"
   } ],
   "first" : true
 }}]
-     
      - parameter id: (path) The id of the user 
      - parameter inactive: (query) If true, accepts inactive user inventories (optional, default to false)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
@@ -690,7 +1026,6 @@ open class UsersInventoryAPI: APIBase {
      - parameter filterUsername: (query) Filter by entries owned by the user with the specified username (optional)
      - parameter filterGroup: (query) Filter by entries owned by the users in a given group, by unique name (optional)
      - parameter filterDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
-
      - returns: RequestBuilder<PageResourceUserInventoryResource> 
      */
     open class func getUserInventoriesWithRequestBuilder(id: Int32, inactive: Bool? = nil, size: Int32? = nil, page: Int32? = nil, filterItemName: String? = nil, filterItemId: Int32? = nil, filterUsername: String? = nil, filterGroup: String? = nil, filterDate: String? = nil) -> RequestBuilder<PageResourceUserInventoryResource> {
@@ -710,7 +1045,6 @@ open class UsersInventoryAPI: APIBase {
             "filter_group": filterGroup, 
             "filter_date": filterDate
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUserInventoryResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -719,14 +1053,13 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Get an inventory entry
-     
      - parameter userId: (path) The id of the inventory owner or &#39;me&#39; for the logged in user 
      - parameter id: (path) The id of the user inventory 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserInventory(userId: Int32, id: Int32, completion: @escaping ((_ data: UserInventoryResource?,_ error: Error?) -> Void)) {
+    open class func getUserInventory(userId: Int32, id: Int32, completion: @escaping ((_ data: UserInventoryResource?, _ error: ErrorResponse?) -> Void)) {
         getUserInventoryWithRequestBuilder(userId: userId, id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -742,23 +1075,21 @@ open class UsersInventoryAPI: APIBase {
   "expires" : 6,
   "item_id" : 5,
   "invoice_id" : 5,
-  "item_name" : "aeiou",
+  "item_name" : "item_name",
   "created_date" : 0,
   "id" : 1,
   "updated_date" : 2,
-  "item_type_hint" : "aeiou",
+  "item_type_hint" : "item_type_hint",
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 7,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   },
   "status" : "pending"
 }}]
-     
      - parameter userId: (path) The id of the inventory owner or &#39;me&#39; for the logged in user 
      - parameter id: (path) The id of the user inventory 
-
      - returns: RequestBuilder<UserInventoryResource> 
      */
     open class func getUserInventoryWithRequestBuilder(userId: Int32, id: Int32) -> RequestBuilder<UserInventoryResource> {
@@ -770,7 +1101,6 @@ open class UsersInventoryAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<UserInventoryResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -778,16 +1108,15 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      List the log entries for this inventory entry
-     
      - parameter userId: (path) The id of the inventory owner or &#39;me&#39; for the logged in user 
      - parameter id: (path) The id of the user inventory 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserInventoryLog(userId: String, id: Int32, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUserItemLogResource?,_ error: Error?) -> Void)) {
+    open class func getUserInventoryLog(userId: String, id: Int32, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceUserItemLogResource?, _ error: ErrorResponse?) -> Void)) {
         getUserInventoryLogWithRequestBuilder(userId: userId, id: id, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -799,44 +1128,66 @@ open class UsersInventoryAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 2,
+  "number" : 5,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 3,
+  "size" : 2,
+  "total_elements" : 7,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 2,
-  "number_of_elements" : 7,
+  "total_pages" : 9,
+  "number_of_elements" : 5,
   "content" : [ {
     "item" : {
-      "name" : "aeiou",
-      "id" : 6
+      "name" : "name",
+      "id" : 5
     },
-    "log_date" : 1,
+    "log_date" : 6,
     "id" : 0,
-    "type" : "aeiou",
+    "type" : "type",
     "user" : {
-      "avatar_url" : "aeiou",
-      "id" : 5,
-      "display_name" : "aeiou",
-      "username" : "aeiou"
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
     },
-    "info" : "aeiou",
-    "user_inventory" : 5
+    "info" : "info",
+    "user_inventory" : 1
+  }, {
+    "item" : {
+      "name" : "name",
+      "id" : 5
+    },
+    "log_date" : 6,
+    "id" : 0,
+    "type" : "type",
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "info" : "info",
+    "user_inventory" : 1
   } ],
   "first" : true
 }}]
-     
      - parameter userId: (path) The id of the inventory owner or &#39;me&#39; for the logged in user 
      - parameter id: (path) The id of the user inventory 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceUserItemLogResource> 
      */
     open class func getUserInventoryLogWithRequestBuilder(userId: String, id: Int32, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceUserItemLogResource> {
@@ -851,7 +1202,6 @@ open class UsersInventoryAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUserItemLogResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -860,7 +1210,6 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      List the user inventory entries for all users
-     
      - parameter inactive: (query) If true, accepts inactive user inventories (optional, default to false)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
@@ -871,9 +1220,9 @@ open class UsersInventoryAPI: APIBase {
      - parameter filterDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUsersInventory(inactive: Bool? = nil, size: Int32? = nil, page: Int32? = nil, filterItemName: String? = nil, filterItemId: Int32? = nil, filterUsername: String? = nil, filterGroup: String? = nil, filterDate: String? = nil, completion: @escaping ((_ data: PageResourceUserInventoryResource?,_ error: Error?) -> Void)) {
+    open class func getUsersInventory(inactive: Bool? = nil, size: Int32? = nil, page: Int32? = nil, filterItemName: String? = nil, filterItemId: Int32? = nil, filterUsername: String? = nil, filterGroup: String? = nil, filterDate: String? = nil, completion: @escaping ((_ data: PageResourceUserInventoryResource?, _ error: ErrorResponse?) -> Void)) {
         getUsersInventoryWithRequestBuilder(inactive: inactive, size: size, page: page, filterItemName: filterItemName, filterItemId: filterItemId, filterUsername: filterUsername, filterGroup: filterGroup, filterDate: filterDate).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -885,40 +1234,64 @@ open class UsersInventoryAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 9,
+  "number" : 7,
   "last" : true,
-  "size" : 2,
-  "total_elements" : 4,
+  "size" : 3,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 7,
-  "number_of_elements" : 3,
+  "total_pages" : 4,
+  "number_of_elements" : 9,
   "content" : [ {
     "behavior_data" : "{}",
     "expires" : 6,
     "item_id" : 5,
     "invoice_id" : 5,
-    "item_name" : "aeiou",
+    "item_name" : "item_name",
     "created_date" : 0,
     "id" : 1,
     "updated_date" : 2,
-    "item_type_hint" : "aeiou",
+    "item_type_hint" : "item_type_hint",
     "user" : {
-      "avatar_url" : "aeiou",
-      "id" : 7,
-      "display_name" : "aeiou",
-      "username" : "aeiou"
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "status" : "pending"
+  }, {
+    "behavior_data" : "{}",
+    "expires" : 6,
+    "item_id" : 5,
+    "invoice_id" : 5,
+    "item_name" : "item_name",
+    "created_date" : 0,
+    "id" : 1,
+    "updated_date" : 2,
+    "item_type_hint" : "item_type_hint",
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
     },
     "status" : "pending"
   } ],
   "first" : true
 }}]
-     
      - parameter inactive: (query) If true, accepts inactive user inventories (optional, default to false)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
@@ -927,7 +1300,6 @@ open class UsersInventoryAPI: APIBase {
      - parameter filterUsername: (query) Filter by entries owned by the user with the specified username (optional)
      - parameter filterGroup: (query) Filter by entries owned by the users in a given group, by unique name (optional)
      - parameter filterDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
-
      - returns: RequestBuilder<PageResourceUserInventoryResource> 
      */
     open class func getUsersInventoryWithRequestBuilder(inactive: Bool? = nil, size: Int32? = nil, page: Int32? = nil, filterItemName: String? = nil, filterItemId: Int32? = nil, filterUsername: String? = nil, filterGroup: String? = nil, filterDate: String? = nil) -> RequestBuilder<PageResourceUserInventoryResource> {
@@ -946,7 +1318,6 @@ open class UsersInventoryAPI: APIBase {
             "filter_group": filterGroup, 
             "filter_date": filterDate
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUserInventoryResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -955,14 +1326,13 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Grant an entitlement
-     
      - parameter userId: (path) The id of the user to grant the entitlement to 
      - parameter grantRequest: (body) grantRequest 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func grantUserEntitlement(userId: Int32, grantRequest: EntitlementGrantRequest, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func grantUserEntitlement(userId: Int32, grantRequest: EntitlementGrantRequest, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         grantUserEntitlementWithRequestBuilder(userId: userId, grantRequest: grantRequest).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -973,10 +1343,8 @@ open class UsersInventoryAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user to grant the entitlement to 
      - parameter grantRequest: (body) grantRequest 
-
      - returns: RequestBuilder<Void> 
      */
     open class func grantUserEntitlementWithRequestBuilder(userId: Int32, grantRequest: EntitlementGrantRequest) -> RequestBuilder<Void> {
@@ -987,7 +1355,6 @@ open class UsersInventoryAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -995,15 +1362,14 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Update an entitlement item
-     
      - parameter entitlementId: (path) The id of the entitlement 
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter entitlementItem: (body) The entitlement item object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateEntitlementItem(entitlementId: Int32, cascade: Bool? = nil, entitlementItem: EntitlementItem? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateEntitlementItem(entitlementId: Int32, cascade: Bool? = nil, entitlementItem: EntitlementItem? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateEntitlementItemWithRequestBuilder(entitlementId: entitlementId, cascade: cascade, entitlementItem: entitlementItem).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -1014,11 +1380,9 @@ open class UsersInventoryAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter entitlementId: (path) The id of the entitlement 
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter entitlementItem: (body) The entitlement item object (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateEntitlementItemWithRequestBuilder(entitlementId: Int32, cascade: Bool? = nil, entitlementItem: EntitlementItem? = nil) -> RequestBuilder<Void> {
@@ -1031,7 +1395,6 @@ open class UsersInventoryAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -1040,14 +1403,13 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Update an entitlement template
-     
      - parameter id: (path) The id of the template 
      - parameter template: (body) The updated template (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateEntitlementTemplate(id: String, template: ItemTemplateResource? = nil, completion: @escaping ((_ data: ItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateEntitlementTemplate(id: String, template: ItemTemplateResource? = nil, completion: @escaping ((_ data: ItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateEntitlementTemplateWithRequestBuilder(id: id, template: template).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1061,39 +1423,109 @@ open class UsersInventoryAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
-      "type_hint" : "aeiou",
-      "description" : "aeiou"
+      "type_hint" : "type_hint",
+      "description" : "description"
+    },
+    "modifiable" : false,
+    "required" : false
+  }, {
+    "behavior" : {
+      "type_hint" : "type_hint",
+      "description" : "description"
     },
     "modifiable" : false,
     "required" : false
   } ],
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter template: (body) The updated template (optional)
-
      - returns: RequestBuilder<ItemTemplateResource> 
      */
     open class func updateEntitlementTemplateWithRequestBuilder(id: String, template: ItemTemplateResource? = nil) -> RequestBuilder<ItemTemplateResource> {
@@ -1104,7 +1536,6 @@ open class UsersInventoryAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1112,15 +1543,14 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Set the behavior data for an inventory entry
-     
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the user inventory 
      - parameter data: (body) The data map (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateUserInventoryBehaviorData(userId: Int32, id: Int32, data: Any? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateUserInventoryBehaviorData(userId: Int32, id: Int32, data: Any? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateUserInventoryBehaviorDataWithRequestBuilder(userId: userId, id: id, data: data).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -1131,11 +1561,9 @@ open class UsersInventoryAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the user inventory 
      - parameter data: (body) The data map (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateUserInventoryBehaviorDataWithRequestBuilder(userId: Int32, id: Int32, data: Any? = nil) -> RequestBuilder<Void> {
@@ -1147,7 +1575,6 @@ open class UsersInventoryAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1155,15 +1582,14 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Set the expiration date
-     
      - parameter userId: (path) user_id 
      - parameter id: (path) The id of the user inventory 
      - parameter timestamp: (body) The new expiration date as a unix timestamp in seconds. May be null (no body). (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateUserInventoryExpires(userId: Int32, id: Int32, timestamp: Int64? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateUserInventoryExpires(userId: Int32, id: Int32, timestamp: Int64? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateUserInventoryExpiresWithRequestBuilder(userId: userId, id: id, timestamp: timestamp).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -1175,11 +1601,9 @@ open class UsersInventoryAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) user_id 
      - parameter id: (path) The id of the user inventory 
      - parameter timestamp: (body) The new expiration date as a unix timestamp in seconds. May be null (no body). (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateUserInventoryExpiresWithRequestBuilder(userId: Int32, id: Int32, timestamp: Int64? = nil) -> RequestBuilder<Void> {
@@ -1191,7 +1615,6 @@ open class UsersInventoryAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1199,15 +1622,14 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Set the status for an inventory entry
-     
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the user inventory 
      - parameter inventoryStatus: (body) The inventory status object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateUserInventoryStatus(userId: Int32, id: Int32, inventoryStatus: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateUserInventoryStatus(userId: Int32, id: Int32, inventoryStatus: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateUserInventoryStatusWithRequestBuilder(userId: userId, id: id, inventoryStatus: inventoryStatus).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -1218,11 +1640,9 @@ open class UsersInventoryAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the user inventory 
      - parameter inventoryStatus: (body) The inventory status object (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateUserInventoryStatusWithRequestBuilder(userId: Int32, id: Int32, inventoryStatus: String? = nil) -> RequestBuilder<Void> {
@@ -1234,7 +1654,6 @@ open class UsersInventoryAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1242,16 +1661,15 @@ open class UsersInventoryAPI: APIBase {
 
     /**
      Use an item
-     
      - parameter userId: (path) The id of the user to check for or &#39;me&#39; for logged in user 
      - parameter itemId: (path) The id of the item 
      - parameter sku: (query) The specific sku of an entitlement_list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
      - parameter info: (query) Any additional info to add to the log about this use (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func useUserEntitlementItem(userId: String, itemId: Int32, sku: String? = nil, info: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func useUserEntitlementItem(userId: String, itemId: Int32, sku: String? = nil, info: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         useUserEntitlementItemWithRequestBuilder(userId: userId, itemId: itemId, sku: sku, info: info).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -1262,12 +1680,10 @@ open class UsersInventoryAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user to check for or &#39;me&#39; for logged in user 
      - parameter itemId: (path) The id of the item 
      - parameter sku: (query) The specific sku of an entitlement_list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
      - parameter info: (query) Any additional info to add to the log about this use (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func useUserEntitlementItemWithRequestBuilder(userId: String, itemId: Int32, sku: String? = nil, info: String? = nil) -> RequestBuilder<Void> {
@@ -1282,7 +1698,6 @@ open class UsersInventoryAPI: APIBase {
             "sku": sku, 
             "info": info
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

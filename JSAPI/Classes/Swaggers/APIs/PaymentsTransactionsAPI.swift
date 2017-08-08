@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class PaymentsTransactionsAPI: APIBase {
     /**
      Get the details for a single transaction
-     
      - parameter id: (path) id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getTransaction(id: Int32, completion: @escaping ((_ data: TransactionResource?,_ error: Error?) -> Void)) {
+    open class func getTransaction(id: Int32, completion: @escaping ((_ data: TransactionResource?, _ error: ErrorResponse?) -> Void)) {
         getTransactionWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -31,23 +29,21 @@ open class PaymentsTransactionsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "transaction_id" : "aeiou",
-  "type_hint" : "aeiou",
+  "transaction_id" : "transaction_id",
+  "type_hint" : "type_hint",
   "source" : "digital",
-  "type" : "aeiou",
-  "currency_code" : "aeiou",
+  "type" : "type",
+  "currency_code" : "currency_code",
   "is_refunded" : false,
-  "response" : "aeiou",
+  "response" : "response",
   "invoice_id" : 1,
-  "details" : "aeiou",
+  "details" : "details",
   "id" : 6,
   "create_date" : 0,
   "value" : 5.962133916683182,
   "successful" : false
 }}]
-     
      - parameter id: (path) id 
-
      - returns: RequestBuilder<TransactionResource> 
      */
     open class func getTransactionWithRequestBuilder(id: Int32) -> RequestBuilder<TransactionResource> {
@@ -58,7 +54,6 @@ open class PaymentsTransactionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TransactionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -66,16 +61,15 @@ open class PaymentsTransactionsAPI: APIBase {
 
     /**
      List and search transactions
-     
      - parameter filterInvoice: (query) Filter for transactions from a specific invoice (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getTransactions(filterInvoice: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTransactionResource?,_ error: Error?) -> Void)) {
+    open class func getTransactions(filterInvoice: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTransactionResource?, _ error: ErrorResponse?) -> Void)) {
         getTransactionsWithRequestBuilder(filterInvoice: filterInvoice, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -94,22 +88,44 @@ open class PaymentsTransactionsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 3,
   "number_of_elements" : 2,
   "content" : [ {
-    "transaction_id" : "aeiou",
-    "type_hint" : "aeiou",
+    "transaction_id" : "transaction_id",
+    "type_hint" : "type_hint",
     "source" : "digital",
-    "type" : "aeiou",
-    "currency_code" : "aeiou",
+    "type" : "type",
+    "currency_code" : "currency_code",
     "is_refunded" : false,
-    "response" : "aeiou",
+    "response" : "response",
     "invoice_id" : 1,
-    "details" : "aeiou",
+    "details" : "details",
+    "id" : 6,
+    "create_date" : 0,
+    "value" : 5.962133916683182,
+    "successful" : false
+  }, {
+    "transaction_id" : "transaction_id",
+    "type_hint" : "type_hint",
+    "source" : "digital",
+    "type" : "type",
+    "currency_code" : "currency_code",
+    "is_refunded" : false,
+    "response" : "response",
+    "invoice_id" : 1,
+    "details" : "details",
     "id" : 6,
     "create_date" : 0,
     "value" : 5.962133916683182,
@@ -117,12 +133,10 @@ open class PaymentsTransactionsAPI: APIBase {
   } ],
   "first" : true
 }}]
-     
      - parameter filterInvoice: (query) Filter for transactions from a specific invoice (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceTransactionResource> 
      */
     open class func getTransactionsWithRequestBuilder(filterInvoice: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceTransactionResource> {
@@ -137,7 +151,6 @@ open class PaymentsTransactionsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceTransactionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -146,14 +159,13 @@ open class PaymentsTransactionsAPI: APIBase {
 
     /**
      Refund a payment transaction, in full or in part
-     
      - parameter id: (path) The id of the transaction to refund 
      - parameter request: (body) Request containing refund details (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func refundTransaction(id: Int32, request: RefundRequest? = nil, completion: @escaping ((_ data: RefundResource?,_ error: Error?) -> Void)) {
+    open class func refundTransaction(id: Int32, request: RefundRequest? = nil, completion: @escaping ((_ data: RefundResource?, _ error: ErrorResponse?) -> Void)) {
         refundTransactionWithRequestBuilder(id: id, request: request).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -170,10 +182,8 @@ open class PaymentsTransactionsAPI: APIBase {
   "amount" : 0.8008281904610115,
   "refund_transaction_id" : 6
 }}]
-     
      - parameter id: (path) The id of the transaction to refund 
      - parameter request: (body) Request containing refund details (optional)
-
      - returns: RequestBuilder<RefundResource> 
      */
     open class func refundTransactionWithRequestBuilder(id: Int32, request: RefundRequest? = nil) -> RequestBuilder<RefundResource> {
@@ -183,7 +193,6 @@ open class PaymentsTransactionsAPI: APIBase {
         let parameters = request?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<RefundResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

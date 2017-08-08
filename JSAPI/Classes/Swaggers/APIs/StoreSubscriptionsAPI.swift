@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class StoreSubscriptionsAPI: APIBase {
     /**
      Creates a subscription item and associated plans
-     
      - parameter subscriptionResource: (body) The subscription to be created (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createSubscription(subscriptionResource: SubscriptionResource? = nil, completion: @escaping ((_ data: SubscriptionResource?,_ error: Error?) -> Void)) {
+    open class func createSubscription(subscriptionResource: SubscriptionResource? = nil, completion: @escaping ((_ data: SubscriptionResource?, _ error: ErrorResponse?) -> Void)) {
         createSubscriptionWithRequestBuilder(subscriptionResource: subscriptionResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,62 +30,93 @@ open class StoreSubscriptionsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "geo_policy_type" : "whitelist",
-  "template" : "aeiou",
-  "short_description" : "aeiou",
-  "geo_country_list" : [ "aeiou" ],
+  "template" : "template",
+  "short_description" : "short_description",
+  "geo_country_list" : [ "geo_country_list", "geo_country_list" ],
   "store_end" : 7,
-  "unique_key" : "aeiou",
+  "unique_key" : "unique_key",
   "availability" : "all",
-  "long_description" : "aeiou",
+  "long_description" : "long_description",
   "sort" : 6,
-  "tags" : [ "aeiou" ],
+  "tags" : [ "tags", "tags" ],
   "consolidation_day_of_month" : 0,
   "plans" : [ {
     "end_date" : 5,
     "initial_fee" : 9.301444243932576,
     "late_payment_fee" : 3.616076749251911,
     "billing_cycle_length" : 5,
-    "reactivation_sku" : "aeiou",
-    "currency_code" : "aeiou",
+    "reactivation_sku" : "reactivation_sku",
+    "currency_code" : "currency_code",
     "recurring_fee" : 1.0246457001441578,
     "min_cycles" : 7,
-    "recurring_sku" : "aeiou",
+    "recurring_sku" : "recurring_sku",
     "max_bill_attempts" : 2,
     "additional_properties" : {
-      "key" : ""
+      "key" : {
+        "type" : "type"
+      }
     },
-    "id" : "aeiou",
+    "id" : "id",
     "locked" : false,
     "start_date" : 1,
-    "initial_sku" : "aeiou",
+    "initial_sku" : "initial_sku",
     "published" : false,
     "grace_period" : 7,
     "consolidated" : false,
     "first_billing_cycle_unit" : "millisecond",
-    "late_payment_sku" : "aeiou",
+    "late_payment_sku" : "late_payment_sku",
     "first_billing_cycle_length" : 2,
-    "migrate_to_plan" : "aeiou",
-    "name" : "aeiou",
+    "migrate_to_plan" : "migrate_to_plan",
+    "name" : "name",
+    "billing_cycle_unit" : "millisecond",
+    "reactivation_fee" : 1.2315135367772556,
+    "max_cycles" : 4
+  }, {
+    "end_date" : 5,
+    "initial_fee" : 9.301444243932576,
+    "late_payment_fee" : 3.616076749251911,
+    "billing_cycle_length" : 5,
+    "reactivation_sku" : "reactivation_sku",
+    "currency_code" : "currency_code",
+    "recurring_fee" : 1.0246457001441578,
+    "min_cycles" : 7,
+    "recurring_sku" : "recurring_sku",
+    "max_bill_attempts" : 2,
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "id" : "id",
+    "locked" : false,
+    "start_date" : 1,
+    "initial_sku" : "initial_sku",
+    "published" : false,
+    "grace_period" : 7,
+    "consolidated" : false,
+    "first_billing_cycle_unit" : "millisecond",
+    "late_payment_sku" : "late_payment_sku",
+    "first_billing_cycle_length" : 2,
+    "migrate_to_plan" : "migrate_to_plan",
+    "name" : "name",
     "billing_cycle_unit" : "millisecond",
     "reactivation_fee" : 1.2315135367772556,
     "max_cycles" : 4
   } ],
   "store_start" : 1,
   "vendor_id" : 5,
-  "name" : "aeiou",
+  "name" : "name",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 6,
   "id" : 1,
   "updated_date" : 4,
-  "category" : "aeiou"
+  "category" : "category"
 }}]
-     
      - parameter subscriptionResource: (body) The subscription to be created (optional)
-
      - returns: RequestBuilder<SubscriptionResource> 
      */
     open class func createSubscriptionWithRequestBuilder(subscriptionResource: SubscriptionResource? = nil) -> RequestBuilder<SubscriptionResource> {
@@ -97,7 +126,6 @@ open class StoreSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<SubscriptionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -105,13 +133,12 @@ open class StoreSubscriptionsAPI: APIBase {
 
     /**
      Create a subscription template
-     
      - parameter subscriptionTemplateResource: (body) The new subscription template (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createSubscriptionTemplate(subscriptionTemplateResource: SubscriptionTemplateResource? = nil, completion: @escaping ((_ data: SubscriptionTemplateResource?,_ error: Error?) -> Void)) {
+    open class func createSubscriptionTemplate(subscriptionTemplateResource: SubscriptionTemplateResource? = nil, completion: @escaping ((_ data: SubscriptionTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createSubscriptionTemplateWithRequestBuilder(subscriptionTemplateResource: subscriptionTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -124,39 +151,184 @@ open class StoreSubscriptionsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "plan_template" : {
-    "name" : "aeiou",
-    "created_date" : 6,
-    "id" : "aeiou",
-    "updated_date" : 1,
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   },
   "created_date" : 0,
-  "id" : "aeiou",
-  "updated_date" : 5,
-  "properties" : [ "" ]
+  "id" : "id",
+  "updated_date" : 6,
+  "properties" : [ {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  } ]
 }}]
-     
      - parameter subscriptionTemplateResource: (body) The new subscription template (optional)
-
      - returns: RequestBuilder<SubscriptionTemplateResource> 
      */
     open class func createSubscriptionTemplateWithRequestBuilder(subscriptionTemplateResource: SubscriptionTemplateResource? = nil) -> RequestBuilder<SubscriptionTemplateResource> {
@@ -166,7 +338,6 @@ open class StoreSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<SubscriptionTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -174,14 +345,13 @@ open class StoreSubscriptionsAPI: APIBase {
 
     /**
      Delete a subscription plan
-     
      - parameter id: (path) The id of the subscription 
      - parameter planId: (path) The id of the plan 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteSubscription(id: Int32, planId: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteSubscription(id: Int32, planId: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteSubscriptionWithRequestBuilder(id: id, planId: planId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -193,10 +363,8 @@ open class StoreSubscriptionsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the subscription 
      - parameter planId: (path) The id of the plan 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteSubscriptionWithRequestBuilder(id: Int32, planId: String) -> RequestBuilder<Void> {
@@ -208,7 +376,6 @@ open class StoreSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -216,14 +383,13 @@ open class StoreSubscriptionsAPI: APIBase {
 
     /**
      Delete a subscription template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteSubscriptionTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteSubscriptionTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteSubscriptionTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -234,10 +400,8 @@ open class StoreSubscriptionsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteSubscriptionTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -250,7 +414,6 @@ open class StoreSubscriptionsAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -259,13 +422,12 @@ open class StoreSubscriptionsAPI: APIBase {
 
     /**
      Retrieve a single subscription item and associated plans
-     
      - parameter id: (path) The id of the subscription 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getSubscription(id: Int32, completion: @escaping ((_ data: SubscriptionResource?,_ error: Error?) -> Void)) {
+    open class func getSubscription(id: Int32, completion: @escaping ((_ data: SubscriptionResource?, _ error: ErrorResponse?) -> Void)) {
         getSubscriptionWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -273,64 +435,96 @@ open class StoreSubscriptionsAPI: APIBase {
     /**
      Retrieve a single subscription item and associated plans
      - GET /subscriptions/{id}
+
      - examples: [{contentType=application/json, example={
   "geo_policy_type" : "whitelist",
-  "template" : "aeiou",
-  "short_description" : "aeiou",
-  "geo_country_list" : [ "aeiou" ],
+  "template" : "template",
+  "short_description" : "short_description",
+  "geo_country_list" : [ "geo_country_list", "geo_country_list" ],
   "store_end" : 7,
-  "unique_key" : "aeiou",
+  "unique_key" : "unique_key",
   "availability" : "all",
-  "long_description" : "aeiou",
+  "long_description" : "long_description",
   "sort" : 6,
-  "tags" : [ "aeiou" ],
+  "tags" : [ "tags", "tags" ],
   "consolidation_day_of_month" : 0,
   "plans" : [ {
     "end_date" : 5,
     "initial_fee" : 9.301444243932576,
     "late_payment_fee" : 3.616076749251911,
     "billing_cycle_length" : 5,
-    "reactivation_sku" : "aeiou",
-    "currency_code" : "aeiou",
+    "reactivation_sku" : "reactivation_sku",
+    "currency_code" : "currency_code",
     "recurring_fee" : 1.0246457001441578,
     "min_cycles" : 7,
-    "recurring_sku" : "aeiou",
+    "recurring_sku" : "recurring_sku",
     "max_bill_attempts" : 2,
     "additional_properties" : {
-      "key" : ""
+      "key" : {
+        "type" : "type"
+      }
     },
-    "id" : "aeiou",
+    "id" : "id",
     "locked" : false,
     "start_date" : 1,
-    "initial_sku" : "aeiou",
+    "initial_sku" : "initial_sku",
     "published" : false,
     "grace_period" : 7,
     "consolidated" : false,
     "first_billing_cycle_unit" : "millisecond",
-    "late_payment_sku" : "aeiou",
+    "late_payment_sku" : "late_payment_sku",
     "first_billing_cycle_length" : 2,
-    "migrate_to_plan" : "aeiou",
-    "name" : "aeiou",
+    "migrate_to_plan" : "migrate_to_plan",
+    "name" : "name",
+    "billing_cycle_unit" : "millisecond",
+    "reactivation_fee" : 1.2315135367772556,
+    "max_cycles" : 4
+  }, {
+    "end_date" : 5,
+    "initial_fee" : 9.301444243932576,
+    "late_payment_fee" : 3.616076749251911,
+    "billing_cycle_length" : 5,
+    "reactivation_sku" : "reactivation_sku",
+    "currency_code" : "currency_code",
+    "recurring_fee" : 1.0246457001441578,
+    "min_cycles" : 7,
+    "recurring_sku" : "recurring_sku",
+    "max_bill_attempts" : 2,
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "id" : "id",
+    "locked" : false,
+    "start_date" : 1,
+    "initial_sku" : "initial_sku",
+    "published" : false,
+    "grace_period" : 7,
+    "consolidated" : false,
+    "first_billing_cycle_unit" : "millisecond",
+    "late_payment_sku" : "late_payment_sku",
+    "first_billing_cycle_length" : 2,
+    "migrate_to_plan" : "migrate_to_plan",
+    "name" : "name",
     "billing_cycle_unit" : "millisecond",
     "reactivation_fee" : 1.2315135367772556,
     "max_cycles" : 4
   } ],
   "store_start" : 1,
   "vendor_id" : 5,
-  "name" : "aeiou",
+  "name" : "name",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 6,
   "id" : 1,
   "updated_date" : 4,
-  "category" : "aeiou"
+  "category" : "category"
 }}]
-     
      - parameter id: (path) The id of the subscription 
-
      - returns: RequestBuilder<SubscriptionResource> 
      */
     open class func getSubscriptionWithRequestBuilder(id: Int32) -> RequestBuilder<SubscriptionResource> {
@@ -341,7 +535,6 @@ open class StoreSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<SubscriptionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -349,13 +542,12 @@ open class StoreSubscriptionsAPI: APIBase {
 
     /**
      Get a single subscription template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getSubscriptionTemplate(id: String, completion: @escaping ((_ data: SubscriptionTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getSubscriptionTemplate(id: String, completion: @escaping ((_ data: SubscriptionTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getSubscriptionTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -368,39 +560,184 @@ open class StoreSubscriptionsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "plan_template" : {
-    "name" : "aeiou",
-    "created_date" : 6,
-    "id" : "aeiou",
-    "updated_date" : 1,
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   },
   "created_date" : 0,
-  "id" : "aeiou",
-  "updated_date" : 5,
-  "properties" : [ "" ]
+  "id" : "id",
+  "updated_date" : 6,
+  "properties" : [ {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<SubscriptionTemplateResource> 
      */
     open class func getSubscriptionTemplateWithRequestBuilder(id: String) -> RequestBuilder<SubscriptionTemplateResource> {
@@ -411,7 +748,6 @@ open class StoreSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<SubscriptionTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -419,15 +755,14 @@ open class StoreSubscriptionsAPI: APIBase {
 
     /**
      List and search subscription templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getSubscriptionTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceSubscriptionTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getSubscriptionTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceSubscriptionTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getSubscriptionTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -439,57 +774,387 @@ open class StoreSubscriptionsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 5,
+  "number" : 1,
   "last" : true,
-  "size" : 7,
-  "total_elements" : 9,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 3,
-  "number_of_elements" : 2,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "plan_template" : {
-      "name" : "aeiou",
-      "created_date" : 6,
-      "id" : "aeiou",
-      "updated_date" : 1,
+      "name" : "name",
+      "created_date" : 0,
+      "id" : "id",
+      "updated_date" : 6,
       "properties" : [ {
-        "name" : "aeiou",
-        "type" : "aeiou",
+        "name" : "name",
+        "type" : "type",
         "field_list" : {
           "property_definition_fields" : [ {
             "inner_type" : "integer",
-            "valid_values" : [ "aeiou" ],
-            "name" : "aeiou",
-            "description" : "aeiou",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
             "type" : "integer",
-            "inner_type_fields" : [ "" ],
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
             "required" : false
           } ],
-          "property_type" : "aeiou",
-          "property_fields" : [ "" ]
+          "property_type" : "property_type",
+          "property_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ]
+        },
+        "required" : false
+      }, {
+        "name" : "name",
+        "type" : "type",
+        "field_list" : {
+          "property_definition_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ],
+          "property_type" : "property_type",
+          "property_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ]
         },
         "required" : false
       } ]
     },
     "created_date" : 0,
-    "id" : "aeiou",
-    "updated_date" : 5,
-    "properties" : [ "" ]
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "name" : "name",
+    "plan_template" : {
+      "name" : "name",
+      "created_date" : 0,
+      "id" : "id",
+      "updated_date" : 6,
+      "properties" : [ {
+        "name" : "name",
+        "type" : "type",
+        "field_list" : {
+          "property_definition_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ],
+          "property_type" : "property_type",
+          "property_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ]
+        },
+        "required" : false
+      }, {
+        "name" : "name",
+        "type" : "type",
+        "field_list" : {
+          "property_definition_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ],
+          "property_type" : "property_type",
+          "property_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ]
+        },
+        "required" : false
+      } ]
+    },
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceSubscriptionTemplateResource> 
      */
     open class func getSubscriptionTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceSubscriptionTemplateResource> {
@@ -503,7 +1168,6 @@ open class StoreSubscriptionsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceSubscriptionTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -512,15 +1176,14 @@ open class StoreSubscriptionsAPI: APIBase {
 
     /**
      List available subscription items and associated plans
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getSubscriptions(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceSubscriptionResource?,_ error: Error?) -> Void)) {
+    open class func getSubscriptions(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceSubscriptionResource?, _ error: ErrorResponse?) -> Void)) {
         getSubscriptionsWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -528,6 +1191,7 @@ open class StoreSubscriptionsAPI: APIBase {
     /**
      List available subscription items and associated plans
      - GET /subscriptions
+
      - examples: [{contentType=application/json, example={
   "number" : 9,
   "last" : true,
@@ -536,74 +1200,200 @@ open class StoreSubscriptionsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 9,
   "number_of_elements" : 9,
   "content" : [ {
     "geo_policy_type" : "whitelist",
-    "template" : "aeiou",
-    "short_description" : "aeiou",
-    "geo_country_list" : [ "aeiou" ],
+    "template" : "template",
+    "short_description" : "short_description",
+    "geo_country_list" : [ "geo_country_list", "geo_country_list" ],
     "store_end" : 7,
-    "unique_key" : "aeiou",
+    "unique_key" : "unique_key",
     "availability" : "all",
-    "long_description" : "aeiou",
+    "long_description" : "long_description",
     "sort" : 6,
-    "tags" : [ "aeiou" ],
+    "tags" : [ "tags", "tags" ],
     "consolidation_day_of_month" : 0,
     "plans" : [ {
       "end_date" : 5,
       "initial_fee" : 9.301444243932576,
       "late_payment_fee" : 3.616076749251911,
       "billing_cycle_length" : 5,
-      "reactivation_sku" : "aeiou",
-      "currency_code" : "aeiou",
+      "reactivation_sku" : "reactivation_sku",
+      "currency_code" : "currency_code",
       "recurring_fee" : 1.0246457001441578,
       "min_cycles" : 7,
-      "recurring_sku" : "aeiou",
+      "recurring_sku" : "recurring_sku",
       "max_bill_attempts" : 2,
       "additional_properties" : {
-        "key" : ""
+        "key" : {
+          "type" : "type"
+        }
       },
-      "id" : "aeiou",
+      "id" : "id",
       "locked" : false,
       "start_date" : 1,
-      "initial_sku" : "aeiou",
+      "initial_sku" : "initial_sku",
       "published" : false,
       "grace_period" : 7,
       "consolidated" : false,
       "first_billing_cycle_unit" : "millisecond",
-      "late_payment_sku" : "aeiou",
+      "late_payment_sku" : "late_payment_sku",
       "first_billing_cycle_length" : 2,
-      "migrate_to_plan" : "aeiou",
-      "name" : "aeiou",
+      "migrate_to_plan" : "migrate_to_plan",
+      "name" : "name",
+      "billing_cycle_unit" : "millisecond",
+      "reactivation_fee" : 1.2315135367772556,
+      "max_cycles" : 4
+    }, {
+      "end_date" : 5,
+      "initial_fee" : 9.301444243932576,
+      "late_payment_fee" : 3.616076749251911,
+      "billing_cycle_length" : 5,
+      "reactivation_sku" : "reactivation_sku",
+      "currency_code" : "currency_code",
+      "recurring_fee" : 1.0246457001441578,
+      "min_cycles" : 7,
+      "recurring_sku" : "recurring_sku",
+      "max_bill_attempts" : 2,
+      "additional_properties" : {
+        "key" : {
+          "type" : "type"
+        }
+      },
+      "id" : "id",
+      "locked" : false,
+      "start_date" : 1,
+      "initial_sku" : "initial_sku",
+      "published" : false,
+      "grace_period" : 7,
+      "consolidated" : false,
+      "first_billing_cycle_unit" : "millisecond",
+      "late_payment_sku" : "late_payment_sku",
+      "first_billing_cycle_length" : 2,
+      "migrate_to_plan" : "migrate_to_plan",
+      "name" : "name",
       "billing_cycle_unit" : "millisecond",
       "reactivation_fee" : 1.2315135367772556,
       "max_cycles" : 4
     } ],
     "store_start" : 1,
     "vendor_id" : 5,
-    "name" : "aeiou",
+    "name" : "name",
     "additional_properties" : {
       "key" : {
-        "type" : "aeiou"
+        "type" : "type"
       }
     },
     "created_date" : 6,
     "id" : 1,
     "updated_date" : 4,
-    "category" : "aeiou"
+    "category" : "category"
+  }, {
+    "geo_policy_type" : "whitelist",
+    "template" : "template",
+    "short_description" : "short_description",
+    "geo_country_list" : [ "geo_country_list", "geo_country_list" ],
+    "store_end" : 7,
+    "unique_key" : "unique_key",
+    "availability" : "all",
+    "long_description" : "long_description",
+    "sort" : 6,
+    "tags" : [ "tags", "tags" ],
+    "consolidation_day_of_month" : 0,
+    "plans" : [ {
+      "end_date" : 5,
+      "initial_fee" : 9.301444243932576,
+      "late_payment_fee" : 3.616076749251911,
+      "billing_cycle_length" : 5,
+      "reactivation_sku" : "reactivation_sku",
+      "currency_code" : "currency_code",
+      "recurring_fee" : 1.0246457001441578,
+      "min_cycles" : 7,
+      "recurring_sku" : "recurring_sku",
+      "max_bill_attempts" : 2,
+      "additional_properties" : {
+        "key" : {
+          "type" : "type"
+        }
+      },
+      "id" : "id",
+      "locked" : false,
+      "start_date" : 1,
+      "initial_sku" : "initial_sku",
+      "published" : false,
+      "grace_period" : 7,
+      "consolidated" : false,
+      "first_billing_cycle_unit" : "millisecond",
+      "late_payment_sku" : "late_payment_sku",
+      "first_billing_cycle_length" : 2,
+      "migrate_to_plan" : "migrate_to_plan",
+      "name" : "name",
+      "billing_cycle_unit" : "millisecond",
+      "reactivation_fee" : 1.2315135367772556,
+      "max_cycles" : 4
+    }, {
+      "end_date" : 5,
+      "initial_fee" : 9.301444243932576,
+      "late_payment_fee" : 3.616076749251911,
+      "billing_cycle_length" : 5,
+      "reactivation_sku" : "reactivation_sku",
+      "currency_code" : "currency_code",
+      "recurring_fee" : 1.0246457001441578,
+      "min_cycles" : 7,
+      "recurring_sku" : "recurring_sku",
+      "max_bill_attempts" : 2,
+      "additional_properties" : {
+        "key" : {
+          "type" : "type"
+        }
+      },
+      "id" : "id",
+      "locked" : false,
+      "start_date" : 1,
+      "initial_sku" : "initial_sku",
+      "published" : false,
+      "grace_period" : 7,
+      "consolidated" : false,
+      "first_billing_cycle_unit" : "millisecond",
+      "late_payment_sku" : "late_payment_sku",
+      "first_billing_cycle_length" : 2,
+      "migrate_to_plan" : "migrate_to_plan",
+      "name" : "name",
+      "billing_cycle_unit" : "millisecond",
+      "reactivation_fee" : 1.2315135367772556,
+      "max_cycles" : 4
+    } ],
+    "store_start" : 1,
+    "vendor_id" : 5,
+    "name" : "name",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "created_date" : 6,
+    "id" : 1,
+    "updated_date" : 4,
+    "category" : "category"
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceSubscriptionResource> 
      */
     open class func getSubscriptionsWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceSubscriptionResource> {
@@ -617,7 +1407,6 @@ open class StoreSubscriptionsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceSubscriptionResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -626,12 +1415,11 @@ open class StoreSubscriptionsAPI: APIBase {
 
     /**
      Processes subscriptions and charge dues
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func processSubscriptions(completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func processSubscriptions(completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         processSubscriptionsWithRequestBuilder().execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -642,7 +1430,6 @@ open class StoreSubscriptionsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-
      - returns: RequestBuilder<Void> 
      */
     open class func processSubscriptionsWithRequestBuilder() -> RequestBuilder<Void> {
@@ -652,7 +1439,6 @@ open class StoreSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -660,14 +1446,13 @@ open class StoreSubscriptionsAPI: APIBase {
 
     /**
      Updates a subscription item and associated plans
-     
      - parameter id: (path) The id of the subscription 
      - parameter subscriptionResource: (body) The subscription resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateSubscription(id: Int32, subscriptionResource: SubscriptionResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateSubscription(id: Int32, subscriptionResource: SubscriptionResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateSubscriptionWithRequestBuilder(id: id, subscriptionResource: subscriptionResource).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -679,10 +1464,8 @@ open class StoreSubscriptionsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the subscription 
      - parameter subscriptionResource: (body) The subscription resource object (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateSubscriptionWithRequestBuilder(id: Int32, subscriptionResource: SubscriptionResource? = nil) -> RequestBuilder<Void> {
@@ -693,7 +1476,6 @@ open class StoreSubscriptionsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -701,14 +1483,13 @@ open class StoreSubscriptionsAPI: APIBase {
 
     /**
      Update a subscription template
-     
      - parameter id: (path) The id of the template 
      - parameter subscriptionTemplateResource: (body) The subscription template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateSubscriptionTemplate(id: String, subscriptionTemplateResource: SubscriptionTemplateResource? = nil, completion: @escaping ((_ data: SubscriptionTemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateSubscriptionTemplate(id: String, subscriptionTemplateResource: SubscriptionTemplateResource? = nil, completion: @escaping ((_ data: SubscriptionTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateSubscriptionTemplateWithRequestBuilder(id: id, subscriptionTemplateResource: subscriptionTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -720,40 +1501,185 @@ open class StoreSubscriptionsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "plan_template" : {
-    "name" : "aeiou",
-    "created_date" : 6,
-    "id" : "aeiou",
-    "updated_date" : 1,
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   },
   "created_date" : 0,
-  "id" : "aeiou",
-  "updated_date" : 5,
-  "properties" : [ "" ]
+  "id" : "id",
+  "updated_date" : 6,
+  "properties" : [ {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter subscriptionTemplateResource: (body) The subscription template resource object (optional)
-
      - returns: RequestBuilder<SubscriptionTemplateResource> 
      */
     open class func updateSubscriptionTemplateWithRequestBuilder(id: String, subscriptionTemplateResource: SubscriptionTemplateResource? = nil) -> RequestBuilder<SubscriptionTemplateResource> {
@@ -763,7 +1689,6 @@ open class StoreSubscriptionsAPI: APIBase {
         let parameters = subscriptionTemplateResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<SubscriptionTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

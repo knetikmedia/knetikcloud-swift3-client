@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class TaxesAPI: APIBase {
     /**
      Create a country tax
-     
      - parameter taxResource: (body) The tax object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createCountryTax(taxResource: CountryTaxResource? = nil, completion: @escaping ((_ data: CountryTaxResource?,_ error: Error?) -> Void)) {
+    open class func createCountryTax(taxResource: CountryTaxResource? = nil, completion: @escaping ((_ data: CountryTaxResource?, _ error: ErrorResponse?) -> Void)) {
         createCountryTaxWithRequestBuilder(taxResource: taxResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -33,12 +31,10 @@ open class TaxesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
   "rate" : 0.8008281904610115,
-  "name" : "aeiou",
-  "country_iso3" : "aeiou"
+  "name" : "name",
+  "country_iso3" : "country_iso3"
 }}]
-     
      - parameter taxResource: (body) The tax object (optional)
-
      - returns: RequestBuilder<CountryTaxResource> 
      */
     open class func createCountryTaxWithRequestBuilder(taxResource: CountryTaxResource? = nil) -> RequestBuilder<CountryTaxResource> {
@@ -48,7 +44,6 @@ open class TaxesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<CountryTaxResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -56,14 +51,13 @@ open class TaxesAPI: APIBase {
 
     /**
      Create a state tax
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter taxResource: (body) The tax object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createStateTax(countryCodeIso3: String, taxResource: StateTaxResource? = nil, completion: @escaping ((_ data: StateTaxResource?,_ error: Error?) -> Void)) {
+    open class func createStateTax(countryCodeIso3: String, taxResource: StateTaxResource? = nil, completion: @escaping ((_ data: StateTaxResource?, _ error: ErrorResponse?) -> Void)) {
         createStateTaxWithRequestBuilder(countryCodeIso3: countryCodeIso3, taxResource: taxResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -78,14 +72,12 @@ open class TaxesAPI: APIBase {
   "tax_shipping" : false,
   "rate" : 0.8008281904610115,
   "federally_exempt" : false,
-  "name" : "aeiou",
-  "state_code" : "aeiou",
-  "country_iso3" : "aeiou"
+  "name" : "name",
+  "state_code" : "state_code",
+  "country_iso3" : "country_iso3"
 }}]
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter taxResource: (body) The tax object (optional)
-
      - returns: RequestBuilder<StateTaxResource> 
      */
     open class func createStateTaxWithRequestBuilder(countryCodeIso3: String, taxResource: StateTaxResource? = nil) -> RequestBuilder<StateTaxResource> {
@@ -96,7 +88,6 @@ open class TaxesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<StateTaxResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -104,13 +95,12 @@ open class TaxesAPI: APIBase {
 
     /**
      Delete an existing tax
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteCountryTax(countryCodeIso3: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteCountryTax(countryCodeIso3: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteCountryTaxWithRequestBuilder(countryCodeIso3: countryCodeIso3).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -121,9 +111,7 @@ open class TaxesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteCountryTaxWithRequestBuilder(countryCodeIso3: String) -> RequestBuilder<Void> {
@@ -134,7 +122,6 @@ open class TaxesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -142,14 +129,13 @@ open class TaxesAPI: APIBase {
 
     /**
      Delete an existing state tax
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter stateCode: (path) The code of the state 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteStateTax(countryCodeIso3: String, stateCode: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteStateTax(countryCodeIso3: String, stateCode: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteStateTaxWithRequestBuilder(countryCodeIso3: countryCodeIso3, stateCode: stateCode).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -160,10 +146,8 @@ open class TaxesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter stateCode: (path) The code of the state 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteStateTaxWithRequestBuilder(countryCodeIso3: String, stateCode: String) -> RequestBuilder<Void> {
@@ -175,7 +159,6 @@ open class TaxesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -183,13 +166,12 @@ open class TaxesAPI: APIBase {
 
     /**
      Get a single tax
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getCountryTax(countryCodeIso3: String, completion: @escaping ((_ data: CountryTaxResource?,_ error: Error?) -> Void)) {
+    open class func getCountryTax(countryCodeIso3: String, completion: @escaping ((_ data: CountryTaxResource?, _ error: ErrorResponse?) -> Void)) {
         getCountryTaxWithRequestBuilder(countryCodeIso3: countryCodeIso3).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -197,15 +179,14 @@ open class TaxesAPI: APIBase {
     /**
      Get a single tax
      - GET /tax/countries/{country_code_iso3}
+
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
   "rate" : 0.8008281904610115,
-  "name" : "aeiou",
-  "country_iso3" : "aeiou"
+  "name" : "name",
+  "country_iso3" : "country_iso3"
 }}]
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
-
      - returns: RequestBuilder<CountryTaxResource> 
      */
     open class func getCountryTaxWithRequestBuilder(countryCodeIso3: String) -> RequestBuilder<CountryTaxResource> {
@@ -216,7 +197,6 @@ open class TaxesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<CountryTaxResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -224,15 +204,14 @@ open class TaxesAPI: APIBase {
 
     /**
      List and search taxes
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getCountryTaxes(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceCountryTaxResource?,_ error: Error?) -> Void)) {
+    open class func getCountryTaxes(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceCountryTaxResource?, _ error: ErrorResponse?) -> Void)) {
         getCountryTaxesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -241,6 +220,7 @@ open class TaxesAPI: APIBase {
      List and search taxes
      - GET /tax/countries
      - Get a list of taxes
+
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
@@ -249,8 +229,16 @@ open class TaxesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
@@ -258,16 +246,19 @@ open class TaxesAPI: APIBase {
   "content" : [ {
     "tax_shipping" : false,
     "rate" : 0.8008281904610115,
-    "name" : "aeiou",
-    "country_iso3" : "aeiou"
+    "name" : "name",
+    "country_iso3" : "country_iso3"
+  }, {
+    "tax_shipping" : false,
+    "rate" : 0.8008281904610115,
+    "name" : "name",
+    "country_iso3" : "country_iso3"
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
-
      - returns: RequestBuilder<PageResourceCountryTaxResource> 
      */
     open class func getCountryTaxesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceCountryTaxResource> {
@@ -281,7 +272,6 @@ open class TaxesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceCountryTaxResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -290,14 +280,13 @@ open class TaxesAPI: APIBase {
 
     /**
      Get a single state tax
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter stateCode: (path) The code of the state 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getStateTax(countryCodeIso3: String, stateCode: String, completion: @escaping ((_ data: StateTaxResource?,_ error: Error?) -> Void)) {
+    open class func getStateTax(countryCodeIso3: String, stateCode: String, completion: @escaping ((_ data: StateTaxResource?, _ error: ErrorResponse?) -> Void)) {
         getStateTaxWithRequestBuilder(countryCodeIso3: countryCodeIso3, stateCode: stateCode).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -305,18 +294,17 @@ open class TaxesAPI: APIBase {
     /**
      Get a single state tax
      - GET /tax/countries/{country_code_iso3}/states/{state_code}
+
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
   "rate" : 0.8008281904610115,
   "federally_exempt" : false,
-  "name" : "aeiou",
-  "state_code" : "aeiou",
-  "country_iso3" : "aeiou"
+  "name" : "name",
+  "state_code" : "state_code",
+  "country_iso3" : "country_iso3"
 }}]
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter stateCode: (path) The code of the state 
-
      - returns: RequestBuilder<StateTaxResource> 
      */
     open class func getStateTaxWithRequestBuilder(countryCodeIso3: String, stateCode: String) -> RequestBuilder<StateTaxResource> {
@@ -328,7 +316,6 @@ open class TaxesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<StateTaxResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -336,15 +323,14 @@ open class TaxesAPI: APIBase {
 
     /**
      List and search taxes across all countries
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getStateTaxesForCountries(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceStateTaxResource?,_ error: Error?) -> Void)) {
+    open class func getStateTaxesForCountries(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceStateTaxResource?, _ error: ErrorResponse?) -> Void)) {
         getStateTaxesForCountriesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -353,6 +339,7 @@ open class TaxesAPI: APIBase {
      List and search taxes across all countries
      - GET /tax/states
      - Get a list of taxes
+
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
@@ -361,8 +348,16 @@ open class TaxesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
@@ -371,17 +366,22 @@ open class TaxesAPI: APIBase {
     "tax_shipping" : false,
     "rate" : 0.8008281904610115,
     "federally_exempt" : false,
-    "name" : "aeiou",
-    "state_code" : "aeiou",
-    "country_iso3" : "aeiou"
+    "name" : "name",
+    "state_code" : "state_code",
+    "country_iso3" : "country_iso3"
+  }, {
+    "tax_shipping" : false,
+    "rate" : 0.8008281904610115,
+    "federally_exempt" : false,
+    "name" : "name",
+    "state_code" : "state_code",
+    "country_iso3" : "country_iso3"
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
-
      - returns: RequestBuilder<PageResourceStateTaxResource> 
      */
     open class func getStateTaxesForCountriesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceStateTaxResource> {
@@ -395,7 +395,6 @@ open class TaxesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceStateTaxResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -404,16 +403,15 @@ open class TaxesAPI: APIBase {
 
     /**
      List and search taxes within a country
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getStateTaxesForCountry(countryCodeIso3: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceStateTaxResource?,_ error: Error?) -> Void)) {
+    open class func getStateTaxesForCountry(countryCodeIso3: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceStateTaxResource?, _ error: ErrorResponse?) -> Void)) {
         getStateTaxesForCountryWithRequestBuilder(countryCodeIso3: countryCodeIso3, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -422,6 +420,7 @@ open class TaxesAPI: APIBase {
      List and search taxes within a country
      - GET /tax/countries/{country_code_iso3}/states
      - Get a list of taxes
+
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
@@ -430,8 +429,16 @@ open class TaxesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 2,
@@ -440,18 +447,23 @@ open class TaxesAPI: APIBase {
     "tax_shipping" : false,
     "rate" : 0.8008281904610115,
     "federally_exempt" : false,
-    "name" : "aeiou",
-    "state_code" : "aeiou",
-    "country_iso3" : "aeiou"
+    "name" : "name",
+    "state_code" : "state_code",
+    "country_iso3" : "country_iso3"
+  }, {
+    "tax_shipping" : false,
+    "rate" : 0.8008281904610115,
+    "federally_exempt" : false,
+    "name" : "name",
+    "state_code" : "state_code",
+    "country_iso3" : "country_iso3"
   } ],
   "first" : true
 }}]
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
-
      - returns: RequestBuilder<PageResourceStateTaxResource> 
      */
     open class func getStateTaxesForCountryWithRequestBuilder(countryCodeIso3: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceStateTaxResource> {
@@ -466,7 +478,6 @@ open class TaxesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceStateTaxResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -475,14 +486,13 @@ open class TaxesAPI: APIBase {
 
     /**
      Create or update a tax
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter taxResource: (body) The tax object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateCountryTax(countryCodeIso3: String, taxResource: CountryTaxResource? = nil, completion: @escaping ((_ data: CountryTaxResource?,_ error: Error?) -> Void)) {
+    open class func updateCountryTax(countryCodeIso3: String, taxResource: CountryTaxResource? = nil, completion: @escaping ((_ data: CountryTaxResource?, _ error: ErrorResponse?) -> Void)) {
         updateCountryTaxWithRequestBuilder(countryCodeIso3: countryCodeIso3, taxResource: taxResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -496,13 +506,11 @@ open class TaxesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
   "rate" : 0.8008281904610115,
-  "name" : "aeiou",
-  "country_iso3" : "aeiou"
+  "name" : "name",
+  "country_iso3" : "country_iso3"
 }}]
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter taxResource: (body) The tax object (optional)
-
      - returns: RequestBuilder<CountryTaxResource> 
      */
     open class func updateCountryTaxWithRequestBuilder(countryCodeIso3: String, taxResource: CountryTaxResource? = nil) -> RequestBuilder<CountryTaxResource> {
@@ -513,7 +521,6 @@ open class TaxesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<CountryTaxResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -521,15 +528,14 @@ open class TaxesAPI: APIBase {
 
     /**
      Create or update a state tax
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter stateCode: (path) The code of the state 
      - parameter taxResource: (body) The tax object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateStateTax(countryCodeIso3: String, stateCode: String, taxResource: StateTaxResource? = nil, completion: @escaping ((_ data: StateTaxResource?,_ error: Error?) -> Void)) {
+    open class func updateStateTax(countryCodeIso3: String, stateCode: String, taxResource: StateTaxResource? = nil, completion: @escaping ((_ data: StateTaxResource?, _ error: ErrorResponse?) -> Void)) {
         updateStateTaxWithRequestBuilder(countryCodeIso3: countryCodeIso3, stateCode: stateCode, taxResource: taxResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -544,15 +550,13 @@ open class TaxesAPI: APIBase {
   "tax_shipping" : false,
   "rate" : 0.8008281904610115,
   "federally_exempt" : false,
-  "name" : "aeiou",
-  "state_code" : "aeiou",
-  "country_iso3" : "aeiou"
+  "name" : "name",
+  "state_code" : "state_code",
+  "country_iso3" : "country_iso3"
 }}]
-     
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter stateCode: (path) The code of the state 
      - parameter taxResource: (body) The tax object (optional)
-
      - returns: RequestBuilder<StateTaxResource> 
      */
     open class func updateStateTaxWithRequestBuilder(countryCodeIso3: String, stateCode: String, taxResource: StateTaxResource? = nil) -> RequestBuilder<StateTaxResource> {
@@ -563,7 +567,6 @@ open class TaxesAPI: APIBase {
         let parameters = taxResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<StateTaxResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

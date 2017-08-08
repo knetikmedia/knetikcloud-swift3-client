@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class StoreAPI: APIBase {
     /**
      Create an item template
-     
      - parameter itemTemplateResource: (body) The new item template (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createItemTemplate(itemTemplateResource: StoreItemTemplateResource? = nil, completion: @escaping ((_ data: StoreItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func createItemTemplate(itemTemplateResource: StoreItemTemplateResource? = nil, completion: @escaping ((_ data: StoreItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createItemTemplateWithRequestBuilder(itemTemplateResource: itemTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -34,45 +32,197 @@ open class StoreAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
-      "type_hint" : "aeiou",
-      "description" : "aeiou"
+      "type_hint" : "type_hint",
+      "description" : "description"
+    },
+    "modifiable" : false,
+    "required" : false
+  }, {
+    "behavior" : {
+      "type_hint" : "type_hint",
+      "description" : "description"
     },
     "modifiable" : false,
     "required" : false
   } ],
-  "name" : "aeiou",
+  "name" : "name",
   "sku_template" : {
-    "name" : "aeiou",
-    "created_date" : 6,
-    "id" : "aeiou",
-    "updated_date" : 1,
-    "properties" : [ "" ]
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
   },
   "created_date" : 0,
-  "id" : "aeiou",
-  "updated_date" : 5,
+  "id" : "id",
+  "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter itemTemplateResource: (body) The new item template (optional)
-
      - returns: RequestBuilder<StoreItemTemplateResource> 
      */
     open class func createItemTemplateWithRequestBuilder(itemTemplateResource: StoreItemTemplateResource? = nil) -> RequestBuilder<StoreItemTemplateResource> {
@@ -82,7 +232,6 @@ open class StoreAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<StoreItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -90,14 +239,13 @@ open class StoreAPI: APIBase {
 
     /**
      Create a store item
-     
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter storeItem: (body) The store item object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createStoreItem(cascade: Bool? = nil, storeItem: StoreItem? = nil, completion: @escaping ((_ data: StoreItem?,_ error: Error?) -> Void)) {
+    open class func createStoreItem(cascade: Bool? = nil, storeItem: StoreItem? = nil, completion: @escaping ((_ data: StoreItem?, _ error: ErrorResponse?) -> Void)) {
         createStoreItemWithRequestBuilder(cascade: cascade, storeItem: storeItem).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -110,10 +258,8 @@ open class StoreAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=""}]
-     
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter storeItem: (body) The store item object (optional)
-
      - returns: RequestBuilder<StoreItem> 
      */
     open class func createStoreItemWithRequestBuilder(cascade: Bool? = nil, storeItem: StoreItem? = nil) -> RequestBuilder<StoreItem> {
@@ -125,7 +271,6 @@ open class StoreAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<StoreItem>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -134,14 +279,13 @@ open class StoreAPI: APIBase {
 
     /**
      Delete an item template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteItemTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteItemTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteItemTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -152,10 +296,8 @@ open class StoreAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteItemTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -168,7 +310,6 @@ open class StoreAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -177,13 +318,12 @@ open class StoreAPI: APIBase {
 
     /**
      Delete a store item
-     
      - parameter id: (path) The id of the item 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteStoreItem(id: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteStoreItem(id: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteStoreItemWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -194,9 +334,7 @@ open class StoreAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the item 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteStoreItemWithRequestBuilder(id: Int32) -> RequestBuilder<Void> {
@@ -207,7 +345,6 @@ open class StoreAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -215,12 +352,11 @@ open class StoreAPI: APIBase {
 
     /**
      List available item behaviors
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBehaviors(completion: @escaping ((_ data: [BehaviorDefinitionResource]?,_ error: Error?) -> Void)) {
+    open class func getBehaviors(completion: @escaping ((_ data: [BehaviorDefinitionResource]?, _ error: ErrorResponse?) -> Void)) {
         getBehaviorsWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -233,22 +369,59 @@ open class StoreAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example=[ {
   "prerequisite_behaviors" : [ {
-    "type_hint" : "aeiou",
-    "description" : "aeiou"
+    "type_hint" : "type_hint",
+    "description" : "description"
+  }, {
+    "type_hint" : "type_hint",
+    "description" : "description"
   } ],
-  "type_hint" : "aeiou",
-  "description" : "aeiou",
+  "type_hint" : "type_hint",
+  "description" : "description",
   "properties" : [ {
     "inner_type" : "integer",
-    "valid_values" : [ "aeiou" ],
-    "name" : "aeiou",
-    "description" : "aeiou",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
     "type" : "integer",
-    "inner_type_fields" : [ "" ],
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  }, {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  } ]
+}, {
+  "prerequisite_behaviors" : [ {
+    "type_hint" : "type_hint",
+    "description" : "description"
+  }, {
+    "type_hint" : "type_hint",
+    "description" : "description"
+  } ],
+  "type_hint" : "type_hint",
+  "description" : "description",
+  "properties" : [ {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
+    "required" : false
+  }, {
+    "inner_type" : "integer",
+    "valid_values" : [ "valid_values", "valid_values" ],
+    "name" : "name",
+    "description" : "description",
+    "type" : "integer",
+    "inner_type_fields" : [ null, null ],
     "required" : false
   } ]
 } ]}]
-
      - returns: RequestBuilder<[BehaviorDefinitionResource]> 
      */
     open class func getBehaviorsWithRequestBuilder() -> RequestBuilder<[BehaviorDefinitionResource]> {
@@ -258,7 +431,6 @@ open class StoreAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[BehaviorDefinitionResource]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -266,13 +438,12 @@ open class StoreAPI: APIBase {
 
     /**
      Get a single item template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getItemTemplate(id: String, completion: @escaping ((_ data: StoreItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getItemTemplate(id: String, completion: @escaping ((_ data: StoreItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getItemTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -287,45 +458,197 @@ open class StoreAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
-      "type_hint" : "aeiou",
-      "description" : "aeiou"
+      "type_hint" : "type_hint",
+      "description" : "description"
+    },
+    "modifiable" : false,
+    "required" : false
+  }, {
+    "behavior" : {
+      "type_hint" : "type_hint",
+      "description" : "description"
     },
     "modifiable" : false,
     "required" : false
   } ],
-  "name" : "aeiou",
+  "name" : "name",
   "sku_template" : {
-    "name" : "aeiou",
-    "created_date" : 6,
-    "id" : "aeiou",
-    "updated_date" : 1,
-    "properties" : [ "" ]
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
   },
   "created_date" : 0,
-  "id" : "aeiou",
-  "updated_date" : 5,
+  "id" : "id",
+  "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<StoreItemTemplateResource> 
      */
     open class func getItemTemplateWithRequestBuilder(id: String) -> RequestBuilder<StoreItemTemplateResource> {
@@ -336,7 +659,6 @@ open class StoreAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<StoreItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -344,15 +666,14 @@ open class StoreAPI: APIBase {
 
     /**
      List and search item templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getItemTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceStoreItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getItemTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceStoreItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getItemTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -364,65 +685,417 @@ open class StoreAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "number" : 5,
+  "number" : 1,
   "last" : true,
-  "size" : 7,
-  "total_elements" : 9,
+  "size" : 5,
+  "total_elements" : 2,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 3,
-  "number_of_elements" : 2,
+  "total_pages" : 7,
+  "number_of_elements" : 5,
   "content" : [ {
     "behaviors" : [ {
       "behavior" : {
-        "type_hint" : "aeiou",
-        "description" : "aeiou"
+        "type_hint" : "type_hint",
+        "description" : "description"
+      },
+      "modifiable" : false,
+      "required" : false
+    }, {
+      "behavior" : {
+        "type_hint" : "type_hint",
+        "description" : "description"
       },
       "modifiable" : false,
       "required" : false
     } ],
-    "name" : "aeiou",
+    "name" : "name",
     "sku_template" : {
-      "name" : "aeiou",
-      "created_date" : 6,
-      "id" : "aeiou",
-      "updated_date" : 1,
-      "properties" : [ "" ]
+      "name" : "name",
+      "created_date" : 0,
+      "id" : "id",
+      "updated_date" : 6,
+      "properties" : [ {
+        "name" : "name",
+        "type" : "type",
+        "field_list" : {
+          "property_definition_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ],
+          "property_type" : "property_type",
+          "property_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ]
+        },
+        "required" : false
+      }, {
+        "name" : "name",
+        "type" : "type",
+        "field_list" : {
+          "property_definition_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ],
+          "property_type" : "property_type",
+          "property_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ]
+        },
+        "required" : false
+      } ]
     },
     "created_date" : 0,
-    "id" : "aeiou",
-    "updated_date" : 5,
+    "id" : "id",
+    "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "behaviors" : [ {
+      "behavior" : {
+        "type_hint" : "type_hint",
+        "description" : "description"
+      },
+      "modifiable" : false,
+      "required" : false
+    }, {
+      "behavior" : {
+        "type_hint" : "type_hint",
+        "description" : "description"
+      },
+      "modifiable" : false,
+      "required" : false
+    } ],
+    "name" : "name",
+    "sku_template" : {
+      "name" : "name",
+      "created_date" : 0,
+      "id" : "id",
+      "updated_date" : 6,
+      "properties" : [ {
+        "name" : "name",
+        "type" : "type",
+        "field_list" : {
+          "property_definition_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ],
+          "property_type" : "property_type",
+          "property_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ]
+        },
+        "required" : false
+      }, {
+        "name" : "name",
+        "type" : "type",
+        "field_list" : {
+          "property_definition_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ],
+          "property_type" : "property_type",
+          "property_fields" : [ {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          }, {
+            "inner_type" : "integer",
+            "valid_values" : [ "valid_values", "valid_values" ],
+            "name" : "name",
+            "description" : "description",
+            "type" : "integer",
+            "inner_type_fields" : [ null, null ],
+            "required" : false
+          } ]
+        },
+        "required" : false
+      } ]
+    },
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceStoreItemTemplateResource> 
      */
     open class func getItemTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceStoreItemTemplateResource> {
@@ -436,7 +1109,6 @@ open class StoreAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceStoreItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -445,7 +1117,6 @@ open class StoreAPI: APIBase {
 
     /**
      Get a listing of store items
-     
      - parameter limit: (query) The amount of items returned (optional)
      - parameter page: (query) The page of the request (optional)
      - parameter useCatalog: (query) Whether to remove items that are not intended for display or not in date (optional)
@@ -453,9 +1124,9 @@ open class StoreAPI: APIBase {
      - parameter inStockOnly: (query) Whether only in-stock items should be returned.  Default value is false (optional, default to false)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getStore(limit: Int32? = nil, page: Int32? = nil, useCatalog: Bool? = nil, ignoreLocation: Bool? = nil, inStockOnly: Bool? = nil, completion: @escaping ((_ data: PageResourceStoreItem?,_ error: Error?) -> Void)) {
+    open class func getStore(limit: Int32? = nil, page: Int32? = nil, useCatalog: Bool? = nil, ignoreLocation: Bool? = nil, inStockOnly: Bool? = nil, completion: @escaping ((_ data: PageResourceStoreItem?, _ error: ErrorResponse?) -> Void)) {
         getStoreWithRequestBuilder(limit: limit, page: page, useCatalog: useCatalog, ignoreLocation: ignoreLocation, inStockOnly: inStockOnly).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -464,6 +1135,7 @@ open class StoreAPI: APIBase {
      Get a listing of store items
      - GET /store
      - The exact structure of each items may differ to include fields specific to the type. The same is true for behaviors.
+
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,
@@ -472,22 +1144,28 @@ open class StoreAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 5,
   "number_of_elements" : 6,
-  "content" : [ "" ],
+  "content" : [ "", "" ],
   "first" : true
 }}]
-     
      - parameter limit: (query) The amount of items returned (optional)
      - parameter page: (query) The page of the request (optional)
      - parameter useCatalog: (query) Whether to remove items that are not intended for display or not in date (optional)
      - parameter ignoreLocation: (query) Whether to ignore country restrictions based on the caller&#39;s location (optional)
      - parameter inStockOnly: (query) Whether only in-stock items should be returned.  Default value is false (optional, default to false)
-
      - returns: RequestBuilder<PageResourceStoreItem> 
      */
     open class func getStoreWithRequestBuilder(limit: Int32? = nil, page: Int32? = nil, useCatalog: Bool? = nil, ignoreLocation: Bool? = nil, inStockOnly: Bool? = nil) -> RequestBuilder<PageResourceStoreItem> {
@@ -503,7 +1181,6 @@ open class StoreAPI: APIBase {
             "ignore_location": ignoreLocation, 
             "in_stock_only": inStockOnly
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceStoreItem>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -512,13 +1189,12 @@ open class StoreAPI: APIBase {
 
     /**
      Get a single store item
-     
      - parameter id: (path) The id of the item 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getStoreItem(id: Int32, completion: @escaping ((_ data: StoreItem?,_ error: Error?) -> Void)) {
+    open class func getStoreItem(id: Int32, completion: @escaping ((_ data: StoreItem?, _ error: ErrorResponse?) -> Void)) {
         getStoreItemWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -526,10 +1202,9 @@ open class StoreAPI: APIBase {
     /**
      Get a single store item
      - GET /store/items/{id}
-     - examples: [{contentType=application/json, example=""}]
-     
-     - parameter id: (path) The id of the item 
 
+     - examples: [{contentType=application/json, example=""}]
+     - parameter id: (path) The id of the item 
      - returns: RequestBuilder<StoreItem> 
      */
     open class func getStoreItemWithRequestBuilder(id: Int32) -> RequestBuilder<StoreItem> {
@@ -540,7 +1215,6 @@ open class StoreAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<StoreItem>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -548,7 +1222,6 @@ open class StoreAPI: APIBase {
 
     /**
      List and search store items
-     
      - parameter filterNameSearch: (query) Filter for items whose name starts with a given string. (optional)
      - parameter filterUniqueKey: (query) Filter for items whose unique_key is a given string. (optional)
      - parameter filterPublished: (query) Filter for skus that have been published. (optional)
@@ -568,9 +1241,9 @@ open class StoreAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getStoreItems(filterNameSearch: String? = nil, filterUniqueKey: String? = nil, filterPublished: Bool? = nil, filterDisplayable: Bool? = nil, filterStart: String? = nil, filterEnd: String? = nil, filterStartDate: String? = nil, filterStopDate: String? = nil, filterSku: String? = nil, filterPrice: String? = nil, filterTag: String? = nil, filterItemsByType: String? = nil, filterBundledSkus: String? = nil, filterVendor: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceStoreItem?,_ error: Error?) -> Void)) {
+    open class func getStoreItems(filterNameSearch: String? = nil, filterUniqueKey: String? = nil, filterPublished: Bool? = nil, filterDisplayable: Bool? = nil, filterStart: String? = nil, filterEnd: String? = nil, filterStartDate: String? = nil, filterStopDate: String? = nil, filterSku: String? = nil, filterPrice: String? = nil, filterTag: String? = nil, filterItemsByType: String? = nil, filterBundledSkus: String? = nil, filterVendor: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceStoreItem?, _ error: ErrorResponse?) -> Void)) {
         getStoreItemsWithRequestBuilder(filterNameSearch: filterNameSearch, filterUniqueKey: filterUniqueKey, filterPublished: filterPublished, filterDisplayable: filterDisplayable, filterStart: filterStart, filterEnd: filterEnd, filterStartDate: filterStartDate, filterStopDate: filterStopDate, filterSku: filterSku, filterPrice: filterPrice, filterTag: filterTag, filterItemsByType: filterItemsByType, filterBundledSkus: filterBundledSkus, filterVendor: filterVendor, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -578,6 +1251,7 @@ open class StoreAPI: APIBase {
     /**
      List and search store items
      - GET /store/items
+
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,
@@ -586,16 +1260,23 @@ open class StoreAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 5,
   "number_of_elements" : 6,
-  "content" : [ "" ],
+  "content" : [ "", "" ],
   "first" : true
 }}]
-     
      - parameter filterNameSearch: (query) Filter for items whose name starts with a given string. (optional)
      - parameter filterUniqueKey: (query) Filter for items whose unique_key is a given string. (optional)
      - parameter filterPublished: (query) Filter for skus that have been published. (optional)
@@ -613,7 +1294,6 @@ open class StoreAPI: APIBase {
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceStoreItem> 
      */
     open class func getStoreItemsWithRequestBuilder(filterNameSearch: String? = nil, filterUniqueKey: String? = nil, filterPublished: Bool? = nil, filterDisplayable: Bool? = nil, filterStart: String? = nil, filterEnd: String? = nil, filterStartDate: String? = nil, filterStopDate: String? = nil, filterSku: String? = nil, filterPrice: String? = nil, filterTag: String? = nil, filterItemsByType: String? = nil, filterBundledSkus: String? = nil, filterVendor: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceStoreItem> {
@@ -641,7 +1321,6 @@ open class StoreAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceStoreItem>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -649,15 +1328,130 @@ open class StoreAPI: APIBase {
     }
 
     /**
+     One-step purchase and pay for a single SKU item from a user's wallet
+     - parameter quickBuyRequest: (body) Quick buy details (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func quickBuy(quickBuyRequest: QuickBuyRequest? = nil, completion: @escaping ((_ data: InvoiceResource?, _ error: ErrorResponse?) -> Void)) {
+        quickBuyWithRequestBuilder(quickBuyRequest: quickBuyRequest).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     One-step purchase and pay for a single SKU item from a user's wallet
+     - POST /store/quick-buy
+     - Used to create and automatically pay an invoice for a single unit of a single SKU from a user's wallet. SKU must be priced in virtual currency and must not be an item that requires shipping. PAYMENTS_ADMIN permission is required if user ID is specified and is not the ID of the currently logged in user. If invoice price does not match expected price, purchase is aborted
+     - OAuth:
+       - type: oauth2
+       - name: OAuth2
+     - examples: [{contentType=application/json, example={
+  "shipping_city_name" : "shipping_city_name",
+  "order_notes" : "order_notes",
+  "parent_invoice_id" : 1,
+  "discount" : 6.027456183070403,
+  "state_tax" : 4.965218492984954,
+  "cart_id" : "cart_id",
+  "name_prefix" : "name_prefix",
+  "billing_postal_code" : "billing_postal_code",
+  "shipping" : 7.457744773683766,
+  "billing_state_name" : "billing_state_name",
+  "billing_country_name" : "billing_country_name",
+  "currency" : "currency",
+  "current_fulfillment_status" : "current_fulfillment_status",
+  "grand_total" : 5.962133916683182,
+  "id" : 5,
+  "current_payment_status" : "current_payment_status",
+  "billing_address1" : "billing_address1",
+  "invoice_number" : "invoice_number",
+  "billing_address2" : "billing_address2",
+  "email" : "email",
+  "vendor_name" : "vendor_name",
+  "billing_full_name" : "billing_full_name",
+  "sort" : 1,
+  "shipping_full_name" : "shipping_full_name",
+  "fed_tax" : 1.4658129805029452,
+  "payment_method_id" : 6,
+  "phone" : "phone",
+  "external_ref" : "external_ref",
+  "shipping_address2" : "shipping_address2",
+  "subtotal" : 5.025004791520295,
+  "shipping_address1" : "shipping_address1",
+  "vendor_id" : 9,
+  "shipping_state_name" : "shipping_state_name",
+  "billing_city_name" : "billing_city_name",
+  "phone_number" : "phone_number",
+  "created_date" : 0,
+  "shipping_country_name" : "shipping_country_name",
+  "updated_date" : 9,
+  "items" : [ {
+    "type_hint" : "type_hint",
+    "total_price" : 1.2315135367772556,
+    "item_id" : 9,
+    "system_price" : 7.386281948385884,
+    "item_name" : "item_name",
+    "original_unit_price" : 2.027123023002322,
+    "unit_price" : 1.0246457001441578,
+    "qty" : 4,
+    "invoice_id" : 7,
+    "current_fulfillment_status" : "current_fulfillment_status",
+    "id" : 2,
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
+    "original_total_price" : 3.616076749251911,
+    "sku" : "sku",
+    "sku_description" : "sku_description"
+  }, {
+    "type_hint" : "type_hint",
+    "total_price" : 1.2315135367772556,
+    "item_id" : 9,
+    "system_price" : 7.386281948385884,
+    "item_name" : "item_name",
+    "original_unit_price" : 2.027123023002322,
+    "unit_price" : 1.0246457001441578,
+    "qty" : 4,
+    "invoice_id" : 7,
+    "current_fulfillment_status" : "current_fulfillment_status",
+    "id" : 2,
+    "sale_name" : "sale_name",
+    "bundle_sku" : "bundle_sku",
+    "original_total_price" : 3.616076749251911,
+    "sku" : "sku",
+    "sku_description" : "sku_description"
+  } ],
+  "user" : {
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
+  },
+  "shipping_postal_code" : "shipping_postal_code"
+}}]
+     - parameter quickBuyRequest: (body) Quick buy details (optional)
+     - returns: RequestBuilder<InvoiceResource> 
+     */
+    open class func quickBuyWithRequestBuilder(quickBuyRequest: QuickBuyRequest? = nil) -> RequestBuilder<InvoiceResource> {
+        let path = "/store/quick-buy"
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = quickBuyRequest?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<InvoiceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
      Update an item template
-     
      - parameter id: (path) The id of the template 
      - parameter itemTemplateResource: (body) The item template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateItemTemplate(id: String, itemTemplateResource: StoreItemTemplateResource? = nil, completion: @escaping ((_ data: StoreItemTemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateItemTemplate(id: String, itemTemplateResource: StoreItemTemplateResource? = nil, completion: @escaping ((_ data: StoreItemTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateItemTemplateWithRequestBuilder(id: id, itemTemplateResource: itemTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -671,46 +1465,198 @@ open class StoreAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
-      "type_hint" : "aeiou",
-      "description" : "aeiou"
+      "type_hint" : "type_hint",
+      "description" : "description"
+    },
+    "modifiable" : false,
+    "required" : false
+  }, {
+    "behavior" : {
+      "type_hint" : "type_hint",
+      "description" : "description"
     },
     "modifiable" : false,
     "required" : false
   } ],
-  "name" : "aeiou",
+  "name" : "name",
   "sku_template" : {
-    "name" : "aeiou",
-    "created_date" : 6,
-    "id" : "aeiou",
-    "updated_date" : 1,
-    "properties" : [ "" ]
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
   },
   "created_date" : 0,
-  "id" : "aeiou",
-  "updated_date" : 5,
+  "id" : "id",
+  "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter itemTemplateResource: (body) The item template resource object (optional)
-
      - returns: RequestBuilder<StoreItemTemplateResource> 
      */
     open class func updateItemTemplateWithRequestBuilder(id: String, itemTemplateResource: StoreItemTemplateResource? = nil) -> RequestBuilder<StoreItemTemplateResource> {
@@ -721,7 +1667,6 @@ open class StoreAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<StoreItemTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -729,15 +1674,14 @@ open class StoreAPI: APIBase {
 
     /**
      Update a store item
-     
      - parameter id: (path) The id of the item 
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter storeItem: (body) The store item object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateStoreItem(id: Int32, cascade: Bool? = nil, storeItem: StoreItem? = nil, completion: @escaping ((_ data: StoreItem?,_ error: Error?) -> Void)) {
+    open class func updateStoreItem(id: Int32, cascade: Bool? = nil, storeItem: StoreItem? = nil, completion: @escaping ((_ data: StoreItem?, _ error: ErrorResponse?) -> Void)) {
         updateStoreItemWithRequestBuilder(id: id, cascade: cascade, storeItem: storeItem).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -749,11 +1693,9 @@ open class StoreAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example=""}]
-     
      - parameter id: (path) The id of the item 
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter storeItem: (body) The store item object (optional)
-
      - returns: RequestBuilder<StoreItem> 
      */
     open class func updateStoreItemWithRequestBuilder(id: Int32, cascade: Bool? = nil, storeItem: StoreItem? = nil) -> RequestBuilder<StoreItem> {
@@ -766,7 +1708,6 @@ open class StoreAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<StoreItem>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

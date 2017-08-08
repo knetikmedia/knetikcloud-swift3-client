@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class MediaModerationAPI: APIBase {
     /**
      Get a flag report
-     
      - parameter id: (path) The flag report id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getModerationReport(id: Int64, completion: @escaping ((_ data: FlagReportResource?,_ error: Error?) -> Void)) {
+    open class func getModerationReport(id: Int64, completion: @escaping ((_ data: FlagReportResource?, _ error: ErrorResponse?) -> Void)) {
         getModerationReportWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -31,18 +29,16 @@ open class MediaModerationAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "reason" : "aeiou",
-  "context" : "aeiou",
-  "context_id" : "aeiou",
+  "reason" : "reason",
+  "context" : "context",
+  "context_id" : "context_id",
   "created_date" : 0,
   "id" : 6,
   "updated_date" : 5,
   "resolution" : "banned",
   "resolved" : 1
 }}]
-     
      - parameter id: (path) The flag report id 
-
      - returns: RequestBuilder<FlagReportResource> 
      */
     open class func getModerationReportWithRequestBuilder(id: Int64) -> RequestBuilder<FlagReportResource> {
@@ -53,7 +49,6 @@ open class MediaModerationAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<FlagReportResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -61,16 +56,15 @@ open class MediaModerationAPI: APIBase {
 
     /**
      Returns a page of flag reports
-     
      - parameter excludeResolved: (query) Ignore resolved context (optional, default to true)
      - parameter filterContext: (query) Filter by moderation context (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getModerationReports(excludeResolved: Bool? = nil, filterContext: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceFlagReportResource?,_ error: Error?) -> Void)) {
+    open class func getModerationReports(excludeResolved: Bool? = nil, filterContext: String? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceFlagReportResource?, _ error: ErrorResponse?) -> Void)) {
         getModerationReportsWithRequestBuilder(excludeResolved: excludeResolved, filterContext: filterContext, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -90,16 +84,33 @@ open class MediaModerationAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 3,
   "number_of_elements" : 2,
   "content" : [ {
-    "reason" : "aeiou",
-    "context" : "aeiou",
-    "context_id" : "aeiou",
+    "reason" : "reason",
+    "context" : "context",
+    "context_id" : "context_id",
+    "created_date" : 0,
+    "id" : 6,
+    "updated_date" : 5,
+    "resolution" : "banned",
+    "resolved" : 1
+  }, {
+    "reason" : "reason",
+    "context" : "context",
+    "context_id" : "context_id",
     "created_date" : 0,
     "id" : 6,
     "updated_date" : 5,
@@ -108,12 +119,10 @@ open class MediaModerationAPI: APIBase {
   } ],
   "first" : true
 }}]
-     
      - parameter excludeResolved: (query) Ignore resolved context (optional, default to true)
      - parameter filterContext: (query) Filter by moderation context (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceFlagReportResource> 
      */
     open class func getModerationReportsWithRequestBuilder(excludeResolved: Bool? = nil, filterContext: String? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceFlagReportResource> {
@@ -128,7 +137,6 @@ open class MediaModerationAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceFlagReportResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -137,14 +145,13 @@ open class MediaModerationAPI: APIBase {
 
     /**
      Update a flag report
-     
      - parameter id: (path) The flag report id 
      - parameter flagReportResource: (body) The new flag report (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateModerationReport(id: Int64, flagReportResource: FlagReportResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateModerationReport(id: Int64, flagReportResource: FlagReportResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateModerationReportWithRequestBuilder(id: id, flagReportResource: flagReportResource).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -156,10 +163,8 @@ open class MediaModerationAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The flag report id 
      - parameter flagReportResource: (body) The new flag report (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateModerationReportWithRequestBuilder(id: Int64, flagReportResource: FlagReportResource? = nil) -> RequestBuilder<Void> {
@@ -169,7 +174,6 @@ open class MediaModerationAPI: APIBase {
         let parameters = flagReportResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

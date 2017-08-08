@@ -9,19 +9,17 @@ import Foundation
 import Alamofire
 
 
-
 open class SearchAPI: APIBase {
     /**
      Add a new object to an index
-     
      - parameter type: (path) The index type 
      - parameter id: (path) The ID of the object 
      - parameter object: (body) The object to add (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addSearchIndex(type: String, id: String, object: Any? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func addSearchIndex(type: String, id: String, object: Any? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addSearchIndexWithRequestBuilder(type: type, id: id, object: object).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -33,11 +31,9 @@ open class SearchAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter type: (path) The index type 
      - parameter id: (path) The ID of the object 
      - parameter object: (body) The object to add (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func addSearchIndexWithRequestBuilder(type: String, id: String, object: Any? = nil) -> RequestBuilder<Void> {
@@ -49,7 +45,6 @@ open class SearchAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -57,13 +52,12 @@ open class SearchAPI: APIBase {
 
     /**
      Register reference mappings
-     
      - parameter mappings: (body) The mappings to add (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addSearchMappings(mappings: [SearchReferenceMapping]? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func addSearchMappings(mappings: [SearchReferenceMapping]? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addSearchMappingsWithRequestBuilder(mappings: mappings).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -75,9 +69,7 @@ open class SearchAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter mappings: (body) The mappings to add (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func addSearchMappingsWithRequestBuilder(mappings: [SearchReferenceMapping]? = nil) -> RequestBuilder<Void> {
@@ -87,7 +79,6 @@ open class SearchAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -95,14 +86,13 @@ open class SearchAPI: APIBase {
 
     /**
      Delete an object
-     
      - parameter type: (path) The index type 
      - parameter id: (path) The ID of the object to delete 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteSearchIndex(type: String, id: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteSearchIndex(type: String, id: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteSearchIndexWithRequestBuilder(type: type, id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -114,10 +104,8 @@ open class SearchAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter type: (path) The index type 
      - parameter id: (path) The ID of the object to delete 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteSearchIndexWithRequestBuilder(type: String, id: String) -> RequestBuilder<Void> {
@@ -129,7 +117,6 @@ open class SearchAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -137,13 +124,12 @@ open class SearchAPI: APIBase {
 
     /**
      Delete all objects in an index
-     
      - parameter type: (path) The index type 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteSearchIndexes(type: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteSearchIndexes(type: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteSearchIndexesWithRequestBuilder(type: type).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -155,9 +141,7 @@ open class SearchAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter type: (path) The index type 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteSearchIndexesWithRequestBuilder(type: String) -> RequestBuilder<Void> {
@@ -168,7 +152,6 @@ open class SearchAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -176,16 +159,15 @@ open class SearchAPI: APIBase {
 
     /**
      Search an index
-     
      - parameter type: (path) The index type 
      - parameter query: (body) The query to be used for the search (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func searchIndex(type: String, query: Any? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceMapstringobject?,_ error: Error?) -> Void)) {
+    open class func searchIndex(type: String, query: Any? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceMapstringobject?, _ error: ErrorResponse?) -> Void)) {
         searchIndexWithRequestBuilder(type: type, query: query, size: size, page: page).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -194,6 +176,7 @@ open class SearchAPI: APIBase {
      Search an index
      - POST /search/index/{type}
      - The body is an ElasticSearch query in JSON format. Please see their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html'>documentation</a> for details on the format and search options. The searchable object's format depends on on the type. See individual search endpoints on other resources for details on their format.
+
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,
@@ -202,21 +185,27 @@ open class SearchAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 5,
   "number_of_elements" : 6,
-  "content" : [ { } ],
+  "content" : [ { }, { } ],
   "first" : true
 }}]
-     
      - parameter type: (path) The index type 
      - parameter query: (body) The query to be used for the search (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-
      - returns: RequestBuilder<PageResourceMapstringobject> 
      */
     open class func searchIndexWithRequestBuilder(type: String, query: Any? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceMapstringobject> {
@@ -230,7 +219,6 @@ open class SearchAPI: APIBase {
             "size": size?.encodeToJSON(), 
             "page": page?.encodeToJSON()
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceMapstringobject>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

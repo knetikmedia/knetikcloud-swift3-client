@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class UtilBatchAPI: APIBase {
     /**
      Get batch result with token
-     
      - parameter token: (path) token 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBatch(token: String, completion: @escaping ((_ data: [BatchReturn]?,_ error: Error?) -> Void)) {
+    open class func getBatch(token: String, completion: @escaping ((_ data: [BatchReturn]?, _ error: ErrorResponse?) -> Void)) {
         getBatchWithRequestBuilder(token: token).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -28,14 +26,17 @@ open class UtilBatchAPI: APIBase {
      Get batch result with token
      - GET /batch/{token}
      - Tokens expire in 24 hours
+
      - examples: [{contentType=application/json, example=[ {
   "code" : 0,
   "body" : "{}",
-  "uri" : "aeiou"
+  "uri" : "uri"
+}, {
+  "code" : 0,
+  "body" : "{}",
+  "uri" : "uri"
 } ]}]
-     
      - parameter token: (path) token 
-
      - returns: RequestBuilder<[BatchReturn]> 
      */
     open class func getBatchWithRequestBuilder(token: String) -> RequestBuilder<[BatchReturn]> {
@@ -46,7 +47,6 @@ open class UtilBatchAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[BatchReturn]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -54,13 +54,12 @@ open class UtilBatchAPI: APIBase {
 
     /**
      Request to run API call given the method, content type, path url, and body of request
-     
      - parameter batch: (body) The batch object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func sendBatch(batch: Batch? = nil, completion: @escaping ((_ data: [BatchReturn]?,_ error: Error?) -> Void)) {
+    open class func sendBatch(batch: Batch? = nil, completion: @escaping ((_ data: [BatchReturn]?, _ error: ErrorResponse?) -> Void)) {
         sendBatchWithRequestBuilder(batch: batch).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -69,14 +68,17 @@ open class UtilBatchAPI: APIBase {
      Request to run API call given the method, content type, path url, and body of request
      - POST /batch
      - Should the request take longer than one of the alloted timeout parameters, a token will be returned instead, which can be used on the token endpoint in this service
+
      - examples: [{contentType=application/json, example=[ {
   "code" : 0,
   "body" : "{}",
-  "uri" : "aeiou"
+  "uri" : "uri"
+}, {
+  "code" : 0,
+  "body" : "{}",
+  "uri" : "uri"
 } ]}]
-     
      - parameter batch: (body) The batch object (optional)
-
      - returns: RequestBuilder<[BatchReturn]> 
      */
     open class func sendBatchWithRequestBuilder(batch: Batch? = nil) -> RequestBuilder<[BatchReturn]> {
@@ -85,7 +87,6 @@ open class UtilBatchAPI: APIBase {
         let parameters = batch?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<[BatchReturn]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

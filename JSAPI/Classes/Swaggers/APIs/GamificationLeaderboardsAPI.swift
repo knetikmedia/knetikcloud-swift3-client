@@ -9,11 +9,9 @@ import Foundation
 import Alamofire
 
 
-
 open class GamificationLeaderboardsAPI: APIBase {
     /**
      Retrieves leaderboard details and paginated entries
-     
      - parameter contextType: (path) The context type for the leaderboard 
      - parameter contextId: (path) The context id for the leaderboard 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
@@ -21,9 +19,9 @@ open class GamificationLeaderboardsAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to score:DESC,updated:ASC,user_id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getLeaderboard(contextType: String, contextId: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: LeaderboardResource?,_ error: Error?) -> Void)) {
+    open class func getLeaderboard(contextType: String, contextId: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: LeaderboardResource?, _ error: ErrorResponse?) -> Void)) {
         getLeaderboardWithRequestBuilder(contextType: contextType, contextId: contextId, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -32,28 +30,37 @@ open class GamificationLeaderboardsAPI: APIBase {
      Retrieves leaderboard details and paginated entries
      - GET /leaderboards/{context_type}/{context_id}
      - The context type identifies the type of entity (i.e., 'activity') being tracked on the leaderboard. The context ID is the unique ID of the actual entity tracked by the leaderboard. Sorting is based on the fields of LeaderboardEntryResource rather than the returned LeaderboardResource.
+
      - examples: [{contentType=application/json, example={
   "entries" : [ {
     "score" : 6,
     "rank" : 0,
     "updated_date" : 1,
     "user" : {
-      "avatar_url" : "aeiou",
-      "id" : 5,
-      "display_name" : "aeiou",
-      "username" : "aeiou"
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
+    }
+  }, {
+    "score" : 6,
+    "rank" : 0,
+    "updated_date" : 1,
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 1,
+      "display_name" : "display_name",
+      "username" : "username"
     }
   } ],
   "id" : 5,
-  "strategy" : "aeiou"
+  "strategy" : "strategy"
 }}]
-     
      - parameter contextType: (path) The context type for the leaderboard 
      - parameter contextId: (path) The context id for the leaderboard 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to score:DESC,updated:ASC,user_id:ASC)
-
      - returns: RequestBuilder<LeaderboardResource> 
      */
     open class func getLeaderboardWithRequestBuilder(contextType: String, contextId: String, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<LeaderboardResource> {
@@ -69,7 +76,6 @@ open class GamificationLeaderboardsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<LeaderboardResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -78,15 +84,14 @@ open class GamificationLeaderboardsAPI: APIBase {
 
     /**
      Retrieves a specific user entry with rank
-     
      - parameter contextType: (path) The context type for the leaderboard 
      - parameter contextId: (path) The context id for the leaderboard 
      - parameter id: (path) The id of a user 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getLeaderboardRank(contextType: String, contextId: String, id: String, completion: @escaping ((_ data: LeaderboardEntryResource?,_ error: Error?) -> Void)) {
+    open class func getLeaderboardRank(contextType: String, contextId: String, id: String, completion: @escaping ((_ data: LeaderboardEntryResource?, _ error: ErrorResponse?) -> Void)) {
         getLeaderboardRankWithRequestBuilder(contextType: contextType, contextId: contextId, id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -103,17 +108,15 @@ open class GamificationLeaderboardsAPI: APIBase {
   "rank" : 0,
   "updated_date" : 1,
   "user" : {
-    "avatar_url" : "aeiou",
-    "id" : 5,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "avatar_url" : "avatar_url",
+    "id" : 1,
+    "display_name" : "display_name",
+    "username" : "username"
   }
 }}]
-     
      - parameter contextType: (path) The context type for the leaderboard 
      - parameter contextId: (path) The context id for the leaderboard 
      - parameter id: (path) The id of a user 
-
      - returns: RequestBuilder<LeaderboardEntryResource> 
      */
     open class func getLeaderboardRankWithRequestBuilder(contextType: String, contextId: String, id: String) -> RequestBuilder<LeaderboardEntryResource> {
@@ -126,7 +129,6 @@ open class GamificationLeaderboardsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<LeaderboardEntryResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -134,12 +136,11 @@ open class GamificationLeaderboardsAPI: APIBase {
 
     /**
      Get a list of available leaderboard strategy names
-     
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getLeaderboardStrategies(completion: @escaping ((_ data: [String]?,_ error: Error?) -> Void)) {
+    open class func getLeaderboardStrategies(completion: @escaping ((_ data: [String]?, _ error: ErrorResponse?) -> Void)) {
         getLeaderboardStrategiesWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -147,8 +148,8 @@ open class GamificationLeaderboardsAPI: APIBase {
     /**
      Get a list of available leaderboard strategy names
      - GET /leaderboards/strategies
-     - examples: [{contentType=application/json, example=[ "aeiou" ]}]
 
+     - examples: [{contentType=application/json, example=[ "", "" ]}]
      - returns: RequestBuilder<[String]> 
      */
     open class func getLeaderboardStrategiesWithRequestBuilder() -> RequestBuilder<[String]> {
@@ -157,7 +158,6 @@ open class GamificationLeaderboardsAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<[String]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

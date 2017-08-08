@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class PaymentsOptimalAPI: APIBase {
     /**
      Initiate silent post with Optimal
-     
      - parameter request: (body) The payment request to initiate (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func silentPostOptimal(request: OptimalPaymentRequest? = nil, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
+    open class func silentPostOptimal(request: OptimalPaymentRequest? = nil, completion: @escaping ((_ data: String?, _ error: ErrorResponse?) -> Void)) {
         silentPostOptimalWithRequestBuilder(request: request).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -31,10 +29,8 @@ open class PaymentsOptimalAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example="aeiou"}]
-     
+     - examples: [{contentType=application/json, example=""}]
      - parameter request: (body) The payment request to initiate (optional)
-
      - returns: RequestBuilder<String> 
      */
     open class func silentPostOptimalWithRequestBuilder(request: OptimalPaymentRequest? = nil) -> RequestBuilder<String> {
@@ -43,7 +39,6 @@ open class PaymentsOptimalAPI: APIBase {
         let parameters = request?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<String>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

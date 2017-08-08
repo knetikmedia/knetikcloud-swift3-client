@@ -9,18 +9,16 @@ import Foundation
 import Alamofire
 
 
-
 open class UsersAPI: APIBase {
     /**
      Add a tag to a user
-     
      - parameter userId: (path) The id of the user 
      - parameter tag: (body) tag 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addUserTag(userId: Int32, tag: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func addUserTag(userId: Int32, tag: StringWrapper, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addUserTagWithRequestBuilder(userId: userId, tag: tag).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -31,20 +29,17 @@ open class UsersAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter tag: (body) tag 
-
      - returns: RequestBuilder<Void> 
      */
-    open class func addUserTagWithRequestBuilder(userId: Int32, tag: String) -> RequestBuilder<Void> {
+    open class func addUserTagWithRequestBuilder(userId: Int32, tag: StringWrapper) -> RequestBuilder<Void> {
         var path = "/users/{user_id}/tags"
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = tag.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -53,13 +48,12 @@ open class UsersAPI: APIBase {
 
     /**
      Create a user template
-     
      - parameter userTemplateResource: (body) The user template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createUserTemplate(userTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func createUserTemplate(userTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createUserTemplateWithRequestBuilder(userTemplateResource: userTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -72,32 +66,95 @@ open class UsersAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter userTemplateResource: (body) The user template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func createUserTemplateWithRequestBuilder(userTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -107,7 +164,6 @@ open class UsersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -115,14 +171,13 @@ open class UsersAPI: APIBase {
 
     /**
      Delete a user template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteUserTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteUserTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteUserTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -134,10 +189,8 @@ open class UsersAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteUserTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -150,7 +203,6 @@ open class UsersAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -159,13 +211,12 @@ open class UsersAPI: APIBase {
 
     /**
      Get a single user
-     
      - parameter id: (path) The id of the user or &#39;me&#39; 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUser(id: String, completion: @escaping ((_ data: UserResource?,_ error: Error?) -> Void)) {
+    open class func getUser(id: String, completion: @escaping ((_ data: UserResource?, _ error: ErrorResponse?) -> Void)) {
         getUserWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -179,50 +230,69 @@ open class UsersAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "member_since" : 7,
-  "template" : "aeiou",
-  "gender" : "aeiou",
-  "city" : "aeiou",
+  "template" : "template",
+  "gender" : "gender",
+  "city" : "city",
   "date_of_birth" : 1,
-  "description" : "aeiou",
-  "currency_code" : "aeiou",
-  "language_code" : "aeiou",
-  "password" : "aeiou",
+  "description" : "description",
+  "currency_code" : "currency_code",
+  "language_code" : "language_code",
+  "password" : "password",
   "last_activity" : 5,
   "children" : [ {
-    "avatar_url" : "aeiou",
-    "context" : "aeiou",
+    "avatar_url" : "avatar_url",
+    "context" : "context",
     "relationship_id" : 6,
     "id" : 0,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "display_name" : "display_name",
+    "username" : "username"
+  }, {
+    "avatar_url" : "avatar_url",
+    "context" : "context",
+    "relationship_id" : 6,
+    "id" : 0,
+    "display_name" : "display_name",
+    "username" : "username"
   } ],
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "id" : 5,
-  "state" : "aeiou",
-  "first_name" : "aeiou",
-  "email" : "aeiou",
+  "state" : "state",
+  "first_name" : "first_name",
+  "email" : "email",
   "last_updated" : 2,
-  "address" : "aeiou",
-  "address2" : "aeiou",
-  "last_name" : "aeiou",
-  "display_name" : "aeiou",
-  "tags" : [ "aeiou" ],
-  "country_code" : "aeiou",
-  "avatar_url" : "aeiou",
-  "timezone_code" : "aeiou",
-  "fullname" : "aeiou",
-  "mobile_number" : "aeiou",
-  "postal_code" : "aeiou",
-  "parents" : [ "" ],
-  "username" : "aeiou"
+  "address" : "address",
+  "address2" : "address2",
+  "last_name" : "last_name",
+  "display_name" : "display_name",
+  "tags" : [ "tags", "tags" ],
+  "country_code" : "country_code",
+  "avatar_url" : "avatar_url",
+  "timezone_code" : "timezone_code",
+  "fullname" : "fullname",
+  "mobile_number" : "mobile_number",
+  "postal_code" : "postal_code",
+  "parents" : [ {
+    "avatar_url" : "avatar_url",
+    "context" : "context",
+    "relationship_id" : 6,
+    "id" : 0,
+    "display_name" : "display_name",
+    "username" : "username"
+  }, {
+    "avatar_url" : "avatar_url",
+    "context" : "context",
+    "relationship_id" : 6,
+    "id" : 0,
+    "display_name" : "display_name",
+    "username" : "username"
+  } ],
+  "username" : "username"
 }}]
-     
      - parameter id: (path) The id of the user or &#39;me&#39; 
-
      - returns: RequestBuilder<UserResource> 
      */
     open class func getUserWithRequestBuilder(id: String) -> RequestBuilder<UserResource> {
@@ -233,7 +303,6 @@ open class UsersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<UserResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -241,13 +310,12 @@ open class UsersAPI: APIBase {
 
     /**
      List tags for a user
-     
      - parameter userId: (path) The id of the user 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserTags(userId: Int32, completion: @escaping ((_ data: [String]?,_ error: Error?) -> Void)) {
+    open class func getUserTags(userId: Int32, completion: @escaping ((_ data: [String]?, _ error: ErrorResponse?) -> Void)) {
         getUserTagsWithRequestBuilder(userId: userId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -258,10 +326,8 @@ open class UsersAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     - examples: [{contentType=application/json, example=[ "aeiou" ]}]
-     
+     - examples: [{contentType=application/json, example=[ "", "" ]}]
      - parameter userId: (path) The id of the user 
-
      - returns: RequestBuilder<[String]> 
      */
     open class func getUserTagsWithRequestBuilder(userId: Int32) -> RequestBuilder<[String]> {
@@ -272,7 +338,6 @@ open class UsersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<[String]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -280,13 +345,12 @@ open class UsersAPI: APIBase {
 
     /**
      Get a single user template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserTemplate(id: String, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func getUserTemplate(id: String, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getUserTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -298,32 +362,95 @@ open class UsersAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func getUserTemplateWithRequestBuilder(id: String) -> RequestBuilder<TemplateResource> {
@@ -334,7 +461,6 @@ open class UsersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -342,15 +468,14 @@ open class UsersAPI: APIBase {
 
     /**
      List and search user templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getUserTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getUserTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -369,43 +494,202 @@ open class UsersAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 0,
-    "id" : "aeiou",
+    "id" : "id",
     "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceTemplateResource> 
      */
     open class func getUserTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceTemplateResource> {
@@ -419,7 +703,6 @@ open class UsersAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -428,7 +711,6 @@ open class UsersAPI: APIBase {
 
     /**
      List and search users
-     
      - parameter filterDisplayname: (query) Filter for users whose display name starts with provided string. (optional)
      - parameter filterEmail: (query) Filter for users whose email starts with provided string. Requires USERS_ADMIN permission (optional)
      - parameter filterFirstname: (query) Filter for users whose first name starts with provided string. Requires USERS_ADMIN permission (optional)
@@ -444,9 +726,9 @@ open class UsersAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUsers(filterDisplayname: String? = nil, filterEmail: String? = nil, filterFirstname: String? = nil, filterFullname: String? = nil, filterLastname: String? = nil, filterUsername: String? = nil, filterTag: String? = nil, filterGroup: String? = nil, filterRole: String? = nil, filterSearch: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceUserBaseResource?,_ error: Error?) -> Void)) {
+    open class func getUsers(filterDisplayname: String? = nil, filterEmail: String? = nil, filterFirstname: String? = nil, filterFullname: String? = nil, filterLastname: String? = nil, filterUsername: String? = nil, filterTag: String? = nil, filterGroup: String? = nil, filterRole: String? = nil, filterSearch: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceUserBaseResource?, _ error: ErrorResponse?) -> Void)) {
         getUsersWithRequestBuilder(filterDisplayname: filterDisplayname, filterEmail: filterEmail, filterFirstname: filterFirstname, filterFullname: filterFullname, filterLastname: filterLastname, filterUsername: filterUsername, filterTag: filterTag, filterGroup: filterGroup, filterRole: filterRole, filterSearch: filterSearch, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -466,8 +748,16 @@ open class UsersAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 3,
@@ -476,16 +766,25 @@ open class UsersAPI: APIBase {
     "member_since" : 5,
     "last_updated" : 1,
     "last_activity" : 6,
-    "avatar_url" : "aeiou",
-    "fullname" : "aeiou",
+    "avatar_url" : "avatar_url",
+    "fullname" : "fullname",
     "id" : 0,
-    "display_name" : "aeiou",
-    "email" : "aeiou",
-    "username" : "aeiou"
+    "display_name" : "display_name",
+    "email" : "email",
+    "username" : "username"
+  }, {
+    "member_since" : 5,
+    "last_updated" : 1,
+    "last_activity" : 6,
+    "avatar_url" : "avatar_url",
+    "fullname" : "fullname",
+    "id" : 0,
+    "display_name" : "display_name",
+    "email" : "email",
+    "username" : "username"
   } ],
   "first" : true
 }}]
-     
      - parameter filterDisplayname: (query) Filter for users whose display name starts with provided string. (optional)
      - parameter filterEmail: (query) Filter for users whose email starts with provided string. Requires USERS_ADMIN permission (optional)
      - parameter filterFirstname: (query) Filter for users whose first name starts with provided string. Requires USERS_ADMIN permission (optional)
@@ -499,7 +798,6 @@ open class UsersAPI: APIBase {
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceUserBaseResource> 
      */
     open class func getUsersWithRequestBuilder(filterDisplayname: String? = nil, filterEmail: String? = nil, filterFirstname: String? = nil, filterFullname: String? = nil, filterLastname: String? = nil, filterUsername: String? = nil, filterTag: String? = nil, filterGroup: String? = nil, filterRole: String? = nil, filterSearch: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceUserBaseResource> {
@@ -523,7 +821,6 @@ open class UsersAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUserBaseResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -532,14 +829,13 @@ open class UsersAPI: APIBase {
 
     /**
      Choose a new password after a reset
-     
      - parameter id: (path) The id of the user 
      - parameter newPasswordRequest: (body) The new password request object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func passwordReset(id: Int32, newPasswordRequest: NewPasswordRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func passwordReset(id: Int32, newPasswordRequest: NewPasswordRequest? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         passwordResetWithRequestBuilder(id: id, newPasswordRequest: newPasswordRequest).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -548,10 +844,9 @@ open class UsersAPI: APIBase {
      Choose a new password after a reset
      - PUT /users/{id}/password-reset
      - Finish resetting a user's password using the secret provided from the password-reset endpoint.  Password should be in plain text and will be encrypted on receipt. Use SSL for security.
-     
+
      - parameter id: (path) The id of the user 
      - parameter newPasswordRequest: (body) The new password request object (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func passwordResetWithRequestBuilder(id: Int32, newPasswordRequest: NewPasswordRequest? = nil) -> RequestBuilder<Void> {
@@ -562,7 +857,6 @@ open class UsersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -570,13 +864,12 @@ open class UsersAPI: APIBase {
 
     /**
      Register a new user
-     
      - parameter userResource: (body) The user resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func registerUser(userResource: UserResource? = nil, completion: @escaping ((_ data: UserResource?,_ error: Error?) -> Void)) {
+    open class func registerUser(userResource: UserResource? = nil, completion: @escaping ((_ data: UserResource?, _ error: ErrorResponse?) -> Void)) {
         registerUserWithRequestBuilder(userResource: userResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -585,52 +878,72 @@ open class UsersAPI: APIBase {
      Register a new user
      - POST /users
      - Password should be in plain text and will be encrypted on receipt. Use SSL for security
+
      - examples: [{contentType=application/json, example={
   "member_since" : 7,
-  "template" : "aeiou",
-  "gender" : "aeiou",
-  "city" : "aeiou",
+  "template" : "template",
+  "gender" : "gender",
+  "city" : "city",
   "date_of_birth" : 1,
-  "description" : "aeiou",
-  "currency_code" : "aeiou",
-  "language_code" : "aeiou",
-  "password" : "aeiou",
+  "description" : "description",
+  "currency_code" : "currency_code",
+  "language_code" : "language_code",
+  "password" : "password",
   "last_activity" : 5,
   "children" : [ {
-    "avatar_url" : "aeiou",
-    "context" : "aeiou",
+    "avatar_url" : "avatar_url",
+    "context" : "context",
     "relationship_id" : 6,
     "id" : 0,
-    "display_name" : "aeiou",
-    "username" : "aeiou"
+    "display_name" : "display_name",
+    "username" : "username"
+  }, {
+    "avatar_url" : "avatar_url",
+    "context" : "context",
+    "relationship_id" : 6,
+    "id" : 0,
+    "display_name" : "display_name",
+    "username" : "username"
   } ],
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "id" : 5,
-  "state" : "aeiou",
-  "first_name" : "aeiou",
-  "email" : "aeiou",
+  "state" : "state",
+  "first_name" : "first_name",
+  "email" : "email",
   "last_updated" : 2,
-  "address" : "aeiou",
-  "address2" : "aeiou",
-  "last_name" : "aeiou",
-  "display_name" : "aeiou",
-  "tags" : [ "aeiou" ],
-  "country_code" : "aeiou",
-  "avatar_url" : "aeiou",
-  "timezone_code" : "aeiou",
-  "fullname" : "aeiou",
-  "mobile_number" : "aeiou",
-  "postal_code" : "aeiou",
-  "parents" : [ "" ],
-  "username" : "aeiou"
+  "address" : "address",
+  "address2" : "address2",
+  "last_name" : "last_name",
+  "display_name" : "display_name",
+  "tags" : [ "tags", "tags" ],
+  "country_code" : "country_code",
+  "avatar_url" : "avatar_url",
+  "timezone_code" : "timezone_code",
+  "fullname" : "fullname",
+  "mobile_number" : "mobile_number",
+  "postal_code" : "postal_code",
+  "parents" : [ {
+    "avatar_url" : "avatar_url",
+    "context" : "context",
+    "relationship_id" : 6,
+    "id" : 0,
+    "display_name" : "display_name",
+    "username" : "username"
+  }, {
+    "avatar_url" : "avatar_url",
+    "context" : "context",
+    "relationship_id" : 6,
+    "id" : 0,
+    "display_name" : "display_name",
+    "username" : "username"
+  } ],
+  "username" : "username"
 }}]
-     
      - parameter userResource: (body) The user resource object (optional)
-
      - returns: RequestBuilder<UserResource> 
      */
     open class func registerUserWithRequestBuilder(userResource: UserResource? = nil) -> RequestBuilder<UserResource> {
@@ -640,7 +953,6 @@ open class UsersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<UserResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -648,14 +960,13 @@ open class UsersAPI: APIBase {
 
     /**
      Remove a tag from a user
-     
      - parameter userId: (path) The id of the user 
      - parameter tag: (path) The tag to remove 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func removeUserTag(userId: Int32, tag: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func removeUserTag(userId: Int32, tag: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         removeUserTagWithRequestBuilder(userId: userId, tag: tag).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -666,10 +977,8 @@ open class UsersAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter userId: (path) The id of the user 
      - parameter tag: (path) The tag to remove 
-
      - returns: RequestBuilder<Void> 
      */
     open class func removeUserTagWithRequestBuilder(userId: Int32, tag: String) -> RequestBuilder<Void> {
@@ -681,7 +990,6 @@ open class UsersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -689,14 +997,13 @@ open class UsersAPI: APIBase {
 
     /**
      Set a user's password
-     
      - parameter id: (path) The id of the user 
      - parameter password: (body) The new plain text password (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setPassword(id: Int32, password: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func setPassword(id: Int32, password: StringWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         setPasswordWithRequestBuilder(id: id, password: password).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -708,20 +1015,17 @@ open class UsersAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the user 
      - parameter password: (body) The new plain text password (optional)
-
      - returns: RequestBuilder<Void> 
      */
-    open class func setPasswordWithRequestBuilder(id: Int32, password: String? = nil) -> RequestBuilder<Void> {
+    open class func setPasswordWithRequestBuilder(id: Int32, password: StringWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/users/{id}/password"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = password?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -730,13 +1034,12 @@ open class UsersAPI: APIBase {
 
     /**
      Reset a user's password
-     
      - parameter id: (path) The id of the user 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func startPasswordReset(id: Int32, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func startPasswordReset(id: Int32, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         startPasswordResetWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -745,9 +1048,8 @@ open class UsersAPI: APIBase {
      Reset a user's password
      - POST /users/{id}/password-reset
      - A reset code will be generated and a 'forgot_password' BRE event will be fired with that code.  The default system rule will send an email to the selected user if an email service has been setup. You can modify that rule in BRE to send an SMS instead or any other type of notification as you see fit
-     
-     - parameter id: (path) The id of the user 
 
+     - parameter id: (path) The id of the user 
      - returns: RequestBuilder<Void> 
      */
     open class func startPasswordResetWithRequestBuilder(id: Int32) -> RequestBuilder<Void> {
@@ -758,7 +1060,6 @@ open class UsersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -766,13 +1067,12 @@ open class UsersAPI: APIBase {
 
     /**
      Reset a user's password without user id
-     
      - parameter passwordReset: (body) An object containing one of three methods to look up a user (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func submitPasswordReset(passwordReset: PasswordResetRequest? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func submitPasswordReset(passwordReset: PasswordResetRequest? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         submitPasswordResetWithRequestBuilder(passwordReset: passwordReset).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -781,9 +1081,8 @@ open class UsersAPI: APIBase {
      Reset a user's password without user id
      - POST /users/password-reset
      - A reset code will be generated and a 'forgot_password' BRE event will be fired with that code.  The default system rule will send an email to the selected user if an email service has been setup. You can modify that rule in BRE to send an SMS instead or any other type of notification as you see fit.  Must submit their email, username, or mobile phone number
-     
-     - parameter passwordReset: (body) An object containing one of three methods to look up a user (optional)
 
+     - parameter passwordReset: (body) An object containing one of three methods to look up a user (optional)
      - returns: RequestBuilder<Void> 
      */
     open class func submitPasswordResetWithRequestBuilder(passwordReset: PasswordResetRequest? = nil) -> RequestBuilder<Void> {
@@ -793,7 +1092,6 @@ open class UsersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -801,14 +1099,13 @@ open class UsersAPI: APIBase {
 
     /**
      Update a user
-     
      - parameter id: (path) The id of the user or &#39;me&#39; 
      - parameter userResource: (body) The user resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateUser(id: String, userResource: UserResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateUser(id: String, userResource: UserResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateUserWithRequestBuilder(id: id, userResource: userResource).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -820,10 +1117,8 @@ open class UsersAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the user or &#39;me&#39; 
      - parameter userResource: (body) The user resource object (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func updateUserWithRequestBuilder(id: String, userResource: UserResource? = nil) -> RequestBuilder<Void> {
@@ -834,7 +1129,6 @@ open class UsersAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -842,14 +1136,13 @@ open class UsersAPI: APIBase {
 
     /**
      Update a user template
-     
      - parameter id: (path) The id of the template 
      - parameter userTemplateResource: (body) The user template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateUserTemplate(id: String, userTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateUserTemplate(id: String, userTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateUserTemplateWithRequestBuilder(id: id, userTemplateResource: userTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -861,33 +1154,96 @@ open class UsersAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter userTemplateResource: (body) The user template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func updateUserTemplateWithRequestBuilder(id: String, userTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -897,7 +1253,6 @@ open class UsersAPI: APIBase {
         let parameters = userTemplateResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

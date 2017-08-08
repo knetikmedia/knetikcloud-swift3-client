@@ -9,7 +9,6 @@ import Foundation
 import Alamofire
 
 
-
 open class AccessTokenAPI: APIBase {
     /**
      * enum for parameter grantType
@@ -21,7 +20,6 @@ open class AccessTokenAPI: APIBase {
 
     /**
      Get access token
-     
      - parameter grantType: (form) Grant type 
      - parameter clientId: (form) The id of the client 
      - parameter clientSecret: (form) The secret key of the client.  Used only with a grant_type of client_credentials (optional)
@@ -29,9 +27,9 @@ open class AccessTokenAPI: APIBase {
      - parameter password: (form) The password of the client.  Used only with a grant_type of password (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getOAuthToken(grantType: GrantType_getOAuthToken, clientId: String, clientSecret: String? = nil, username: String? = nil, password: String? = nil, completion: @escaping ((_ data: OAuth2Resource?,_ error: Error?) -> Void)) {
+    open class func getOAuthToken(grantType: GrantType_getOAuthToken, clientId: String, clientSecret: String? = nil, username: String? = nil, password: String? = nil, completion: @escaping ((_ data: OAuth2Resource?, _ error: ErrorResponse?) -> Void)) {
         getOAuthTokenWithRequestBuilder(grantType: grantType, clientId: clientId, clientSecret: clientSecret, username: username, password: password).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -39,19 +37,18 @@ open class AccessTokenAPI: APIBase {
     /**
      Get access token
      - POST /oauth/token
+
      - examples: [{contentType=application/json, example={
-  "access_token" : "aeiou",
-  "scope" : "aeiou",
-  "token_type" : "aeiou",
-  "expires_in" : "aeiou"
+  "access_token" : "access_token",
+  "scope" : "scope",
+  "token_type" : "token_type",
+  "expires_in" : "expires_in"
 }}]
-     
      - parameter grantType: (form) Grant type 
      - parameter clientId: (form) The id of the client 
      - parameter clientSecret: (form) The secret key of the client.  Used only with a grant_type of client_credentials (optional)
      - parameter username: (form) The username of the client.  Used only with a grant_type of password (optional)
      - parameter password: (form) The password of the client.  Used only with a grant_type of password (optional)
-
      - returns: RequestBuilder<OAuth2Resource> 
      */
     open class func getOAuthTokenWithRequestBuilder(grantType: GrantType_getOAuthToken, clientId: String, clientSecret: String? = nil, username: String? = nil, password: String? = nil) -> RequestBuilder<OAuth2Resource> {
@@ -69,7 +66,6 @@ open class AccessTokenAPI: APIBase {
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<OAuth2Resource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

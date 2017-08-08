@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class CampaignsChallengesAPI: APIBase {
     /**
      Create a challenge
-     
      - parameter challengeResource: (body) The challenge resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createChallenge(challengeResource: ChallengeResource? = nil, completion: @escaping ((_ data: ChallengeResource?,_ error: Error?) -> Void)) {
+    open class func createChallenge(challengeResource: ChallengeResource? = nil, completion: @escaping ((_ data: ChallengeResource?, _ error: ErrorResponse?) -> Void)) {
         createChallengeWithRequestBuilder(challengeResource: challengeResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -33,59 +31,70 @@ open class CampaignsChallengesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "end_date" : 5,
-  "template" : "aeiou",
+  "template" : "template",
   "reward_set" : {
-    "short_description" : "aeiou",
-    "unique_key" : "aeiou",
+    "short_description" : "short_description",
+    "unique_key" : "unique_key",
     "currency_rewards" : [ {
-      "currency_name" : "aeiou",
+      "currency_name" : "currency_name",
       "max_rank" : 2,
-      "min_rank" : 4,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 7.386281948385884,
-      "currency_code" : "aeiou"
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    }, {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
     } ],
-    "name" : "aeiou",
-    "created_date" : 3,
-    "id" : 1,
-    "long_description" : "aeiou",
+    "name" : "name",
+    "created_date" : 5,
+    "id" : 3,
+    "long_description" : "long_description",
     "max_placing" : 1,
-    "updated_date" : 4,
+    "updated_date" : 1,
     "item_rewards" : [ {
-      "quantity" : 7,
-      "item_id" : 1,
-      "max_rank" : 1,
-      "item_name" : "aeiou",
-      "min_rank" : 6
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    }, {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
     } ]
   },
-  "short_description" : "aeiou",
+  "short_description" : "short_description",
   "next_event_date" : 7,
-  "long_description" : "aeiou",
+  "long_description" : "long_description",
   "reward_lag_minutes" : 9,
-  "leaderboard_strategy" : "aeiou",
+  "leaderboard_strategy" : "leaderboard_strategy",
   "schedule" : {
-    "duration" : 5,
+    "duration" : 3,
     "repeat" : "DAILY",
     "duration_unit" : "millisecond"
   },
   "copy_of" : 1,
   "activities" : 0,
-  "name" : "aeiou",
+  "name" : "name",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 5,
   "id" : 2,
-  "updated_date" : 9,
+  "updated_date" : 4,
   "campaign_id" : 6,
-  "start_date" : 9
+  "start_date" : 2
 }}]
-     
      - parameter challengeResource: (body) The challenge resource object (optional)
-
      - returns: RequestBuilder<ChallengeResource> 
      */
     open class func createChallengeWithRequestBuilder(challengeResource: ChallengeResource? = nil) -> RequestBuilder<ChallengeResource> {
@@ -95,7 +104,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ChallengeResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -103,15 +111,14 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Create a challenge activity
-     
      - parameter challengeId: (path) The challenge id 
      - parameter challengeActivityResource: (body) The challenge activity resource object (optional)
      - parameter validateSettings: (query) Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createChallengeActivity(challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil, validateSettings: Bool? = nil, completion: @escaping ((_ data: ChallengeActivityResource?,_ error: Error?) -> Void)) {
+    open class func createChallengeActivity(challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil, validateSettings: Bool? = nil, completion: @escaping ((_ data: ChallengeActivityResource?, _ error: ErrorResponse?) -> Void)) {
         createChallengeActivityWithRequestBuilder(challengeId: challengeId, challengeActivityResource: challengeActivityResource, validateSettings: validateSettings).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -123,59 +130,75 @@ open class CampaignsChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
+  "template" : "template",
   "reward_set" : {
-    "short_description" : "aeiou",
-    "unique_key" : "aeiou",
+    "short_description" : "short_description",
+    "unique_key" : "unique_key",
     "currency_rewards" : [ {
-      "currency_name" : "aeiou",
-      "max_rank" : 7,
-      "min_rank" : 9,
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 3.616076749251911,
-      "currency_code" : "aeiou"
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    }, {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
     } ],
-    "name" : "aeiou",
-    "created_date" : 2,
-    "id" : 2,
-    "long_description" : "aeiou",
+    "name" : "name",
+    "created_date" : 5,
+    "id" : 3,
+    "long_description" : "long_description",
     "max_placing" : 1,
-    "updated_date" : 6,
+    "updated_date" : 1,
     "item_rewards" : [ {
       "quantity" : 1,
-      "item_id" : 4,
-      "max_rank" : 7,
-      "item_name" : "aeiou",
-      "min_rank" : 1
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    }, {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
     } ]
   },
   "settings" : [ {
-    "key_name" : "aeiou",
-    "value" : "aeiou",
-    "key" : "aeiou",
-    "value_name" : "aeiou"
+    "key_name" : "key_name",
+    "value" : "value",
+    "key" : "key",
+    "value_name" : "value_name"
+  }, {
+    "key_name" : "key_name",
+    "value" : "value",
+    "key" : "key",
+    "value_name" : "value_name"
   } ],
   "challenge_id" : 6,
   "activity_id" : 0,
   "entitlement" : {
-    "item_id" : 1,
-    "price" : 5.962133916683182,
-    "name" : "aeiou",
-    "sku" : "aeiou",
-    "currency_code" : "aeiou"
+    "item_id" : 6,
+    "price" : 1.4658129805029452,
+    "name" : "name",
+    "sku" : "sku",
+    "currency_code" : "currency_code"
   },
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
-  "id" : 5
+  "id" : 1
 }}]
-     
      - parameter challengeId: (path) The challenge id 
      - parameter challengeActivityResource: (body) The challenge activity resource object (optional)
      - parameter validateSettings: (query) Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
-
      - returns: RequestBuilder<ChallengeActivityResource> 
      */
     open class func createChallengeActivityWithRequestBuilder(challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil, validateSettings: Bool? = nil) -> RequestBuilder<ChallengeActivityResource> {
@@ -188,7 +211,6 @@ open class CampaignsChallengesAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "validateSettings": validateSettings
         ])
-        
 
         let requestBuilder: RequestBuilder<ChallengeActivityResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -197,13 +219,12 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Create a challenge activity template
-     
      - parameter challengeActivityTemplateResource: (body) The challengeActivity template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createChallengeActivityTemplate(challengeActivityTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func createChallengeActivityTemplate(challengeActivityTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createChallengeActivityTemplateWithRequestBuilder(challengeActivityTemplateResource: challengeActivityTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -216,32 +237,95 @@ open class CampaignsChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter challengeActivityTemplateResource: (body) The challengeActivity template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func createChallengeActivityTemplateWithRequestBuilder(challengeActivityTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -251,7 +335,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -259,13 +342,12 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Create a challenge template
-     
      - parameter challengeTemplateResource: (body) The challenge template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createChallengeTemplate(challengeTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func createChallengeTemplate(challengeTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         createChallengeTemplateWithRequestBuilder(challengeTemplateResource: challengeTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -278,32 +360,95 @@ open class CampaignsChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter challengeTemplateResource: (body) The challenge template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func createChallengeTemplateWithRequestBuilder(challengeTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -313,7 +458,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -321,13 +465,12 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Delete a challenge
-     
      - parameter id: (path) The challenge id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteChallenge(id: Int64, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteChallenge(id: Int64, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteChallengeWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -338,9 +481,7 @@ open class CampaignsChallengesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The challenge id 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteChallengeWithRequestBuilder(id: Int64) -> RequestBuilder<Void> {
@@ -351,7 +492,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -359,14 +499,13 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Delete a challenge activity
-     
      - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteChallengeActivity(id: Int64, challengeId: Int64, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteChallengeActivity(id: Int64, challengeId: Int64, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteChallengeActivityWithRequestBuilder(id: id, challengeId: challengeId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -378,10 +517,8 @@ open class CampaignsChallengesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteChallengeActivityWithRequestBuilder(id: Int64, challengeId: Int64) -> RequestBuilder<Void> {
@@ -393,7 +530,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -401,14 +537,13 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Delete a challenge activity template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteChallengeActivityTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteChallengeActivityTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteChallengeActivityTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -420,10 +555,8 @@ open class CampaignsChallengesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteChallengeActivityTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -436,7 +569,6 @@ open class CampaignsChallengesAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -445,13 +577,12 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Delete a challenge event
-     
      - parameter id: (path) The challenge event id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteChallengeEvent(id: Int64, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteChallengeEvent(id: Int64, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteChallengeEventWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -462,9 +593,7 @@ open class CampaignsChallengesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The challenge event id 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteChallengeEventWithRequestBuilder(id: Int64) -> RequestBuilder<Void> {
@@ -475,7 +604,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -483,14 +611,13 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Delete a challenge template
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteChallengeTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteChallengeTemplate(id: String, cascade: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteChallengeTemplateWithRequestBuilder(id: id, cascade: cascade).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -502,10 +629,8 @@ open class CampaignsChallengesAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteChallengeTemplateWithRequestBuilder(id: String, cascade: String? = nil) -> RequestBuilder<Void> {
@@ -518,7 +643,6 @@ open class CampaignsChallengesAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "cascade": cascade
         ])
-        
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -527,13 +651,12 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Retrieve a challenge
-     
      - parameter id: (path) The challenge id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallenge(id: Int64, completion: @escaping ((_ data: ChallengeResource?,_ error: Error?) -> Void)) {
+    open class func getChallenge(id: Int64, completion: @escaping ((_ data: ChallengeResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengeWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -541,61 +664,73 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Retrieve a challenge
      - GET /challenges/{id}
+
      - examples: [{contentType=application/json, example={
   "end_date" : 5,
-  "template" : "aeiou",
+  "template" : "template",
   "reward_set" : {
-    "short_description" : "aeiou",
-    "unique_key" : "aeiou",
+    "short_description" : "short_description",
+    "unique_key" : "unique_key",
     "currency_rewards" : [ {
-      "currency_name" : "aeiou",
+      "currency_name" : "currency_name",
       "max_rank" : 2,
-      "min_rank" : 4,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 7.386281948385884,
-      "currency_code" : "aeiou"
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    }, {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
     } ],
-    "name" : "aeiou",
-    "created_date" : 3,
-    "id" : 1,
-    "long_description" : "aeiou",
+    "name" : "name",
+    "created_date" : 5,
+    "id" : 3,
+    "long_description" : "long_description",
     "max_placing" : 1,
-    "updated_date" : 4,
+    "updated_date" : 1,
     "item_rewards" : [ {
-      "quantity" : 7,
-      "item_id" : 1,
-      "max_rank" : 1,
-      "item_name" : "aeiou",
-      "min_rank" : 6
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    }, {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
     } ]
   },
-  "short_description" : "aeiou",
+  "short_description" : "short_description",
   "next_event_date" : 7,
-  "long_description" : "aeiou",
+  "long_description" : "long_description",
   "reward_lag_minutes" : 9,
-  "leaderboard_strategy" : "aeiou",
+  "leaderboard_strategy" : "leaderboard_strategy",
   "schedule" : {
-    "duration" : 5,
+    "duration" : 3,
     "repeat" : "DAILY",
     "duration_unit" : "millisecond"
   },
   "copy_of" : 1,
   "activities" : 0,
-  "name" : "aeiou",
+  "name" : "name",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 5,
   "id" : 2,
-  "updated_date" : 9,
+  "updated_date" : 4,
   "campaign_id" : 6,
-  "start_date" : 9
+  "start_date" : 2
 }}]
-     
      - parameter id: (path) The challenge id 
-
      - returns: RequestBuilder<ChallengeResource> 
      */
     open class func getChallengeWithRequestBuilder(id: Int64) -> RequestBuilder<ChallengeResource> {
@@ -606,7 +741,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ChallengeResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -614,16 +748,15 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      List and search challenge activities
-     
      - parameter challengeId: (path) The challenge id 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallengeActivities(challengeId: Int64, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceBareChallengeActivityResource?,_ error: Error?) -> Void)) {
+    open class func getChallengeActivities(challengeId: Int64, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceBareChallengeActivityResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengeActivitiesWithRequestBuilder(challengeId: challengeId, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -631,6 +764,7 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      List and search challenge activities
      - GET /challenges/{challenge_id}/activities
+
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -639,8 +773,16 @@ open class CampaignsChallengesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 9,
@@ -649,15 +791,17 @@ open class CampaignsChallengesAPI: APIBase {
     "challenge_id" : 6,
     "activity_id" : 0,
     "id" : 1
+  }, {
+    "challenge_id" : 6,
+    "activity_id" : 0,
+    "id" : 1
   } ],
   "first" : true
 }}]
-     
      - parameter challengeId: (path) The challenge id 
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceBareChallengeActivityResource> 
      */
     open class func getChallengeActivitiesWithRequestBuilder(challengeId: Int64, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceBareChallengeActivityResource> {
@@ -672,7 +816,6 @@ open class CampaignsChallengesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceBareChallengeActivityResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -681,14 +824,13 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Get a single challenge activity
-     
      - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallengeActivity(id: Int64, challengeId: Int64, completion: @escaping ((_ data: ChallengeActivityResource?,_ error: Error?) -> Void)) {
+    open class func getChallengeActivity(id: Int64, challengeId: Int64, completion: @escaping ((_ data: ChallengeActivityResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengeActivityWithRequestBuilder(id: id, challengeId: challengeId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -697,59 +839,76 @@ open class CampaignsChallengesAPI: APIBase {
      Get a single challenge activity
      - GET /challenges/{challenge_id}/activities/{id}
      - A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
+
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
+  "template" : "template",
   "reward_set" : {
-    "short_description" : "aeiou",
-    "unique_key" : "aeiou",
+    "short_description" : "short_description",
+    "unique_key" : "unique_key",
     "currency_rewards" : [ {
-      "currency_name" : "aeiou",
-      "max_rank" : 7,
-      "min_rank" : 9,
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 3.616076749251911,
-      "currency_code" : "aeiou"
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    }, {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
     } ],
-    "name" : "aeiou",
-    "created_date" : 2,
-    "id" : 2,
-    "long_description" : "aeiou",
+    "name" : "name",
+    "created_date" : 5,
+    "id" : 3,
+    "long_description" : "long_description",
     "max_placing" : 1,
-    "updated_date" : 6,
+    "updated_date" : 1,
     "item_rewards" : [ {
       "quantity" : 1,
-      "item_id" : 4,
-      "max_rank" : 7,
-      "item_name" : "aeiou",
-      "min_rank" : 1
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    }, {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
     } ]
   },
   "settings" : [ {
-    "key_name" : "aeiou",
-    "value" : "aeiou",
-    "key" : "aeiou",
-    "value_name" : "aeiou"
+    "key_name" : "key_name",
+    "value" : "value",
+    "key" : "key",
+    "value_name" : "value_name"
+  }, {
+    "key_name" : "key_name",
+    "value" : "value",
+    "key" : "key",
+    "value_name" : "value_name"
   } ],
   "challenge_id" : 6,
   "activity_id" : 0,
   "entitlement" : {
-    "item_id" : 1,
-    "price" : 5.962133916683182,
-    "name" : "aeiou",
-    "sku" : "aeiou",
-    "currency_code" : "aeiou"
+    "item_id" : 6,
+    "price" : 1.4658129805029452,
+    "name" : "name",
+    "sku" : "sku",
+    "currency_code" : "currency_code"
   },
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
-  "id" : 5
+  "id" : 1
 }}]
-     
      - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
-
      - returns: RequestBuilder<ChallengeActivityResource> 
      */
     open class func getChallengeActivityWithRequestBuilder(id: Int64, challengeId: Int64) -> RequestBuilder<ChallengeActivityResource> {
@@ -761,7 +920,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ChallengeActivityResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -769,13 +927,12 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Get a single challenge activity template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallengeActivityTemplate(id: String, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func getChallengeActivityTemplate(id: String, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengeActivityTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -787,32 +944,95 @@ open class CampaignsChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func getChallengeActivityTemplateWithRequestBuilder(id: String) -> RequestBuilder<TemplateResource> {
@@ -823,7 +1043,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -831,15 +1050,14 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      List and search challenge activity templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallengeActivityTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getChallengeActivityTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengeActivityTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -858,43 +1076,202 @@ open class CampaignsChallengesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 0,
-    "id" : "aeiou",
+    "id" : "id",
     "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceTemplateResource> 
      */
     open class func getChallengeActivityTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceTemplateResource> {
@@ -908,7 +1285,6 @@ open class CampaignsChallengesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -917,13 +1293,12 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Retrieve a single challenge event details
-     
      - parameter id: (path) The challenge event id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallengeEvent(id: Int64, completion: @escaping ((_ data: ChallengeEventResource?,_ error: Error?) -> Void)) {
+    open class func getChallengeEvent(id: Int64, completion: @escaping ((_ data: ChallengeEventResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengeEventWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -931,6 +1306,7 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Retrieve a single challenge event details
      - GET /challenges/events/{id}
+
      - examples: [{contentType=application/json, example={
   "end_date" : 6,
   "challenge_id" : 0,
@@ -938,9 +1314,7 @@ open class CampaignsChallengesAPI: APIBase {
   "reward_status" : "pending",
   "start_date" : 5
 }}]
-     
      - parameter id: (path) The challenge event id 
-
      - returns: RequestBuilder<ChallengeEventResource> 
      */
     open class func getChallengeEventWithRequestBuilder(id: Int64) -> RequestBuilder<ChallengeEventResource> {
@@ -951,7 +1325,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ChallengeEventResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -959,7 +1332,6 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Retrieve a list of challenge events
-     
      - parameter filterStartDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the event start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterEndDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the event end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterCampaigns: (query) check only for events from currently running campaigns (optional)
@@ -969,9 +1341,9 @@ open class CampaignsChallengesAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallengeEvents(filterStartDate: String? = nil, filterEndDate: String? = nil, filterCampaigns: Bool? = nil, filterChallenge: Int64? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceChallengeEventResource?,_ error: Error?) -> Void)) {
+    open class func getChallengeEvents(filterStartDate: String? = nil, filterEndDate: String? = nil, filterCampaigns: Bool? = nil, filterChallenge: Int64? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceChallengeEventResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengeEventsWithRequestBuilder(filterStartDate: filterStartDate, filterEndDate: filterEndDate, filterCampaigns: filterCampaigns, filterChallenge: filterChallenge, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -979,6 +1351,7 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Retrieve a list of challenge events
      - GET /challenges/events
+
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -987,8 +1360,16 @@ open class CampaignsChallengesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 3,
@@ -999,10 +1380,15 @@ open class CampaignsChallengesAPI: APIBase {
     "id" : 1,
     "reward_status" : "pending",
     "start_date" : 5
+  }, {
+    "end_date" : 6,
+    "challenge_id" : 0,
+    "id" : 1,
+    "reward_status" : "pending",
+    "start_date" : 5
   } ],
   "first" : true
 }}]
-     
      - parameter filterStartDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the event start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterEndDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the event end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterCampaigns: (query) check only for events from currently running campaigns (optional)
@@ -1010,7 +1396,6 @@ open class CampaignsChallengesAPI: APIBase {
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceChallengeEventResource> 
      */
     open class func getChallengeEventsWithRequestBuilder(filterStartDate: String? = nil, filterEndDate: String? = nil, filterCampaigns: Bool? = nil, filterChallenge: Int64? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceChallengeEventResource> {
@@ -1028,7 +1413,6 @@ open class CampaignsChallengesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceChallengeEventResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -1037,13 +1421,12 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Get a single challenge template
-     
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallengeTemplate(id: String, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func getChallengeTemplate(id: String, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengeTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1055,32 +1438,95 @@ open class CampaignsChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func getChallengeTemplateWithRequestBuilder(id: String) -> RequestBuilder<TemplateResource> {
@@ -1091,7 +1537,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -1099,15 +1544,14 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      List and search challenge templates
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallengeTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?,_ error: Error?) -> Void)) {
+    open class func getChallengeTemplates(size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceTemplateResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengeTemplatesWithRequestBuilder(size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1126,43 +1570,202 @@ open class CampaignsChallengesAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
-    "name" : "aeiou",
+    "name" : "name",
     "created_date" : 0,
-    "id" : "aeiou",
+    "id" : "id",
     "updated_date" : 6,
     "properties" : [ {
-      "name" : "aeiou",
-      "type" : "aeiou",
+      "name" : "name",
+      "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
           "inner_type" : "integer",
-          "valid_values" : [ "aeiou" ],
-          "name" : "aeiou",
-          "description" : "aeiou",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
           "type" : "integer",
-          "inner_type_fields" : [ "" ],
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
           "required" : false
         } ],
-        "property_type" : "aeiou",
-        "property_fields" : [ "" ]
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    } ]
+  }, {
+    "name" : "name",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 6,
+    "properties" : [ {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
+      },
+      "required" : false
+    }, {
+      "name" : "name",
+      "type" : "type",
+      "field_list" : {
+        "property_definition_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ],
+        "property_type" : "property_type",
+        "property_fields" : [ {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        }, {
+          "inner_type" : "integer",
+          "valid_values" : [ "valid_values", "valid_values" ],
+          "name" : "name",
+          "description" : "description",
+          "type" : "integer",
+          "inner_type_fields" : [ null, null ],
+          "required" : false
+        } ]
       },
       "required" : false
     } ]
   } ],
   "first" : true
 }}]
-     
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceTemplateResource> 
      */
     open class func getChallengeTemplatesWithRequestBuilder(size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceTemplateResource> {
@@ -1176,7 +1779,6 @@ open class CampaignsChallengesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -1185,7 +1787,6 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Retrieve a list of challenges
-     
      - parameter filterTemplate: (query) Filter for challenges that are not tied to campaigns (templates) (optional)
      - parameter filterActiveCampaign: (query) Filter for challenges that are tied to active campaigns (optional)
      - parameter filterStartDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
@@ -1195,9 +1796,9 @@ open class CampaignsChallengesAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getChallenges(filterTemplate: Bool? = nil, filterActiveCampaign: Bool? = nil, filterStartDate: String? = nil, filterEndDate: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceChallengeResource?,_ error: Error?) -> Void)) {
+    open class func getChallenges(filterTemplate: Bool? = nil, filterActiveCampaign: Bool? = nil, filterStartDate: String? = nil, filterEndDate: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceChallengeResource?, _ error: ErrorResponse?) -> Void)) {
         getChallengesWithRequestBuilder(filterTemplate: filterTemplate, filterActiveCampaign: filterActiveCampaign, filterStartDate: filterStartDate, filterEndDate: filterEndDate, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1205,75 +1806,160 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Retrieve a list of challenges
      - GET /challenges
+
      - examples: [{contentType=application/json, example={
-  "number" : 6,
+  "number" : 7,
   "last" : true,
-  "size" : 9,
-  "total_elements" : 6,
+  "size" : 1,
+  "total_elements" : 1,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 3,
-  "number_of_elements" : 8,
+  "total_pages" : 6,
+  "number_of_elements" : 1,
   "content" : [ {
     "end_date" : 5,
-    "template" : "aeiou",
+    "template" : "template",
     "reward_set" : {
-      "short_description" : "aeiou",
-      "unique_key" : "aeiou",
+      "short_description" : "short_description",
+      "unique_key" : "unique_key",
       "currency_rewards" : [ {
-        "currency_name" : "aeiou",
+        "currency_name" : "currency_name",
         "max_rank" : 2,
-        "min_rank" : 4,
+        "min_rank" : 7,
         "percent" : false,
-        "value" : 7.386281948385884,
-        "currency_code" : "aeiou"
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
+      }, {
+        "currency_name" : "currency_name",
+        "max_rank" : 2,
+        "min_rank" : 7,
+        "percent" : false,
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
       } ],
-      "name" : "aeiou",
-      "created_date" : 3,
-      "id" : 1,
-      "long_description" : "aeiou",
+      "name" : "name",
+      "created_date" : 5,
+      "id" : 3,
+      "long_description" : "long_description",
       "max_placing" : 1,
-      "updated_date" : 4,
+      "updated_date" : 1,
       "item_rewards" : [ {
-        "quantity" : 7,
-        "item_id" : 1,
-        "max_rank" : 1,
-        "item_name" : "aeiou",
-        "min_rank" : 6
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
+      }, {
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
       } ]
     },
-    "short_description" : "aeiou",
+    "short_description" : "short_description",
     "next_event_date" : 7,
-    "long_description" : "aeiou",
+    "long_description" : "long_description",
     "reward_lag_minutes" : 9,
-    "leaderboard_strategy" : "aeiou",
+    "leaderboard_strategy" : "leaderboard_strategy",
     "schedule" : {
-      "duration" : 5,
+      "duration" : 3,
       "repeat" : "DAILY",
       "duration_unit" : "millisecond"
     },
     "copy_of" : 1,
     "activities" : 0,
-    "name" : "aeiou",
+    "name" : "name",
     "additional_properties" : {
       "key" : {
-        "type" : "aeiou"
+        "type" : "type"
       }
     },
     "created_date" : 5,
     "id" : 2,
-    "updated_date" : 9,
+    "updated_date" : 4,
     "campaign_id" : 6,
-    "start_date" : 9
+    "start_date" : 2
+  }, {
+    "end_date" : 5,
+    "template" : "template",
+    "reward_set" : {
+      "short_description" : "short_description",
+      "unique_key" : "unique_key",
+      "currency_rewards" : [ {
+        "currency_name" : "currency_name",
+        "max_rank" : 2,
+        "min_rank" : 7,
+        "percent" : false,
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
+      }, {
+        "currency_name" : "currency_name",
+        "max_rank" : 2,
+        "min_rank" : 7,
+        "percent" : false,
+        "value" : 9.301444243932576,
+        "currency_code" : "currency_code"
+      } ],
+      "name" : "name",
+      "created_date" : 5,
+      "id" : 3,
+      "long_description" : "long_description",
+      "max_placing" : 1,
+      "updated_date" : 1,
+      "item_rewards" : [ {
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
+      }, {
+        "quantity" : 1,
+        "item_id" : 2,
+        "max_rank" : 4,
+        "item_name" : "item_name",
+        "min_rank" : 7
+      } ]
+    },
+    "short_description" : "short_description",
+    "next_event_date" : 7,
+    "long_description" : "long_description",
+    "reward_lag_minutes" : 9,
+    "leaderboard_strategy" : "leaderboard_strategy",
+    "schedule" : {
+      "duration" : 3,
+      "repeat" : "DAILY",
+      "duration_unit" : "millisecond"
+    },
+    "copy_of" : 1,
+    "activities" : 0,
+    "name" : "name",
+    "additional_properties" : {
+      "key" : {
+        "type" : "type"
+      }
+    },
+    "created_date" : 5,
+    "id" : 2,
+    "updated_date" : 4,
+    "campaign_id" : 6,
+    "start_date" : 2
   } ],
   "first" : true
 }}]
-     
      - parameter filterTemplate: (query) Filter for challenges that are not tied to campaigns (templates) (optional)
      - parameter filterActiveCampaign: (query) Filter for challenges that are tied to active campaigns (optional)
      - parameter filterStartDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
@@ -1281,7 +1967,6 @@ open class CampaignsChallengesAPI: APIBase {
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
-
      - returns: RequestBuilder<PageResourceChallengeResource> 
      */
     open class func getChallengesWithRequestBuilder(filterTemplate: Bool? = nil, filterActiveCampaign: Bool? = nil, filterStartDate: String? = nil, filterEndDate: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceChallengeResource> {
@@ -1299,7 +1984,6 @@ open class CampaignsChallengesAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceChallengeResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -1308,14 +1992,13 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Update a challenge
-     
      - parameter id: (path) The challenge id 
      - parameter challengeResource: (body) The challenge resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateChallenge(id: Int64, challengeResource: ChallengeResource? = nil, completion: @escaping ((_ data: ChallengeResource?,_ error: Error?) -> Void)) {
+    open class func updateChallenge(id: Int64, challengeResource: ChallengeResource? = nil, completion: @escaping ((_ data: ChallengeResource?, _ error: ErrorResponse?) -> Void)) {
         updateChallengeWithRequestBuilder(id: id, challengeResource: challengeResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1329,60 +2012,71 @@ open class CampaignsChallengesAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "end_date" : 5,
-  "template" : "aeiou",
+  "template" : "template",
   "reward_set" : {
-    "short_description" : "aeiou",
-    "unique_key" : "aeiou",
+    "short_description" : "short_description",
+    "unique_key" : "unique_key",
     "currency_rewards" : [ {
-      "currency_name" : "aeiou",
+      "currency_name" : "currency_name",
       "max_rank" : 2,
-      "min_rank" : 4,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 7.386281948385884,
-      "currency_code" : "aeiou"
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    }, {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
     } ],
-    "name" : "aeiou",
-    "created_date" : 3,
-    "id" : 1,
-    "long_description" : "aeiou",
+    "name" : "name",
+    "created_date" : 5,
+    "id" : 3,
+    "long_description" : "long_description",
     "max_placing" : 1,
-    "updated_date" : 4,
+    "updated_date" : 1,
     "item_rewards" : [ {
-      "quantity" : 7,
-      "item_id" : 1,
-      "max_rank" : 1,
-      "item_name" : "aeiou",
-      "min_rank" : 6
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    }, {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
     } ]
   },
-  "short_description" : "aeiou",
+  "short_description" : "short_description",
   "next_event_date" : 7,
-  "long_description" : "aeiou",
+  "long_description" : "long_description",
   "reward_lag_minutes" : 9,
-  "leaderboard_strategy" : "aeiou",
+  "leaderboard_strategy" : "leaderboard_strategy",
   "schedule" : {
-    "duration" : 5,
+    "duration" : 3,
     "repeat" : "DAILY",
     "duration_unit" : "millisecond"
   },
   "copy_of" : 1,
   "activities" : 0,
-  "name" : "aeiou",
+  "name" : "name",
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
   "created_date" : 5,
   "id" : 2,
-  "updated_date" : 9,
+  "updated_date" : 4,
   "campaign_id" : 6,
-  "start_date" : 9
+  "start_date" : 2
 }}]
-     
      - parameter id: (path) The challenge id 
      - parameter challengeResource: (body) The challenge resource object (optional)
-
      - returns: RequestBuilder<ChallengeResource> 
      */
     open class func updateChallengeWithRequestBuilder(id: Int64, challengeResource: ChallengeResource? = nil) -> RequestBuilder<ChallengeResource> {
@@ -1393,7 +2087,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ChallengeResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1401,15 +2094,14 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Update a challenge activity
-     
      - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
      - parameter challengeActivityResource: (body) The challenge activity resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateChallengeActivity(id: Int64, challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil, completion: @escaping ((_ data: ChallengeActivityResource?,_ error: Error?) -> Void)) {
+    open class func updateChallengeActivity(id: Int64, challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil, completion: @escaping ((_ data: ChallengeActivityResource?, _ error: ErrorResponse?) -> Void)) {
         updateChallengeActivityWithRequestBuilder(id: id, challengeId: challengeId, challengeActivityResource: challengeActivityResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1422,59 +2114,75 @@ open class CampaignsChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "template" : "aeiou",
+  "template" : "template",
   "reward_set" : {
-    "short_description" : "aeiou",
-    "unique_key" : "aeiou",
+    "short_description" : "short_description",
+    "unique_key" : "unique_key",
     "currency_rewards" : [ {
-      "currency_name" : "aeiou",
-      "max_rank" : 7,
-      "min_rank" : 9,
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
       "percent" : false,
-      "value" : 3.616076749251911,
-      "currency_code" : "aeiou"
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
+    }, {
+      "currency_name" : "currency_name",
+      "max_rank" : 2,
+      "min_rank" : 7,
+      "percent" : false,
+      "value" : 9.301444243932576,
+      "currency_code" : "currency_code"
     } ],
-    "name" : "aeiou",
-    "created_date" : 2,
-    "id" : 2,
-    "long_description" : "aeiou",
+    "name" : "name",
+    "created_date" : 5,
+    "id" : 3,
+    "long_description" : "long_description",
     "max_placing" : 1,
-    "updated_date" : 6,
+    "updated_date" : 1,
     "item_rewards" : [ {
       "quantity" : 1,
-      "item_id" : 4,
-      "max_rank" : 7,
-      "item_name" : "aeiou",
-      "min_rank" : 1
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
+    }, {
+      "quantity" : 1,
+      "item_id" : 2,
+      "max_rank" : 4,
+      "item_name" : "item_name",
+      "min_rank" : 7
     } ]
   },
   "settings" : [ {
-    "key_name" : "aeiou",
-    "value" : "aeiou",
-    "key" : "aeiou",
-    "value_name" : "aeiou"
+    "key_name" : "key_name",
+    "value" : "value",
+    "key" : "key",
+    "value_name" : "value_name"
+  }, {
+    "key_name" : "key_name",
+    "value" : "value",
+    "key" : "key",
+    "value_name" : "value_name"
   } ],
   "challenge_id" : 6,
   "activity_id" : 0,
   "entitlement" : {
-    "item_id" : 1,
-    "price" : 5.962133916683182,
-    "name" : "aeiou",
-    "sku" : "aeiou",
-    "currency_code" : "aeiou"
+    "item_id" : 6,
+    "price" : 1.4658129805029452,
+    "name" : "name",
+    "sku" : "sku",
+    "currency_code" : "currency_code"
   },
   "additional_properties" : {
     "key" : {
-      "type" : "aeiou"
+      "type" : "type"
     }
   },
-  "id" : 5
+  "id" : 1
 }}]
-     
      - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
      - parameter challengeActivityResource: (body) The challenge activity resource object (optional)
-
      - returns: RequestBuilder<ChallengeActivityResource> 
      */
     open class func updateChallengeActivityWithRequestBuilder(id: Int64, challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil) -> RequestBuilder<ChallengeActivityResource> {
@@ -1486,7 +2194,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ChallengeActivityResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1494,14 +2201,13 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Update an challenge activity template
-     
      - parameter id: (path) The id of the template 
      - parameter challengeActivityTemplateResource: (body) The challengeActivity template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateChallengeActivityTemplate(id: String, challengeActivityTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateChallengeActivityTemplate(id: String, challengeActivityTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateChallengeActivityTemplateWithRequestBuilder(id: id, challengeActivityTemplateResource: challengeActivityTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1513,33 +2219,96 @@ open class CampaignsChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter challengeActivityTemplateResource: (body) The challengeActivity template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func updateChallengeActivityTemplateWithRequestBuilder(id: String, challengeActivityTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -1550,7 +2319,6 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -1558,14 +2326,13 @@ open class CampaignsChallengesAPI: APIBase {
 
     /**
      Update a challenge template
-     
      - parameter id: (path) The id of the template 
      - parameter challengeTemplateResource: (body) The challenge template resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateChallengeTemplate(id: String, challengeTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?,_ error: Error?) -> Void)) {
+    open class func updateChallengeTemplate(id: String, challengeTemplateResource: TemplateResource? = nil, completion: @escaping ((_ data: TemplateResource?, _ error: ErrorResponse?) -> Void)) {
         updateChallengeTemplateWithRequestBuilder(id: id, challengeTemplateResource: challengeTemplateResource).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -1577,33 +2344,96 @@ open class CampaignsChallengesAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "name" : "aeiou",
+  "name" : "name",
   "created_date" : 0,
-  "id" : "aeiou",
+  "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
-    "name" : "aeiou",
-    "type" : "aeiou",
+    "name" : "name",
+    "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
         "inner_type" : "integer",
-        "valid_values" : [ "aeiou" ],
-        "name" : "aeiou",
-        "description" : "aeiou",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
         "type" : "integer",
-        "inner_type_fields" : [ "" ],
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
         "required" : false
       } ],
-      "property_type" : "aeiou",
-      "property_fields" : [ "" ]
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
+    },
+    "required" : false
+  }, {
+    "name" : "name",
+    "type" : "type",
+    "field_list" : {
+      "property_definition_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ],
+      "property_type" : "property_type",
+      "property_fields" : [ {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      }, {
+        "inner_type" : "integer",
+        "valid_values" : [ "valid_values", "valid_values" ],
+        "name" : "name",
+        "description" : "description",
+        "type" : "integer",
+        "inner_type_fields" : [ null, null ],
+        "required" : false
+      } ]
     },
     "required" : false
   } ]
 }}]
-     
      - parameter id: (path) The id of the template 
      - parameter challengeTemplateResource: (body) The challenge template resource object (optional)
-
      - returns: RequestBuilder<TemplateResource> 
      */
     open class func updateChallengeTemplateWithRequestBuilder(id: String, challengeTemplateResource: TemplateResource? = nil) -> RequestBuilder<TemplateResource> {
@@ -1613,7 +2443,6 @@ open class CampaignsChallengesAPI: APIBase {
         let parameters = challengeTemplateResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<TemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

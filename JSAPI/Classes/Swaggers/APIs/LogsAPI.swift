@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class LogsAPI: APIBase {
     /**
      Add a user log entry
-     
      - parameter logEntry: (body) The user log entry to be added (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addUserLog(logEntry: UserActionLog? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func addUserLog(logEntry: UserActionLog? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addUserLogWithRequestBuilder(logEntry: logEntry).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -30,9 +28,7 @@ open class LogsAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter logEntry: (body) The user log entry to be added (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func addUserLogWithRequestBuilder(logEntry: UserActionLog? = nil) -> RequestBuilder<Void> {
@@ -42,7 +38,6 @@ open class LogsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -50,13 +45,12 @@ open class LogsAPI: APIBase {
 
     /**
      Get an existing BRE event log entry by id
-     
      - parameter id: (path) The BRE event log entry id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBREEventLog(id: String, completion: @escaping ((_ data: BreEventLog?,_ error: Error?) -> Void)) {
+    open class func getBREEventLog(id: String, completion: @escaping ((_ data: BreEventLog?, _ error: ErrorResponse?) -> Void)) {
         getBREEventLogWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -68,24 +62,29 @@ open class LogsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "event_id" : "aeiou",
-  "event_name" : "aeiou",
+  "event_id" : "event_id",
+  "event_name" : "event_name",
   "rules" : [ {
-    "rule_id" : "aeiou",
-    "reason" : "aeiou",
+    "rule_id" : "rule_id",
+    "reason" : "reason",
     "rule_end_date" : 6,
-    "rule_name" : "aeiou",
+    "rule_name" : "rule_name",
+    "rule_start_date" : 1,
+    "ran" : false
+  }, {
+    "rule_id" : "rule_id",
+    "reason" : "reason",
+    "rule_end_date" : 6,
+    "rule_name" : "rule_name",
     "rule_start_date" : 1,
     "ran" : false
   } ],
-  "id" : "aeiou",
+  "id" : "id",
   "parameters" : "{}",
   "event_start_date" : 0,
-  "customer" : "aeiou"
+  "customer" : "customer"
 }}]
-     
      - parameter id: (path) The BRE event log entry id 
-
      - returns: RequestBuilder<BreEventLog> 
      */
     open class func getBREEventLogWithRequestBuilder(id: String) -> RequestBuilder<BreEventLog> {
@@ -96,7 +95,6 @@ open class LogsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<BreEventLog>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -104,7 +102,6 @@ open class LogsAPI: APIBase {
 
     /**
      Returns a list of BRE event log entries
-     
      - parameter filterStartDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the event log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterEventName: (query) Filter event logs by event name (optional)
      - parameter filterEventId: (query) Filter event logs by request id (optional)
@@ -113,9 +110,9 @@ open class LogsAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBREEventLogs(filterStartDate: String? = nil, filterEventName: String? = nil, filterEventId: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceBreEventLog?,_ error: Error?) -> Void)) {
+    open class func getBREEventLogs(filterStartDate: String? = nil, filterEventName: String? = nil, filterEventId: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceBreEventLog?, _ error: ErrorResponse?) -> Void)) {
         getBREEventLogsWithRequestBuilder(filterStartDate: filterStartDate, filterEventName: filterEventName, filterEventId: filterEventId, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -134,38 +131,73 @@ open class LogsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 9,
   "number_of_elements" : 5,
   "content" : [ {
-    "event_id" : "aeiou",
-    "event_name" : "aeiou",
+    "event_id" : "event_id",
+    "event_name" : "event_name",
     "rules" : [ {
-      "rule_id" : "aeiou",
-      "reason" : "aeiou",
+      "rule_id" : "rule_id",
+      "reason" : "reason",
       "rule_end_date" : 6,
-      "rule_name" : "aeiou",
+      "rule_name" : "rule_name",
+      "rule_start_date" : 1,
+      "ran" : false
+    }, {
+      "rule_id" : "rule_id",
+      "reason" : "reason",
+      "rule_end_date" : 6,
+      "rule_name" : "rule_name",
       "rule_start_date" : 1,
       "ran" : false
     } ],
-    "id" : "aeiou",
+    "id" : "id",
     "parameters" : "{}",
     "event_start_date" : 0,
-    "customer" : "aeiou"
+    "customer" : "customer"
+  }, {
+    "event_id" : "event_id",
+    "event_name" : "event_name",
+    "rules" : [ {
+      "rule_id" : "rule_id",
+      "reason" : "reason",
+      "rule_end_date" : 6,
+      "rule_name" : "rule_name",
+      "rule_start_date" : 1,
+      "ran" : false
+    }, {
+      "rule_id" : "rule_id",
+      "reason" : "reason",
+      "rule_end_date" : 6,
+      "rule_name" : "rule_name",
+      "rule_start_date" : 1,
+      "ran" : false
+    } ],
+    "id" : "id",
+    "parameters" : "{}",
+    "event_start_date" : 0,
+    "customer" : "customer"
   } ],
   "first" : true
 }}]
-     
      - parameter filterStartDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the event log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterEventName: (query) Filter event logs by event name (optional)
      - parameter filterEventId: (query) Filter event logs by request id (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
-
      - returns: RequestBuilder<PageResourceBreEventLog> 
      */
     open class func getBREEventLogsWithRequestBuilder(filterStartDate: String? = nil, filterEventName: String? = nil, filterEventId: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceBreEventLog> {
@@ -182,7 +214,6 @@ open class LogsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceBreEventLog>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -191,13 +222,12 @@ open class LogsAPI: APIBase {
 
     /**
      Get an existing forward log entry by id
-     
      - parameter id: (path) The forward log entry id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBREForwardLog(id: String, completion: @escaping ((_ data: ForwardLog?,_ error: Error?) -> Void)) {
+    open class func getBREForwardLog(id: String, completion: @escaping ((_ data: ForwardLog?, _ error: ErrorResponse?) -> Void)) {
         getBREForwardLogWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -210,18 +240,16 @@ open class LogsAPI: APIBase {
        - name: OAuth2
      - examples: [{contentType=application/json, example={
   "end_date" : 0,
-  "error_msg" : "aeiou",
+  "error_msg" : "error_msg",
   "http_status_code" : 6,
   "payload" : "{}",
-  "response" : "aeiou",
+  "response" : "response",
   "retry_count" : 1,
-  "id" : "aeiou",
-  "url" : "aeiou",
+  "id" : "id",
+  "url" : "url",
   "start_date" : 5
 }}]
-     
      - parameter id: (path) The forward log entry id 
-
      - returns: RequestBuilder<ForwardLog> 
      */
     open class func getBREForwardLogWithRequestBuilder(id: String) -> RequestBuilder<ForwardLog> {
@@ -232,7 +260,6 @@ open class LogsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<ForwardLog>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -240,7 +267,6 @@ open class LogsAPI: APIBase {
 
     /**
      Returns a list of forward log entries
-     
      - parameter filterStartDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterEndDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the log end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterStatusCode: (query) Filter forward logs by http status code (optional)
@@ -249,9 +275,9 @@ open class LogsAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBREForwardLogs(filterStartDate: String? = nil, filterEndDate: String? = nil, filterStatusCode: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceForwardLog?,_ error: Error?) -> Void)) {
+    open class func getBREForwardLogs(filterStartDate: String? = nil, filterEndDate: String? = nil, filterStatusCode: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceForwardLog?, _ error: ErrorResponse?) -> Void)) {
         getBREForwardLogsWithRequestBuilder(filterStartDate: filterStartDate, filterEndDate: filterEndDate, filterStatusCode: filterStatusCode, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -270,33 +296,49 @@ open class LogsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 3,
   "number_of_elements" : 2,
   "content" : [ {
     "end_date" : 0,
-    "error_msg" : "aeiou",
+    "error_msg" : "error_msg",
     "http_status_code" : 6,
     "payload" : "{}",
-    "response" : "aeiou",
+    "response" : "response",
     "retry_count" : 1,
-    "id" : "aeiou",
-    "url" : "aeiou",
+    "id" : "id",
+    "url" : "url",
+    "start_date" : 5
+  }, {
+    "end_date" : 0,
+    "error_msg" : "error_msg",
+    "http_status_code" : 6,
+    "payload" : "{}",
+    "response" : "response",
+    "retry_count" : 1,
+    "id" : "id",
+    "url" : "url",
     "start_date" : 5
   } ],
   "first" : true
 }}]
-     
      - parameter filterStartDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterEndDate: (query) A comma separated string without spaces.  First value is the operator to search on, second value is the log end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      - parameter filterStatusCode: (query) Filter forward logs by http status code (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
-
      - returns: RequestBuilder<PageResourceForwardLog> 
      */
     open class func getBREForwardLogsWithRequestBuilder(filterStartDate: String? = nil, filterEndDate: String? = nil, filterStatusCode: Int32? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceForwardLog> {
@@ -313,7 +355,6 @@ open class LogsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceForwardLog>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
@@ -322,13 +363,12 @@ open class LogsAPI: APIBase {
 
     /**
      Returns a user log entry by id
-     
      - parameter id: (path) The user log entry id 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserLog(id: String, completion: @escaping ((_ data: UserActionLog?,_ error: Error?) -> Void)) {
+    open class func getUserLog(id: String, completion: @escaping ((_ data: UserActionLog?, _ error: ErrorResponse?) -> Void)) {
         getUserLogWithRequestBuilder(id: id).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -340,19 +380,17 @@ open class LogsAPI: APIBase {
        - type: oauth2
        - name: OAuth2
      - examples: [{contentType=application/json, example={
-  "action_description" : "aeiou",
+  "action_description" : "action_description",
   "user_id" : 6,
-  "action_name" : "aeiou",
+  "action_name" : "action_name",
   "details" : {
-    "key" : "aeiou"
+    "key" : "details"
   },
   "created_date" : 0,
-  "id" : "aeiou",
-  "request_id" : "aeiou"
+  "id" : "id",
+  "request_id" : "request_id"
 }}]
-     
      - parameter id: (path) The user log entry id 
-
      - returns: RequestBuilder<UserActionLog> 
      */
     open class func getUserLogWithRequestBuilder(id: String) -> RequestBuilder<UserActionLog> {
@@ -363,7 +401,6 @@ open class LogsAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<UserActionLog>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -371,7 +408,6 @@ open class LogsAPI: APIBase {
 
     /**
      Returns a page of user logs entries
-     
      - parameter filterUser: (query) Filter for actions taken by a specific user by id (optional)
      - parameter filterActionName: (query) Filter for actions of a specific name (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
@@ -379,9 +415,9 @@ open class LogsAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to timestamp:DESC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserLogs(filterUser: Int32? = nil, filterActionName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceUserActionLog?,_ error: Error?) -> Void)) {
+    open class func getUserLogs(filterUser: Int32? = nil, filterActionName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceUserActionLog?, _ error: ErrorResponse?) -> Void)) {
         getUserLogsWithRequestBuilder(filterUser: filterUser, filterActionName: filterActionName, size: size, page: page, order: order).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -400,32 +436,48 @@ open class LogsAPI: APIBase {
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
-    "property" : "aeiou",
+    "property" : "property",
     "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
     "direction" : "ASC"
   } ],
   "total_pages" : 7,
   "number_of_elements" : 5,
   "content" : [ {
-    "action_description" : "aeiou",
+    "action_description" : "action_description",
     "user_id" : 6,
-    "action_name" : "aeiou",
+    "action_name" : "action_name",
     "details" : {
-      "key" : "aeiou"
+      "key" : "details"
     },
     "created_date" : 0,
-    "id" : "aeiou",
-    "request_id" : "aeiou"
+    "id" : "id",
+    "request_id" : "request_id"
+  }, {
+    "action_description" : "action_description",
+    "user_id" : 6,
+    "action_name" : "action_name",
+    "details" : {
+      "key" : "details"
+    },
+    "created_date" : 0,
+    "id" : "id",
+    "request_id" : "request_id"
   } ],
   "first" : true
 }}]
-     
      - parameter filterUser: (query) Filter for actions taken by a specific user by id (optional)
      - parameter filterActionName: (query) Filter for actions of a specific name (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
      - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to timestamp:DESC)
-
      - returns: RequestBuilder<PageResourceUserActionLog> 
      */
     open class func getUserLogsWithRequestBuilder(filterUser: Int32? = nil, filterActionName: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceUserActionLog> {
@@ -441,7 +493,6 @@ open class LogsAPI: APIBase {
             "page": page?.encodeToJSON(), 
             "order": order
         ])
-        
 
         let requestBuilder: RequestBuilder<PageResourceUserActionLog>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

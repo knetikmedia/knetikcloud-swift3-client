@@ -9,17 +9,15 @@ import Foundation
 import Alamofire
 
 
-
 open class MessagingAPI: APIBase {
     /**
      Send a raw email to one or more users
-     
      - parameter rawEmailResource: (body) The new raw email to be sent (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func sendRawEmail(rawEmailResource: RawEmailResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func sendRawEmail(rawEmailResource: RawEmailResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         sendRawEmailWithRequestBuilder(rawEmailResource: rawEmailResource).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -30,9 +28,7 @@ open class MessagingAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter rawEmailResource: (body) The new raw email to be sent (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func sendRawEmailWithRequestBuilder(rawEmailResource: RawEmailResource? = nil) -> RequestBuilder<Void> {
@@ -42,7 +38,6 @@ open class MessagingAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -50,13 +45,12 @@ open class MessagingAPI: APIBase {
 
     /**
      Send a raw SMS
-     
      - parameter rawSMSResource: (body) The new raw SMS to be sent (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func sendRawSMS(rawSMSResource: RawSMSResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func sendRawSMS(rawSMSResource: RawSMSResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         sendRawSMSWithRequestBuilder(rawSMSResource: rawSMSResource).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -68,9 +62,7 @@ open class MessagingAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter rawSMSResource: (body) The new raw SMS to be sent (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func sendRawSMSWithRequestBuilder(rawSMSResource: RawSMSResource? = nil) -> RequestBuilder<Void> {
@@ -80,7 +72,6 @@ open class MessagingAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -88,13 +79,12 @@ open class MessagingAPI: APIBase {
 
     /**
      Send a templated email to one or more users
-     
      - parameter messageResource: (body) The new template email to be sent (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func sendTemplatedEmail(messageResource: TemplateEmailResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func sendTemplatedEmail(messageResource: TemplateEmailResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         sendTemplatedEmailWithRequestBuilder(messageResource: messageResource).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -105,9 +95,7 @@ open class MessagingAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter messageResource: (body) The new template email to be sent (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func sendTemplatedEmailWithRequestBuilder(messageResource: TemplateEmailResource? = nil) -> RequestBuilder<Void> {
@@ -117,7 +105,6 @@ open class MessagingAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
-
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -125,13 +112,12 @@ open class MessagingAPI: APIBase {
 
     /**
      Send a new templated SMS
-     
      - parameter templateSMSResource: (body) The new template SMS to be sent (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func sendTemplatedSMS(templateSMSResource: TemplateSMSResource? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func sendTemplatedSMS(templateSMSResource: TemplateSMSResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         sendTemplatedSMSWithRequestBuilder(templateSMSResource: templateSMSResource).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -143,9 +129,7 @@ open class MessagingAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: OAuth2
-     
      - parameter templateSMSResource: (body) The new template SMS to be sent (optional)
-
      - returns: RequestBuilder<Void> 
      */
     open class func sendTemplatedSMSWithRequestBuilder(templateSMSResource: TemplateSMSResource? = nil) -> RequestBuilder<Void> {
@@ -154,7 +138,6 @@ open class MessagingAPI: APIBase {
         let parameters = templateSMSResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-
 
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
