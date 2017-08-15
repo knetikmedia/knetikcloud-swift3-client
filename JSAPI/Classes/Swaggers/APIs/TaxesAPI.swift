@@ -25,9 +25,7 @@ open class TaxesAPI: APIBase {
     /**
      Create a country tax
      - POST /tax/countries
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
   "rate" : 0.8008281904610115,
@@ -65,9 +63,7 @@ open class TaxesAPI: APIBase {
     /**
      Create a state tax
      - POST /tax/countries/{country_code_iso3}/states
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
   "rate" : 0.8008281904610115,
@@ -108,9 +104,7 @@ open class TaxesAPI: APIBase {
     /**
      Delete an existing tax
      - DELETE /tax/countries/{country_code_iso3}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - returns: RequestBuilder<Void> 
      */
@@ -143,9 +137,7 @@ open class TaxesAPI: APIBase {
     /**
      Delete an existing state tax
      - DELETE /tax/countries/{country_code_iso3}/states/{state_code}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter countryCodeIso3: (path) The iso3 code of the country 
      - parameter stateCode: (path) The code of the state 
      - returns: RequestBuilder<Void> 
@@ -500,9 +492,7 @@ open class TaxesAPI: APIBase {
     /**
      Create or update a tax
      - PUT /tax/countries/{country_code_iso3}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
   "rate" : 0.8008281904610115,
@@ -543,9 +533,7 @@ open class TaxesAPI: APIBase {
     /**
      Create or update a state tax
      - PUT /tax/countries/{country_code_iso3}/states/{state_code}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "tax_shipping" : false,
   "rate" : 0.8008281904610115,

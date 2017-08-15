@@ -25,9 +25,7 @@ open class MessagingAPI: APIBase {
     /**
      Send a raw email to one or more users
      - POST /messaging/raw-email
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter rawEmailResource: (body) The new raw email to be sent (optional)
      - returns: RequestBuilder<Void> 
      */
@@ -59,9 +57,7 @@ open class MessagingAPI: APIBase {
      Send a raw SMS
      - POST /messaging/raw-sms
      - Sends a raw SMS text message to one or more users. User's without registered mobile numbers will be skipped.
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter rawSMSResource: (body) The new raw SMS to be sent (optional)
      - returns: RequestBuilder<Void> 
      */
@@ -92,9 +88,7 @@ open class MessagingAPI: APIBase {
     /**
      Send a templated email to one or more users
      - POST /messaging/templated-email
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter messageResource: (body) The new template email to be sent (optional)
      - returns: RequestBuilder<Void> 
      */
@@ -126,9 +120,7 @@ open class MessagingAPI: APIBase {
      Send a new templated SMS
      - POST /messaging/templated-sms
      - Sends a templated SMS text message to one or more users. User's without registered mobile numbers will be skipped.
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter templateSMSResource: (body) The new template SMS to be sent (optional)
      - returns: RequestBuilder<Void> 
      */

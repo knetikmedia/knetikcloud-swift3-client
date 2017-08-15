@@ -25,9 +25,7 @@ open class PaymentsTransactionsAPI: APIBase {
     /**
      Get the details for a single transaction
      - GET /transactions/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "transaction_id" : "transaction_id",
   "type_hint" : "type_hint",
@@ -77,9 +75,7 @@ open class PaymentsTransactionsAPI: APIBase {
     /**
      List and search transactions
      - GET /transactions
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -174,9 +170,7 @@ open class PaymentsTransactionsAPI: APIBase {
      Refund a payment transaction, in full or in part
      - POST /transactions/{id}/refunds
      - Will not allow for refunding more than the full amount even with multiple partial refunds. Money is refunded to the payment method used to make the original payment. Payment method must support refunds.
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "transaction_id" : 1,
   "amount" : 0.8008281904610115,

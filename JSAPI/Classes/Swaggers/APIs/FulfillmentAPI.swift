@@ -25,9 +25,7 @@ open class FulfillmentAPI: APIBase {
     /**
      Create a fulfillment type
      - POST /store/fulfillment/types
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "core" : false,
   "name" : "name",
@@ -64,9 +62,7 @@ open class FulfillmentAPI: APIBase {
     /**
      Delete a fulfillment type
      - DELETE /store/fulfillment/types/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The id 
      - returns: RequestBuilder<Void> 
      */
@@ -212,9 +208,7 @@ open class FulfillmentAPI: APIBase {
     /**
      Update a fulfillment type
      - PUT /store/fulfillment/types/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The id 
      - parameter fulfillmentType: (body) The fulfillment type (optional)
      - returns: RequestBuilder<Void> 

@@ -44,9 +44,7 @@ open class ReportingUsersAPI: APIBase {
      Get user registration info
      - GET /reporting/users/registrations
      - Get user registration counts grouped by time range
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,

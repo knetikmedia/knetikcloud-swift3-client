@@ -13204,6 +13204,12 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: [Behavior].self, source: sourceDictionary["behaviors"] as AnyObject?) {
+                
+                case let .success(value): result.behaviors = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["category"] as AnyObject?) {
                 
                 case let .success(value): result.category = value

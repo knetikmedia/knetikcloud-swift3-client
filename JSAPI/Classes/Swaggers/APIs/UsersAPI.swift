@@ -26,9 +26,7 @@ open class UsersAPI: APIBase {
     /**
      Add a tag to a user
      - POST /users/{user_id}/tags
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) The id of the user 
      - parameter tag: (body) tag 
      - returns: RequestBuilder<Void> 
@@ -62,9 +60,7 @@ open class UsersAPI: APIBase {
      Create a user template
      - POST /users/templates
      - User Templates define a type of user and the properties they have
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,
@@ -186,9 +182,7 @@ open class UsersAPI: APIBase {
      Delete a user template
      - DELETE /users/templates/{id}
      - If cascade = 'detach', it will force delete the template even if it's attached to other objects
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - returns: RequestBuilder<Void> 
@@ -225,9 +219,7 @@ open class UsersAPI: APIBase {
      Get a single user
      - GET /users/{id}
      - Additional private info is included as USERS_ADMIN
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "member_since" : 7,
   "template" : "template",
@@ -323,9 +315,7 @@ open class UsersAPI: APIBase {
     /**
      List tags for a user
      - GET /users/{user_id}/tags
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example=[ "", "" ]}]
      - parameter userId: (path) The id of the user 
      - returns: RequestBuilder<[String]> 
@@ -358,9 +348,7 @@ open class UsersAPI: APIBase {
     /**
      Get a single user template
      - GET /users/templates/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,
@@ -483,9 +471,7 @@ open class UsersAPI: APIBase {
     /**
      List and search user templates
      - GET /users/templates
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
@@ -737,9 +723,7 @@ open class UsersAPI: APIBase {
      List and search users
      - GET /users
      - Additional private info is included as USERS_ADMIN
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -974,9 +958,7 @@ open class UsersAPI: APIBase {
     /**
      Remove a tag from a user
      - DELETE /users/{user_id}/tags/{tag}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) The id of the user 
      - parameter tag: (path) The tag to remove 
      - returns: RequestBuilder<Void> 
@@ -1012,9 +994,7 @@ open class UsersAPI: APIBase {
      Set a user's password
      - PUT /users/{id}/password
      - Password should be in plain text and will be encrypted on receipt. Use SSL for security.
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The id of the user 
      - parameter password: (body) The new plain text password (optional)
      - returns: RequestBuilder<Void> 
@@ -1114,9 +1094,7 @@ open class UsersAPI: APIBase {
      Update a user
      - PUT /users/{id}
      - Password will not be edited on this endpoint, use password specific endpoints.
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The id of the user or &#39;me&#39; 
      - parameter userResource: (body) The user resource object (optional)
      - returns: RequestBuilder<Void> 
@@ -1150,9 +1128,7 @@ open class UsersAPI: APIBase {
     /**
      Update a user template
      - PUT /users/templates/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,

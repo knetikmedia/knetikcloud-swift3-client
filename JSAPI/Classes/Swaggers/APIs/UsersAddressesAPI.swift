@@ -26,9 +26,7 @@ open class UsersAddressesAPI: APIBase {
     /**
      Create a new address
      - POST /users/{user_id}/addresses
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "address2" : "address2",
   "city" : "city",
@@ -77,9 +75,7 @@ open class UsersAddressesAPI: APIBase {
     /**
      Delete an address
      - DELETE /users/{user_id}/addresses/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the address 
      - returns: RequestBuilder<Void> 
@@ -114,9 +110,7 @@ open class UsersAddressesAPI: APIBase {
     /**
      Get a single address
      - GET /users/{user_id}/addresses/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "address2" : "address2",
   "city" : "city",
@@ -168,9 +162,7 @@ open class UsersAddressesAPI: APIBase {
     /**
      List and search addresses
      - GET /users/{user_id}/addresses
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
@@ -265,9 +257,7 @@ open class UsersAddressesAPI: APIBase {
     /**
      Update an address
      - PUT /users/{user_id}/addresses/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "address2" : "address2",
   "city" : "city",

@@ -26,9 +26,7 @@ open class SocialGoogleAPI: APIBase {
      Link google account
      - POST /social/google/users
      - Links the current user account to a google account, using the acccess token from google. Can also be used to update the access token after it has expired.
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter googleToken: (body) The token from google (optional)
      - returns: RequestBuilder<Void> 
      */

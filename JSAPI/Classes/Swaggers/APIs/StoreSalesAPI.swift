@@ -25,9 +25,7 @@ open class StoreSalesAPI: APIBase {
     /**
      Create a sale
      - POST /store/sales
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "short_description" : "short_description",
   "item" : 1,
@@ -72,9 +70,7 @@ open class StoreSalesAPI: APIBase {
     /**
      Delete a sale
      - DELETE /store/sales/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The id of the sale 
      - returns: RequestBuilder<Void> 
      */
@@ -106,9 +102,7 @@ open class StoreSalesAPI: APIBase {
     /**
      Get a single sale
      - GET /store/sales/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "short_description" : "short_description",
   "item" : 1,
@@ -156,9 +150,7 @@ open class StoreSalesAPI: APIBase {
     /**
      List and search sales
      - GET /store/sales
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 7,
   "last" : true,
@@ -248,9 +240,7 @@ open class StoreSalesAPI: APIBase {
     /**
      Update a sale
      - PUT /store/sales/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "short_description" : "short_description",
   "item" : 1,

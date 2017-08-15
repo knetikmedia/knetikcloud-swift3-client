@@ -26,9 +26,7 @@ open class CampaignsAPI: APIBase {
     /**
      Add a challenge to a campaign
      - POST /campaigns/{id}/challenges
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The id of the campaign 
      - parameter challengeId: (body) The id of the challenge (optional)
      - returns: RequestBuilder<Void> 
@@ -61,9 +59,7 @@ open class CampaignsAPI: APIBase {
     /**
      Create a campaign
      - POST /campaigns
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "template" : "template",
   "reward_set" : {
@@ -152,9 +148,7 @@ open class CampaignsAPI: APIBase {
      Create a campaign template
      - POST /campaigns/templates
      - Campaign Templates define a type of campaign and the properties they have
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,
@@ -274,9 +268,7 @@ open class CampaignsAPI: APIBase {
     /**
      Delete a campaign
      - DELETE /campaigns/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The campaign id 
      - returns: RequestBuilder<Void> 
      */
@@ -310,9 +302,7 @@ open class CampaignsAPI: APIBase {
      Delete a campaign template
      - DELETE /campaigns/templates/{id}
      - If cascade = 'detach', it will force delete the template even if it's attached to other objects
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - returns: RequestBuilder<Void> 
@@ -639,9 +629,7 @@ open class CampaignsAPI: APIBase {
     /**
      Get a single campaign template
      - GET /campaigns/templates/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,
@@ -764,9 +752,7 @@ open class CampaignsAPI: APIBase {
     /**
      List and search campaign templates
      - GET /campaigns/templates
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
@@ -1186,9 +1172,7 @@ open class CampaignsAPI: APIBase {
     /**
      Remove a challenge from a campaign
      - DELETE /campaigns/{campaign_id}/challenges/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter campaignId: (path) The campaign id 
      - parameter id: (path) The challenge id 
      - returns: RequestBuilder<Void> 
@@ -1223,9 +1207,7 @@ open class CampaignsAPI: APIBase {
     /**
      Update a campaign
      - PUT /campaigns/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "template" : "template",
   "reward_set" : {
@@ -1316,9 +1298,7 @@ open class CampaignsAPI: APIBase {
     /**
      Update an campaign template
      - PUT /campaigns/templates/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,

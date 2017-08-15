@@ -27,9 +27,7 @@ open class UsersFriendshipsAPI: APIBase {
      Add a friend
      - POST /users/{user_id}/friends/{id}
      - As a user, either creates or confirm a pending request. As an admin, call this endpoint twice while inverting the IDs to create a confirmed friendship.
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
      - parameter id: (path) The id of the user to befriend 
      - returns: RequestBuilder<Void> 
@@ -65,9 +63,7 @@ open class UsersFriendshipsAPI: APIBase {
     /**
      Get friends list
      - GET /users/{user_id}/friends
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,
@@ -141,9 +137,7 @@ open class UsersFriendshipsAPI: APIBase {
      Returns the invite token
      - GET /users/{user_id}/invite-token
      - This is a unique invite token that allows direct connection to the request user.  Exposing that token presents privacy issues if the token is leaked. Use friend request flow instead if confirmation is required
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example=""}]
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
      - returns: RequestBuilder<String> 
@@ -179,9 +173,7 @@ open class UsersFriendshipsAPI: APIBase {
      Get pending invites
      - GET /users/{user_id}/invites
      - Invites that the specified user received
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,
@@ -256,9 +248,7 @@ open class UsersFriendshipsAPI: APIBase {
      Redeem friendship token
      - POST /users/{user_id}/friends/tokens
      - Immediately connects the requested user with the user mapped by the provided invite token
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
      - parameter token: (body) The invite token (optional)
      - returns: RequestBuilder<Void> 
@@ -292,9 +282,7 @@ open class UsersFriendshipsAPI: APIBase {
     /**
      Remove or decline a friend
      - DELETE /users/{user_id}/friends/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) The id of the user or &#39;me&#39; if logged in 
      - parameter id: (path) The id of the user to befriend 
      - returns: RequestBuilder<Void> 

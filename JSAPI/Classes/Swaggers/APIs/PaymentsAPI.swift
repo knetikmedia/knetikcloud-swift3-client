@@ -26,9 +26,7 @@ open class PaymentsAPI: APIBase {
     /**
      Create a new payment method for a user
      - POST /users/{user_id}/payment-methods
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
     "name" : "name",
@@ -84,9 +82,7 @@ open class PaymentsAPI: APIBase {
     /**
      Delete an existing payment method for a user
      - DELETE /users/{user_id}/payment-methods/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) ID of the user for whom the payment method is being updated 
      - parameter id: (path) ID of the payment method being deleted 
      - returns: RequestBuilder<Void> 
@@ -121,9 +117,7 @@ open class PaymentsAPI: APIBase {
     /**
      Get a single payment method for a user
      - GET /users/{user_id}/payment-methods/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
     "name" : "name",
@@ -194,9 +188,7 @@ open class PaymentsAPI: APIBase {
     /**
      Get all payment methods for a user
      - GET /users/{user_id}/payment-methods
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example=[ {
   "payment_method_type" : {
     "name" : "name",
@@ -287,9 +279,7 @@ open class PaymentsAPI: APIBase {
     /**
      Authorize payment of an invoice for later capture
      - POST /payment/authorizations
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "payment_type" : {
     "name" : "name",
@@ -331,9 +321,7 @@ open class PaymentsAPI: APIBase {
     /**
      Capture an existing invoice payment authorization
      - POST /payment/authorizations/{id}/capture
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) ID of the payment authorization to capture 
      - returns: RequestBuilder<Void> 
      */
@@ -367,9 +355,7 @@ open class PaymentsAPI: APIBase {
     /**
      Update an existing payment method for a user
      - PUT /users/{user_id}/payment-methods/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
     "name" : "name",

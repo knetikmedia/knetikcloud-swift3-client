@@ -26,9 +26,7 @@ open class AuthTokensAPI: APIBase {
     /**
      Delete tokens by username, client id, or both
      - DELETE /auth/tokens
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter username: (query) The username of the user (optional)
      - parameter clientId: (query) The id of the client (optional)
      - returns: RequestBuilder<Void> 
@@ -65,9 +63,7 @@ open class AuthTokensAPI: APIBase {
     /**
      Get a single token by username and client id
      - GET /auth/tokens/{username}/{client_id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "client_id" : "client_id",
   "token" : "token",
@@ -111,9 +107,7 @@ open class AuthTokensAPI: APIBase {
      List usernames and client ids
      - GET /auth/tokens
      - Token value not shown
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,

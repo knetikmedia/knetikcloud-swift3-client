@@ -27,9 +27,7 @@ open class MediaVideosAPI: APIBase {
      Adds a user to a video's whitelist
      - POST /media/videos/{id}/whitelist
      - Whitelisted users can view video regardless of privacy setting.
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The video id 
      - parameter userId: (body) The user id (optional)
      - returns: RequestBuilder<Void> 
@@ -62,9 +60,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Adds a new video in the system
      - POST /media/videos
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "authored" : 0,
   "short_description" : "short_description",
@@ -185,9 +181,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Add a new video comment
      - POST /media/videos/{video_id}/comments
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "summary" : "summary",
   "context" : "context",
@@ -236,9 +230,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Adds a contributor to a video
      - POST /media/videos/{video_id}/contributors
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter videoId: (path) The video id 
      - parameter contributionResource: (body) The contribution object (optional)
      - returns: RequestBuilder<Void> 
@@ -272,9 +264,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Add a new flag
      - POST /media/videos/{video_id}/moderation
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "reason" : "reason",
   "context" : "context",
@@ -322,9 +312,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Adds one or more existing videos as related to this one
      - POST /media/videos/{video_id}/related
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "relationship_details" : "relationship_details",
   "from" : {
@@ -370,9 +358,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Create a video disposition
      - POST /media/videos/{video_id}/dispositions
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "context" : "context",
   "name" : "name",
@@ -418,9 +404,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Deletes a video from the system if no resources are attached to it
      - DELETE /media/videos/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The video id 
      - returns: RequestBuilder<Void> 
      */
@@ -453,9 +437,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Delete a video comment
      - DELETE /media/videos/{video_id}/comments/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter videoId: (path) The video id 
      - parameter id: (path) The comment id 
      - returns: RequestBuilder<Void> 
@@ -489,9 +471,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Delete a video disposition
      - DELETE /media/videos/{video_id}/dispositions/{disposition_id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter dispositionId: (path) The disposition id 
      - returns: RequestBuilder<Void> 
      */
@@ -523,9 +503,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Delete a flag
      - DELETE /media/videos/{video_id}/moderation
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter videoId: (path) The video id 
      - returns: RequestBuilder<Void> 
      */
@@ -558,9 +536,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Delete a video's relationship
      - DELETE /media/videos/{video_id}/related/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter videoId: (path) The video id 
      - parameter id: (path) The relationship id 
      - returns: RequestBuilder<Void> 
@@ -597,9 +573,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Get user videos
      - GET /users/{user_id}/videos
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 4,
   "last" : true,
@@ -840,9 +814,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Loads a specific video details
      - GET /media/videos/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "authored" : 0,
   "short_description" : "short_description",
@@ -1511,9 +1483,7 @@ open class MediaVideosAPI: APIBase {
      Removes a user from a video's whitelist
      - DELETE /media/videos/{video_id}/whitelist/{id}
      - Remove the user with the id given in the path from the whitelist of users that can view this video regardless of privacy setting.
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter videoId: (path) The video id 
      - parameter id: (path) The user id 
      - returns: RequestBuilder<Void> 
@@ -1548,9 +1518,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Removes a contributor from a video
      - DELETE /media/videos/{video_id}/contributors/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter videoId: (path) The video id 
      - parameter id: (path) The contributor id 
      - returns: RequestBuilder<Void> 
@@ -1585,9 +1553,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Modifies a video's details
      - PUT /media/videos/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The video id 
      - parameter videoResource: (body) The video object (optional)
      - returns: RequestBuilder<Void> 
@@ -1622,9 +1588,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Update a video comment
      - PUT /media/videos/{video_id}/comments/{id}/content
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter videoId: (path) The video id 
      - parameter id: (path) The comment id 
      - parameter content: (body) The comment content (optional)
@@ -1661,9 +1625,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Update a video's relationship details
      - PUT /media/videos/{video_id}/related/{id}/relationship_details
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter videoId: (path) The video id 
      - parameter relationshipId: (path) The relationship id 
      - parameter details: (body) The video relationship details (optional)

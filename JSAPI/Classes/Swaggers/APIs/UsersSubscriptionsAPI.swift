@@ -26,9 +26,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Get details about a user's subscription
      - GET /users/{user_id}/subscriptions/{inventory_id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "grace_end" : 7,
   "bill_date" : 0,
@@ -117,9 +115,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Get details about a user's subscriptions
      - GET /users/{user_id}/subscriptions
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example=[ {
   "grace_end" : 7,
   "bill_date" : 0,
@@ -262,9 +258,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Reactivate a subscription and charge fee
      - POST /users/{user_id}/subscriptions/{inventory_id}/reactivate
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "shipping_city_name" : "shipping_city_name",
   "order_notes" : "order_notes",
@@ -383,9 +377,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Set a new date to bill a subscription on
      - PUT /users/{user_id}/subscriptions/{inventory_id}/bill-date
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter billDate: (body) The new bill date. Unix timestamp in seconds 
@@ -423,9 +415,7 @@ open class UsersSubscriptionsAPI: APIBase {
      Set the payment method to use for a subscription
      - PUT /users/{user_id}/subscriptions/{inventory_id}/payment-method
      - May send null to use floating default
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter paymentMethodId: (body) The id of the payment method (optional)
@@ -463,9 +453,7 @@ open class UsersSubscriptionsAPI: APIBase {
      Set the status of a subscription
      - PUT /users/{user_id}/subscriptions/{inventory_id}/status
      - Note that the new status may be blocked if the system is not configured to allow the current status to be changed to the new, to enforce proper flow. The default options for statuses are shown below but may be altered for special use cases
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter status: (body) The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) 
@@ -502,9 +490,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Set a new subscription plan for a user
      - PUT /users/{user_id}/subscriptions/{inventory_id}/plan
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter planId: (body) The id of the new plan. Must be from the same subscription (optional)
@@ -542,9 +528,7 @@ open class UsersSubscriptionsAPI: APIBase {
      Set a new subscription price for a user
      - PUT /users/{user_id}/subscriptions/{inventory_id}/price-override
      - This new price will be what the user is charged at the begining of each new period. This override is specific to the current subscription and will not carry over if they end and later re-subscribe. It will persist if the plan is changed using the setUserSubscriptionPlan endpoint.
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter userId: (path) The id of the user 
      - parameter inventoryId: (path) The id of the user&#39;s inventory 
      - parameter theOverrideDetails: (body) override (optional)

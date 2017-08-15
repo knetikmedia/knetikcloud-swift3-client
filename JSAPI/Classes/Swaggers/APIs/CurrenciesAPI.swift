@@ -25,9 +25,7 @@ open class CurrenciesAPI: APIBase {
     /**
      Create a currency
      - POST /currencies
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "code" : "code",
   "icon" : "icon",
@@ -68,9 +66,7 @@ open class CurrenciesAPI: APIBase {
     /**
      Delete a currency
      - DELETE /currencies/{code}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter code: (path) The currency code 
      - returns: RequestBuilder<Void> 
      */
@@ -234,9 +230,7 @@ open class CurrenciesAPI: APIBase {
     /**
      Update a currency
      - PUT /currencies/{code}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter code: (path) The currency code 
      - parameter currency: (body) The currency object (optional)
      - returns: RequestBuilder<Void> 

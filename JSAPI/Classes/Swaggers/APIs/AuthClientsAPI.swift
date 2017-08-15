@@ -25,9 +25,7 @@ open class AuthClientsAPI: APIBase {
     /**
      Create a new client
      - POST /auth/clients
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "client_key" : "client_key",
   "grant_types" : [ "grant_types", "grant_types" ],
@@ -70,9 +68,7 @@ open class AuthClientsAPI: APIBase {
     /**
      Delete a client
      - DELETE /auth/clients/{client_key}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter clientKey: (path) The key of the client 
      - returns: RequestBuilder<Void> 
      */
@@ -104,9 +100,7 @@ open class AuthClientsAPI: APIBase {
     /**
      Get a single client
      - GET /auth/clients/{client_key}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "client_key" : "client_key",
   "grant_types" : [ "grant_types", "grant_types" ],
@@ -149,9 +143,7 @@ open class AuthClientsAPI: APIBase {
     /**
      List available client grant types
      - GET /auth/clients/grant-types
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example=[ {
   "name" : "name",
   "description" : "description"
@@ -190,9 +182,7 @@ open class AuthClientsAPI: APIBase {
     /**
      List and search clients
      - GET /auth/clients
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -278,9 +268,7 @@ open class AuthClientsAPI: APIBase {
     /**
      Set grant types for a client
      - PUT /auth/clients/{client_key}/grant-types
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter clientKey: (path) The key of the client 
      - parameter grantList: (body) A list of unique grant types (optional)
      - returns: RequestBuilder<Void> 
@@ -314,9 +302,7 @@ open class AuthClientsAPI: APIBase {
     /**
      Set redirect uris for a client
      - PUT /auth/clients/{client_key}/redirect-uris
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter clientKey: (path) The key of the client 
      - parameter redirectList: (body) A list of unique redirect uris (optional)
      - returns: RequestBuilder<Void> 
@@ -350,9 +336,7 @@ open class AuthClientsAPI: APIBase {
     /**
      Update a client
      - PUT /auth/clients/{client_key}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "client_key" : "client_key",
   "grant_types" : [ "grant_types", "grant_types" ],

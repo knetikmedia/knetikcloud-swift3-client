@@ -26,9 +26,7 @@ open class BRERuleEngineEventsAPI: APIBase {
      Fire a new event, based on an existing trigger
      - POST /bre/events
      - Parameters within the event must match names and types from the trigger. Actual rule execution is asynchornous.  Returns request id, which will be used as the event id
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example=""}]
      - parameter breEvent: (body) The BRE event object (optional)
      - returns: RequestBuilder<String> 

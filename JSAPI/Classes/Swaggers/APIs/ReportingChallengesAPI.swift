@@ -29,9 +29,7 @@ open class ReportingChallengesAPI: APIBase {
      Retrieve a challenge event leaderboard details
      - GET /reporting/events/leaderboard
      - Lists all leaderboard entries with additional user details
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
@@ -112,9 +110,7 @@ open class ReportingChallengesAPI: APIBase {
      Retrieve a challenge event participant details
      - GET /reporting/events/participants
      - Lists all user submitted scores sorted by value, including those that do not apear in the leaderboard due to value or aggregation
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,

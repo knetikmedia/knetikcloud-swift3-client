@@ -100,9 +100,7 @@ open class GamificationLeaderboardsAPI: APIBase {
      Retrieves a specific user entry with rank
      - GET /leaderboards/{context_type}/{context_id}/users/{id}/rank
      - The context type identifies the type of entity (i.e., 'activity') being tracked on the leaderboard. The context ID is the unique ID of the actual entity tracked by the leaderboard
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "score" : 6,
   "rank" : 0,

@@ -25,9 +25,7 @@ open class DispositionsAPI: APIBase {
     /**
      Add a new disposition
      - POST /dispositions
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example={
   "context" : "context",
   "name" : "name",
@@ -71,9 +69,7 @@ open class DispositionsAPI: APIBase {
     /**
      Delete a disposition
      - DELETE /dispositions/{id}
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - parameter id: (path) The id of the disposition record 
      - returns: RequestBuilder<Void> 
      */

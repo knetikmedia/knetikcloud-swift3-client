@@ -25,9 +25,7 @@ open class BRERuleEngineExpressionsAPI: APIBase {
      Get a list of 'lookup' type expressions
      - GET /bre/expressions/lookup
      - These are expression types that take a second expression as input and produce a value. These can be used in addition to the standard types, like parameter, global and constant (see BRE documentation for details).
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
+
      - examples: [{contentType=application/json, example=[ {
   "value_type" : "value_type",
   "key_type" : "key_type",
