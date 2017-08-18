@@ -10796,6 +10796,12 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?) {
+                
+                case let .success(value): result.userId = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "PayBySavedMethodRequest", actual: "\(source)"))
