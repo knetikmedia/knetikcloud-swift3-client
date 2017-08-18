@@ -28,7 +28,11 @@ open class SearchAPI: APIBase {
      Add a new object to an index
      - POST /search/index/{type}/{id}
      - Mainly intended for internal use.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter type: (path) The index type 
      - parameter id: (path) The ID of the object 
      - parameter object: (body) The object to add (optional)
@@ -64,7 +68,11 @@ open class SearchAPI: APIBase {
      Register reference mappings
      - POST /search/mappings
      - Add a new type mapping to connect data from one index to another, or discover an exsting one. Mainly intended for internal use.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter mappings: (body) The mappings to add (optional)
      - returns: RequestBuilder<Void> 
      */
@@ -97,7 +105,11 @@ open class SearchAPI: APIBase {
      Delete an object
      - DELETE /search/index/{type}/{id}
      - Mainly intended for internal use. Requires SEARCH_ADMIN.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter type: (path) The index type 
      - parameter id: (path) The ID of the object to delete 
      - returns: RequestBuilder<Void> 
@@ -132,7 +144,11 @@ open class SearchAPI: APIBase {
      Delete all objects in an index
      - DELETE /search/index/{type}
      - Mainly intended for internal use
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter type: (path) The index type 
      - returns: RequestBuilder<Void> 
      */

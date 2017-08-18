@@ -29,7 +29,11 @@ open class UtilSecurityAPI: APIBase {
      Returns the authentication log for a user
      - GET /security/country-log
      - A log entry is recorded everytime a user requests a new token. Standard pagination available
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
@@ -101,7 +105,11 @@ open class UtilSecurityAPI: APIBase {
     /**
      Returns the authentication token details. Use /users endpoint for detailed user's info
      - GET /me
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "user_id" : 0,
   "roles" : [ "roles", "roles" ],

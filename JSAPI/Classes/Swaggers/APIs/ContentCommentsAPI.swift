@@ -25,7 +25,11 @@ open class ContentCommentsAPI: APIBase {
     /**
      Add a new comment
      - POST /comments
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "summary" : "summary",
   "context" : "context",
@@ -71,7 +75,11 @@ open class ContentCommentsAPI: APIBase {
     /**
      Delete a comment
      - DELETE /comments/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The comment id 
      - returns: RequestBuilder<Void> 
      */
@@ -295,7 +303,11 @@ open class ContentCommentsAPI: APIBase {
     /**
      Update a comment
      - PUT /comments/{id}/content
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The comment id 
      - parameter content: (body) The comment content (optional)
      - returns: RequestBuilder<Void> 

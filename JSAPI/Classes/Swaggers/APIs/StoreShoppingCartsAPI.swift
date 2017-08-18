@@ -26,7 +26,11 @@ open class StoreShoppingCartsAPI: APIBase {
     /**
      Adds a custom discount to the cart
      - POST /carts/{id}/custom-discounts
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the cart 
      - parameter customDiscount: (body) The details of the discount to add (optional)
      - returns: RequestBuilder<Void> 
@@ -60,7 +64,11 @@ open class StoreShoppingCartsAPI: APIBase {
     /**
      Adds a discount coupon to the cart
      - POST /carts/{id}/discounts
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the cart 
      - parameter skuRequest: (body) The request of the sku (optional)
      - returns: RequestBuilder<Void> 
@@ -95,7 +103,11 @@ open class StoreShoppingCartsAPI: APIBase {
      Add an item to the cart
      - POST /carts/{id}/items
      - Currently, carts cannot contain virtual and real currency items at the same time. Furthermore, the API only support a single virtual item at the moment
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the cart 
      - parameter cartItemRequest: (body) The cart item request object (optional)
      - returns: RequestBuilder<Void> 
@@ -167,7 +179,11 @@ open class StoreShoppingCartsAPI: APIBase {
     /**
      Returns the cart with the given GUID
      - GET /carts/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "country_tax" : 5.637376656633329,
   "error_message" : "error_message",
@@ -364,7 +380,11 @@ open class StoreShoppingCartsAPI: APIBase {
     /**
      Get a list of carts
      - GET /carts
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 2,
   "last" : true,
@@ -447,7 +467,11 @@ open class StoreShoppingCartsAPI: APIBase {
     /**
      Returns whether a cart requires shipping
      - GET /carts/{id}/shippable
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "cart_id" : 0,
   "shippable" : false
@@ -484,7 +508,11 @@ open class StoreShoppingCartsAPI: APIBase {
      Get the list of available shipping countries per vendor
      - GET /carts/{id}/countries
      - Since a cart can have multiple vendors with different shipping options, the countries are broken down by vendors. Please see notes about the response object as the fields are variable.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "vendor_id2" : [ {
     "name" : "name",
@@ -541,7 +569,11 @@ open class StoreShoppingCartsAPI: APIBase {
     /**
      Removes a discount coupon from the cart
      - DELETE /carts/{id}/discounts/{code}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the cart 
      - parameter code: (path) The SKU code of the coupon to remove 
      - returns: RequestBuilder<Void> 
@@ -577,7 +609,11 @@ open class StoreShoppingCartsAPI: APIBase {
      Sets the currency to use for the cart
      - PUT /carts/{id}/currency
      - May be disallowed by site settings.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the cart 
      - parameter currencyCode: (body) The code of the currency (optional)
      - returns: RequestBuilder<Void> 
@@ -611,7 +647,11 @@ open class StoreShoppingCartsAPI: APIBase {
     /**
      Sets the owner of a cart if none is set already
      - PUT /carts/{id}/owner
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the cart 
      - parameter userId: (body) The id of the user (optional)
      - returns: RequestBuilder<Void> 
@@ -646,7 +686,11 @@ open class StoreShoppingCartsAPI: APIBase {
      Changes the quantity of an item already in the cart
      - PUT /carts/{id}/items
      - A quantity of zero will remove the item from the cart altogether.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the cart 
      - parameter cartItemRequest: (body) The cart item request object (optional)
      - returns: RequestBuilder<Void> 
@@ -680,7 +724,11 @@ open class StoreShoppingCartsAPI: APIBase {
     /**
      Modifies or sets the order shipping address
      - PUT /carts/{id}/shipping-address
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the cart 
      - parameter cartShippingAddressRequest: (body) The cart shipping address request object (optional)
      - returns: RequestBuilder<Void> 

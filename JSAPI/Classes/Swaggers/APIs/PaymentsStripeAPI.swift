@@ -26,7 +26,11 @@ open class PaymentsStripeAPI: APIBase {
      Create a Stripe payment method for a user
      - POST /payment/provider/stripe/payment-methods
      - Stores customer information and creates a payment method that can be used to pay invoices through the payments endpoints.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "payment_method_type" : {
     "name" : "name",

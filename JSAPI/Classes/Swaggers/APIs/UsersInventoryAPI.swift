@@ -27,7 +27,11 @@ open class UsersInventoryAPI: APIBase {
      Adds an item to the user inventory
      - POST /users/{id}/inventory
      - The inventory is fulfilled asynchronously UNLESS the invoice is explicitely skipped. Depending on the use case, it might require the client to verify that the entitlement was added after the fact or configure a BRE rule to get a notification in real time
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "shipping_city_name" : "shipping_city_name",
   "order_notes" : "order_notes",
@@ -145,7 +149,11 @@ open class UsersInventoryAPI: APIBase {
      Check for access to an item without consuming
      - GET /users/{user_id}/entitlements/{item_id}/check
      - Useful for pre-check and accounts for all various buisness rules
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter userId: (path) The id of the user to check for or &#39;me&#39; for logged in user 
      - parameter itemId: (path) The id of the item 
      - parameter sku: (query) The specific sku of an entitlement list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
@@ -184,7 +192,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      Create an entitlement item
      - POST /entitlements
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter entitlementItem: (body) The entitlement item object (optional)
@@ -221,7 +233,11 @@ open class UsersInventoryAPI: APIBase {
      Create an entitlement template
      - POST /entitlements/templates
      - Entitlement templates define a type of entitlement and the properties they have
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
@@ -356,7 +372,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      Delete an entitlement item
      - DELETE /entitlements/{entitlement_id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter entitlementId: (path) The id of the entitlement 
      - returns: RequestBuilder<Void> 
      */
@@ -390,7 +410,11 @@ open class UsersInventoryAPI: APIBase {
      Delete an entitlement template
      - DELETE /entitlements/templates/{id}
      - If cascade = 'detach', it will force delete the template even if it's attached to other objects
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - returns: RequestBuilder<Void> 
@@ -524,7 +548,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      Get a single entitlement template
      - GET /entitlements/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
@@ -662,7 +690,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      List and search entitlement templates
      - GET /entitlements/templates
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
@@ -939,7 +971,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      List the user inventory entries for a given user
      - GET /users/{id}/inventory
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 7,
   "last" : true,
@@ -1049,7 +1085,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      Get an inventory entry
      - GET /users/{user_id}/inventory/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "behavior_data" : "{}",
   "expires" : 6,
@@ -1104,7 +1144,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      List the log entries for this inventory entry
      - GET /users/{user_id}/inventory/{id}/log
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -1208,7 +1252,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      List the user inventory entries for all users
      - GET /inventories
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 7,
   "last" : true,
@@ -1316,7 +1364,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      Grant an entitlement
      - POST /users/{user_id}/entitlements
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter userId: (path) The id of the user to grant the entitlement to 
      - parameter grantRequest: (body) grantRequest 
      - returns: RequestBuilder<Void> 
@@ -1351,7 +1403,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      Update an entitlement item
      - PUT /entitlements/{entitlement_id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter entitlementId: (path) The id of the entitlement 
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter entitlementItem: (body) The entitlement item object (optional)
@@ -1389,7 +1445,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      Update an entitlement template
      - PUT /entitlements/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
@@ -1528,7 +1588,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      Set the behavior data for an inventory entry
      - PUT /users/{user_id}/inventory/{id}/behavior-data
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the user inventory 
      - parameter data: (body) The data map (optional)
@@ -1566,7 +1630,11 @@ open class UsersInventoryAPI: APIBase {
      Set the expiration date
      - PUT /users/{user_id}/inventory/{id}/expires
      - Will change the current grace period for a subscription but not the bill date (possibly even ending before having the chance to re-bill)
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter userId: (path) user_id 
      - parameter id: (path) The id of the user inventory 
      - parameter timestamp: (body) The new expiration date as a unix timestamp in seconds. May be null (no body). (optional)
@@ -1603,7 +1671,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      Set the status for an inventory entry
      - PUT /users/{user_id}/inventory/{id}/status
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter userId: (path) The id of the user 
      - parameter id: (path) The id of the user inventory 
      - parameter inventoryStatus: (body) The inventory status object (optional)
@@ -1641,7 +1713,11 @@ open class UsersInventoryAPI: APIBase {
     /**
      Use an item
      - POST /users/{user_id}/entitlements/{item_id}/use
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter userId: (path) The id of the user to check for or &#39;me&#39; for logged in user 
      - parameter itemId: (path) The id of the item 
      - parameter sku: (query) The specific sku of an entitlement_list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)

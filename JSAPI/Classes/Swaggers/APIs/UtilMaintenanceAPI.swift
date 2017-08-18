@@ -24,7 +24,11 @@ open class UtilMaintenanceAPI: APIBase {
     /**
      Delete maintenance info
      - DELETE /maintenance
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - returns: RequestBuilder<Void> 
      */
     open class func deleteMaintenanceWithRequestBuilder() -> RequestBuilder<Void> {
@@ -89,7 +93,11 @@ open class UtilMaintenanceAPI: APIBase {
     /**
      Set current maintenance info
      - POST /maintenance
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter maintenance: (body) The maintenance object (optional)
      - returns: RequestBuilder<Void> 
      */
@@ -120,7 +128,11 @@ open class UtilMaintenanceAPI: APIBase {
     /**
      Update current maintenance info
      - PUT /maintenance
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter maintenance: (body) The maintenance object (optional)
      - returns: RequestBuilder<Void> 
      */

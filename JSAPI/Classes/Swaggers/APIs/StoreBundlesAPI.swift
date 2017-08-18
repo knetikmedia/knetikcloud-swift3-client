@@ -27,7 +27,11 @@ open class StoreBundlesAPI: APIBase {
      Create a bundle item
      - POST /store/bundles
      - The SKU for the bundle itself must be unique and there can only be one SKU.  Extra notes for price_override:  The price of all the items (multiplied by the quantity) must equal the price of the bundle.  With individual prices set, items will be processed individually and can be refunded as such.  However, if all prices are set to null, the price of the bundle will be used and will be treated as one item.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter bundleItem: (body) The bundle item object (optional)
@@ -64,7 +68,11 @@ open class StoreBundlesAPI: APIBase {
      Create a bundle template
      - POST /store/bundles/templates
      - Bundle Templates define a type of bundle and the properties they have.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
@@ -199,7 +207,11 @@ open class StoreBundlesAPI: APIBase {
     /**
      Delete a bundle item
      - DELETE /store/bundles/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the bundle 
      - returns: RequestBuilder<Void> 
      */
@@ -232,7 +244,11 @@ open class StoreBundlesAPI: APIBase {
     /**
      Delete a bundle template
      - DELETE /store/bundles/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
      - returns: RequestBuilder<Void> 
@@ -711,7 +727,11 @@ open class StoreBundlesAPI: APIBase {
     /**
      Update a bundle item
      - PUT /store/bundles/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - parameter id: (path) The id of the bundle 
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
@@ -750,7 +770,11 @@ open class StoreBundlesAPI: APIBase {
     /**
      Update a bundle template
      - PUT /store/bundles/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {

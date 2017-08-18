@@ -26,7 +26,11 @@ open class BRERuleEngineTriggersAPI: APIBase {
      Create a trigger
      - POST /bre/triggers
      - Customer added triggers will not be fired automatically or have rules associated with them by default. Custom rules must be added to get use from the trigger and it must then be fired from the outside. See the Bre Event services
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "trigger_name" : "trigger_name",
   "system_trigger" : false,
@@ -75,7 +79,11 @@ open class BRERuleEngineTriggersAPI: APIBase {
      Delete a trigger
      - DELETE /bre/triggers/{event_name}
      - May fail if there are existing rules against it. Cannot delete core triggers
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter eventName: (path) The trigger event name 
      - returns: RequestBuilder<Void> 
      */
@@ -107,7 +115,11 @@ open class BRERuleEngineTriggersAPI: APIBase {
     /**
      Get a single trigger
      - GET /bre/triggers/{event_name}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "trigger_name" : "trigger_name",
   "system_trigger" : false,
@@ -190,7 +202,11 @@ open class BRERuleEngineTriggersAPI: APIBase {
     /**
      List triggers
      - GET /bre/triggers
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,
@@ -295,7 +311,11 @@ open class BRERuleEngineTriggersAPI: APIBase {
      Update a trigger
      - PUT /bre/triggers/{event_name}
      - May fail if new parameters mismatch requirements of existing rules. Cannot update core triggers
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "trigger_name" : "trigger_name",
   "system_trigger" : false,

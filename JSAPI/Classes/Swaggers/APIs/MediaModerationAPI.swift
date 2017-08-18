@@ -25,7 +25,11 @@ open class MediaModerationAPI: APIBase {
     /**
      Get a flag report
      - GET /moderation/reports/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "reason" : "reason",
   "context" : "context",
@@ -71,7 +75,11 @@ open class MediaModerationAPI: APIBase {
      Returns a page of flag reports
      - GET /moderation/reports
      - Context can be either a free-form string or a pre-defined context name
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -156,7 +164,11 @@ open class MediaModerationAPI: APIBase {
      Update a flag report
      - PUT /moderation/reports/{id}
      - Lets you set the resolution of a report. Resolution types is {banned,ignore} in case of 'banned' you will need to pass the reason.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The flag report id 
      - parameter flagReportResource: (body) The new flag report (optional)
      - returns: RequestBuilder<Void> 

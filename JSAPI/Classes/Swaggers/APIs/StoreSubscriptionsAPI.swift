@@ -25,7 +25,11 @@ open class StoreSubscriptionsAPI: APIBase {
     /**
      Creates a subscription item and associated plans
      - POST /subscriptions
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "geo_policy_type" : "whitelist",
   "template" : "template",
@@ -152,7 +156,11 @@ open class StoreSubscriptionsAPI: APIBase {
      Create a subscription template
      - POST /subscriptions/templates
      - Subscription Templates define a type of subscription and the properties they have.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "plan_template" : {
@@ -363,7 +371,11 @@ open class StoreSubscriptionsAPI: APIBase {
      Delete a subscription plan
      - DELETE /subscriptions/{id}/plans/{plan_id}
      - Must not be locked or a migration target
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the subscription 
      - parameter planId: (path) The id of the plan 
      - returns: RequestBuilder<Void> 
@@ -398,7 +410,11 @@ open class StoreSubscriptionsAPI: APIBase {
     /**
      Delete a subscription template
      - DELETE /subscriptions/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
      - returns: RequestBuilder<Void> 
@@ -562,7 +578,11 @@ open class StoreSubscriptionsAPI: APIBase {
      Get a single subscription template
      - GET /subscriptions/templates/{id}
      - Subscription Templates define a type of subscription and the properties they have.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "plan_template" : {
@@ -774,7 +794,11 @@ open class StoreSubscriptionsAPI: APIBase {
     /**
      List and search subscription templates
      - GET /subscriptions/templates
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
@@ -1443,7 +1467,11 @@ open class StoreSubscriptionsAPI: APIBase {
     /**
      Processes subscriptions and charge dues
      - POST /subscriptions/process
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - returns: RequestBuilder<Void> 
      */
     open class func processSubscriptionsWithRequestBuilder() -> RequestBuilder<Void> {
@@ -1475,7 +1503,11 @@ open class StoreSubscriptionsAPI: APIBase {
      Updates a subscription item and associated plans
      - PUT /subscriptions/{id}
      - Will not remove plans left out
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the subscription 
      - parameter subscriptionResource: (body) The subscription resource object (optional)
      - returns: RequestBuilder<Void> 
@@ -1509,7 +1541,11 @@ open class StoreSubscriptionsAPI: APIBase {
     /**
      Update a subscription template
      - PUT /subscriptions/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "plan_template" : {

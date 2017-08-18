@@ -25,7 +25,11 @@ open class ConfigsAPI: APIBase {
     /**
      Create a new config
      - POST /configs
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "public_read" : false,
   "name" : "name",
@@ -62,7 +66,11 @@ open class ConfigsAPI: APIBase {
     /**
      Delete an existing config
      - DELETE /configs/{name}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter name: (path) The config name 
      - returns: RequestBuilder<Void> 
      */
@@ -212,7 +220,11 @@ open class ConfigsAPI: APIBase {
     /**
      Update an existing config
      - PUT /configs/{name}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter name: (path) The config name 
      - parameter config: (body) The config object (optional)
      - returns: RequestBuilder<Void> 

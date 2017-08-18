@@ -26,7 +26,11 @@ open class CampaignsChallengesAPI: APIBase {
      Create a challenge
      - POST /challenges
      - Challenges do not run on their own.  They must be added to a campaign before events will spawn.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "end_date" : 5,
   "template" : "template",
@@ -124,7 +128,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Create a challenge activity
      - POST /challenges/{challenge_id}/activities
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "template" : "template",
   "reward_set" : {
@@ -229,7 +237,11 @@ open class CampaignsChallengesAPI: APIBase {
      Create a challenge activity template
      - POST /challenge-activities/templates
      - Challenge Activity Templates define a type of challenge activity and the properties they have
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,
@@ -350,7 +362,11 @@ open class CampaignsChallengesAPI: APIBase {
      Create a challenge template
      - POST /challenges/templates
      - Challenge Templates define a type of challenge and the properties they have
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,
@@ -470,7 +486,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Delete a challenge
      - DELETE /challenges/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The challenge id 
      - returns: RequestBuilder<Void> 
      */
@@ -504,7 +524,11 @@ open class CampaignsChallengesAPI: APIBase {
      Delete a challenge activity
      - DELETE /challenges/{challenge_id}/activities/{id}
      - A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
      - returns: RequestBuilder<Void> 
@@ -540,7 +564,11 @@ open class CampaignsChallengesAPI: APIBase {
      Delete a challenge activity template
      - DELETE /challenge-activities/templates/{id}
      - If cascade = 'detach', it will force delete the template even if it's attached to other objects
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - returns: RequestBuilder<Void> 
@@ -576,7 +604,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Delete a challenge event
      - DELETE /challenges/events/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The challenge event id 
      - returns: RequestBuilder<Void> 
      */
@@ -610,7 +642,11 @@ open class CampaignsChallengesAPI: APIBase {
      Delete a challenge template
      - DELETE /challenges/templates/{id}
      - If cascade = 'detach', it will force delete the template even if it's attached to other objects
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - returns: RequestBuilder<Void> 
@@ -922,7 +958,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Get a single challenge activity template
      - GET /challenge-activities/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,
@@ -1045,7 +1085,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      List and search challenge activity templates
      - GET /challenge-activities/templates
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
@@ -1412,7 +1456,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Get a single challenge template
      - GET /challenges/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,
@@ -1535,7 +1583,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      List and search challenge templates
      - GET /challenges/templates
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
@@ -1981,7 +2033,11 @@ open class CampaignsChallengesAPI: APIBase {
      Update a challenge
      - PUT /challenges/{id}
      - If the challenge is a copy, changes will propagate to all the related challenges
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "end_date" : 5,
   "template" : "template",
@@ -2082,7 +2138,11 @@ open class CampaignsChallengesAPI: APIBase {
      Update a challenge activity
      - PUT /challenges/{challenge_id}/activities/{id}
      - A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "template" : "template",
   "reward_set" : {
@@ -2185,7 +2245,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Update an challenge activity template
      - PUT /challenge-activities/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,
@@ -2308,7 +2372,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Update a challenge template
      - PUT /challenges/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,

@@ -26,7 +26,11 @@ open class PaymentsPayPalClassicAPI: APIBase {
      Create a PayPal Classic billing agreement for the user
      - POST /payment/provider/paypal/classic/agreements/start
      - Returns the token that should be used to forward the user to PayPal so they can accept the agreement.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - parameter request: (body) The request to create a PayPal billing agreement (optional)
      - returns: RequestBuilder<String> 
@@ -59,7 +63,11 @@ open class PaymentsPayPalClassicAPI: APIBase {
      Create a payment token for PayPal express checkout
      - POST /payment/provider/paypal/classic/checkout/start
      - Returns the token that should be used to forward the user to PayPal so they can complete the checkout.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - parameter request: (body) The request to create a PayPal payment token (optional)
      - returns: RequestBuilder<String> 
@@ -92,7 +100,11 @@ open class PaymentsPayPalClassicAPI: APIBase {
      Finalizes a billing agreement after the user has accepted through PayPal
      - POST /payment/provider/paypal/classic/agreements/finish
      - Returns the ID of the new payment method created for the user for the billing agreement.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=0}]
      - parameter request: (body) The request to finalize a PayPal billing agreement (optional)
      - returns: RequestBuilder<Int32> 
@@ -125,7 +137,11 @@ open class PaymentsPayPalClassicAPI: APIBase {
      Finalizes a payment after the user has completed checkout with PayPal
      - POST /payment/provider/paypal/classic/checkout/finish
      - The invoice will be marked paid/failed by asynchronous IPN callback.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter request: (body) The request to finalize the payment (optional)
      - returns: RequestBuilder<Void> 
      */

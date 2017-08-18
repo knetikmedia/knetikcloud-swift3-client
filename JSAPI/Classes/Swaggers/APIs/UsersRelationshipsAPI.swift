@@ -25,7 +25,11 @@ open class UsersRelationshipsAPI: APIBase {
     /**
      Create a user relationship
      - POST /users/relationships
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "parent" : {
     "avatar_url" : "avatar_url",
@@ -72,7 +76,11 @@ open class UsersRelationshipsAPI: APIBase {
     /**
      Delete a user relationship
      - DELETE /users/relationships/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the relationship 
      - returns: RequestBuilder<Void> 
      */
@@ -104,7 +112,11 @@ open class UsersRelationshipsAPI: APIBase {
     /**
      Get a user relationship
      - GET /users/relationships/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "parent" : {
     "avatar_url" : "avatar_url",
@@ -154,7 +166,11 @@ open class UsersRelationshipsAPI: APIBase {
     /**
      Get a list of user relationships
      - GET /users/relationships
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
@@ -248,7 +264,11 @@ open class UsersRelationshipsAPI: APIBase {
     /**
      Update a user relationship
      - PUT /users/relationships/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "parent" : {
     "avatar_url" : "avatar_url",

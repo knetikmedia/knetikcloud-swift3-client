@@ -26,7 +26,11 @@ open class ContentArticlesAPI: APIBase {
      Create a new article
      - POST /content/articles
      - Articles are blobs of text with titles, a category and assets. Formatting and display of the text is in the hands of the front end.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "template" : "template",
   "active" : false,
@@ -78,7 +82,11 @@ open class ContentArticlesAPI: APIBase {
      Create an article template
      - POST /content/articles/templates
      - Article Templates define a type of article and the properties they have
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,
@@ -198,7 +206,11 @@ open class ContentArticlesAPI: APIBase {
     /**
      Delete an existing article
      - DELETE /content/articles/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The article id 
      - returns: RequestBuilder<Void> 
      */
@@ -232,7 +244,11 @@ open class ContentArticlesAPI: APIBase {
      Delete an article template
      - DELETE /content/articles/templates/{id}
      - If cascade = 'detach', it will force delete the template even if it's attached to other objects
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) The value needed to delete used templates (optional)
      - returns: RequestBuilder<Void> 
@@ -320,7 +336,11 @@ open class ContentArticlesAPI: APIBase {
     /**
      Get a single article template
      - GET /content/articles/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,
@@ -443,7 +463,11 @@ open class ContentArticlesAPI: APIBase {
     /**
      List and search article templates
      - GET /content/articles/templates
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
@@ -805,7 +829,11 @@ open class ContentArticlesAPI: APIBase {
     /**
      Update an existing article
      - PUT /content/articles/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "template" : "template",
   "active" : false,
@@ -859,7 +887,11 @@ open class ContentArticlesAPI: APIBase {
     /**
      Update an article template
      - PUT /content/articles/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "name" : "name",
   "created_date" : 0,

@@ -27,7 +27,11 @@ open class StoreCouponsAPI: APIBase {
      Create a coupon item
      - POST /store/coupons
      - SKUs have to be unique in the entire store.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter couponItem: (body) The coupon item object (optional)
@@ -64,7 +68,11 @@ open class StoreCouponsAPI: APIBase {
      Create a coupon template
      - POST /store/coupons/templates
      - Coupon Templates define a type of coupon and the properties they have.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
@@ -199,7 +207,11 @@ open class StoreCouponsAPI: APIBase {
     /**
      Delete a coupon item
      - DELETE /store/coupons/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the coupon 
      - returns: RequestBuilder<Void> 
      */
@@ -232,7 +244,11 @@ open class StoreCouponsAPI: APIBase {
     /**
      Delete a coupon template
      - DELETE /store/coupons/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the template 
      - parameter cascade: (query) force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
      - returns: RequestBuilder<Void> 
@@ -268,7 +284,11 @@ open class StoreCouponsAPI: APIBase {
     /**
      Get a single coupon item
      - GET /store/coupons/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - parameter id: (path) The id of the coupon 
      - returns: RequestBuilder<CouponItem> 
@@ -302,7 +322,11 @@ open class StoreCouponsAPI: APIBase {
      Get a single coupon template
      - GET /store/coupons/templates/{id}
      - Coupon Templates define a type of coupon and the properties they have.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {
@@ -440,7 +464,11 @@ open class StoreCouponsAPI: APIBase {
     /**
      List and search coupon templates
      - GET /store/coupons/templates
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
@@ -711,7 +739,11 @@ open class StoreCouponsAPI: APIBase {
     /**
      Update a coupon item
      - PUT /store/coupons/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - parameter id: (path) The id of the coupon 
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
@@ -750,7 +782,11 @@ open class StoreCouponsAPI: APIBase {
     /**
      Update a coupon template
      - PUT /store/coupons/templates/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "behaviors" : [ {
     "behavior" : {

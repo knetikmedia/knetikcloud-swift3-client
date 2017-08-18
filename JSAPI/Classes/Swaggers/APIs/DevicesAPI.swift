@@ -26,7 +26,11 @@ open class DevicesAPI: APIBase {
     /**
      Add device users
      - POST /devices/{id}/users
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "data" : {
     "key" : "data"
@@ -96,7 +100,11 @@ open class DevicesAPI: APIBase {
     /**
      Create a device
      - POST /devices
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "data" : {
     "key" : "data"
@@ -164,7 +172,11 @@ open class DevicesAPI: APIBase {
     /**
      Delete a device
      - DELETE /devices/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) id 
      - returns: RequestBuilder<Void> 
      */
@@ -197,7 +209,11 @@ open class DevicesAPI: APIBase {
     /**
      Delete a device user
      - DELETE /devices/{id}/users/{user_id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the device 
      - parameter userId: (path) The user id of the device user 
      - returns: RequestBuilder<Void> 
@@ -232,7 +248,11 @@ open class DevicesAPI: APIBase {
     /**
      Delete all device users
      - DELETE /devices/{id}/users
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the device 
      - parameter filterId: (query) Filter for device users to delete with a user id in a given comma separated list of ids (optional)
      - returns: RequestBuilder<Void> 
@@ -268,7 +288,11 @@ open class DevicesAPI: APIBase {
     /**
      Get a single device
      - GET /devices/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "data" : {
     "key" : "data"
@@ -342,7 +366,11 @@ open class DevicesAPI: APIBase {
      List and search devices
      - GET /devices
      - Get a list of devices with optional filtering
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -482,7 +510,11 @@ open class DevicesAPI: APIBase {
     /**
      Update a device
      - PUT /devices/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "data" : {
     "key" : "data"

@@ -25,7 +25,11 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      Create a reward set
      - POST /rewards
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "short_description" : "short_description",
   "unique_key" : "unique_key",
@@ -94,7 +98,11 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      Delete a reward set
      - DELETE /rewards/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The reward id 
      - returns: RequestBuilder<Void> 
      */
@@ -336,7 +344,11 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      Update a reward set
      - PUT /rewards/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "short_description" : "short_description",
   "unique_key" : "unique_key",
