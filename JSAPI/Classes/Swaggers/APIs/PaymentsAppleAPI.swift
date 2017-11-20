@@ -26,7 +26,11 @@ open class PaymentsAppleAPI: APIBase {
      Pay invoice with Apple receipt
      - POST /payment/provider/apple/receipt
      - Mark an invoice paid using Apple payment receipt. A receipt will only be accepted once and the details of the transaction must match the invoice, including the product_id matching the sku text of the item in the invoice. Returns the transaction ID if successful.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - parameter request: (body) The request for paying an invoice through an Apple receipt (optional)
      - returns: RequestBuilder<String> 

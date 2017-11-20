@@ -213,7 +213,7 @@ open class CampaignsChallengesAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
-            "validateSettings": validateSettings
+            "validate_settings": validateSettings
         ])
 
         let requestBuilder: RequestBuilder<ChallengeActivityResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
@@ -684,7 +684,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Retrieve a challenge
      - GET /challenges/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "end_date" : 5,
   "template" : "template",
@@ -784,7 +788,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      List and search challenge activities
      - GET /challenges/{challenge_id}/activities
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -859,7 +867,11 @@ open class CampaignsChallengesAPI: APIBase {
      Get a single challenge activity
      - GET /challenges/{challenge_id}/activities/{id}
      - A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "template" : "template",
   "reward_set" : {
@@ -1333,7 +1345,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Retrieve a single challenge event details
      - GET /challenges/events/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "end_date" : 6,
   "challenge_id" : 0,
@@ -1378,7 +1394,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Retrieve a list of challenge events
      - GET /challenges/events
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -1839,7 +1859,11 @@ open class CampaignsChallengesAPI: APIBase {
     /**
      Retrieve a list of challenges
      - GET /challenges
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 7,
   "last" : true,
@@ -2130,10 +2154,11 @@ open class CampaignsChallengesAPI: APIBase {
      - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
      - parameter challengeActivityResource: (body) The challenge activity resource object (optional)
+     - parameter validateSettings: (query) Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateChallengeActivity(id: Int64, challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil, completion: @escaping ((_ data: ChallengeActivityResource?, _ error: ErrorResponse?) -> Void)) {
-        updateChallengeActivityWithRequestBuilder(id: id, challengeId: challengeId, challengeActivityResource: challengeActivityResource).execute { (response, error) -> Void in
+    open class func updateChallengeActivity(id: Int64, challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil, validateSettings: Bool? = nil, completion: @escaping ((_ data: ChallengeActivityResource?, _ error: ErrorResponse?) -> Void)) {
+        updateChallengeActivityWithRequestBuilder(id: id, challengeId: challengeId, challengeActivityResource: challengeActivityResource, validateSettings: validateSettings).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -2218,9 +2243,10 @@ open class CampaignsChallengesAPI: APIBase {
      - parameter id: (path) The challenge_activity id 
      - parameter challengeId: (path) The challenge id 
      - parameter challengeActivityResource: (body) The challenge activity resource object (optional)
+     - parameter validateSettings: (query) Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
      - returns: RequestBuilder<ChallengeActivityResource> 
      */
-    open class func updateChallengeActivityWithRequestBuilder(id: Int64, challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil) -> RequestBuilder<ChallengeActivityResource> {
+    open class func updateChallengeActivityWithRequestBuilder(id: Int64, challengeId: Int64, challengeActivityResource: ChallengeActivityResource? = nil, validateSettings: Bool? = nil) -> RequestBuilder<ChallengeActivityResource> {
         var path = "/challenges/{challenge_id}/activities/{id}"
         path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{challenge_id}", with: "\(challengeId)", options: .literal, range: nil)
@@ -2228,6 +2254,9 @@ open class CampaignsChallengesAPI: APIBase {
         let parameters = challengeActivityResource?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+            "validateSettings": validateSettings
+        ])
 
         let requestBuilder: RequestBuilder<ChallengeActivityResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 

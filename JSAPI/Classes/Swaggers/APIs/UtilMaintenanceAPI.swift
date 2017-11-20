@@ -58,7 +58,11 @@ open class UtilMaintenanceAPI: APIBase {
      Get current maintenance info
      - GET /maintenance
      - Get current maintenance info. 404 if no maintenance.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "details" : "{}",
   "access_locked" : false,

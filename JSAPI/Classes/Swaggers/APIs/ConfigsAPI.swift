@@ -103,7 +103,11 @@ open class ConfigsAPI: APIBase {
      Get a single config
      - GET /configs/{name}
      - Only configs that are public readable will be shown without admin access
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "public_read" : false,
   "name" : "name",
@@ -144,7 +148,11 @@ open class ConfigsAPI: APIBase {
     /**
      List and search configs
      - GET /configs
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,

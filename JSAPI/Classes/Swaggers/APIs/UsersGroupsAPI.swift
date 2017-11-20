@@ -565,7 +565,11 @@ open class UsersGroupsAPI: APIBase {
     /**
      Loads a specific group's details
      - GET /users/groups/{unique_name}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "template" : "template",
   "parent" : "parent",
@@ -614,7 +618,11 @@ open class UsersGroupsAPI: APIBase {
     /**
      Get a user from a group
      - GET /users/groups/{unique_name}/members/{user_id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "template" : "template",
   "avatar_url" : "avatar_url",
@@ -1038,7 +1046,11 @@ open class UsersGroupsAPI: APIBase {
     /**
      Lists members of the group
      - GET /users/groups/{unique_name}/members
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,
@@ -1503,7 +1515,11 @@ open class UsersGroupsAPI: APIBase {
     /**
      List groups a user is in
      - GET /users/{user_id}/groups
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=[ "", "" ]}]
      - parameter userId: (path) The id of the user 
      - parameter filterChildren: (query) Whether to limit group list to children of groups only. If true, shows only groups with parents. If false, shows only groups with no parent. (optional)
@@ -1556,7 +1572,11 @@ open class UsersGroupsAPI: APIBase {
     /**
      List and search groups
      - GET /users/groups
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,

@@ -311,7 +311,11 @@ open class ObjectsAPI: APIBase {
     /**
      Get a single object
      - GET /objects/{template_id}/{object_id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "short_description" : "short_description",
   "data" : "{}",
@@ -368,7 +372,11 @@ open class ObjectsAPI: APIBase {
     /**
      List and search objects
      - GET /objects/{template_id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,

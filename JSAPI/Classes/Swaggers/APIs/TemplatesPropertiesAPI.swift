@@ -25,7 +25,11 @@ open class TemplatesPropertiesAPI: APIBase {
     /**
      Get details for a template property type
      - GET /templates/properties/{type}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "property_definition_fields" : [ {
     "inner_type" : "integer",
@@ -93,7 +97,11 @@ open class TemplatesPropertiesAPI: APIBase {
     /**
      List template property types
      - GET /templates/properties
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=[ {
   "property_definition_fields" : [ {
     "inner_type" : "integer",

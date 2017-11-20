@@ -300,7 +300,11 @@ open class StoreVendorsAPI: APIBase {
     /**
      Get a single vendor
      - GET /vendors/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "template" : "template",
   "primary_contact_email" : "primary_contact_email",
@@ -776,7 +780,11 @@ open class StoreVendorsAPI: APIBase {
     /**
      List and search vendors
      - GET /vendors
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,

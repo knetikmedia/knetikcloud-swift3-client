@@ -279,7 +279,11 @@ open class CategoriesAPI: APIBase {
     /**
      List and search categories with optional filters
      - GET /categories
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,
@@ -366,7 +370,11 @@ open class CategoriesAPI: APIBase {
     /**
      Get a single category
      - GET /categories/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "template" : "template",
   "name" : "name",
@@ -783,7 +791,11 @@ open class CategoriesAPI: APIBase {
     /**
      List all trivia tags in the system
      - GET /tags
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,

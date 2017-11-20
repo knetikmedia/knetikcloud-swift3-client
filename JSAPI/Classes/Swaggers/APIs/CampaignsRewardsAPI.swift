@@ -134,7 +134,11 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      Get a single reward set
      - GET /rewards/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "short_description" : "short_description",
   "unique_key" : "unique_key",
@@ -206,7 +210,11 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      List and search reward sets
      - GET /rewards
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,

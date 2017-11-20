@@ -24,7 +24,11 @@ open class UtilVersionAPI: APIBase {
     /**
      Get current version info
      - GET /version
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "version" : "version"
 }}]

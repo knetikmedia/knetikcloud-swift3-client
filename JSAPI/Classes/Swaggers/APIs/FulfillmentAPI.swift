@@ -102,7 +102,11 @@ open class FulfillmentAPI: APIBase {
     /**
      Get a single fulfillment type
      - GET /store/fulfillment/types/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "core" : false,
   "name" : "name",
@@ -142,7 +146,11 @@ open class FulfillmentAPI: APIBase {
     /**
      List and search fulfillment types
      - GET /store/fulfillment/types
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 6,
   "last" : true,

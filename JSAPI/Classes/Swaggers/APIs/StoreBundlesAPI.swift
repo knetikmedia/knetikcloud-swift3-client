@@ -285,7 +285,11 @@ open class StoreBundlesAPI: APIBase {
     /**
      Get a single bundle item
      - GET /store/bundles/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - parameter id: (path) The id of the bundle 
      - returns: RequestBuilder<BundleItem> 
@@ -319,7 +323,11 @@ open class StoreBundlesAPI: APIBase {
      Get a single bundle template
      - GET /store/bundles/templates/{id}
      - Bundle Templates define a type of bundle and the properties they have.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "allow_additional" : false,
   "behaviors" : [ {
@@ -458,7 +466,11 @@ open class StoreBundlesAPI: APIBase {
     /**
      List and search bundle templates
      - GET /store/bundles/templates
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,

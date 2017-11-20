@@ -89,7 +89,11 @@ open class PaymentsStripeAPI: APIBase {
      Pay with a single use token
      - POST /payment/provider/stripe/payments
      - Obtain a token from Stripe, following their examples and documentation. Pays an invoice without creating a payment method. Ensure that Stripe itself has been configured with the webhook so that invoices are marked paid.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter request: (body) The request to pay an invoice (optional)
      - returns: RequestBuilder<Void> 
      */

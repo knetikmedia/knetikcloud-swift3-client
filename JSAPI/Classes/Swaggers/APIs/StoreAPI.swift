@@ -1152,7 +1152,11 @@ open class StoreAPI: APIBase {
     /**
      Get a single store item
      - GET /store/items/{id}
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - parameter id: (path) The id of the item 
      - returns: RequestBuilder<StoreItem> 
@@ -1202,7 +1206,11 @@ open class StoreAPI: APIBase {
      List and search store items
      - GET /store/items
      - If called without permission STORE_ADMIN the only items marked displayable, whose start and end date are null or appropriate to the current date, and whose geo policy allows the caller's country will be returned. Similarly skus will be filtered, possibly resulting in an item returned with no skus the user can purchase.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 0,
   "last" : true,

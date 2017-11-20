@@ -232,7 +232,11 @@ open class UsersAPI: APIBase {
      Get a single user
      - GET /users/{id}
      - Additional private info is included as USERS_ADMIN
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "member_since" : 7,
   "template" : "template",
@@ -753,7 +757,11 @@ open class UsersAPI: APIBase {
      List and search users
      - GET /users
      - Additional private info is included as USERS_ADMIN
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "number" : 5,
   "last" : true,
@@ -862,7 +870,11 @@ open class UsersAPI: APIBase {
      Choose a new password after a reset
      - PUT /users/{id}/password-reset
      - Finish resetting a user's password using the secret provided from the password-reset endpoint.  Password should be in plain text and will be encrypted on receipt. Use SSL for security.
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the user 
      - parameter newPasswordRequest: (body) The new password request object (optional)
      - returns: RequestBuilder<Void> 
@@ -896,7 +908,11 @@ open class UsersAPI: APIBase {
      Register a new user
      - POST /users
      - Password should be in plain text and will be encrypted on receipt. Use SSL for security
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "member_since" : 7,
   "template" : "template",
@@ -1070,7 +1086,11 @@ open class UsersAPI: APIBase {
      Reset a user's password
      - POST /users/{id}/password-reset
      - A reset code will be generated and a 'forgot_password' BRE event will be fired with that code.  The default system rule will send an email to the selected user if an email service has been setup. You can modify that rule in BRE to send an SMS instead or any other type of notification as you see fit
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter id: (path) The id of the user 
      - returns: RequestBuilder<Void> 
      */
@@ -1103,7 +1123,11 @@ open class UsersAPI: APIBase {
      Reset a user's password without user id
      - POST /users/password-reset
      - A reset code will be generated and a 'forgot_password' BRE event will be fired with that code.  The default system rule will send an email to the selected user if an email service has been setup. You can modify that rule in BRE to send an SMS instead or any other type of notification as you see fit.  Must submit their email, username, or mobile phone number
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - parameter passwordReset: (body) An object containing one of three methods to look up a user (optional)
      - returns: RequestBuilder<Void> 
      */

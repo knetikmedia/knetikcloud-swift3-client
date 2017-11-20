@@ -24,7 +24,11 @@ open class LocationsAPI: APIBase {
     /**
      Get a list of countries
      - GET /location/countries
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=[ {
   "name" : "name",
   "iso2" : "iso2",
@@ -63,7 +67,11 @@ open class LocationsAPI: APIBase {
      Get the iso3 code of your country
      - GET /location/geolocation/country
      - Determined by geo ip location
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=""}]
      - returns: RequestBuilder<String> 
      */
@@ -94,7 +102,11 @@ open class LocationsAPI: APIBase {
     /**
      Get a list of a country's states
      - GET /location/countries/{country_code_iso3}/states
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=[ {
   "country_code_iso3" : "country_code_iso3",
   "code" : "code",
@@ -137,7 +149,11 @@ open class LocationsAPI: APIBase {
      Get the currency information of your country
      - GET /location/geolocation/currency
      - Determined by geo ip location, currency to country mapping and a fallback setting
-
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "code" : "code",
   "icon" : "icon",
