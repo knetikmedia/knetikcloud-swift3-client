@@ -10,16 +10,14 @@ import Foundation
 
 open class CacheClearEvent: BroadcastableEvent {
 
-    public var customerSetup: Bool?
-    public var customerTeardown: Bool?
+    public var teardown: Bool?
 
     
 
     // MARK: JSONEncodable
     override open func encodeToJSON() -> Any {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
-        nillableDictionary["customer_setup"] = self.customerSetup
-        nillableDictionary["customer_teardown"] = self.customerTeardown
+        nillableDictionary["teardown"] = self.teardown
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

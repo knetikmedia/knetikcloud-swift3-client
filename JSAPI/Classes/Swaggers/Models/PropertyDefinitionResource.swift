@@ -10,10 +10,20 @@ import Foundation
 
 open class PropertyDefinitionResource: JSONEncodable {
 
+    /** The description of the property */
+    public var description: String?
     /** A list of the fields on both the property definition and property of this type */
     public var fieldList: PropertyFieldListResource?
+    /** The friendly front-facing name of the property */
+    public var friendlyName: String?
     /** The name of the property */
     public var name: String?
+    /** The JSON path to the option label */
+    public var optionLabelPath: String?
+    /** The JSON path to the option value */
+    public var optionValuePath: String?
+    /** URL of service containing the property options (assumed JSON array) */
+    public var optionsUrl: String?
     /** Whether the property is required */
     public var _required: Bool?
     /** The type of the property. Used for polymorphic type recognition and thus must match an expected type with additional properties. */
@@ -24,8 +34,13 @@ open class PropertyDefinitionResource: JSONEncodable {
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
+        nillableDictionary["description"] = self.description
         nillableDictionary["field_list"] = self.fieldList?.encodeToJSON()
+        nillableDictionary["friendly_name"] = self.friendlyName
         nillableDictionary["name"] = self.name
+        nillableDictionary["option_label_path"] = self.optionLabelPath
+        nillableDictionary["option_value_path"] = self.optionValuePath
+        nillableDictionary["options_url"] = self.optionsUrl
         nillableDictionary["required"] = self._required
         nillableDictionary["type"] = self.type
 

@@ -161,6 +161,7 @@ open class LocationsAPI: APIBase {
   "active" : false,
   "created_date" : 0,
   "updated_date" : 1,
+  "default_currency" : false,
   "factor" : 6.02745618307040320615897144307382404804229736328125,
   "type" : "real"
 }}]

@@ -22,12 +22,16 @@ open class BreRule: JSONEncodable {
     public var enabled: Bool?
     /** The date the rule ceases to take effect, or null if never. Unix timestamp in seconds */
     public var endDate: Int64?
+    /** How many times the rule has been evaluated (it&#39;s conditions checked, whether it then runs or not) */
+    public var evaluationCount: Int64?
     /** The event name of the trigger this rule runs for. Affects which parameters are available */
     public var eventName: String?
     /** The id of the rule for later references. If left null a random guid will be generated. Must be unique. Cannot be changed */
     public var id: String?
     /** The human readable name of the rule */
     public var name: String?
+    /** How many times the rule has run */
+    public var runCount: Int64?
     /** Used to sort rules to control the order they run in. Larger numbered sort values run first.  Default 500 */
     public var sort: Int32?
     /** The date the rule begins to take effect, or null if always. Unix timestamp in seconds */
@@ -46,9 +50,11 @@ open class BreRule: JSONEncodable {
         nillableDictionary["description"] = self.description
         nillableDictionary["enabled"] = self.enabled
         nillableDictionary["end_date"] = self.endDate?.encodeToJSON()
+        nillableDictionary["evaluation_count"] = self.evaluationCount?.encodeToJSON()
         nillableDictionary["event_name"] = self.eventName
         nillableDictionary["id"] = self.id
         nillableDictionary["name"] = self.name
+        nillableDictionary["run_count"] = self.runCount?.encodeToJSON()
         nillableDictionary["sort"] = self.sort?.encodeToJSON()
         nillableDictionary["start_date"] = self.startDate?.encodeToJSON()
         nillableDictionary["system_rule"] = self.systemRule

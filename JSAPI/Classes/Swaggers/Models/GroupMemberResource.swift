@@ -16,20 +16,20 @@ open class GroupMemberResource: JSONEncodable {
     }
     /** A map of additional properties, keyed on the property name (private). Must match the names and types defined in the template for this type, or be an extra not from the template */
     public var additionalProperties: [String:Property]?
-    /** The url of the user&#39;s avatar image */
-    public var avatarUrl: String?
-    /** The public username of the user */
-    public var displayName: String?
-    /** The id of the user */
-    public var id: Int32?
+    /** The group. Id is the unique name */
+    public var group: SimpleGroupResource?
+    /** Whether this membership is explicit (the user was added directly to the group) or implicit (the user was added only to one or more child groups) */
+    public var implicit: Bool?
+    /** The id of the membership entry */
+    public var membershipId: Int64?
     /** The position of the member in the group if applicable. Read notes for details */
     public var order: String?
     /** The member&#39;s access level. Default: member */
     public var status: Status?
     /** A template this member additional properties are validated against (private). May be null and no validation of properties will be done */
     public var template: String?
-    /** The username of the user */
-    public var username: String?
+    /** The user */
+    public var user: SimpleUserResource?
 
     public init() {}
 
@@ -37,13 +37,13 @@ open class GroupMemberResource: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["additional_properties"] = self.additionalProperties?.encodeToJSON()
-        nillableDictionary["avatar_url"] = self.avatarUrl
-        nillableDictionary["display_name"] = self.displayName
-        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["group"] = self.group?.encodeToJSON()
+        nillableDictionary["implicit"] = self.implicit
+        nillableDictionary["membership_id"] = self.membershipId?.encodeToJSON()
         nillableDictionary["order"] = self.order
         nillableDictionary["status"] = self.status?.rawValue
         nillableDictionary["template"] = self.template
-        nillableDictionary["username"] = self.username
+        nillableDictionary["user"] = self.user?.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

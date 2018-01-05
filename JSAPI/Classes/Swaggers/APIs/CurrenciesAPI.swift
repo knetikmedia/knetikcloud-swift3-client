@@ -37,6 +37,7 @@ open class CurrenciesAPI: APIBase {
   "active" : false,
   "created_date" : 0,
   "updated_date" : 1,
+  "default_currency" : false,
   "factor" : 6.02745618307040320615897144307382404804229736328125,
   "type" : "real"
 }}]
@@ -93,6 +94,7 @@ open class CurrenciesAPI: APIBase {
 
     /**
      List and search currencies
+     - parameter filterDefault: (query) Filter for the one currency that is set as default (true), or all that are not (false) (optional)
      - parameter filterEnabledCurrencies: (query) Filter for alternate currencies setup explicitely in system config (optional)
      - parameter filterType: (query) Filter currencies by type.  Allowable values: (&#39;virtual&#39;, &#39;real&#39;) (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
@@ -100,8 +102,8 @@ open class CurrenciesAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getCurrencies(filterEnabledCurrencies: Bool? = nil, filterType: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceCurrencyResource?, _ error: ErrorResponse?) -> Void)) {
-        getCurrenciesWithRequestBuilder(filterEnabledCurrencies: filterEnabledCurrencies, filterType: filterType, size: size, page: page, order: order).execute { (response, error) -> Void in
+    open class func getCurrencies(filterDefault: Bool? = nil, filterEnabledCurrencies: Bool? = nil, filterType: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceCurrencyResource?, _ error: ErrorResponse?) -> Void)) {
+        getCurrenciesWithRequestBuilder(filterDefault: filterDefault, filterEnabledCurrencies: filterEnabledCurrencies, filterType: filterType, size: size, page: page, order: order).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -144,6 +146,7 @@ open class CurrenciesAPI: APIBase {
     "active" : false,
     "created_date" : 0,
     "updated_date" : 1,
+    "default_currency" : false,
     "factor" : 6.02745618307040320615897144307382404804229736328125,
     "type" : "real"
   }, {
@@ -153,11 +156,13 @@ open class CurrenciesAPI: APIBase {
     "active" : false,
     "created_date" : 0,
     "updated_date" : 1,
+    "default_currency" : false,
     "factor" : 6.02745618307040320615897144307382404804229736328125,
     "type" : "real"
   } ],
   "first" : true
 }}]
+     - parameter filterDefault: (query) Filter for the one currency that is set as default (true), or all that are not (false) (optional)
      - parameter filterEnabledCurrencies: (query) Filter for alternate currencies setup explicitely in system config (optional)
      - parameter filterType: (query) Filter currencies by type.  Allowable values: (&#39;virtual&#39;, &#39;real&#39;) (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
@@ -165,13 +170,14 @@ open class CurrenciesAPI: APIBase {
      - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
      - returns: RequestBuilder<PageResourceCurrencyResource> 
      */
-    open class func getCurrenciesWithRequestBuilder(filterEnabledCurrencies: Bool? = nil, filterType: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceCurrencyResource> {
+    open class func getCurrenciesWithRequestBuilder(filterDefault: Bool? = nil, filterEnabledCurrencies: Bool? = nil, filterType: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceCurrencyResource> {
         let path = "/currencies"
         let URLString = JSAPIAPI.basePath + path
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+            "filter_default": filterDefault, 
             "filter_enabled_currencies": filterEnabledCurrencies, 
             "filter_type": filterType, 
             "size": size?.encodeToJSON(), 
@@ -211,6 +217,7 @@ open class CurrenciesAPI: APIBase {
   "active" : false,
   "created_date" : 0,
   "updated_date" : 1,
+  "default_currency" : false,
   "factor" : 6.02745618307040320615897144307382404804229736328125,
   "type" : "real"
 }}]

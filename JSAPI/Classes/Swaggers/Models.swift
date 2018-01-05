@@ -1751,6 +1751,12 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["evaluation_count"] as AnyObject?) {
+                
+                case let .success(value): result.evaluationCount = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["event_name"] as AnyObject?) {
                 
                 case let .success(value): result.eventName = value
@@ -1766,6 +1772,12 @@ class Decoders {
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["run_count"] as AnyObject?) {
+                
+                case let .success(value): result.runCount = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -3576,6 +3588,12 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["default_currency"] as AnyObject?) {
+                
+                case let .success(value): result.defaultCurrency = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["factor"] as AnyObject?) {
                 
                 case let .success(value): result.factor = value
@@ -4705,21 +4723,21 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar_url"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: SimpleGroupResource.self, source: sourceDictionary["group"] as AnyObject?) {
                 
-                case let .success(value): result.avatarUrl = value
+                case let .success(value): result.group = value
                 case let .failure(error): return .failure(error)
                 
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["implicit"] as AnyObject?) {
                 
-                case let .success(value): result.displayName = value
+                case let .success(value): result.implicit = value
                 case let .failure(error): return .failure(error)
                 
                 }
-                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["id"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["membership_id"] as AnyObject?) {
                 
-                case let .success(value): result.id = value
+                case let .success(value): result.membershipId = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -4741,9 +4759,9 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["user"] as AnyObject?) {
                 
-                case let .success(value): result.username = value
+                case let .success(value): result.user = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -4801,6 +4819,12 @@ class Decoders {
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sub_member_count"] as AnyObject?) {
                 
                 case let .success(value): result.subMemberCount = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["tags"] as AnyObject?) {
+                
+                case let .success(value): result.tags = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -12035,15 +12059,45 @@ class Decoders {
                     return Decoders.decode(clazz: PropertyDefinitionResource.self, discriminator: discriminator, source: source)
                 }
                 let result = instance == nil ? PropertyDefinitionResource() : instance as! PropertyDefinitionResource
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -13052,6 +13106,27 @@ class Decoders {
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "SettingOption", actual: "\(source)"))
+            }
+        }
+        // Decoder for SimpleGroupResource
+        Decoders.addDecoder(clazz: SimpleGroupResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<SimpleGroupResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? SimpleGroupResource() : instance as! SimpleGroupResource
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
+                
+                case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["unique_name"] as AnyObject?) {
+                
+                case let .success(value): result.uniqueName = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "SimpleGroupResource", actual: "\(source)"))
             }
         }
         // Decoder for SimpleReferenceResourceint
@@ -15896,15 +15971,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -15974,15 +16079,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -16064,15 +16199,9 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["customer_setup"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["teardown"] as AnyObject?) {
                 
-                case let .success(value): result.customerSetup = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["customer_teardown"] as AnyObject?) {
-                
-                case let .success(value): result.customerTeardown = value
+                case let .success(value): result.teardown = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -16142,15 +16271,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -16214,15 +16373,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -16418,15 +16607,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -16520,15 +16739,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -16592,15 +16841,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -16700,15 +16979,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -16790,15 +17099,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -16892,15 +17231,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -17048,15 +17417,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -17120,15 +17519,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -17720,15 +18149,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -17852,15 +18311,45 @@ class Decoders {
                 if decoders["\(PropertyDefinitionResource.self)"] != nil {
                   _ = Decoders.decode(clazz: PropertyDefinitionResource.self, source: source, instance: result)
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["description"] as AnyObject?) {
+                
+                case let .success(value): result.description = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: PropertyFieldListResource.self, source: sourceDictionary["field_list"] as AnyObject?) {
                 
                 case let .success(value): result.fieldList = value
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["friendly_name"] as AnyObject?) {
+                
+                case let .success(value): result.friendlyName = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
                 
                 case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_label_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionLabelPath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["option_value_path"] as AnyObject?) {
+                
+                case let .success(value): result.optionValuePath = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["options_url"] as AnyObject?) {
+                
+                case let .success(value): result.optionsUrl = value
                 case let .failure(error): return .failure(error)
                 
                 }

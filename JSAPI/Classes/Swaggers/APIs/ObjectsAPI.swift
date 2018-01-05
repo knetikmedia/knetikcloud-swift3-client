@@ -116,7 +116,12 @@ open class ObjectsAPI: APIBase {
   "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
+    "friendly_name" : "friendly_name",
+    "option_value_path" : "path.to.value",
+    "option_label_path" : "path.to.label",
     "name" : "name",
+    "description" : "description",
+    "options_url" : "options_url",
     "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
@@ -157,7 +162,12 @@ open class ObjectsAPI: APIBase {
     },
     "required" : false
   }, {
+    "friendly_name" : "friendly_name",
+    "option_value_path" : "path.to.value",
+    "option_label_path" : "path.to.label",
     "name" : "name",
+    "description" : "description",
+    "options_url" : "options_url",
     "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
@@ -506,7 +516,12 @@ open class ObjectsAPI: APIBase {
   "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
+    "friendly_name" : "friendly_name",
+    "option_value_path" : "path.to.value",
+    "option_label_path" : "path.to.label",
     "name" : "name",
+    "description" : "description",
+    "options_url" : "options_url",
     "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
@@ -547,7 +562,12 @@ open class ObjectsAPI: APIBase {
     },
     "required" : false
   }, {
+    "friendly_name" : "friendly_name",
+    "option_value_path" : "path.to.value",
+    "option_label_path" : "path.to.label",
     "name" : "name",
+    "description" : "description",
+    "options_url" : "options_url",
     "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
@@ -671,7 +691,12 @@ open class ObjectsAPI: APIBase {
     "id" : "id",
     "updated_date" : 6,
     "properties" : [ {
+      "friendly_name" : "friendly_name",
+      "option_value_path" : "path.to.value",
+      "option_label_path" : "path.to.label",
       "name" : "name",
+      "description" : "description",
+      "options_url" : "options_url",
       "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
@@ -712,7 +737,12 @@ open class ObjectsAPI: APIBase {
       },
       "required" : false
     }, {
+      "friendly_name" : "friendly_name",
+      "option_value_path" : "path.to.value",
+      "option_label_path" : "path.to.label",
       "name" : "name",
+      "description" : "description",
+      "options_url" : "options_url",
       "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
@@ -775,7 +805,12 @@ open class ObjectsAPI: APIBase {
     "id" : "id",
     "updated_date" : 6,
     "properties" : [ {
+      "friendly_name" : "friendly_name",
+      "option_value_path" : "path.to.value",
+      "option_label_path" : "path.to.label",
       "name" : "name",
+      "description" : "description",
+      "options_url" : "options_url",
       "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
@@ -816,7 +851,12 @@ open class ObjectsAPI: APIBase {
       },
       "required" : false
     }, {
+      "friendly_name" : "friendly_name",
+      "option_value_path" : "path.to.value",
+      "option_label_path" : "path.to.label",
       "name" : "name",
+      "description" : "description",
+      "options_url" : "options_url",
       "type" : "type",
       "field_list" : {
         "property_definition_fields" : [ {
@@ -885,13 +925,13 @@ open class ObjectsAPI: APIBase {
     /**
      Update an object
      - parameter templateId: (path) The id of the template this object is part of 
-     - parameter entitlementId: (path) The id of the entitlement 
+     - parameter objectId: (path) The id of the object 
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter objectItem: (body) The object item object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateObjectItem(templateId: String, entitlementId: Int32, cascade: Bool? = nil, objectItem: EntitlementItem? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        updateObjectItemWithRequestBuilder(templateId: templateId, entitlementId: entitlementId, cascade: cascade, objectItem: objectItem).execute { (response, error) -> Void in
+    open class func updateObjectItem(templateId: String, objectId: Int32, cascade: Bool? = nil, objectItem: ObjectResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+        updateObjectItemWithRequestBuilder(templateId: templateId, objectId: objectId, cascade: cascade, objectItem: objectItem).execute { (response, error) -> Void in
             completion(error)
         }
     }
@@ -906,15 +946,15 @@ open class ObjectsAPI: APIBase {
        - type: oauth2
        - name: oauth2_password_grant
      - parameter templateId: (path) The id of the template this object is part of 
-     - parameter entitlementId: (path) The id of the entitlement 
+     - parameter objectId: (path) The id of the object 
      - parameter cascade: (query) Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      - parameter objectItem: (body) The object item object (optional)
      - returns: RequestBuilder<Void> 
      */
-    open class func updateObjectItemWithRequestBuilder(templateId: String, entitlementId: Int32, cascade: Bool? = nil, objectItem: EntitlementItem? = nil) -> RequestBuilder<Void> {
+    open class func updateObjectItemWithRequestBuilder(templateId: String, objectId: Int32, cascade: Bool? = nil, objectItem: ObjectResource? = nil) -> RequestBuilder<Void> {
         var path = "/objects/{template_id}/{object_id}"
         path = path.replacingOccurrences(of: "{template_id}", with: "\(templateId)", options: .literal, range: nil)
-        path = path.replacingOccurrences(of: "{entitlement_id}", with: "\(entitlementId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{object_id}", with: "\(objectId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = objectItem?.encodeToJSON() as? [String:AnyObject]
 
@@ -971,7 +1011,12 @@ open class ObjectsAPI: APIBase {
   "id" : "id",
   "updated_date" : 6,
   "properties" : [ {
+    "friendly_name" : "friendly_name",
+    "option_value_path" : "path.to.value",
+    "option_label_path" : "path.to.label",
     "name" : "name",
+    "description" : "description",
+    "options_url" : "options_url",
     "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {
@@ -1012,7 +1057,12 @@ open class ObjectsAPI: APIBase {
     },
     "required" : false
   }, {
+    "friendly_name" : "friendly_name",
+    "option_value_path" : "path.to.value",
+    "option_label_path" : "path.to.label",
     "name" : "name",
+    "description" : "description",
+    "options_url" : "options_url",
     "type" : "type",
     "field_list" : {
       "property_definition_fields" : [ {

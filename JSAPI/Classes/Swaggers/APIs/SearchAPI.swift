@@ -11,7 +11,7 @@ import Alamofire
 
 open class SearchAPI: APIBase {
     /**
-     Search an index
+     Search an index with no template
      - parameter type: (path) The index type 
      - parameter query: (body) The query to be used for the search (optional)
      - parameter size: (query) The number of documents returned per page (optional, default to 25)
@@ -26,7 +26,7 @@ open class SearchAPI: APIBase {
 
 
     /**
-     Search an index
+     Search an index with no template
      - POST /search/index/{type}
      - The body is an ElasticSearch query in JSON format. Please see their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html'>documentation</a> for details on the format and search options. The searchable object's format depends on on the type but mostly matches the resource from it's main endpoint. Exceptions include referenced objects (like user) being replaced with the full user resource to allow deeper searching.
      - OAuth:
@@ -68,6 +68,77 @@ open class SearchAPI: APIBase {
     open class func searchIndexWithRequestBuilder(type: String, query: Any? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceMapstringobject> {
         var path = "/search/index/{type}"
         path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = query?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+            "size": size?.encodeToJSON(), 
+            "page": page?.encodeToJSON()
+        ])
+
+        let requestBuilder: RequestBuilder<PageResourceMapstringobject>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Search an index with a template
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - parameter query: (body) The query to be used for the search (optional)
+     - parameter size: (query) The number of documents returned per page (optional, default to 25)
+     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchIndexWithTemplate(type: String, template: String, query: Any? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceMapstringobject?, _ error: ErrorResponse?) -> Void)) {
+        searchIndexWithTemplateWithRequestBuilder(type: type, template: template, query: query, size: size, page: page).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Search an index with a template
+     - POST /search/index/{type}/{template}
+     - The body is an ElasticSearch query in JSON format. Please see their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html'>documentation</a> for details on the format and search options. The searchable object's format depends on on the type but mostly matches the resource from it's main endpoint. Exceptions include referenced objects (like user) being replaced with the full user resource to allow deeper searching.
+
+     - examples: [{contentType=application/json, example={
+  "number" : 0,
+  "last" : true,
+  "size" : 1,
+  "total_elements" : 5,
+  "sort" : [ {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  } ],
+  "total_pages" : 5,
+  "number_of_elements" : 6,
+  "content" : [ { }, { } ],
+  "first" : true
+}}]
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - parameter query: (body) The query to be used for the search (optional)
+     - parameter size: (query) The number of documents returned per page (optional, default to 25)
+     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
+     - returns: RequestBuilder<PageResourceMapstringobject> 
+     */
+    open class func searchIndexWithTemplateWithRequestBuilder(type: String, template: String, query: Any? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceMapstringobject> {
+        var path = "/search/index/{type}/{template}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{template}", with: "\(template)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = query?.encodeToJSON() as? [String:AnyObject]
 

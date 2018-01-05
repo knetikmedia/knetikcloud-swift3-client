@@ -30,9 +30,11 @@ open class GroupResource: JSONEncodable {
     public var status: Status?
     /** The number of users in child groups */
     public var subMemberCount: Int32?
+    /** Tags for search */
+    public var tags: [String]?
     /** A group template this group is validated against. May be null and no validation of additional_properties will be done */
     public var template: String?
-    /** Unique name used in url and references. Uppercase, lowercase, numbers and hyphens only. Max 50 characters. Cannot be altered once created */
+    /** Unique name used in url and references. Uppercase, lowercase, numbers and hyphens only. Max 50 characters. Cannot be altered once created. Default: random UUID */
     public var uniqueName: String?
 
     public init() {}
@@ -48,6 +50,7 @@ open class GroupResource: JSONEncodable {
         nillableDictionary["parent"] = self.parent
         nillableDictionary["status"] = self.status?.rawValue
         nillableDictionary["sub_member_count"] = self.subMemberCount?.encodeToJSON()
+        nillableDictionary["tags"] = self.tags?.encodeToJSON()
         nillableDictionary["template"] = self.template
         nillableDictionary["unique_name"] = self.uniqueName
 
