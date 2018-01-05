@@ -11,15 +11,434 @@ import Alamofire
 
 open class SearchAPI: APIBase {
     /**
+     Count matches with no template
+     - parameter type: (path) The index type 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchCountGET(type: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchCountGETWithRequestBuilder(type: type).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Count matches with no template
+     - GET /search/count/{type}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _count.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-count.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchCountGETWithRequestBuilder(type: String) -> RequestBuilder<Any> {
+        var path = "/search/count/{type}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Count matches with no template
+     - parameter type: (path) The index type 
+     - parameter query: (body) The query to be used for the search (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchCountPOST(type: String, query: Any? = nil, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchCountPOSTWithRequestBuilder(type: type, query: query).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Count matches with no template
+     - POST /search/count/{type}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _count.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-count.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter query: (body) The query to be used for the search (optional)
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchCountPOSTWithRequestBuilder(type: String, query: Any? = nil) -> RequestBuilder<Any> {
+        var path = "/search/count/{type}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = query?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Count matches with a template
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchCountWithTemplateGET(type: String, template: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchCountWithTemplateGETWithRequestBuilder(type: type, template: template).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Count matches with a template
+     - GET /search/count/{type}/{template}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _count.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-count.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchCountWithTemplateGETWithRequestBuilder(type: String, template: String) -> RequestBuilder<Any> {
+        var path = "/search/count/{type}/{template}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{template}", with: "\(template)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Count matches with a template
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - parameter query: (body) The query to be used for the search (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchCountWithTemplatePOST(type: String, template: String, query: Any? = nil, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchCountWithTemplatePOSTWithRequestBuilder(type: type, template: template, query: query).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Count matches with a template
+     - POST /search/count/{type}/{template}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _count.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-count.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - parameter query: (body) The query to be used for the search (optional)
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchCountWithTemplatePOSTWithRequestBuilder(type: String, template: String, query: Any? = nil) -> RequestBuilder<Any> {
+        var path = "/search/count/{type}/{template}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{template}", with: "\(template)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = query?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Get document with no template
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchDocumentGET(type: String, id: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchDocumentGETWithRequestBuilder(type: type, id: id).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Get document with no template
+     - GET /search/documents/{type}/{id}
+     - This is a 1 to 1 mapping of a ElasticSearch call.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-count.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchDocumentGETWithRequestBuilder(type: String, id: String) -> RequestBuilder<Any> {
+        var path = "/search/documents/{type}/{id}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Get document with a template
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - parameter template: (path) The index template 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchDocumentWithTemplateGET(type: String, id: String, template: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchDocumentWithTemplateGETWithRequestBuilder(type: type, id: id, template: template).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Get document with a template
+     - GET /search/documents/{type}/{template}/{id}
+     - This is a 1 to 1 mapping of a ElasticSearch call.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-count.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - parameter template: (path) The index template 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchDocumentWithTemplateGETWithRequestBuilder(type: String, id: String, template: String) -> RequestBuilder<Any> {
+        var path = "/search/documents/{type}/{template}/{id}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{template}", with: "\(template)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Explain matches with no template
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchExplainGET(type: String, id: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchExplainGETWithRequestBuilder(type: type, id: id).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Explain matches with no template
+     - GET /search/explain/{type}/{id}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _explain.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-count.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchExplainGETWithRequestBuilder(type: String, id: String) -> RequestBuilder<Any> {
+        var path = "/search/explain/{type}/{id}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Explain matches with no template
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - parameter query: (body) The query to be used for the search (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchExplainPOST(type: String, id: String, query: Any? = nil, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchExplainPOSTWithRequestBuilder(type: type, id: id, query: query).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Explain matches with no template
+     - POST /search/explain/{type}/{id}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _explain.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-count.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - parameter query: (body) The query to be used for the search (optional)
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchExplainPOSTWithRequestBuilder(type: String, id: String, query: Any? = nil) -> RequestBuilder<Any> {
+        var path = "/search/explain/{type}/{id}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = query?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Explain matches with a template
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - parameter template: (path) The index template 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchExplainWithTemplateGET(type: String, id: String, template: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchExplainWithTemplateGETWithRequestBuilder(type: type, id: id, template: template).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Explain matches with a template
+     - GET /search/explain/{type}/{template}/{id}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _explain.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-count.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - parameter template: (path) The index template 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchExplainWithTemplateGETWithRequestBuilder(type: String, id: String, template: String) -> RequestBuilder<Any> {
+        var path = "/search/explain/{type}/{template}/{id}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{template}", with: "\(template)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Explain matches with a template
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - parameter template: (path) The index template 
+     - parameter query: (body) The query to be used for the search (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchExplainWithTemplatePOST(type: String, id: String, template: String, query: Any? = nil, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchExplainWithTemplatePOSTWithRequestBuilder(type: type, id: id, template: template, query: query).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Explain matches with a template
+     - POST /search/explain/{type}/{template}/{id}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _explain.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-count.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter id: (path) The index id 
+     - parameter template: (path) The index template 
+     - parameter query: (body) The query to be used for the search (optional)
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchExplainWithTemplatePOSTWithRequestBuilder(type: String, id: String, template: String, query: Any? = nil) -> RequestBuilder<Any> {
+        var path = "/search/explain/{type}/{template}/{id}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{template}", with: "\(template)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = query?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
      Search an index with no template
      - parameter type: (path) The index type 
      - parameter query: (body) The query to be used for the search (optional)
-     - parameter size: (query) The number of documents returned per page (optional, default to 25)
-     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func searchIndex(type: String, query: Any? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceMapstringobject?, _ error: ErrorResponse?) -> Void)) {
-        searchIndexWithRequestBuilder(type: type, query: query, size: size, page: page).execute { (response, error) -> Void in
+    open class func searchIndex(type: String, query: Any? = nil, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchIndexWithRequestBuilder(type: type, query: query).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -28,58 +447,107 @@ open class SearchAPI: APIBase {
     /**
      Search an index with no template
      - POST /search/index/{type}
-     - The body is an ElasticSearch query in JSON format. Please see their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html'>documentation</a> for details on the format and search options. The searchable object's format depends on on the type but mostly matches the resource from it's main endpoint. Exceptions include referenced objects (like user) being replaced with the full user resource to allow deeper searching.
+     - This is a 1 to 1 mapping of a ElasticSearch call to _search.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html'>API guide</a>
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
        - type: oauth2
        - name: oauth2_password_grant
-     - examples: [{contentType=application/json, example={
-  "number" : 0,
-  "last" : true,
-  "size" : 1,
-  "total_elements" : 5,
-  "sort" : [ {
-    "ignore_case" : true,
-    "null_handling" : "NATIVE",
-    "property" : "property",
-    "ascending" : true,
-    "descending" : true,
-    "direction" : "ASC"
-  }, {
-    "ignore_case" : true,
-    "null_handling" : "NATIVE",
-    "property" : "property",
-    "ascending" : true,
-    "descending" : true,
-    "direction" : "ASC"
-  } ],
-  "total_pages" : 5,
-  "number_of_elements" : 6,
-  "content" : [ { }, { } ],
-  "first" : true
-}}]
+     - examples: [{contentType=application/json, example="{}"}]
      - parameter type: (path) The index type 
      - parameter query: (body) The query to be used for the search (optional)
-     - parameter size: (query) The number of documents returned per page (optional, default to 25)
-     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-     - returns: RequestBuilder<PageResourceMapstringobject> 
+     - returns: RequestBuilder<Any> 
      */
-    open class func searchIndexWithRequestBuilder(type: String, query: Any? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceMapstringobject> {
+    open class func searchIndexWithRequestBuilder(type: String, query: Any? = nil) -> RequestBuilder<Any> {
         var path = "/search/index/{type}"
         path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
         let parameters = query?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
-            "size": size?.encodeToJSON(), 
-            "page": page?.encodeToJSON()
-        ])
 
-        let requestBuilder: RequestBuilder<PageResourceMapstringobject>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Search an index with no template
+     - parameter type: (path) The index type 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchIndexGET(type: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchIndexGETWithRequestBuilder(type: type).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Search an index with no template
+     - GET /search/index/{type}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _search.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchIndexGETWithRequestBuilder(type: String) -> RequestBuilder<Any> {
+        var path = "/search/index/{type}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Search an index with a template
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchIndexWithTemplateGET(type: String, template: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchIndexWithTemplateGETWithRequestBuilder(type: type, template: template).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Search an index with a template
+     - GET /search/index/{type}/{template}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _search.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchIndexWithTemplateGETWithRequestBuilder(type: String, template: String) -> RequestBuilder<Any> {
+        var path = "/search/index/{type}/{template}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{template}", with: "\(template)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
@@ -87,12 +555,10 @@ open class SearchAPI: APIBase {
      - parameter type: (path) The index type 
      - parameter template: (path) The index template 
      - parameter query: (body) The query to be used for the search (optional)
-     - parameter size: (query) The number of documents returned per page (optional, default to 25)
-     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func searchIndexWithTemplate(type: String, template: String, query: Any? = nil, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceMapstringobject?, _ error: ErrorResponse?) -> Void)) {
-        searchIndexWithTemplateWithRequestBuilder(type: type, template: template, query: query, size: size, page: page).execute { (response, error) -> Void in
+    open class func searchIndexWithTemplatePOST(type: String, template: String, query: Any? = nil, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchIndexWithTemplatePOSTWithRequestBuilder(type: type, template: template, query: query).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -101,41 +567,19 @@ open class SearchAPI: APIBase {
     /**
      Search an index with a template
      - POST /search/index/{type}/{template}
-     - The body is an ElasticSearch query in JSON format. Please see their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html'>documentation</a> for details on the format and search options. The searchable object's format depends on on the type but mostly matches the resource from it's main endpoint. Exceptions include referenced objects (like user) being replaced with the full user resource to allow deeper searching.
-
-     - examples: [{contentType=application/json, example={
-  "number" : 0,
-  "last" : true,
-  "size" : 1,
-  "total_elements" : 5,
-  "sort" : [ {
-    "ignore_case" : true,
-    "null_handling" : "NATIVE",
-    "property" : "property",
-    "ascending" : true,
-    "descending" : true,
-    "direction" : "ASC"
-  }, {
-    "ignore_case" : true,
-    "null_handling" : "NATIVE",
-    "property" : "property",
-    "ascending" : true,
-    "descending" : true,
-    "direction" : "ASC"
-  } ],
-  "total_pages" : 5,
-  "number_of_elements" : 6,
-  "content" : [ { }, { } ],
-  "first" : true
-}}]
+     - This is a 1 to 1 mapping of a ElasticSearch call to _search.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
      - parameter type: (path) The index type 
      - parameter template: (path) The index template 
      - parameter query: (body) The query to be used for the search (optional)
-     - parameter size: (query) The number of documents returned per page (optional, default to 25)
-     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
-     - returns: RequestBuilder<PageResourceMapstringobject> 
+     - returns: RequestBuilder<Any> 
      */
-    open class func searchIndexWithTemplateWithRequestBuilder(type: String, template: String, query: Any? = nil, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceMapstringobject> {
+    open class func searchIndexWithTemplatePOSTWithRequestBuilder(type: String, template: String, query: Any? = nil) -> RequestBuilder<Any> {
         var path = "/search/index/{type}/{template}"
         path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{template}", with: "\(template)", options: .literal, range: nil)
@@ -143,12 +587,284 @@ open class SearchAPI: APIBase {
         let parameters = query?.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
-            "size": size?.encodeToJSON(), 
-            "page": page?.encodeToJSON()
-        ])
 
-        let requestBuilder: RequestBuilder<PageResourceMapstringobject>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Get indices
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchIndicesGET(completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchIndicesGETWithRequestBuilder().execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Get indices
+     - GET /search/indices
+     - This is a 1 to 1 mapping of a ElasticSearch call to _cat/indices for indices.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-mapping.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchIndicesGETWithRequestBuilder() -> RequestBuilder<Any> {
+        let path = "/search/indices"
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Get mapping with no template
+     - parameter type: (path) The index type 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchMappingsGET(type: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchMappingsGETWithRequestBuilder(type: type).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Get mapping with no template
+     - GET /search/mappings/{type}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _mapping.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-mapping.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchMappingsGETWithRequestBuilder(type: String) -> RequestBuilder<Any> {
+        var path = "/search/mappings/{type}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Get mapping with a template
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchMappingsWithTemplateGET(type: String, template: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchMappingsWithTemplateGETWithRequestBuilder(type: type, template: template).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Get mapping with a template
+     - GET /search/mappings/{type}/{template}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _mapping.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-mapping.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchMappingsWithTemplateGETWithRequestBuilder(type: String, template: String) -> RequestBuilder<Any> {
+        var path = "/search/mappings/{type}/{template}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{template}", with: "\(template)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Validate matches with no template
+     - parameter type: (path) The index type 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchValidateGET(type: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchValidateGETWithRequestBuilder(type: type).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Validate matches with no template
+     - GET /search/validate/{type}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _validate/query.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-validate.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchValidateGETWithRequestBuilder(type: String) -> RequestBuilder<Any> {
+        var path = "/search/validate/{type}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Validate matches with no template
+     - parameter type: (path) The index type 
+     - parameter query: (body) The query to be used for the search (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchValidatePOST(type: String, query: Any? = nil, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchValidatePOSTWithRequestBuilder(type: type, query: query).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Validate matches with no template
+     - POST /search/validate/{type}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _validate/query.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-validate.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter query: (body) The query to be used for the search (optional)
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchValidatePOSTWithRequestBuilder(type: String, query: Any? = nil) -> RequestBuilder<Any> {
+        var path = "/search/validate/{type}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = query?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Validate matches with a template
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchValidateWithTemplateGET(type: String, template: String, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchValidateWithTemplateGETWithRequestBuilder(type: type, template: template).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Validate matches with a template
+     - GET /search/validate/{type}/{template}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _validate/query.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-validate.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchValidateWithTemplateGETWithRequestBuilder(type: String, template: String) -> RequestBuilder<Any> {
+        var path = "/search/validate/{type}/{template}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{template}", with: "\(template)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Validate matches with a template
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - parameter query: (body) The query to be used for the search (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func searchValidateWithTemplatePOST(type: String, template: String, query: Any? = nil, completion: @escaping ((_ data: Any?, _ error: ErrorResponse?) -> Void)) {
+        searchValidateWithTemplatePOSTWithRequestBuilder(type: type, template: template, query: query).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Validate matches with a template
+     - POST /search/validate/{type}/{template}
+     - This is a 1 to 1 mapping of a ElasticSearch call to _validate/query.  Further information can be found at their <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/search-validate.html'>API guide</a>
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example="{}"}]
+     - parameter type: (path) The index type 
+     - parameter template: (path) The index template 
+     - parameter query: (body) The query to be used for the search (optional)
+     - returns: RequestBuilder<Any> 
+     */
+    open class func searchValidateWithTemplatePOSTWithRequestBuilder(type: String, template: String, query: Any? = nil) -> RequestBuilder<Any> {
+        var path = "/search/validate/{type}/{template}"
+        path = path.replacingOccurrences(of: "{type}", with: "\(type)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{template}", with: "\(template)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = query?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Any>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }

@@ -17,6 +17,8 @@ open class VideoResource: JSONEncodable {
     }
     /** Whether the video is available, based on various factors */
     public var active: Bool?
+    /** A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type */
+    public var additionalProperties: [String:Property]?
     /** The original artist of the media */
     public var author: SimpleReferenceResourcelong?
     /** The date the media was created as a unix timestamp in seconds */
@@ -61,6 +63,8 @@ open class VideoResource: JSONEncodable {
     public var size: Int64?
     /** The tags for the video */
     public var tags: [String]?
+    /** A video template this video is validated against (private). May be null and no validation of additional_properties will be done */
+    public var template: String?
     /** The country of a thumbnail version. Typically a url */
     public var thumbnail: String?
     /** The date/time this resource was last updated in seconds since unix epoch */
@@ -78,6 +82,7 @@ open class VideoResource: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["active"] = self.active
+        nillableDictionary["additional_properties"] = self.additionalProperties?.encodeToJSON()
         nillableDictionary["author"] = self.author?.encodeToJSON()
         nillableDictionary["authored"] = self.authored?.encodeToJSON()
         nillableDictionary["banned"] = self.banned
@@ -100,6 +105,7 @@ open class VideoResource: JSONEncodable {
         nillableDictionary["short_description"] = self.shortDescription
         nillableDictionary["size"] = self.size?.encodeToJSON()
         nillableDictionary["tags"] = self.tags?.encodeToJSON()
+        nillableDictionary["template"] = self.template
         nillableDictionary["thumbnail"] = self.thumbnail
         nillableDictionary["updated_date"] = self.updatedDate?.encodeToJSON()
         nillableDictionary["uploader"] = self.uploader?.encodeToJSON()

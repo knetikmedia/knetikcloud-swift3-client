@@ -6046,14 +6046,6 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "MapResource", actual: "\(source)"))
             }
         }
-        // Decoder for Mapstringobject
-        Decoders.addDecoder(clazz: Mapstringobject.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Mapstringobject> in
-            if let source = source as? Any {
-                return .success(source)
-            } else {
-                return .failure(.typeMismatch(expected: "Typealias Mapstringobject", actual: "\(source)"))
-            }
-        }
         // Decoder for MetricResource
         Decoders.addDecoder(clazz: MetricResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<MetricResource> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
@@ -9090,69 +9082,6 @@ class Decoders {
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "PageResourceLocationLogResource", actual: "\(source)"))
-            }
-        }
-        // Decoder for PageResourceMapstringobject
-        Decoders.addDecoder(clazz: PageResourceMapstringobject.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PageResourceMapstringobject> in
-            if let sourceDictionary = source as? [AnyHashable: Any] {
-                let result = instance == nil ? PageResourceMapstringobject() : instance as! PageResourceMapstringobject
-                switch Decoders.decodeOptional(clazz: [Mapstringobject].self, source: sourceDictionary["content"] as AnyObject?) {
-                
-                case let .success(value): result.content = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?) {
-                
-                case let .success(value): result.first = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?) {
-                
-                case let .success(value): result.last = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?) {
-                
-                case let .success(value): result.number = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?) {
-                
-                case let .success(value): result.numberOfElements = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?) {
-                
-                case let .success(value): result.size = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: [Order].self, source: sourceDictionary["sort"] as AnyObject?) {
-                
-                case let .success(value): result.sort = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?) {
-                
-                case let .success(value): result.totalElements = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?) {
-                
-                case let .success(value): result.totalPages = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                return .success(result)
-            } else {
-                return .failure(.typeMismatch(expected: "PageResourceMapstringobject", actual: "\(source)"))
             }
         }
         // Decoder for PageResourceOauthAccessTokenResource
@@ -15617,6 +15546,12 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: [String:Property].self, source: sourceDictionary["additional_properties"] as AnyObject?) {
+                
+                case let .success(value): result.additionalProperties = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: SimpleReferenceResourcelong.self, source: sourceDictionary["author"] as AnyObject?) {
                 
                 case let .success(value): result.author = value
@@ -15746,6 +15681,12 @@ class Decoders {
                 switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["tags"] as AnyObject?) {
                 
                 case let .success(value): result.tags = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template"] as AnyObject?) {
+                
+                case let .success(value): result.template = value
                 case let .failure(error): return .failure(error)
                 
                 }
