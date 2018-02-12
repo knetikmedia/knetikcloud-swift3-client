@@ -26,7 +26,7 @@ open class UsersFriendshipsAPI: APIBase {
     /**
      Add a friend
      - POST /users/{user_id}/friends/{id}
-     - As a user, either creates or confirm a pending request. As an admin, call this endpoint twice while inverting the IDs to create a confirmed friendship.
+     - As a user, either creates or confirm a pending request. As an admin, call this endpoint twice while inverting the IDs to create a confirmed friendship. <br><br><b>Permissions Needed:</b> FRIENDSHIPS_ADMIN or (FRIENDSHIPS_USER and owner)
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -69,6 +69,7 @@ open class UsersFriendshipsAPI: APIBase {
     /**
      Get friends list
      - GET /users/{user_id}/friends
+     - <b>Permissions Needed:</b> FRIENDSHIPS_ADMIN or (FRIENDSHIPS_USER and owner)
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -98,12 +99,12 @@ open class UsersFriendshipsAPI: APIBase {
   "number_of_elements" : 6,
   "content" : [ {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   }, {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   } ],
@@ -150,7 +151,7 @@ open class UsersFriendshipsAPI: APIBase {
     /**
      Returns the invite token
      - GET /users/{user_id}/invite-token
-     - This is a unique invite token that allows direct connection to the request user.  Exposing that token presents privacy issues if the token is leaked. Use friend request flow instead if confirmation is required
+     - This is a unique invite token that allows direct connection to the request user.  Exposing that token presents privacy issues if the token is leaked. Use friend request. <br><br><b>Permissions Needed:</b> FRIENDSHIPS_ADMIN or (FRIENDSHIPS_USER and owner)flow instead if confirmation is required
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -190,7 +191,7 @@ open class UsersFriendshipsAPI: APIBase {
     /**
      Get pending invites
      - GET /users/{user_id}/invites
-     - Invites that the specified user received
+     - Invites that the specified user received. <br><br><b>Permissions Needed:</b> FRIENDSHIPS_ADMIN or (FRIENDSHIPS_USER and owner)
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -220,12 +221,12 @@ open class UsersFriendshipsAPI: APIBase {
   "number_of_elements" : 6,
   "content" : [ {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   }, {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   } ],
@@ -269,7 +270,7 @@ open class UsersFriendshipsAPI: APIBase {
     /**
      Redeem friendship token
      - POST /users/{user_id}/friends/tokens
-     - Immediately connects the requested user with the user mapped by the provided invite token
+     - Immediately connects the requested user with the user mapped by the provided invite token. <br><br><b>Permissions Needed:</b> FRIENDSHIPS_ADMIN or (FRIENDSHIPS_USER and owner)
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -308,6 +309,7 @@ open class UsersFriendshipsAPI: APIBase {
     /**
      Remove or decline a friend
      - DELETE /users/{user_id}/friends/{id}
+     - <b>Permissions Needed:</b> FRIENDSHIPS_ADMIN or (FRIENDSHIPS_USER and owner)
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

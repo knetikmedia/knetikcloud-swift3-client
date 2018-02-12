@@ -20,20 +20,27 @@ open class ActivityOccurrenceResource: JSONEncodable {
     public enum Status: String { 
         case setup = "SETUP"
         case open = "OPEN"
+        case launching = "LAUNCHING"
         case playing = "PLAYING"
         case finished = "FINISHED"
         case abandoned = "ABANDONED"
     }
     /** The id of the activity */
     public var activityId: Int64?
+    /** The ids of banned users that cannot join the occurrence. See occurrence-user delete endpoint */
+    public var bans: [Int32]?
     /** The id of the challenge activity (as part of the event, required if eventId set) */
     public var challengeActivityId: Int64?
+    /** Defines core settings about the activity occurrence that affect how it behaves in the system. Validated against core settings in activity/challenge-activity. */
+    public var coreSettings: CoreActivityOccurrenceSettings?
     /** The date this occurrence was created, unix timestamp in seconds */
     public var createdDate: Int64?
     /** The entitlement item required to enter the occurrence. Required if not part of an event. Must come from the set of entitlement items listed in the activity */
     public var entitlement: ActivityEntitlementResource?
     /** The id of the event */
     public var eventId: Int64?
+    /** The host of the occurrence, if not a participant (will be left out of users array). Must be the caller that creates the occurrence unless admin. Requires activity/challenge to allow host_option of &#39;non_player&#39; if not admin as well */
+    public var host: SimpleUserResource?
     /** The id of the activity occurrence */
     public var id: Int64?
     /** Indicate if the rewards have been given out already */
@@ -57,10 +64,13 @@ open class ActivityOccurrenceResource: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["activity_id"] = self.activityId?.encodeToJSON()
+        nillableDictionary["bans"] = self.bans?.encodeToJSON()
         nillableDictionary["challenge_activity_id"] = self.challengeActivityId?.encodeToJSON()
+        nillableDictionary["core_settings"] = self.coreSettings?.encodeToJSON()
         nillableDictionary["created_date"] = self.createdDate?.encodeToJSON()
         nillableDictionary["entitlement"] = self.entitlement?.encodeToJSON()
         nillableDictionary["event_id"] = self.eventId?.encodeToJSON()
+        nillableDictionary["host"] = self.host?.encodeToJSON()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["reward_status"] = self.rewardStatus?.rawValue
         nillableDictionary["settings"] = self.settings?.encodeToJSON()

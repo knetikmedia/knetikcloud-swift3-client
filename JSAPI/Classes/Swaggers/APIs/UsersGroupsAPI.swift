@@ -26,6 +26,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Adds a new member to the group
      - POST /users/groups/{unique_name}/members
+     - <b>Permissions Needed:</b> GROUP_ADMIN or self if open
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -42,7 +43,7 @@ open class UsersGroupsAPI: APIBase {
   },
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -86,6 +87,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Adds multiple members to the group
      - POST /users/groups/{unique_name}/members/batch-add
+     - <b>Permissions Needed:</b> GROUP_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -102,7 +104,7 @@ open class UsersGroupsAPI: APIBase {
   },
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -123,7 +125,7 @@ open class UsersGroupsAPI: APIBase {
   },
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -166,6 +168,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Create a group
      - POST /users/groups
+     - <b>Permissions Needed:</b> GROUP_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -218,7 +221,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Create an group member template
      - POST /users/groups/members/templates
-     - GroupMember Templates define a type of group member and the properties they have
+     - GroupMember Templates define a type of group member and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -354,7 +357,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Create a group template
      - POST /users/groups/templates
-     - Group Templates define a type of group and the properties they have
+     - Group Templates define a type of group and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -490,7 +493,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Removes a group from the system
      - DELETE /users/groups/{unique_name}
-     - All groups listing this as the parent are also removed and users are in turn removed from this and those groups. This may result in users no longer being in this group's parent if they were not added to it directly as well.
+     - All groups listing this as the parent are also removed and users are in turn removed from this and those groups. This may result in users no longer being in this group's parent if they were not added to it directly as well. <br><br><b>Permissions Needed:</b> GROUP_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -528,7 +531,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Delete an group member template
      - DELETE /users/groups/members/templates/{id}
-     - If cascade = 'detach', it will force delete the template even if it's attached to other objects
+     - If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -570,7 +573,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Delete a group template
      - DELETE /users/groups/templates/{id}
-     - If cascade = 'detach', it will force delete the template even if it's attached to other objects
+     - If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -597,6 +600,47 @@ open class UsersGroupsAPI: APIBase {
     }
 
     /**
+     Enable or disable notification of group messages
+     - parameter uniqueName: (path) The group unique name 
+     - parameter userId: (path) The user id of the member or &#39;me&#39; 
+     - parameter disabled: (body) disabled 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func disableGroupNotification(uniqueName: String, userId: String, disabled: ValueWrapperboolean, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+        disableGroupNotificationWithRequestBuilder(uniqueName: uniqueName, userId: userId, disabled: disabled).execute { (response, error) -> Void in
+            completion(error)
+        }
+    }
+
+
+    /**
+     Enable or disable notification of group messages
+     - PUT /users/groups/{unique_name}/members/{user_id}/messages/disabled
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - parameter uniqueName: (path) The group unique name 
+     - parameter userId: (path) The user id of the member or &#39;me&#39; 
+     - parameter disabled: (body) disabled 
+     - returns: RequestBuilder<Void> 
+     */
+    open class func disableGroupNotificationWithRequestBuilder(uniqueName: String, userId: String, disabled: ValueWrapperboolean) -> RequestBuilder<Void> {
+        var path = "/users/groups/{unique_name}/members/{user_id}/messages/disabled"
+        path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = disabled.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
      Loads a specific group's details
      - parameter uniqueName: (path) The group unique name 
      - parameter completion: completion handler to receive the data and the error objects
@@ -611,6 +655,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Loads a specific group's details
      - GET /users/groups/{unique_name}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -664,8 +709,12 @@ open class UsersGroupsAPI: APIBase {
     /**
      Get group ancestors
      - GET /users/groups/{unique_name}/ancestors
-     - Returns a list of ancestor groups in reverse order (parent, then grandparent, etc
-
+     - Returns a list of ancestor groups in reverse order (parent, then grandparent, etc). <br><br><b>Permissions Needed:</b> ANY
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
      - examples: [{contentType=application/json, example=[ {
   "template" : "template",
   "parent" : "parent",
@@ -731,6 +780,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Get a user from a group
      - GET /users/groups/{unique_name}/members/{user_id}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -747,7 +797,7 @@ open class UsersGroupsAPI: APIBase {
   },
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -791,6 +841,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Get a single group member template
      - GET /users/groups/members/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or GROUP_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -929,6 +980,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      List and search group member templates
      - GET /users/groups/members/templates
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or GROUP_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1197,6 +1249,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Lists members of the group
      - GET /users/groups/{unique_name}/members
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1235,7 +1288,7 @@ open class UsersGroupsAPI: APIBase {
     },
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -1256,7 +1309,7 @@ open class UsersGroupsAPI: APIBase {
     },
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -1294,6 +1347,98 @@ open class UsersGroupsAPI: APIBase {
     }
 
     /**
+     Get a list of group messages
+     - parameter uniqueName: (path) The group unique name 
+     - parameter size: (query) The number of objects returned per page (optional, default to 25)
+     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getGroupMessages(uniqueName: String, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceChatMessageResource?, _ error: ErrorResponse?) -> Void)) {
+        getGroupMessagesWithRequestBuilder(uniqueName: uniqueName, size: size, page: page).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Get a list of group messages
+     - GET /users/groups/{unique_name}/messages
+     - <b>Permissions Needed:</b> ANY
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example={
+  "number" : 0,
+  "last" : true,
+  "size" : 1,
+  "total_elements" : 5,
+  "sort" : [ {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  } ],
+  "total_pages" : 5,
+  "number_of_elements" : 6,
+  "content" : [ {
+    "recipient_type" : "user",
+    "thread_id" : "thread_id",
+    "edited" : false,
+    "message_type" : "message_type",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 1,
+    "content" : "{}",
+    "sender_id" : 6,
+    "recipient_id" : "recipient_id"
+  }, {
+    "recipient_type" : "user",
+    "thread_id" : "thread_id",
+    "edited" : false,
+    "message_type" : "message_type",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 1,
+    "content" : "{}",
+    "sender_id" : 6,
+    "recipient_id" : "recipient_id"
+  } ],
+  "first" : true
+}}]
+     - parameter uniqueName: (path) The group unique name 
+     - parameter size: (query) The number of objects returned per page (optional, default to 25)
+     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
+     - returns: RequestBuilder<PageResourceChatMessageResource> 
+     */
+    open class func getGroupMessagesWithRequestBuilder(uniqueName: String, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceChatMessageResource> {
+        var path = "/users/groups/{unique_name}/messages"
+        path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+            "size": size?.encodeToJSON(), 
+            "page": page?.encodeToJSON()
+        ])
+
+        let requestBuilder: RequestBuilder<PageResourceChatMessageResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
      Get a single group template
      - parameter id: (path) The id of the template 
      - parameter completion: completion handler to receive the data and the error objects
@@ -1308,6 +1453,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Get a single group template
      - GET /users/groups/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or GROUP_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1446,6 +1592,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      List and search group templates
      - GET /users/groups/templates
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or GROUP_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1712,6 +1859,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      List groups a user is in
      - GET /users/{user_id}/groups
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1769,6 +1917,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      List and search groups
      - GET /users/groups
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1866,6 +2015,52 @@ open class UsersGroupsAPI: APIBase {
     }
 
     /**
+     Send a group message
+     - parameter uniqueName: (path) The group unique name 
+     - parameter chatMessageRequest: (body) The chat message request (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func postGroupMessage(uniqueName: String, chatMessageRequest: ChatMessageRequest? = nil, completion: @escaping ((_ data: ChatMessageResource?, _ error: ErrorResponse?) -> Void)) {
+        postGroupMessageWithRequestBuilder(uniqueName: uniqueName, chatMessageRequest: chatMessageRequest).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Send a group message
+     - POST /users/groups/{unique_name}/messages
+
+     - examples: [{contentType=application/json, example={
+  "recipient_type" : "user",
+  "thread_id" : "thread_id",
+  "edited" : false,
+  "message_type" : "message_type",
+  "created_date" : 0,
+  "id" : "id",
+  "updated_date" : 1,
+  "content" : "{}",
+  "sender_id" : 6,
+  "recipient_id" : "recipient_id"
+}}]
+     - parameter uniqueName: (path) The group unique name 
+     - parameter chatMessageRequest: (body) The chat message request (optional)
+     - returns: RequestBuilder<ChatMessageResource> 
+     */
+    open class func postGroupMessageWithRequestBuilder(uniqueName: String, chatMessageRequest: ChatMessageRequest? = nil) -> RequestBuilder<ChatMessageResource> {
+        var path = "/users/groups/{unique_name}/messages"
+        path = path.replacingOccurrences(of: "{unique_name}", with: "\(uniqueName)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = chatMessageRequest?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<ChatMessageResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
      Removes a user from a group
      - parameter uniqueName: (path) The group unique name 
      - parameter userId: (path) The id of the user to remove 
@@ -1881,6 +2076,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Removes a user from a group
      - DELETE /users/groups/{unique_name}/members/{user_id}
+     - <b>Permissions Needed:</b> GROUP_ADMIN or self if open
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1920,7 +2116,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Update a group
      - PUT /users/groups/{unique_name}
-     - If adding/removing/changing parent, user membership in group/new parent groups may be modified. The parent being removed will remove members from this sub group unless they were added explicitly to the parent and the new parent will gain members unless they were already a part of it.
+     - If adding/removing/changing parent, user membership in group/new parent groups may be modified. The parent being removed will remove members from this sub group unless they were added explicitly to the parent and the new parent will gain members unless they were already a part of it. <br><br><b>Permissions Needed:</b> GROUP_ADMIN or admin of the group
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1960,6 +2156,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Change a user's order
      - PUT /users/groups/{unique_name}/members/{user_id}/order
+     - <b>Permissions Needed:</b> GROUP_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2001,6 +2198,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Change a user's membership properties
      - PUT /users/groups/{unique_name}/members/{user_id}/properties
+     - <b>Permissions Needed:</b> GROUP_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2042,6 +2240,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Change a user's status
      - PUT /users/groups/{unique_name}/members/{user_id}/status
+     - <b>Permissions Needed:</b> GROUP_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2082,6 +2281,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Update an group member template
      - PUT /users/groups/members/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2220,6 +2420,7 @@ open class UsersGroupsAPI: APIBase {
     /**
      Update a group template
      - PUT /users/groups/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

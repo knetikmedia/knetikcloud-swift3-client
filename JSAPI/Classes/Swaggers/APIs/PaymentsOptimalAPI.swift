@@ -25,7 +25,7 @@ open class PaymentsOptimalAPI: APIBase {
     /**
      Initiate silent post with Optimal
      - POST /payment/provider/optimal/silent
-     - Will return the url for a hosted payment endpoint to post to. See Optimal documentation for details.
+     - Will return the url for a hosted payment endpoint to post to. See Optimal documentation for details. <br><br><b>Permissions Needed:</b> OPTIMAL_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

@@ -25,7 +25,7 @@ open class PaymentsGoogleAPI: APIBase {
     /**
      Mark an invoice paid with Google
      - POST /payment/provider/google/payments
-     - Mark an invoice paid with Google. Verifies signature from Google and treats the developerPayload field inside the json payload as the id of the invoice to pay. Returns the transaction ID if successful.
+     - Mark an invoice paid with Google. Verifies signature from Google and treats the developerPayload field inside the json payload as the id of the invoice to pay. Returns the transaction ID if successful. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

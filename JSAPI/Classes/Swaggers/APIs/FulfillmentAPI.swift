@@ -25,6 +25,7 @@ open class FulfillmentAPI: APIBase {
     /**
      Create a fulfillment type
      - POST /store/fulfillment/types
+     - <b>Permissions Needed:</b> FULFILLMENT_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -66,6 +67,7 @@ open class FulfillmentAPI: APIBase {
     /**
      Delete a fulfillment type
      - DELETE /store/fulfillment/types/{id}
+     - <b>Permissions Needed:</b> FULFILLMENT_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -102,6 +104,7 @@ open class FulfillmentAPI: APIBase {
     /**
      Get a single fulfillment type
      - GET /store/fulfillment/types/{id}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -146,6 +149,7 @@ open class FulfillmentAPI: APIBase {
     /**
      List and search fulfillment types
      - GET /store/fulfillment/types
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -224,6 +228,7 @@ open class FulfillmentAPI: APIBase {
     /**
      Update a fulfillment type
      - PUT /store/fulfillment/types/{id}
+     - <b>Permissions Needed:</b> FULFILLMENT_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

@@ -25,6 +25,7 @@ open class BRERuleEngineExpressionsAPI: APIBase {
     /**
      Lookup a specific expression
      - GET /bre/expressions/{type}
+     - <b>Permissions Needed:</b> BRE_RULE_ENGINE_EXPRESSIONS_USER
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -60,7 +61,7 @@ open class BRERuleEngineExpressionsAPI: APIBase {
     }
 
     /**
-     Get a list of supported expressions to use in conditions or actions.
+     Get a list of supported expressions to use in conditions or actions
      - parameter filterTypeGroup: (query) Filter for expressions by type group (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -72,9 +73,9 @@ open class BRERuleEngineExpressionsAPI: APIBase {
 
 
     /**
-     Get a list of supported expressions to use in conditions or actions.
+     Get a list of supported expressions to use in conditions or actions
      - GET /bre/expressions
-     - Each resource contains a type and a definition that are read-only, all the other fields must be provided when using the expression in a rule.
+     - Each resource contains a type and a definition that are read-only, all the other fields must be provided when using the expression in a rule. <br><br><b>Permissions Needed:</b> BRE_RULE_ENGINE_EXPRESSIONS_USER
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -120,6 +121,7 @@ open class BRERuleEngineExpressionsAPI: APIBase {
     /**
      Returns the textual representation of an expression
      - POST /bre/expressions
+     - <b>Permissions Needed:</b> BRE_RULE_ENGINE_EXPRESSIONS_USER
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

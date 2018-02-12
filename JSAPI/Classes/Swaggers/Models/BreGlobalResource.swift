@@ -22,7 +22,7 @@ open class BreGlobalResource: JSONEncodable {
     public var scopes: [BreGlobalScopeDefinition]?
     /** Where this global came from. System globals cannot be removed or updated */
     public var systemGlobal: Bool?
-    /** The variable type the global stores. See the See Bre Variables enpoint for list */
+    /** The variable type the global stores. See the BRE variables endpoint for list */
     public var type: String?
 
     public init() {}

@@ -11,6 +11,292 @@ import Alamofire
 
 open class MessagingAPI: APIBase {
     /**
+     Compile a message template
+     - parameter request: (body) request (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func compileMessageTemplate(request: MessageTemplateBulkRequest? = nil, completion: @escaping ((_ data: [String:String]?, _ error: ErrorResponse?) -> Void)) {
+        compileMessageTemplateWithRequestBuilder(request: request).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Compile a message template
+     - POST /messaging/templates/compilations
+     - Processes a set of input data against the template and returnes the compiled result. <br><br><b>Permissions Needed:</b> MESSAGING_ADMIN
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example={
+  "key" : ""
+}}]
+     - parameter request: (body) request (optional)
+     - returns: RequestBuilder<[String:String]> 
+     */
+    open class func compileMessageTemplateWithRequestBuilder(request: MessageTemplateBulkRequest? = nil) -> RequestBuilder<[String:String]> {
+        let path = "/messaging/templates/compilations"
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = request?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<[String:String]>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Create a message template
+     - parameter messageTemplate: (body) The new template email to be sent (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func createMessageTemplate(messageTemplate: MessageTemplateResource? = nil, completion: @escaping ((_ data: MessageTemplateResource?, _ error: ErrorResponse?) -> Void)) {
+        createMessageTemplateWithRequestBuilder(messageTemplate: messageTemplate).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Create a message template
+     - POST /messaging/templates
+     - <b>Permissions Needed:</b> MESSAGING_ADMIN
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example={
+  "name" : "name",
+  "id" : "id",
+  "content" : "content",
+  "tags" : [ "tags", "tags" ]
+}}]
+     - parameter messageTemplate: (body) The new template email to be sent (optional)
+     - returns: RequestBuilder<MessageTemplateResource> 
+     */
+    open class func createMessageTemplateWithRequestBuilder(messageTemplate: MessageTemplateResource? = nil) -> RequestBuilder<MessageTemplateResource> {
+        let path = "/messaging/templates"
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = messageTemplate?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<MessageTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Delete an existing message template
+     - parameter id: (path) The message_template id 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func deleteMessageTemplate(id: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+        deleteMessageTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
+            completion(error)
+        }
+    }
+
+
+    /**
+     Delete an existing message template
+     - DELETE /messaging/templates/{id}
+     - <b>Permissions Needed:</b> ARTICLES_ADMIN
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - parameter id: (path) The message_template id 
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteMessageTemplateWithRequestBuilder(id: String) -> RequestBuilder<Void> {
+        var path = "/messaging/templates/{id}"
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Get a single message template
+     - parameter id: (path) The message_template id 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getMessageTemplate(id: String, completion: @escaping ((_ data: MessageTemplateResource?, _ error: ErrorResponse?) -> Void)) {
+        getMessageTemplateWithRequestBuilder(id: id).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Get a single message template
+     - GET /messaging/templates/{id}
+     - <b>Permissions Needed:</b> ARTICLES_ADMIN
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example={
+  "name" : "name",
+  "id" : "id",
+  "content" : "content",
+  "tags" : [ "tags", "tags" ]
+}}]
+     - parameter id: (path) The message_template id 
+     - returns: RequestBuilder<MessageTemplateResource> 
+     */
+    open class func getMessageTemplateWithRequestBuilder(id: String) -> RequestBuilder<MessageTemplateResource> {
+        var path = "/messaging/templates/{id}"
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<MessageTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     List and search message templates
+     - parameter filterTagset: (query) Filter for message templates with at least one of a specified set of tags (separated by comma) (optional)
+     - parameter filterTagIntersection: (query) Filter for message templates with all of a specified set of tags (separated by comma) (optional)
+     - parameter filterTagExclusion: (query) Filter for message templates with none of a specified set of tags (separated by comma) (optional)
+     - parameter size: (query) The number of objects returned per page (optional, default to 25)
+     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
+     - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getMessageTemplates(filterTagset: String? = nil, filterTagIntersection: String? = nil, filterTagExclusion: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil, completion: @escaping ((_ data: PageResourceMessageTemplateResource?, _ error: ErrorResponse?) -> Void)) {
+        getMessageTemplatesWithRequestBuilder(filterTagset: filterTagset, filterTagIntersection: filterTagIntersection, filterTagExclusion: filterTagExclusion, size: size, page: page, order: order).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     List and search message templates
+     - GET /messaging/templates
+     - Get a list of message templates with optional filtering. <br><br><b>Permissions Needed:</b> ARTICLES_ADMIN
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example={
+  "number" : 0,
+  "last" : true,
+  "size" : 1,
+  "total_elements" : 5,
+  "sort" : [ {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  } ],
+  "total_pages" : 5,
+  "number_of_elements" : 6,
+  "content" : [ {
+    "name" : "name",
+    "id" : "id",
+    "content" : "content",
+    "tags" : [ "tags", "tags" ]
+  }, {
+    "name" : "name",
+    "id" : "id",
+    "content" : "content",
+    "tags" : [ "tags", "tags" ]
+  } ],
+  "first" : true
+}}]
+     - parameter filterTagset: (query) Filter for message templates with at least one of a specified set of tags (separated by comma) (optional)
+     - parameter filterTagIntersection: (query) Filter for message templates with all of a specified set of tags (separated by comma) (optional)
+     - parameter filterTagExclusion: (query) Filter for message templates with none of a specified set of tags (separated by comma) (optional)
+     - parameter size: (query) The number of objects returned per page (optional, default to 25)
+     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
+     - parameter order: (query) A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     - returns: RequestBuilder<PageResourceMessageTemplateResource> 
+     */
+    open class func getMessageTemplatesWithRequestBuilder(filterTagset: String? = nil, filterTagIntersection: String? = nil, filterTagExclusion: String? = nil, size: Int32? = nil, page: Int32? = nil, order: String? = nil) -> RequestBuilder<PageResourceMessageTemplateResource> {
+        let path = "/messaging/templates"
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+            "filter_tagset": filterTagset, 
+            "filter_tag_intersection": filterTagIntersection, 
+            "filter_tag_exclusion": filterTagExclusion, 
+            "size": size?.encodeToJSON(), 
+            "page": page?.encodeToJSON(), 
+            "order": order
+        ])
+
+        let requestBuilder: RequestBuilder<PageResourceMessageTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Send a message
+     - parameter messageResource: (body) The message to be sent (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func sendMessage1(messageResource: MessageResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+        sendMessage1WithRequestBuilder(messageResource: messageResource).execute { (response, error) -> Void in
+            completion(error)
+        }
+    }
+
+
+    /**
+     Send a message
+     - POST /messaging/message
+     - Sends a message with one or more formats to one or more users. Fill in any message formats desired (email, sms, websockets) and each user will recieve all valid formats. <br><br><b>Permissions Needed:</b> MESSAGING_ADMIN
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - parameter messageResource: (body) The message to be sent (optional)
+     - returns: RequestBuilder<Void> 
+     */
+    open class func sendMessage1WithRequestBuilder(messageResource: MessageResource? = nil) -> RequestBuilder<Void> {
+        let path = "/messaging/message"
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = messageResource?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
      Send a raw email to one or more users
      - parameter rawEmailResource: (body) The new raw email to be sent (optional)
      - parameter completion: completion handler to receive the data and the error objects
@@ -25,6 +311,7 @@ open class MessagingAPI: APIBase {
     /**
      Send a raw email to one or more users
      - POST /messaging/raw-email
+     - <b>Permissions Needed:</b> MESSAGING_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -60,7 +347,7 @@ open class MessagingAPI: APIBase {
     /**
      Send a raw push notification
      - POST /messaging/raw-push
-     - Sends a raw push notification message to one or more users. User's without registered mobile device for the application will be skipped.
+     - Sends a raw push notification message to one or more users. User's without registered mobile device for the application will be skipped. <br><br><b>Permissions Needed:</b> MESSAGING_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -96,7 +383,7 @@ open class MessagingAPI: APIBase {
     /**
      Send a raw SMS
      - POST /messaging/raw-sms
-     - Sends a raw SMS text message to one or more users. User's without registered mobile numbers will be skipped.
+     - Sends a raw SMS text message to one or more users. User's without registered mobile numbers will be skipped. <br><br><b>Permissions Needed:</b> MESSAGING_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -132,6 +419,7 @@ open class MessagingAPI: APIBase {
     /**
      Send a templated email to one or more users
      - POST /messaging/templated-email
+     - <b>Permissions Needed:</b> MESSAGING_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -167,7 +455,7 @@ open class MessagingAPI: APIBase {
     /**
      Send a templated push notification
      - POST /messaging/templated-push
-     - Sends a templated push notification message to one or more users. User's without registered mobile device for the application will be skipped.
+     - Sends a templated push notification message to one or more users. User's without registered mobile device for the application will be skipped. <br><br><b>Permissions Needed:</b> MESSAGING_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -203,7 +491,7 @@ open class MessagingAPI: APIBase {
     /**
      Send a new templated SMS
      - POST /messaging/templated-sms
-     - Sends a templated SMS text message to one or more users. User's without registered mobile numbers will be skipped.
+     - Sends a templated SMS text message to one or more users. User's without registered mobile numbers will be skipped. <br><br><b>Permissions Needed:</b> MESSAGING_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -222,6 +510,87 @@ open class MessagingAPI: APIBase {
         let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Send a websocket message
+     - parameter websocketResource: (body) The new websocket message to be sent (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func sendWebsocket(websocketResource: WebsocketMessageResource? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+        sendWebsocketWithRequestBuilder(websocketResource: websocketResource).execute { (response, error) -> Void in
+            completion(error)
+        }
+    }
+
+
+    /**
+     Send a websocket message
+     - POST /messaging/websocket-message
+     - Sends a websocket message to one or more users. <br><br><b>Permissions Needed:</b> MESSAGING_ADMIN
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - parameter websocketResource: (body) The new websocket message to be sent (optional)
+     - returns: RequestBuilder<Void> 
+     */
+    open class func sendWebsocketWithRequestBuilder(websocketResource: WebsocketMessageResource? = nil) -> RequestBuilder<Void> {
+        let path = "/messaging/websocket-message"
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = websocketResource?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Update an existing message template
+     - parameter id: (path) The message_template id 
+     - parameter messageTemplateResource: (body) The message template (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func updateMessageTemplate(id: String, messageTemplateResource: MessageTemplateResource? = nil, completion: @escaping ((_ data: MessageTemplateResource?, _ error: ErrorResponse?) -> Void)) {
+        updateMessageTemplateWithRequestBuilder(id: id, messageTemplateResource: messageTemplateResource).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Update an existing message template
+     - PUT /messaging/templates/{id}
+     - <b>Permissions Needed:</b> ARTICLES_ADMIN
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example={
+  "name" : "name",
+  "id" : "id",
+  "content" : "content",
+  "tags" : [ "tags", "tags" ]
+}}]
+     - parameter id: (path) The message_template id 
+     - parameter messageTemplateResource: (body) The message template (optional)
+     - returns: RequestBuilder<MessageTemplateResource> 
+     */
+    open class func updateMessageTemplateWithRequestBuilder(id: String, messageTemplateResource: MessageTemplateResource? = nil) -> RequestBuilder<MessageTemplateResource> {
+        var path = "/messaging/templates/{id}"
+        path = path.replacingOccurrences(of: "{id}", with: "\(id)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = messageTemplateResource?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<MessageTemplateResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }

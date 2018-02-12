@@ -27,6 +27,7 @@ open class ObjectsAPI: APIBase {
     /**
      Create an object
      - POST /objects/{template_id}
+     - <b>Permissions Needed:</b> INVENTORY_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -88,7 +89,7 @@ open class ObjectsAPI: APIBase {
     /**
      Create an object template
      - POST /objects/templates
-     - Object templates define a type of entitlement and the properties they have
+     - Object templates define a type of entitlement and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -240,6 +241,7 @@ open class ObjectsAPI: APIBase {
     /**
      Delete an object
      - DELETE /objects/{template_id}/{object_id}
+     - <b>Permissions Needed:</b> INVENTORY_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -279,7 +281,7 @@ open class ObjectsAPI: APIBase {
     /**
      Delete an entitlement template
      - DELETE /objects/templates/{id}
-     - If cascade = 'detach', it will force delete the template even if it's attached to other objects
+     - If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -321,6 +323,7 @@ open class ObjectsAPI: APIBase {
     /**
      Get a single object
      - GET /objects/{template_id}/{object_id}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -382,6 +385,7 @@ open class ObjectsAPI: APIBase {
     /**
      List and search objects
      - GET /objects/{template_id}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -489,6 +493,7 @@ open class ObjectsAPI: APIBase {
     /**
      Get a single entitlement template
      - GET /objects/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or ACHIEVEMENTS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -642,6 +647,7 @@ open class ObjectsAPI: APIBase {
     /**
      List and search entitlement templates
      - GET /objects/templates
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or ACHIEVEMENTS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -940,6 +946,7 @@ open class ObjectsAPI: APIBase {
     /**
      Update an object
      - PUT /objects/{template_id}/{object_id}
+     - <b>Permissions Needed:</b> INVENTORY_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -984,6 +991,7 @@ open class ObjectsAPI: APIBase {
     /**
      Update an entitlement template
      - PUT /objects/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

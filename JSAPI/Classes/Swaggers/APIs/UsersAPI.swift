@@ -26,6 +26,7 @@ open class UsersAPI: APIBase {
     /**
      Add a tag to a user
      - POST /users/{user_id}/tags
+     - <b>Permissions Needed:</b> USERS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -63,7 +64,7 @@ open class UsersAPI: APIBase {
     /**
      Create a user template
      - POST /users/templates
-     - User Templates define a type of user and the properties they have
+     - User Templates define a type of user and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -200,7 +201,7 @@ open class UsersAPI: APIBase {
     /**
      Delete a user template
      - DELETE /users/templates/{id}
-     - If cascade = 'detach', it will force delete the template even if it's attached to other objects
+     - If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -227,6 +228,98 @@ open class UsersAPI: APIBase {
     }
 
     /**
+     Get a list of direct messages with this user
+     - parameter recipientId: (path) The user id 
+     - parameter size: (query) The number of objects returned per page (optional, default to 25)
+     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getDirectMessages1(recipientId: Int32, size: Int32? = nil, page: Int32? = nil, completion: @escaping ((_ data: PageResourceChatMessageResource?, _ error: ErrorResponse?) -> Void)) {
+        getDirectMessages1WithRequestBuilder(recipientId: recipientId, size: size, page: page).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Get a list of direct messages with this user
+     - GET /users/users/{recipient_id}/messages
+     - <b>Permissions Needed:</b> ANY
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example={
+  "number" : 0,
+  "last" : true,
+  "size" : 1,
+  "total_elements" : 5,
+  "sort" : [ {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  }, {
+    "ignore_case" : true,
+    "null_handling" : "NATIVE",
+    "property" : "property",
+    "ascending" : true,
+    "descending" : true,
+    "direction" : "ASC"
+  } ],
+  "total_pages" : 5,
+  "number_of_elements" : 6,
+  "content" : [ {
+    "recipient_type" : "user",
+    "thread_id" : "thread_id",
+    "edited" : false,
+    "message_type" : "message_type",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 1,
+    "content" : "{}",
+    "sender_id" : 6,
+    "recipient_id" : "recipient_id"
+  }, {
+    "recipient_type" : "user",
+    "thread_id" : "thread_id",
+    "edited" : false,
+    "message_type" : "message_type",
+    "created_date" : 0,
+    "id" : "id",
+    "updated_date" : 1,
+    "content" : "{}",
+    "sender_id" : 6,
+    "recipient_id" : "recipient_id"
+  } ],
+  "first" : true
+}}]
+     - parameter recipientId: (path) The user id 
+     - parameter size: (query) The number of objects returned per page (optional, default to 25)
+     - parameter page: (query) The number of the page returned, starting with 1 (optional, default to 1)
+     - returns: RequestBuilder<PageResourceChatMessageResource> 
+     */
+    open class func getDirectMessages1WithRequestBuilder(recipientId: Int32, size: Int32? = nil, page: Int32? = nil) -> RequestBuilder<PageResourceChatMessageResource> {
+        var path = "/users/users/{recipient_id}/messages"
+        path = path.replacingOccurrences(of: "{recipient_id}", with: "\(recipientId)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+            "size": size?.encodeToJSON(), 
+            "page": page?.encodeToJSON()
+        ])
+
+        let requestBuilder: RequestBuilder<PageResourceChatMessageResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
      Get a single user
      - parameter id: (path) The id of the user or &#39;me&#39; 
      - parameter completion: completion handler to receive the data and the error objects
@@ -241,7 +334,7 @@ open class UsersAPI: APIBase {
     /**
      Get a single user
      - GET /users/{id}
-     - Additional private info is included as USERS_ADMIN
+     - Additional private info is included as USERS_ADMIN. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -342,6 +435,7 @@ open class UsersAPI: APIBase {
     /**
      List tags for a user
      - GET /users/{user_id}/tags
+     - <b>Permissions Needed:</b> USERS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -379,6 +473,7 @@ open class UsersAPI: APIBase {
     /**
      Get a single user template
      - GET /users/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or USERS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -517,6 +612,7 @@ open class UsersAPI: APIBase {
     /**
      List and search user templates
      - GET /users/templates
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or USERS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -796,7 +892,7 @@ open class UsersAPI: APIBase {
     /**
      List and search users
      - GET /users
-     - Additional private info is included as USERS_ADMIN
+     - Additional private info is included as USERS_ADMIN. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -909,7 +1005,7 @@ open class UsersAPI: APIBase {
     /**
      Choose a new password after a reset
      - PUT /users/{id}/password-reset
-     - Finish resetting a user's password using the secret provided from the password-reset endpoint.  Password should be in plain text and will be encrypted on receipt. Use SSL for security.
+     - Finish resetting a user's password using the secret provided from the password-reset endpoint.  Password should be in plain text and will be encrypted on receipt. Use SSL for security. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -933,6 +1029,52 @@ open class UsersAPI: APIBase {
     }
 
     /**
+     Send a user message
+     - parameter recipientId: (path) The user id 
+     - parameter chatMessageRequest: (body) The chat message request (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func postUserMessage(recipientId: Int32, chatMessageRequest: ChatMessageRequest? = nil, completion: @escaping ((_ data: ChatMessageResource?, _ error: ErrorResponse?) -> Void)) {
+        postUserMessageWithRequestBuilder(recipientId: recipientId, chatMessageRequest: chatMessageRequest).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Send a user message
+     - POST /users/{recipient_id}/messages
+
+     - examples: [{contentType=application/json, example={
+  "recipient_type" : "user",
+  "thread_id" : "thread_id",
+  "edited" : false,
+  "message_type" : "message_type",
+  "created_date" : 0,
+  "id" : "id",
+  "updated_date" : 1,
+  "content" : "{}",
+  "sender_id" : 6,
+  "recipient_id" : "recipient_id"
+}}]
+     - parameter recipientId: (path) The user id 
+     - parameter chatMessageRequest: (body) The chat message request (optional)
+     - returns: RequestBuilder<ChatMessageResource> 
+     */
+    open class func postUserMessageWithRequestBuilder(recipientId: Int32, chatMessageRequest: ChatMessageRequest? = nil) -> RequestBuilder<ChatMessageResource> {
+        var path = "/users/{recipient_id}/messages"
+        path = path.replacingOccurrences(of: "{recipient_id}", with: "\(recipientId)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = chatMessageRequest?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<ChatMessageResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
      Register a new user
      - parameter userResource: (body) The user resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
@@ -947,7 +1089,7 @@ open class UsersAPI: APIBase {
     /**
      Register a new user
      - POST /users
-     - Password should be in plain text and will be encrypted on receipt. Use SSL for security
+     - Password should be in plain text and will be encrypted on receipt. Use SSL for security. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1048,6 +1190,7 @@ open class UsersAPI: APIBase {
     /**
      Remove a tag from a user
      - DELETE /users/{user_id}/tags/{tag}
+     - <b>Permissions Needed:</b> USERS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1087,7 +1230,7 @@ open class UsersAPI: APIBase {
     /**
      Set a user's password
      - PUT /users/{id}/password
-     - Password should be in plain text and will be encrypted on receipt. Use SSL for security.
+     - Password should be in plain text and will be encrypted on receipt. Use SSL for security. <br><br><b>Permissions Needed:</b> USERS_ADMIN or (USERS_USER and owner)
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1125,7 +1268,7 @@ open class UsersAPI: APIBase {
     /**
      Reset a user's password
      - POST /users/{id}/password-reset
-     - A reset code will be generated and a 'forgot_password' BRE event will be fired with that code.  The default system rule will send an email to the selected user if an email service has been setup. You can modify that rule in BRE to send an SMS instead or any other type of notification as you see fit
+     - A reset code will be generated and a 'forgot_password' BRE event will be fired with that code.  The default system rule will send an email to the selected user if an email service has been setup. You can modify that rule in BRE to send an SMS instead or any other type of notification as you see fit. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1162,7 +1305,7 @@ open class UsersAPI: APIBase {
     /**
      Reset a user's password without user id
      - POST /users/password-reset
-     - A reset code will be generated and a 'forgot_password' BRE event will be fired with that code.  The default system rule will send an email to the selected user if an email service has been setup. You can modify that rule in BRE to send an SMS instead or any other type of notification as you see fit.  Must submit their email, username, or mobile phone number
+     - A reset code will be generated and a 'forgot_password' BRE event will be fired with that code.  The default system rule will send an email to the selected user if an email service has been setup. You can modify that rule in BRE to send an SMS instead or any other type of notification as you see fit.  Must submit their email, username, or mobile phone number. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1199,7 +1342,7 @@ open class UsersAPI: APIBase {
     /**
      Update a user
      - PUT /users/{id}
-     - Password will not be edited on this endpoint, use password specific endpoints.
+     - Password will not be edited on this endpoint, use password specific endpoints. <br><br><b>Permissions Needed:</b> USERS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1238,6 +1381,7 @@ open class UsersAPI: APIBase {
     /**
      Update a user template
      - PUT /users/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

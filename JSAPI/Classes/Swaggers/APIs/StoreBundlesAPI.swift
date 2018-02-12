@@ -26,7 +26,7 @@ open class StoreBundlesAPI: APIBase {
     /**
      Create a bundle item
      - POST /store/bundles
-     - The SKU for the bundle itself must be unique and there can only be one SKU.  Extra notes for price_override:  The price of all the items (multiplied by the quantity) must equal the price of the bundle.  With individual prices set, items will be processed individually and can be refunded as such.  However, if all prices are set to null, the price of the bundle will be used and will be treated as one item.
+     - The SKU for the bundle itself must be unique and there can only be one SKU.  Extra notes for price_override:  The price of all the items (multiplied by the quantity) must equal the price of the bundle.  With individual prices set, items will be processed individually and can be refunded as such.  However, if all prices are set to null, the price of the bundle will be used and will be treated as one item. <br><br><b>Permissions Needed:</b> BUNDLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -67,7 +67,7 @@ open class StoreBundlesAPI: APIBase {
     /**
      Create a bundle template
      - POST /store/bundles/templates
-     - Bundle Templates define a type of bundle and the properties they have.
+     - Bundle Templates define a type of bundle and the properties they have. <br><br><b>Permissions Needed:</b> BUNDLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -218,6 +218,7 @@ open class StoreBundlesAPI: APIBase {
     /**
      Delete a bundle item
      - DELETE /store/bundles/{id}
+     - <b>Permissions Needed:</b> BUNDLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -255,6 +256,7 @@ open class StoreBundlesAPI: APIBase {
     /**
      Delete a bundle template
      - DELETE /store/bundles/templates/{id}
+     - <b>Permissions Needed:</b> BUNDLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -295,6 +297,7 @@ open class StoreBundlesAPI: APIBase {
     /**
      Get a single bundle item
      - GET /store/bundles/{id}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -332,7 +335,7 @@ open class StoreBundlesAPI: APIBase {
     /**
      Get a single bundle template
      - GET /store/bundles/templates/{id}
-     - Bundle Templates define a type of bundle and the properties they have.
+     - Bundle Templates define a type of bundle and the properties they have. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -486,6 +489,7 @@ open class StoreBundlesAPI: APIBase {
     /**
      List and search bundle templates
      - GET /store/bundles/templates
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -783,6 +787,7 @@ open class StoreBundlesAPI: APIBase {
     /**
      Update a bundle item
      - PUT /store/bundles/{id}
+     - <b>Permissions Needed:</b> BUNDLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -826,6 +831,7 @@ open class StoreBundlesAPI: APIBase {
     /**
      Update a bundle template
      - PUT /store/bundles/templates/{id}
+     - <b>Permissions Needed:</b> BUNDLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

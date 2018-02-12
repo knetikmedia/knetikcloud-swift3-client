@@ -10,6 +10,8 @@ import Foundation
 
 open class BreRuleLog: JSONEncodable {
 
+    /** The actions of the BRE rule */
+    public var actions: [BreActionLog]?
     /** Whether the rule ran */
     public var ran: Bool?
     /** The reason for the rule */
@@ -28,6 +30,7 @@ open class BreRuleLog: JSONEncodable {
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
+        nillableDictionary["actions"] = self.actions?.encodeToJSON()
         nillableDictionary["ran"] = self.ran
         nillableDictionary["reason"] = self.reason
         nillableDictionary["rule_end_date"] = self.ruleEndDate?.encodeToJSON()

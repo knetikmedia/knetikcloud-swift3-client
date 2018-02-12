@@ -26,6 +26,7 @@ open class ReportingSubscriptionsAPI: APIBase {
     /**
      Get a list of available subscription reports in most recent first order
      - GET /reporting/subscription
+     - <b>Permissions Needed:</b> SUBSCRIPTIONS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

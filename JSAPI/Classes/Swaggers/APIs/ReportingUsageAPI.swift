@@ -45,6 +45,7 @@ open class ReportingUsageAPI: APIBase {
     /**
      Returns aggregated endpoint usage information by day
      - GET /reporting/usage/day
+     - <b>Permissions Needed:</b> USAGE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -150,6 +151,7 @@ open class ReportingUsageAPI: APIBase {
     /**
      Returns aggregated endpoint usage information by hour
      - GET /reporting/usage/hour
+     - <b>Permissions Needed:</b> USAGE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -255,6 +257,7 @@ open class ReportingUsageAPI: APIBase {
     /**
      Returns aggregated endpoint usage information by minute
      - GET /reporting/usage/minute
+     - <b>Permissions Needed:</b> USAGE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -360,6 +363,7 @@ open class ReportingUsageAPI: APIBase {
     /**
      Returns aggregated endpoint usage information by month
      - GET /reporting/usage/month
+     - <b>Permissions Needed:</b> USAGE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -465,6 +469,7 @@ open class ReportingUsageAPI: APIBase {
     /**
      Returns aggregated endpoint usage information by year
      - GET /reporting/usage/year
+     - <b>Permissions Needed:</b> USAGE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -551,6 +556,7 @@ open class ReportingUsageAPI: APIBase {
     /**
      Returns list of endpoints called (method and url)
      - GET /reporting/usage/endpoints
+     - <b>Permissions Needed:</b> USAGE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

@@ -56,6 +56,7 @@ open class BRERuleEngineActionsAPI: APIBase {
     /**
      Get a list of available actions
      - GET /bre/actions
+     - <b>Permissions Needed:</b> BRE_RULE_ENGINE_ACTIONS_USER
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

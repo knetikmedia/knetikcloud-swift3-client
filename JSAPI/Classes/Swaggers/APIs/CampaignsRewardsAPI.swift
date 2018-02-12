@@ -25,6 +25,7 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      Create a reward set
      - POST /rewards
+     - <b>Permissions Needed:</b> REWARDS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -35,37 +36,37 @@ open class CampaignsRewardsAPI: APIBase {
   "unique_key" : "unique_key",
   "currency_rewards" : [ {
     "currency_name" : "currency_name",
-    "max_rank" : 2,
-    "min_rank" : 7,
+    "max_rank" : 9,
+    "min_rank" : 3,
     "percent" : false,
-    "value" : 9.301444243932576,
+    "value" : 2.027123023002322,
     "currency_code" : "currency_code"
   }, {
     "currency_name" : "currency_name",
-    "max_rank" : 2,
-    "min_rank" : 7,
+    "max_rank" : 9,
+    "min_rank" : 3,
     "percent" : false,
-    "value" : 9.301444243932576,
+    "value" : 2.027123023002322,
     "currency_code" : "currency_code"
   } ],
   "name" : "name",
-  "created_date" : 5,
-  "id" : 3,
+  "created_date" : 7,
+  "id" : 4,
   "long_description" : "long_description",
-  "max_placing" : 1,
-  "updated_date" : 1,
+  "max_placing" : 6,
+  "updated_date" : 7,
   "item_rewards" : [ {
     "quantity" : 1,
-    "item_id" : 2,
-    "max_rank" : 4,
+    "item_id" : 7,
+    "max_rank" : 1,
     "item_name" : "item_name",
-    "min_rank" : 7
+    "min_rank" : 1
   }, {
     "quantity" : 1,
-    "item_id" : 2,
-    "max_rank" : 4,
+    "item_id" : 7,
+    "max_rank" : 1,
     "item_name" : "item_name",
-    "min_rank" : 7
+    "min_rank" : 1
   } ]
 }}]
      - parameter rewardSetResource: (body) The reward set resource object (optional)
@@ -98,6 +99,7 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      Delete a reward set
      - DELETE /rewards/{id}
+     - <b>Permissions Needed:</b> REWARDS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -134,6 +136,7 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      Get a single reward set
      - GET /rewards/{id}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -144,37 +147,37 @@ open class CampaignsRewardsAPI: APIBase {
   "unique_key" : "unique_key",
   "currency_rewards" : [ {
     "currency_name" : "currency_name",
-    "max_rank" : 2,
-    "min_rank" : 7,
+    "max_rank" : 9,
+    "min_rank" : 3,
     "percent" : false,
-    "value" : 9.301444243932576,
+    "value" : 2.027123023002322,
     "currency_code" : "currency_code"
   }, {
     "currency_name" : "currency_name",
-    "max_rank" : 2,
-    "min_rank" : 7,
+    "max_rank" : 9,
+    "min_rank" : 3,
     "percent" : false,
-    "value" : 9.301444243932576,
+    "value" : 2.027123023002322,
     "currency_code" : "currency_code"
   } ],
   "name" : "name",
-  "created_date" : 5,
-  "id" : 3,
+  "created_date" : 7,
+  "id" : 4,
   "long_description" : "long_description",
-  "max_placing" : 1,
-  "updated_date" : 1,
+  "max_placing" : 6,
+  "updated_date" : 7,
   "item_rewards" : [ {
     "quantity" : 1,
-    "item_id" : 2,
-    "max_rank" : 4,
+    "item_id" : 7,
+    "max_rank" : 1,
     "item_name" : "item_name",
-    "min_rank" : 7
+    "min_rank" : 1
   }, {
     "quantity" : 1,
-    "item_id" : 2,
-    "max_rank" : 4,
+    "item_id" : 7,
+    "max_rank" : 1,
     "item_name" : "item_name",
-    "min_rank" : 7
+    "min_rank" : 1
   } ]
 }}]
      - parameter id: (path) The reward id 
@@ -210,6 +213,7 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      List and search reward sets
      - GET /rewards
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -242,74 +246,74 @@ open class CampaignsRewardsAPI: APIBase {
     "unique_key" : "unique_key",
     "currency_rewards" : [ {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     }, {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     } ],
     "name" : "name",
-    "created_date" : 5,
-    "id" : 3,
+    "created_date" : 7,
+    "id" : 4,
     "long_description" : "long_description",
-    "max_placing" : 1,
-    "updated_date" : 1,
+    "max_placing" : 6,
+    "updated_date" : 7,
     "item_rewards" : [ {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     }, {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     } ]
   }, {
     "short_description" : "short_description",
     "unique_key" : "unique_key",
     "currency_rewards" : [ {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     }, {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     } ],
     "name" : "name",
-    "created_date" : 5,
-    "id" : 3,
+    "created_date" : 7,
+    "id" : 4,
     "long_description" : "long_description",
-    "max_placing" : 1,
-    "updated_date" : 1,
+    "max_placing" : 6,
+    "updated_date" : 7,
     "item_rewards" : [ {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     }, {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     } ]
   } ],
   "first" : true
@@ -352,6 +356,7 @@ open class CampaignsRewardsAPI: APIBase {
     /**
      Update a reward set
      - PUT /rewards/{id}
+     - <b>Permissions Needed:</b> REWARDS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -362,37 +367,37 @@ open class CampaignsRewardsAPI: APIBase {
   "unique_key" : "unique_key",
   "currency_rewards" : [ {
     "currency_name" : "currency_name",
-    "max_rank" : 2,
-    "min_rank" : 7,
+    "max_rank" : 9,
+    "min_rank" : 3,
     "percent" : false,
-    "value" : 9.301444243932576,
+    "value" : 2.027123023002322,
     "currency_code" : "currency_code"
   }, {
     "currency_name" : "currency_name",
-    "max_rank" : 2,
-    "min_rank" : 7,
+    "max_rank" : 9,
+    "min_rank" : 3,
     "percent" : false,
-    "value" : 9.301444243932576,
+    "value" : 2.027123023002322,
     "currency_code" : "currency_code"
   } ],
   "name" : "name",
-  "created_date" : 5,
-  "id" : 3,
+  "created_date" : 7,
+  "id" : 4,
   "long_description" : "long_description",
-  "max_placing" : 1,
-  "updated_date" : 1,
+  "max_placing" : 6,
+  "updated_date" : 7,
   "item_rewards" : [ {
     "quantity" : 1,
-    "item_id" : 2,
-    "max_rank" : 4,
+    "item_id" : 7,
+    "max_rank" : 1,
     "item_name" : "item_name",
-    "min_rank" : 7
+    "min_rank" : 1
   }, {
     "quantity" : 1,
-    "item_id" : 2,
-    "max_rank" : 4,
+    "item_id" : 7,
+    "max_rank" : 1,
     "item_name" : "item_name",
-    "min_rank" : 7
+    "min_rank" : 1
   } ]
 }}]
      - parameter id: (path) The reward id 

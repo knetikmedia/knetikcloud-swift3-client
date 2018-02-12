@@ -16,6 +16,8 @@ open class ChallengeActivityResource: JSONEncodable {
     public var additionalProperties: [String:Property]?
     /** The id of the challenge */
     public var challengeId: Int64?
+    /** Defines core settings about the activity that affect how it can be created/played by users. Values may be left null to inherit from parent activity. */
+    public var coreSettings: CoreChallengeActivitySettings?
     /** The entitlement item needed to participate in the activity as part of this event. Null indicates free entry. When creating/updating only id is used. Item must be pre-existing */
     public var entitlement: ActivityEntitlementResource?
     /** The unique ID for this resource */
@@ -35,6 +37,7 @@ open class ChallengeActivityResource: JSONEncodable {
         nillableDictionary["activity_id"] = self.activityId?.encodeToJSON()
         nillableDictionary["additional_properties"] = self.additionalProperties?.encodeToJSON()
         nillableDictionary["challenge_id"] = self.challengeId?.encodeToJSON()
+        nillableDictionary["core_settings"] = self.coreSettings?.encodeToJSON()
         nillableDictionary["entitlement"] = self.entitlement?.encodeToJSON()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["reward_set"] = self.rewardSet?.encodeToJSON()

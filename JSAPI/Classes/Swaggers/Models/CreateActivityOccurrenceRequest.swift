@@ -14,6 +14,7 @@ open class CreateActivityOccurrenceRequest: JSONEncodable {
     public enum Status: String { 
         case setup = "SETUP"
         case open = "OPEN"
+        case launching = "LAUNCHING"
         case playing = "PLAYING"
         case finished = "FINISHED"
         case abandoned = "ABANDONED"
@@ -22,10 +23,14 @@ open class CreateActivityOccurrenceRequest: JSONEncodable {
     public var activityId: Int64?
     /** The id of the challenge activity (required if playing in a challenge/event). Note that this is the challenge_activity_id in case the same activity apears twice in the challenge. */
     public var challengeActivityId: Int64?
+    /** Defines core settings about the activity that affect how it can be created/played by users. */
+    public var coreSettings: CoreActivityOccurrenceSettings?
     /** The entitlement item required to enter the occurrence. Required if not part of an event. Must come from the set of entitlement items listed in the activity */
     public var entitlement: ItemIdRequest?
     /** The id of the event this occurence is a part of, if any */
     public var eventId: Int64?
+    /** The host of the occurrence, if not a participant (will be left out of users array). Must be the caller that creates the occurrence unless admin. Requires activity/challenge to allow host_option of &#39;non_player&#39; if not admin as well */
+    public var host: Int32?
     /** The values selected from the available settings defined for the activity. Ex: difficulty: hard. Can be left out if the activity is played during an event and the settings are already set at the event level. Ex: every monday, difficulty: hard, number of questions: 10, category: sport. Otherwise, the set must exactly match those of the activity. */
     public var settings: [SelectedSettingRequest]?
     /** Whether this occurrence will be ran as a simulation. Simulations will not be rewarded. Useful for bot play or trials */
@@ -42,8 +47,10 @@ open class CreateActivityOccurrenceRequest: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["activity_id"] = self.activityId?.encodeToJSON()
         nillableDictionary["challenge_activity_id"] = self.challengeActivityId?.encodeToJSON()
+        nillableDictionary["core_settings"] = self.coreSettings?.encodeToJSON()
         nillableDictionary["entitlement"] = self.entitlement?.encodeToJSON()
         nillableDictionary["event_id"] = self.eventId?.encodeToJSON()
+        nillableDictionary["host"] = self.host?.encodeToJSON()
         nillableDictionary["settings"] = self.settings?.encodeToJSON()
         nillableDictionary["simulated"] = self.simulated
         nillableDictionary["status"] = self.status?.rawValue

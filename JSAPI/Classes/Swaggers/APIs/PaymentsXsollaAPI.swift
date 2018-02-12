@@ -25,6 +25,7 @@ open class PaymentsXsollaAPI: APIBase {
     /**
      Create a payment token that should be used to forward the user to Xsolla so they can complete payment
      - POST /payment/provider/xsolla/payment
+     - <b>Permissions Needed:</b> XSOLLA_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

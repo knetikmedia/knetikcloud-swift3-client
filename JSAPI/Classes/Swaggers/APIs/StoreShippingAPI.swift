@@ -26,7 +26,7 @@ open class StoreShippingAPI: APIBase {
     /**
      Create a shipping item
      - POST /store/shipping
-     - A shipping item represents a shipping option and cost. SKUs have to be unique in the entire store.
+     - A shipping item represents a shipping option and cost. SKUs have to be unique in the entire store. <br><br><b>Permissions Needed:</b> SHIPPING_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -218,6 +218,7 @@ open class StoreShippingAPI: APIBase {
     /**
      Delete a shipping item
      - DELETE /store/shipping/{id}
+     - <b>Permissions Needed:</b> SHIPPING_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -255,6 +256,7 @@ open class StoreShippingAPI: APIBase {
     /**
      Delete a shipping template
      - DELETE /store/shipping/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -295,6 +297,7 @@ open class StoreShippingAPI: APIBase {
     /**
      Get a single shipping item
      - GET /store/shipping/{id}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -332,7 +335,7 @@ open class StoreShippingAPI: APIBase {
     /**
      Get a single shipping template
      - GET /store/shipping/templates/{id}
-     - Shipping Templates define a type of shipping and the properties they have.
+     - Shipping Templates define a type of shipping and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN or SHIPPING_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -486,6 +489,7 @@ open class StoreShippingAPI: APIBase {
     /**
      List and search shipping templates
      - GET /store/shipping/templates
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or SHIPPING_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -783,6 +787,7 @@ open class StoreShippingAPI: APIBase {
     /**
      Update a shipping item
      - PUT /store/shipping/{id}
+     - <b>Permissions Needed:</b> SHIPPING_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -826,6 +831,7 @@ open class StoreShippingAPI: APIBase {
     /**
      Update a shipping template
      - PUT /store/shipping/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

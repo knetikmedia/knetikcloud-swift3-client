@@ -25,7 +25,7 @@ open class UtilBatchAPI: APIBase {
     /**
      Get batch result with token
      - GET /batch/{token}
-     - Tokens expire in 24 hours
+     - Tokens expire in 24 hours. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -71,7 +71,7 @@ open class UtilBatchAPI: APIBase {
     /**
      Request to run API call given the method, content type, path url, and body of request
      - POST /batch
-     - Should the request take longer than one of the alloted timeout parameters, a token will be returned instead, which can be used on the token endpoint in this service
+     - Should the request take longer than one of the alloted timeout parameters, a token will be returned instead, which can be used on the token endpoint in this service. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

@@ -24,6 +24,7 @@ open class LocationsAPI: APIBase {
     /**
      Get a list of countries
      - GET /location/countries
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -66,7 +67,7 @@ open class LocationsAPI: APIBase {
     /**
      Get the iso3 code of your country
      - GET /location/geolocation/country
-     - Determined by geo ip location
+     - Determined by geo ip location. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -102,6 +103,7 @@ open class LocationsAPI: APIBase {
     /**
      Get a list of a country's states
      - GET /location/countries/{country_code_iso3}/states
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -148,7 +150,7 @@ open class LocationsAPI: APIBase {
     /**
      Get the currency information of your country
      - GET /location/geolocation/currency
-     - Determined by geo ip location, currency to country mapping and a fallback setting
+     - Determined by geo ip location, currency to country mapping and a fallback setting. <br><br><b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

@@ -26,6 +26,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Get details about a user's subscription
      - GET /users/{user_id}/subscriptions/{inventory_id}
+     - <b>Permissions Needed:</b> USERS_SUBSCRIPTIONS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -58,7 +59,7 @@ open class UsersSubscriptionsAPI: APIBase {
   "sku" : "sku",
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -124,6 +125,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Get details about a user's subscriptions
      - GET /users/{user_id}/subscriptions
+     - <b>Permissions Needed:</b> USERS_SUBSCRIPTIONS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -156,7 +158,7 @@ open class UsersSubscriptionsAPI: APIBase {
   "sku" : "sku",
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -215,7 +217,7 @@ open class UsersSubscriptionsAPI: APIBase {
   "sku" : "sku",
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -281,6 +283,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Reactivate a subscription and charge fee
      - POST /users/{user_id}/subscriptions/{inventory_id}/reactivate
+     - <b>Permissions Needed:</b> USERS_SUBSCRIPTIONS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -363,7 +366,7 @@ open class UsersSubscriptionsAPI: APIBase {
   } ],
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -405,6 +408,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Set a new date to bill a subscription on
      - PUT /users/{user_id}/subscriptions/{inventory_id}/bill-date
+     - <b>Permissions Needed:</b> USERS_SUBSCRIPTIONS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -446,7 +450,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Set the payment method to use for a subscription
      - PUT /users/{user_id}/subscriptions/{inventory_id}/payment-method
-     - May send null to use floating default
+     - May send null to use floating default. <br><br><b>Permissions Needed:</b> USERS_SUBSCRIPTIONS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -488,7 +492,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Set the status of a subscription
      - PUT /users/{user_id}/subscriptions/{inventory_id}/status
-     - Note that the new status may be blocked if the system is not configured to allow the current status to be changed to the new, to enforce proper flow. The default options for statuses are shown below but may be altered for special use cases
+     - Note that the new status may be blocked if the system is not configured to allow the current status to be changed to the new, to enforce proper flow. The default options for statuses are shown below but may be altered for special use cases. <br><br><b>Permissions Needed:</b> USERS_SUBSCRIPTIONS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -530,6 +534,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Set a new subscription plan for a user
      - PUT /users/{user_id}/subscriptions/{inventory_id}/plan
+     - <b>Permissions Needed:</b> USERS_SUBSCRIPTIONS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -571,7 +576,7 @@ open class UsersSubscriptionsAPI: APIBase {
     /**
      Set a new subscription price for a user
      - PUT /users/{user_id}/subscriptions/{inventory_id}/price-override
-     - This new price will be what the user is charged at the begining of each new period. This override is specific to the current subscription and will not carry over if they end and later re-subscribe. It will persist if the plan is changed using the setUserSubscriptionPlan endpoint.
+     - This new price will be what the user is charged at the begining of each new period. This override is specific to the current subscription and will not carry over if they end and later re-subscribe. It will persist if the plan is changed using the setUserSubscriptionPlan endpoint. <br><br><b>Permissions Needed:</b> USERS_SUBSCRIPTIONS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

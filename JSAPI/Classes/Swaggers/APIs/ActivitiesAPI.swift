@@ -11,6 +11,138 @@ import Alamofire
 
 open class ActivitiesAPI: APIBase {
     /**
+     Add a user to an occurrence
+     - parameter activityOccurrenceId: (path) The id of the activity occurrence 
+     - parameter test: (query) if true, indicates that the user should NOT be added. This can be used to test for eligibility (optional, default to false)
+     - parameter bypassRestrictions: (query) if true, indicates that restrictions such as max player count should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     - parameter userId: (body) The id of the user, or null for &#39;caller&#39; (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func addUser(activityOccurrenceId: Int64, test: Bool? = nil, bypassRestrictions: Bool? = nil, userId: IntWrapper? = nil, completion: @escaping ((_ data: ActivityOccurrenceResource?, _ error: ErrorResponse?) -> Void)) {
+        addUserWithRequestBuilder(activityOccurrenceId: activityOccurrenceId, test: test, bypassRestrictions: bypassRestrictions, userId: userId).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Add a user to an occurrence
+     - POST /activity-occurrences/{activity_occurrence_id}/users
+     - If called with no body, defaults to the user making the call.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example={
+  "settings" : [ {
+    "key_name" : "key_name",
+    "value" : "value",
+    "key" : "key",
+    "value_name" : "value_name"
+  }, {
+    "key_name" : "key_name",
+    "value" : "value",
+    "key" : "key",
+    "value_name" : "value_name"
+  } ],
+  "challenge_activity_id" : 1,
+  "simulated" : false,
+  "core_settings" : {
+    "non_host_status_control" : false,
+    "host_status_control" : false,
+    "boot_in_play" : false,
+    "leave_in_play" : false,
+    "join_in_play" : false,
+    "max_players" : 5,
+    "results_trust" : "none",
+    "custom_launch_address" : "custom_launch_address",
+    "min_players" : 5
+  },
+  "bans" : [ 6, 6 ],
+  "entitlement" : {
+    "item_id" : 5,
+    "price" : 5.63737665663332876420099637471139430999755859375,
+    "name" : "name",
+    "sku" : "sku",
+    "currency_code" : "currency_code"
+  },
+  "users" : [ {
+    "joined_date" : 1,
+    "metric" : {
+      "user_id" : 6,
+      "value" : 7,
+      "activity_occurence_id" : 1,
+      "tags" : [ "tags", "tags" ]
+    },
+    "host" : false,
+    "left_date" : 1,
+    "id" : 7,
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 9,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "status" : "present"
+  }, {
+    "joined_date" : 1,
+    "metric" : {
+      "user_id" : 6,
+      "value" : 7,
+      "activity_occurence_id" : 1,
+      "tags" : [ "tags", "tags" ]
+    },
+    "host" : false,
+    "left_date" : 1,
+    "id" : 7,
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 9,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "status" : "present"
+  } ],
+  "event_id" : 7,
+  "activity_id" : 0,
+  "host" : {
+    "avatar_url" : "avatar_url",
+    "id" : 9,
+    "display_name" : "display_name",
+    "username" : "username"
+  },
+  "created_date" : 2,
+  "id" : 3,
+  "updated_date" : 4,
+  "reward_status" : "pending",
+  "start_date" : 2,
+  "status" : "SETUP"
+}}]
+     - parameter activityOccurrenceId: (path) The id of the activity occurrence 
+     - parameter test: (query) if true, indicates that the user should NOT be added. This can be used to test for eligibility (optional, default to false)
+     - parameter bypassRestrictions: (query) if true, indicates that restrictions such as max player count should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     - parameter userId: (body) The id of the user, or null for &#39;caller&#39; (optional)
+     - returns: RequestBuilder<ActivityOccurrenceResource> 
+     */
+    open class func addUserWithRequestBuilder(activityOccurrenceId: Int64, test: Bool? = nil, bypassRestrictions: Bool? = nil, userId: IntWrapper? = nil) -> RequestBuilder<ActivityOccurrenceResource> {
+        var path = "/activity-occurrences/{activity_occurrence_id}/users"
+        path = path.replacingOccurrences(of: "{activity_occurrence_id}", with: "\(activityOccurrenceId)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = userId?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+            "test": test, 
+            "bypass_restrictions": bypassRestrictions
+        ])
+
+        let requestBuilder: RequestBuilder<ActivityOccurrenceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
      Create an activity
      - parameter activityResource: (body) The activity resource object (optional)
      - parameter completion: completion handler to receive the data and the error objects
@@ -25,6 +157,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Create an activity
      - POST /activities
+     - <b>Permissions Needed:</b> ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -32,14 +165,14 @@ open class ActivitiesAPI: APIBase {
        - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "entitlements" : [ {
-    "item_id" : 6,
-    "price" : 1.46581298050294517310021547018550336360931396484375,
+    "item_id" : 5,
+    "price" : 5.63737665663332876420099637471139430999755859375,
     "name" : "name",
     "sku" : "sku",
     "currency_code" : "currency_code"
   }, {
-    "item_id" : 6,
-    "price" : 1.46581298050294517310021547018550336360931396484375,
+    "item_id" : 5,
+    "price" : 5.63737665663332876420099637471139430999755859375,
     "name" : "name",
     "sku" : "sku",
     "currency_code" : "currency_code"
@@ -50,37 +183,37 @@ open class ActivitiesAPI: APIBase {
     "unique_key" : "unique_key",
     "currency_rewards" : [ {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     }, {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     } ],
     "name" : "name",
-    "created_date" : 5,
-    "id" : 3,
+    "created_date" : 7,
+    "id" : 4,
     "long_description" : "long_description",
-    "max_placing" : 1,
-    "updated_date" : 1,
+    "max_placing" : 6,
+    "updated_date" : 7,
     "item_rewards" : [ {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     }, {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     } ]
   },
   "settings" : [ {
@@ -114,6 +247,17 @@ open class ActivitiesAPI: APIBase {
   } ],
   "short_description" : "short_description",
   "unique_key" : "unique_key",
+  "core_settings" : {
+    "host_status_control" : false,
+    "boot_in_play" : false,
+    "leave_in_play" : false,
+    "join_in_play" : false,
+    "max_players" : 0,
+    "results_trust" : "none",
+    "custom_launch_address_allowed" : false,
+    "host_option" : "admin_only",
+    "min_players" : 6
+  },
   "launch" : "launch",
   "long_description" : "long_description",
   "type" : "type",
@@ -125,9 +269,9 @@ open class ActivitiesAPI: APIBase {
       "type" : "type"
     }
   },
-  "created_date" : 0,
-  "id" : 5,
-  "updated_date" : 6
+  "created_date" : 1,
+  "id" : 2,
+  "updated_date" : 1
 }}]
      - parameter activityResource: (body) The activity resource object (optional)
      - returns: RequestBuilder<ActivityResource> 
@@ -160,7 +304,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Create a new activity occurrence. Ex: start a game
      - POST /activity-occurrences
-     - Has to enforce extra rules if not used as an admin
+     - Has to enforce extra rules if not used as an admin. <br><br><b>Permissions Needed:</b> ACTIVITIES_USER or ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -178,57 +322,75 @@ open class ActivitiesAPI: APIBase {
     "key" : "key",
     "value_name" : "value_name"
   } ],
-  "challenge_activity_id" : 6,
+  "challenge_activity_id" : 1,
   "simulated" : false,
+  "core_settings" : {
+    "non_host_status_control" : false,
+    "host_status_control" : false,
+    "boot_in_play" : false,
+    "leave_in_play" : false,
+    "join_in_play" : false,
+    "max_players" : 5,
+    "results_trust" : "none",
+    "custom_launch_address" : "custom_launch_address",
+    "min_players" : 5
+  },
+  "bans" : [ 6, 6 ],
   "entitlement" : {
-    "item_id" : 6,
-    "price" : 1.46581298050294517310021547018550336360931396484375,
+    "item_id" : 5,
+    "price" : 5.63737665663332876420099637471139430999755859375,
     "name" : "name",
     "sku" : "sku",
     "currency_code" : "currency_code"
   },
   "users" : [ {
-    "joined_date" : 3,
+    "joined_date" : 1,
     "metric" : {
-      "user_id" : 7,
-      "value" : 1,
-      "activity_occurence_id" : 4,
+      "user_id" : 6,
+      "value" : 7,
+      "activity_occurence_id" : 1,
       "tags" : [ "tags", "tags" ]
     },
     "host" : false,
-    "left_date" : 2,
-    "id" : 9,
+    "left_date" : 1,
+    "id" : 7,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
     "status" : "present"
   }, {
-    "joined_date" : 3,
+    "joined_date" : 1,
     "metric" : {
-      "user_id" : 7,
-      "value" : 1,
-      "activity_occurence_id" : 4,
+      "user_id" : 6,
+      "value" : 7,
+      "activity_occurence_id" : 1,
       "tags" : [ "tags", "tags" ]
     },
     "host" : false,
-    "left_date" : 2,
-    "id" : 9,
+    "left_date" : 1,
+    "id" : 7,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
     "status" : "present"
   } ],
-  "event_id" : 5,
+  "event_id" : 7,
   "activity_id" : 0,
-  "created_date" : 1,
-  "id" : 5,
-  "updated_date" : 7,
+  "host" : {
+    "avatar_url" : "avatar_url",
+    "id" : 9,
+    "display_name" : "display_name",
+    "username" : "username"
+  },
+  "created_date" : 2,
+  "id" : 3,
+  "updated_date" : 4,
   "reward_status" : "pending",
   "start_date" : 2,
   "status" : "SETUP"
@@ -267,7 +429,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Create a activity template
      - POST /activities/templates
-     - Activity Templates define a type of activity and the properties they have
+     - Activity Templates define a type of activity and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -403,6 +565,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Delete an activity
      - DELETE /activities/{id}
+     - <b>Permissions Needed:</b> ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -440,7 +603,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Delete a activity template
      - DELETE /activities/templates/{id}
-     - If cascade = 'detach', it will force delete the template even if it's attached to other objects
+     - If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -486,6 +649,7 @@ open class ActivitiesAPI: APIBase {
     /**
      List activity definitions
      - GET /activities
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -581,6 +745,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Get a single activity
      - GET /activities/{id}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -588,14 +753,14 @@ open class ActivitiesAPI: APIBase {
        - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "entitlements" : [ {
-    "item_id" : 6,
-    "price" : 1.46581298050294517310021547018550336360931396484375,
+    "item_id" : 5,
+    "price" : 5.63737665663332876420099637471139430999755859375,
     "name" : "name",
     "sku" : "sku",
     "currency_code" : "currency_code"
   }, {
-    "item_id" : 6,
-    "price" : 1.46581298050294517310021547018550336360931396484375,
+    "item_id" : 5,
+    "price" : 5.63737665663332876420099637471139430999755859375,
     "name" : "name",
     "sku" : "sku",
     "currency_code" : "currency_code"
@@ -606,37 +771,37 @@ open class ActivitiesAPI: APIBase {
     "unique_key" : "unique_key",
     "currency_rewards" : [ {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     }, {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     } ],
     "name" : "name",
-    "created_date" : 5,
-    "id" : 3,
+    "created_date" : 7,
+    "id" : 4,
     "long_description" : "long_description",
-    "max_placing" : 1,
-    "updated_date" : 1,
+    "max_placing" : 6,
+    "updated_date" : 7,
     "item_rewards" : [ {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     }, {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     } ]
   },
   "settings" : [ {
@@ -670,6 +835,17 @@ open class ActivitiesAPI: APIBase {
   } ],
   "short_description" : "short_description",
   "unique_key" : "unique_key",
+  "core_settings" : {
+    "host_status_control" : false,
+    "boot_in_play" : false,
+    "leave_in_play" : false,
+    "join_in_play" : false,
+    "max_players" : 0,
+    "results_trust" : "none",
+    "custom_launch_address_allowed" : false,
+    "host_option" : "admin_only",
+    "min_players" : 6
+  },
   "launch" : "launch",
   "long_description" : "long_description",
   "type" : "type",
@@ -681,9 +857,9 @@ open class ActivitiesAPI: APIBase {
       "type" : "type"
     }
   },
-  "created_date" : 0,
-  "id" : 5,
-  "updated_date" : 6
+  "created_date" : 1,
+  "id" : 2,
+  "updated_date" : 1
 }}]
      - parameter id: (path) The id of the activity 
      - returns: RequestBuilder<ActivityResource> 
@@ -716,6 +892,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Load a single activity occurrence details
      - GET /activity-occurrences/{activity_occurrence_id}
+     - <b>Permissions Needed:</b> ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -733,57 +910,75 @@ open class ActivitiesAPI: APIBase {
     "key" : "key",
     "value_name" : "value_name"
   } ],
-  "challenge_activity_id" : 6,
+  "challenge_activity_id" : 1,
   "simulated" : false,
+  "core_settings" : {
+    "non_host_status_control" : false,
+    "host_status_control" : false,
+    "boot_in_play" : false,
+    "leave_in_play" : false,
+    "join_in_play" : false,
+    "max_players" : 5,
+    "results_trust" : "none",
+    "custom_launch_address" : "custom_launch_address",
+    "min_players" : 5
+  },
+  "bans" : [ 6, 6 ],
   "entitlement" : {
-    "item_id" : 6,
-    "price" : 1.46581298050294517310021547018550336360931396484375,
+    "item_id" : 5,
+    "price" : 5.63737665663332876420099637471139430999755859375,
     "name" : "name",
     "sku" : "sku",
     "currency_code" : "currency_code"
   },
   "users" : [ {
-    "joined_date" : 3,
+    "joined_date" : 1,
     "metric" : {
-      "user_id" : 7,
-      "value" : 1,
-      "activity_occurence_id" : 4,
+      "user_id" : 6,
+      "value" : 7,
+      "activity_occurence_id" : 1,
       "tags" : [ "tags", "tags" ]
     },
     "host" : false,
-    "left_date" : 2,
-    "id" : 9,
+    "left_date" : 1,
+    "id" : 7,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
     "status" : "present"
   }, {
-    "joined_date" : 3,
+    "joined_date" : 1,
     "metric" : {
-      "user_id" : 7,
-      "value" : 1,
-      "activity_occurence_id" : 4,
+      "user_id" : 6,
+      "value" : 7,
+      "activity_occurence_id" : 1,
       "tags" : [ "tags", "tags" ]
     },
     "host" : false,
-    "left_date" : 2,
-    "id" : 9,
+    "left_date" : 1,
+    "id" : 7,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
     "status" : "present"
   } ],
-  "event_id" : 5,
+  "event_id" : 7,
   "activity_id" : 0,
-  "created_date" : 1,
-  "id" : 5,
-  "updated_date" : 7,
+  "host" : {
+    "avatar_url" : "avatar_url",
+    "id" : 9,
+    "display_name" : "display_name",
+    "username" : "username"
+  },
+  "created_date" : 2,
+  "id" : 3,
+  "updated_date" : 4,
   "reward_status" : "pending",
   "start_date" : 2,
   "status" : "SETUP"
@@ -819,6 +1014,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Get a single activity template
      - GET /activities/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -957,6 +1153,7 @@ open class ActivitiesAPI: APIBase {
     /**
      List and search activity templates
      - GET /activities/templates
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1210,7 +1407,7 @@ open class ActivitiesAPI: APIBase {
     /**
      List activity occurrences
      - parameter filterActivity: (query) Filter for occurrences of the given activity ID (optional)
-     - parameter filterStatus: (query) Filter for occurrences of the given activity ID (optional)
+     - parameter filterStatus: (query) Filter for occurrences in the given status (optional)
      - parameter filterEvent: (query) Filter for occurrences played during the given event (optional)
      - parameter filterChallenge: (query) Filter for occurrences played within the given challenge (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
@@ -1228,6 +1425,7 @@ open class ActivitiesAPI: APIBase {
     /**
      List activity occurrences
      - GET /activity-occurrences
+     - <b>Permissions Needed:</b> ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1236,8 +1434,8 @@ open class ActivitiesAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "number" : 1,
   "last" : true,
-  "size" : 7,
-  "total_elements" : 1,
+  "size" : 5,
+  "total_elements" : 9,
   "sort" : [ {
     "ignore_case" : true,
     "null_handling" : "NATIVE",
@@ -1253,8 +1451,8 @@ open class ActivitiesAPI: APIBase {
     "descending" : true,
     "direction" : "ASC"
   } ],
-  "total_pages" : 4,
-  "number_of_elements" : 6,
+  "total_pages" : 9,
+  "number_of_elements" : 4,
   "content" : [ {
     "settings" : [ {
       "key_name" : "key_name",
@@ -1267,57 +1465,75 @@ open class ActivitiesAPI: APIBase {
       "key" : "key",
       "value_name" : "value_name"
     } ],
-    "challenge_activity_id" : 6,
+    "challenge_activity_id" : 1,
     "simulated" : false,
+    "core_settings" : {
+      "non_host_status_control" : false,
+      "host_status_control" : false,
+      "boot_in_play" : false,
+      "leave_in_play" : false,
+      "join_in_play" : false,
+      "max_players" : 5,
+      "results_trust" : "none",
+      "custom_launch_address" : "custom_launch_address",
+      "min_players" : 5
+    },
+    "bans" : [ 6, 6 ],
     "entitlement" : {
-      "item_id" : 6,
-      "price" : 1.46581298050294517310021547018550336360931396484375,
+      "item_id" : 5,
+      "price" : 5.63737665663332876420099637471139430999755859375,
       "name" : "name",
       "sku" : "sku",
       "currency_code" : "currency_code"
     },
     "users" : [ {
-      "joined_date" : 3,
+      "joined_date" : 1,
       "metric" : {
-        "user_id" : 7,
-        "value" : 1,
-        "activity_occurence_id" : 4,
+        "user_id" : 6,
+        "value" : 7,
+        "activity_occurence_id" : 1,
         "tags" : [ "tags", "tags" ]
       },
       "host" : false,
-      "left_date" : 2,
-      "id" : 9,
+      "left_date" : 1,
+      "id" : 7,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
       "status" : "present"
     }, {
-      "joined_date" : 3,
+      "joined_date" : 1,
       "metric" : {
-        "user_id" : 7,
-        "value" : 1,
-        "activity_occurence_id" : 4,
+        "user_id" : 6,
+        "value" : 7,
+        "activity_occurence_id" : 1,
         "tags" : [ "tags", "tags" ]
       },
       "host" : false,
-      "left_date" : 2,
-      "id" : 9,
+      "left_date" : 1,
+      "id" : 7,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
       "status" : "present"
     } ],
-    "event_id" : 5,
+    "event_id" : 7,
     "activity_id" : 0,
-    "created_date" : 1,
-    "id" : 5,
-    "updated_date" : 7,
+    "host" : {
+      "avatar_url" : "avatar_url",
+      "id" : 9,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "created_date" : 2,
+    "id" : 3,
+    "updated_date" : 4,
     "reward_status" : "pending",
     "start_date" : 2,
     "status" : "SETUP"
@@ -1333,57 +1549,75 @@ open class ActivitiesAPI: APIBase {
       "key" : "key",
       "value_name" : "value_name"
     } ],
-    "challenge_activity_id" : 6,
+    "challenge_activity_id" : 1,
     "simulated" : false,
+    "core_settings" : {
+      "non_host_status_control" : false,
+      "host_status_control" : false,
+      "boot_in_play" : false,
+      "leave_in_play" : false,
+      "join_in_play" : false,
+      "max_players" : 5,
+      "results_trust" : "none",
+      "custom_launch_address" : "custom_launch_address",
+      "min_players" : 5
+    },
+    "bans" : [ 6, 6 ],
     "entitlement" : {
-      "item_id" : 6,
-      "price" : 1.46581298050294517310021547018550336360931396484375,
+      "item_id" : 5,
+      "price" : 5.63737665663332876420099637471139430999755859375,
       "name" : "name",
       "sku" : "sku",
       "currency_code" : "currency_code"
     },
     "users" : [ {
-      "joined_date" : 3,
+      "joined_date" : 1,
       "metric" : {
-        "user_id" : 7,
-        "value" : 1,
-        "activity_occurence_id" : 4,
+        "user_id" : 6,
+        "value" : 7,
+        "activity_occurence_id" : 1,
         "tags" : [ "tags", "tags" ]
       },
       "host" : false,
-      "left_date" : 2,
-      "id" : 9,
+      "left_date" : 1,
+      "id" : 7,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
       "status" : "present"
     }, {
-      "joined_date" : 3,
+      "joined_date" : 1,
       "metric" : {
-        "user_id" : 7,
-        "value" : 1,
-        "activity_occurence_id" : 4,
+        "user_id" : 6,
+        "value" : 7,
+        "activity_occurence_id" : 1,
         "tags" : [ "tags", "tags" ]
       },
       "host" : false,
-      "left_date" : 2,
-      "id" : 9,
+      "left_date" : 1,
+      "id" : 7,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
       "status" : "present"
     } ],
-    "event_id" : 5,
+    "event_id" : 7,
     "activity_id" : 0,
-    "created_date" : 1,
-    "id" : 5,
-    "updated_date" : 7,
+    "host" : {
+      "avatar_url" : "avatar_url",
+      "id" : 9,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "created_date" : 2,
+    "id" : 3,
+    "updated_date" : 4,
     "reward_status" : "pending",
     "start_date" : 2,
     "status" : "SETUP"
@@ -1391,7 +1625,7 @@ open class ActivitiesAPI: APIBase {
   "first" : true
 }}]
      - parameter filterActivity: (query) Filter for occurrences of the given activity ID (optional)
-     - parameter filterStatus: (query) Filter for occurrences of the given activity ID (optional)
+     - parameter filterStatus: (query) Filter for occurrences in the given status (optional)
      - parameter filterEvent: (query) Filter for occurrences played during the given event (optional)
      - parameter filterChallenge: (query) Filter for occurrences played within the given challenge (optional)
      - parameter size: (query) The number of objects returned per page (optional, default to 25)
@@ -1421,6 +1655,53 @@ open class ActivitiesAPI: APIBase {
     }
 
     /**
+     Remove a user from an occurrence
+     - parameter activityOccurrenceId: (path) The id of the activity occurrence 
+     - parameter userId: (path) The id of the user, or &#39;me&#39; 
+     - parameter ban: (query) if true, indicates that the user should not be allowed to re-join. Can only be set by host or admin (optional, default to false)
+     - parameter bypassRestrictions: (query) if true, indicates that restrictions such as current status should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func removeUser(activityOccurrenceId: Int64, userId: String, ban: Bool? = nil, bypassRestrictions: Bool? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+        removeUserWithRequestBuilder(activityOccurrenceId: activityOccurrenceId, userId: userId, ban: ban, bypassRestrictions: bypassRestrictions).execute { (response, error) -> Void in
+            completion(error)
+        }
+    }
+
+
+    /**
+     Remove a user from an occurrence
+     - DELETE /activity-occurrences/{activity_occurrence_id}/users/{user_id}
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - parameter activityOccurrenceId: (path) The id of the activity occurrence 
+     - parameter userId: (path) The id of the user, or &#39;me&#39; 
+     - parameter ban: (query) if true, indicates that the user should not be allowed to re-join. Can only be set by host or admin (optional, default to false)
+     - parameter bypassRestrictions: (query) if true, indicates that restrictions such as current status should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     - returns: RequestBuilder<Void> 
+     */
+    open class func removeUserWithRequestBuilder(activityOccurrenceId: Int64, userId: String, ban: Bool? = nil, bypassRestrictions: Bool? = nil) -> RequestBuilder<Void> {
+        var path = "/activity-occurrences/{activity_occurrence_id}/users/{user_id}"
+        path = path.replacingOccurrences(of: "{activity_occurrence_id}", with: "\(activityOccurrenceId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+            "ban": ban, 
+            "bypass_restrictions": bypassRestrictions
+        ])
+
+        let requestBuilder: RequestBuilder<Void>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
      Sets the status of an activity occurrence to FINISHED and logs metrics
      - parameter activityOccurrenceId: (path) The id of the activity occurrence 
      - parameter activityOccurrenceResults: (body) The activity occurrence object (optional)
@@ -1436,6 +1717,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Sets the status of an activity occurrence to FINISHED and logs metrics
      - POST /activity-occurrences/{activity_occurrence_id}/results
+     - In addition to user permissions requirements there is security based on the core_settings.results_trust setting.
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1447,37 +1729,37 @@ open class ActivitiesAPI: APIBase {
     "ties" : 1,
     "currency_rewards" : [ {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     }, {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     } ],
     "rank" : 0,
     "updated_date" : 5,
     "item_rewards" : [ {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     }, {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     } ],
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -1487,37 +1769,37 @@ open class ActivitiesAPI: APIBase {
     "ties" : 1,
     "currency_rewards" : [ {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     }, {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     } ],
     "rank" : 0,
     "updated_date" : 5,
     "item_rewards" : [ {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     }, {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     } ],
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -1542,6 +1824,189 @@ open class ActivitiesAPI: APIBase {
     }
 
     /**
+     Sets the settings of an activity occurrence
+     - parameter activityOccurrenceId: (path) The id of the activity occurrence 
+     - parameter settings: (body) The new settings (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func setActivityOccurrenceSettings(activityOccurrenceId: Int64, settings: ActivityOccurrenceSettingsResource? = nil, completion: @escaping ((_ data: ActivityOccurrenceResource?, _ error: ErrorResponse?) -> Void)) {
+        setActivityOccurrenceSettingsWithRequestBuilder(activityOccurrenceId: activityOccurrenceId, settings: settings).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Sets the settings of an activity occurrence
+     - PUT /activity-occurrences/{activity_occurrence_id}/settings
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example={
+  "settings" : [ {
+    "key_name" : "key_name",
+    "value" : "value",
+    "key" : "key",
+    "value_name" : "value_name"
+  }, {
+    "key_name" : "key_name",
+    "value" : "value",
+    "key" : "key",
+    "value_name" : "value_name"
+  } ],
+  "challenge_activity_id" : 1,
+  "simulated" : false,
+  "core_settings" : {
+    "non_host_status_control" : false,
+    "host_status_control" : false,
+    "boot_in_play" : false,
+    "leave_in_play" : false,
+    "join_in_play" : false,
+    "max_players" : 5,
+    "results_trust" : "none",
+    "custom_launch_address" : "custom_launch_address",
+    "min_players" : 5
+  },
+  "bans" : [ 6, 6 ],
+  "entitlement" : {
+    "item_id" : 5,
+    "price" : 5.63737665663332876420099637471139430999755859375,
+    "name" : "name",
+    "sku" : "sku",
+    "currency_code" : "currency_code"
+  },
+  "users" : [ {
+    "joined_date" : 1,
+    "metric" : {
+      "user_id" : 6,
+      "value" : 7,
+      "activity_occurence_id" : 1,
+      "tags" : [ "tags", "tags" ]
+    },
+    "host" : false,
+    "left_date" : 1,
+    "id" : 7,
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 9,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "status" : "present"
+  }, {
+    "joined_date" : 1,
+    "metric" : {
+      "user_id" : 6,
+      "value" : 7,
+      "activity_occurence_id" : 1,
+      "tags" : [ "tags", "tags" ]
+    },
+    "host" : false,
+    "left_date" : 1,
+    "id" : 7,
+    "user" : {
+      "avatar_url" : "avatar_url",
+      "id" : 9,
+      "display_name" : "display_name",
+      "username" : "username"
+    },
+    "status" : "present"
+  } ],
+  "event_id" : 7,
+  "activity_id" : 0,
+  "host" : {
+    "avatar_url" : "avatar_url",
+    "id" : 9,
+    "display_name" : "display_name",
+    "username" : "username"
+  },
+  "created_date" : 2,
+  "id" : 3,
+  "updated_date" : 4,
+  "reward_status" : "pending",
+  "start_date" : 2,
+  "status" : "SETUP"
+}}]
+     - parameter activityOccurrenceId: (path) The id of the activity occurrence 
+     - parameter settings: (body) The new settings (optional)
+     - returns: RequestBuilder<ActivityOccurrenceResource> 
+     */
+    open class func setActivityOccurrenceSettingsWithRequestBuilder(activityOccurrenceId: Int64, settings: ActivityOccurrenceSettingsResource? = nil) -> RequestBuilder<ActivityOccurrenceResource> {
+        var path = "/activity-occurrences/{activity_occurrence_id}/settings"
+        path = path.replacingOccurrences(of: "{activity_occurrence_id}", with: "\(activityOccurrenceId)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = settings?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<ActivityOccurrenceResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Set a user's status within an occurrence
+     - parameter activityOccurrenceId: (path) The id of the activity occurrence 
+     - parameter userId: (path) The id of the user 
+     - parameter status: (body) The new status (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func setUserStatus(activityOccurrenceId: Int64, userId: String, status: String? = nil, completion: @escaping ((_ data: ActivityUserResource?, _ error: ErrorResponse?) -> Void)) {
+        setUserStatusWithRequestBuilder(activityOccurrenceId: activityOccurrenceId, userId: userId, status: status).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+
+    /**
+     Set a user's status within an occurrence
+     - PUT /activity-occurrences/{activity_occurrence_id}/users/{user_id}/status
+     - OAuth:
+       - type: oauth2
+       - name: oauth2_client_credentials_grant     - OAuth:
+       - type: oauth2
+       - name: oauth2_password_grant
+     - examples: [{contentType=application/json, example={
+  "joined_date" : 1,
+  "metric" : {
+    "user_id" : 6,
+    "value" : 7,
+    "activity_occurence_id" : 1,
+    "tags" : [ "tags", "tags" ]
+  },
+  "host" : false,
+  "left_date" : 1,
+  "id" : 7,
+  "user" : {
+    "avatar_url" : "avatar_url",
+    "id" : 9,
+    "display_name" : "display_name",
+    "username" : "username"
+  },
+  "status" : "present"
+}}]
+     - parameter activityOccurrenceId: (path) The id of the activity occurrence 
+     - parameter userId: (path) The id of the user 
+     - parameter status: (body) The new status (optional)
+     - returns: RequestBuilder<ActivityUserResource> 
+     */
+    open class func setUserStatusWithRequestBuilder(activityOccurrenceId: Int64, userId: String, status: String? = nil) -> RequestBuilder<ActivityUserResource> {
+        var path = "/activity-occurrences/{activity_occurrence_id}/users/{user_id}/status"
+        path = path.replacingOccurrences(of: "{activity_occurrence_id}", with: "\(activityOccurrenceId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
+        let URLString = JSAPIAPI.basePath + path
+        let parameters = status?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<ActivityUserResource>.Type = JSAPIAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
      Update an activity
      - parameter id: (path) The id of the activity 
      - parameter activityResource: (body) The activity resource object (optional)
@@ -1557,6 +2022,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Update an activity
      - PUT /activities/{id}
+     - <b>Permissions Needed:</b> ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1564,14 +2030,14 @@ open class ActivitiesAPI: APIBase {
        - name: oauth2_password_grant
      - examples: [{contentType=application/json, example={
   "entitlements" : [ {
-    "item_id" : 6,
-    "price" : 1.46581298050294517310021547018550336360931396484375,
+    "item_id" : 5,
+    "price" : 5.63737665663332876420099637471139430999755859375,
     "name" : "name",
     "sku" : "sku",
     "currency_code" : "currency_code"
   }, {
-    "item_id" : 6,
-    "price" : 1.46581298050294517310021547018550336360931396484375,
+    "item_id" : 5,
+    "price" : 5.63737665663332876420099637471139430999755859375,
     "name" : "name",
     "sku" : "sku",
     "currency_code" : "currency_code"
@@ -1582,37 +2048,37 @@ open class ActivitiesAPI: APIBase {
     "unique_key" : "unique_key",
     "currency_rewards" : [ {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     }, {
       "currency_name" : "currency_name",
-      "max_rank" : 2,
-      "min_rank" : 7,
+      "max_rank" : 9,
+      "min_rank" : 3,
       "percent" : false,
-      "value" : 9.301444243932576,
+      "value" : 2.027123023002322,
       "currency_code" : "currency_code"
     } ],
     "name" : "name",
-    "created_date" : 5,
-    "id" : 3,
+    "created_date" : 7,
+    "id" : 4,
     "long_description" : "long_description",
-    "max_placing" : 1,
-    "updated_date" : 1,
+    "max_placing" : 6,
+    "updated_date" : 7,
     "item_rewards" : [ {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     }, {
       "quantity" : 1,
-      "item_id" : 2,
-      "max_rank" : 4,
+      "item_id" : 7,
+      "max_rank" : 1,
       "item_name" : "item_name",
-      "min_rank" : 7
+      "min_rank" : 1
     } ]
   },
   "settings" : [ {
@@ -1646,6 +2112,17 @@ open class ActivitiesAPI: APIBase {
   } ],
   "short_description" : "short_description",
   "unique_key" : "unique_key",
+  "core_settings" : {
+    "host_status_control" : false,
+    "boot_in_play" : false,
+    "leave_in_play" : false,
+    "join_in_play" : false,
+    "max_players" : 0,
+    "results_trust" : "none",
+    "custom_launch_address_allowed" : false,
+    "host_option" : "admin_only",
+    "min_players" : 6
+  },
   "launch" : "launch",
   "long_description" : "long_description",
   "type" : "type",
@@ -1657,9 +2134,9 @@ open class ActivitiesAPI: APIBase {
       "type" : "type"
     }
   },
-  "created_date" : 0,
-  "id" : 5,
-  "updated_date" : 6
+  "created_date" : 1,
+  "id" : 2,
+  "updated_date" : 1
 }}]
      - parameter id: (path) The id of the activity 
      - parameter activityResource: (body) The activity resource object (optional)
@@ -1679,22 +2156,22 @@ open class ActivitiesAPI: APIBase {
     }
 
     /**
-     Updated the status of an activity occurrence
+     Update the status of an activity occurrence
      - parameter activityOccurrenceId: (path) The id of the activity occurrence 
      - parameter activityOccurrenceStatus: (body) The activity occurrence status object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateActivityOccurrence(activityOccurrenceId: Int64, activityOccurrenceStatus: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        updateActivityOccurrenceWithRequestBuilder(activityOccurrenceId: activityOccurrenceId, activityOccurrenceStatus: activityOccurrenceStatus).execute { (response, error) -> Void in
+    open class func updateActivityOccurrenceStatus(activityOccurrenceId: Int64, activityOccurrenceStatus: ValueWrapperstring? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+        updateActivityOccurrenceStatusWithRequestBuilder(activityOccurrenceId: activityOccurrenceId, activityOccurrenceStatus: activityOccurrenceStatus).execute { (response, error) -> Void in
             completion(error)
         }
     }
 
 
     /**
-     Updated the status of an activity occurrence
+     Update the status of an activity occurrence
      - PUT /activity-occurrences/{activity_occurrence_id}/status
-     - If setting to 'FINISHED' reward will be run based on current metrics that have been recorded already. Aternatively, see results endpoint to finish and record all metrics at once.
+     - If setting to 'FINISHED' reward will be run based on current metrics that have been recorded already. Alternatively, see results endpoint to finish and record all metrics at once. Can be called by non-host participants if non_host_status_control is true
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1704,7 +2181,7 @@ open class ActivitiesAPI: APIBase {
      - parameter activityOccurrenceStatus: (body) The activity occurrence status object (optional)
      - returns: RequestBuilder<Void> 
      */
-    open class func updateActivityOccurrenceWithRequestBuilder(activityOccurrenceId: Int64, activityOccurrenceStatus: String? = nil) -> RequestBuilder<Void> {
+    open class func updateActivityOccurrenceStatusWithRequestBuilder(activityOccurrenceId: Int64, activityOccurrenceStatus: ValueWrapperstring? = nil) -> RequestBuilder<Void> {
         var path = "/activity-occurrences/{activity_occurrence_id}/status"
         path = path.replacingOccurrences(of: "{activity_occurrence_id}", with: "\(activityOccurrenceId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path
@@ -1733,6 +2210,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Update an activity template
      - PUT /activities/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

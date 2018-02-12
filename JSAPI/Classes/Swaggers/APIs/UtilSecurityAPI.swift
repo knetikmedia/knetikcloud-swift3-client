@@ -28,7 +28,7 @@ open class UtilSecurityAPI: APIBase {
     /**
      Returns the authentication log for a user
      - GET /security/country-log
-     - A log entry is recorded everytime a user requests a new token. Standard pagination available
+     - A log entry is recorded everytime a user requests a new token. Standard pagination available. <br><br><b>Permissions Needed:</b> SECURITY_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -105,6 +105,7 @@ open class UtilSecurityAPI: APIBase {
     /**
      Returns the authentication token details. Use /users endpoint for detailed user's info
      - GET /me
+     - <b>Permissions Needed:</b> SECURITY_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

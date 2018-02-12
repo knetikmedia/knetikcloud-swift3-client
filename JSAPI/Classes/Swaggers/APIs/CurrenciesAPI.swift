@@ -25,6 +25,7 @@ open class CurrenciesAPI: APIBase {
     /**
      Create a currency
      - POST /currencies
+     - <b>Permissions Needed:</b> CURRENCIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -71,6 +72,7 @@ open class CurrenciesAPI: APIBase {
     /**
      Delete a currency
      - DELETE /currencies/{code}
+     - <b>Permissions Needed:</b> CURRENCIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -112,6 +114,7 @@ open class CurrenciesAPI: APIBase {
     /**
      List and search currencies
      - GET /currencies
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -205,6 +208,7 @@ open class CurrenciesAPI: APIBase {
     /**
      Get a single currency
      - GET /currencies/{code}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -253,6 +257,7 @@ open class CurrenciesAPI: APIBase {
     /**
      Update a currency
      - PUT /currencies/{code}
+     - <b>Permissions Needed:</b> CURRENCIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

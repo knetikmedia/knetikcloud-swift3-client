@@ -26,6 +26,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Add an answer to a question
      - POST /trivia/questions/{question_id}/answers
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -71,6 +72,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Add a tag to a question
      - POST /trivia/questions/{id}/tags
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -126,7 +128,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Add a tag to a batch of questions
      - POST /trivia/questions/tags
-     - All questions that dont't have the tag and match filters will have it added. The returned number is the number of questions updated.
+     - All questions that dont't have the tag and match filters will have it added. The returned number is the number of questions updated. <br><br><b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -181,7 +183,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Create an import job
      - POST /trivia/import
-     - Set up a job to import a set of trivia questions from a cvs file at a remote url. the file will be validated asynchronously but will not be processed until started manually with the process endpoint.
+     - Set up a job to import a set of trivia questions from a cvs file at a remote url. the file will be validated asynchronously but will not be processed until started manually with the process endpoint. <br><br><b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -235,6 +237,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Create a question
      - POST /trivia/questions
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -309,7 +312,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Create a question template
      - POST /trivia/questions/templates
-     - Question templates define a type of question and the properties they have
+     - Question templates define a type of question and the properties they have. <br><br><b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -539,7 +542,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Delete an import job
      - DELETE /trivia/import/{id}
-     - Also deletes all questions that were imported by it
+     - Also deletes all questions that were imported by it. <br><br><b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -576,6 +579,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Delete a question
      - DELETE /trivia/questions/{id}
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -613,6 +617,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Remove an answer from a question
      - DELETE /trivia/questions/{question_id}/answers/{id}
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -652,7 +657,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Delete a question template
      - DELETE /trivia/questions/templates/{id}
-     - If cascade = 'detach', it will force delete the template even if it's attached to other objects
+     - If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -693,6 +698,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Get an import job
      - GET /trivia/import/{id}
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -753,6 +759,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Get a list of import job
      - GET /trivia/import
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -862,6 +869,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Get a single question
      - GET /trivia/questions/{id}
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -938,6 +946,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Get an answer for a question
      - GET /trivia/questions/{question_id}/answers/{id}
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -983,6 +992,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      List the answers available for a question
      - GET /trivia/questions/{question_id}/answers
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1032,7 +1042,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      List question deltas in ascending order of updated date
      - GET /trivia/questions/delta
-     - The 'since' parameter is important to avoid getting a full list of all questions. Implementors should make sure they pass the updated date of the last resource loaded, not the date of the last request, in order to avoid gaps
+     - The 'since' parameter is important to avoid getting a full list of all questions. Implementors should make sure they pass the updated date of the last resource loaded, not the date of the last request, in order to avoid gaps. <br><br><b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1086,6 +1096,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      List the tags for a question
      - GET /trivia/questions/{id}/tags
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1123,6 +1134,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Get a single question template
      - GET /trivia/questions/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1355,6 +1367,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      List and search question templates
      - GET /trivia/questions/templates
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1818,6 +1831,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      List and search questions
      - GET /trivia/questions
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1983,7 +1997,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Count questions based on filters
      - GET /trivia/questions/count
-     - This is also provided by the list endpoint so you don't need to call this for pagination purposes
+     - This is also provided by the list endpoint so you don't need to call this for pagination purposes. <br><br><b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2036,7 +2050,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Start processing an import job
      - POST /trivia/import/{id}/process
-     - Will process the CSV file and add new questions asynchronously. The status of the job must be 'VALID'.
+     - Will process the CSV file and add new questions asynchronously. The status of the job must be 'VALID'. <br><br><b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2096,6 +2110,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Remove a tag from a question
      - DELETE /trivia/questions/{id}/tags/{tag}
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2142,7 +2157,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Remove a tag from a batch of questions
      - DELETE /trivia/questions/tags/{tag}
-     - ll questions that have the tag and match filters will have it removed. The returned number is the number of questions updated.
+     - ll questions that have the tag and match filters will have it removed. The returned number is the number of questions updated. <br><br><b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2200,7 +2215,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      List and search tags by the beginning of the string
      - GET /trivia/tags
-     - For performance reasons, search & category filters are mutually exclusive. If category is specified, search filter will be ignored in order to do fast matches for typeahead.
+     - For performance reasons, search & category filters are mutually exclusive. If category is specified, search filter will be ignored in order to do fast matches for typeahead. <br><br><b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2245,7 +2260,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Update an import job
      - PUT /trivia/import/{id}
-     - Changes should be made before process is started for there to be any effect.
+     - Changes should be made before process is started for there to be any effect. <br><br><b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2302,6 +2317,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Update a question
      - PUT /trivia/questions/{id}
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2380,6 +2396,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Update an answer for a question
      - PUT /trivia/questions/{question_id}/answers/{id}
+     - <b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2420,6 +2437,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Update a question template
      - PUT /trivia/questions/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2658,7 +2676,7 @@ open class GamificationTriviaAPI: APIBase {
     /**
      Bulk update questions
      - PUT /trivia/questions
-     - Will update all questions that match filters used (or all questions in system if no filters used). Body should match a question resource with only those properties you wish to set. Null values will be ignored. Returned number is how many were updated.
+     - Will update all questions that match filters used (or all questions in system if no filters used). Body should match a question resource with only those properties you wish to set. Null values will be ignored. Returned number is how many were updated. <br><br><b>Permissions Needed:</b> TRIVIA_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

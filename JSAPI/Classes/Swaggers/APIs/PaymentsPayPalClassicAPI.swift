@@ -25,7 +25,7 @@ open class PaymentsPayPalClassicAPI: APIBase {
     /**
      Create a PayPal Classic billing agreement for the user
      - POST /payment/provider/paypal/classic/agreements/start
-     - Returns the token that should be used to forward the user to PayPal so they can accept the agreement.
+     - Returns the token that should be used to forward the user to PayPal so they can accept the agreement. <br><br><b>Permissions Needed:</b> PAYPAL_CLASSIC_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -62,7 +62,7 @@ open class PaymentsPayPalClassicAPI: APIBase {
     /**
      Create a payment token for PayPal express checkout
      - POST /payment/provider/paypal/classic/checkout/start
-     - Returns the token that should be used to forward the user to PayPal so they can complete the checkout.
+     - Returns the token that should be used to forward the user to PayPal so they can complete the checkout. <br><br><b>Permissions Needed:</b> PAYPAL_CLASSIC_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -99,7 +99,7 @@ open class PaymentsPayPalClassicAPI: APIBase {
     /**
      Finalizes a billing agreement after the user has accepted through PayPal
      - POST /payment/provider/paypal/classic/agreements/finish
-     - Returns the ID of the new payment method created for the user for the billing agreement.
+     - Returns the ID of the new payment method created for the user for the billing agreement. <br><br><b>Permissions Needed:</b> PAYPAL_CLASSIC_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -136,7 +136,7 @@ open class PaymentsPayPalClassicAPI: APIBase {
     /**
      Finalizes a payment after the user has completed checkout with PayPal
      - POST /payment/provider/paypal/classic/checkout/finish
-     - The invoice will be marked paid/failed by asynchronous IPN callback.
+     - The invoice will be marked paid/failed by asynchronous IPN callback. <br><br><b>Permissions Needed:</b> PAYPAL_CLASSIC_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

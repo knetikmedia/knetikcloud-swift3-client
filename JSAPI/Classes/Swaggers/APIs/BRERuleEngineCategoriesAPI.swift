@@ -25,7 +25,7 @@ open class BRERuleEngineCategoriesAPI: APIBase {
     /**
      Create a BRE category template
      - POST /bre/categories/templates
-     - Templates define a type of BRE category and the properties they have
+     - Templates define a type of BRE category and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -162,7 +162,7 @@ open class BRERuleEngineCategoriesAPI: APIBase {
     /**
      Delete a BRE category template
      - DELETE /bre/categories/templates/{id}
-     - If cascade = 'detach', it will force delete the template even if it's attached to other objects
+     - If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -204,6 +204,7 @@ open class BRERuleEngineCategoriesAPI: APIBase {
     /**
      List categories
      - GET /bre/categories
+     - <b>Permissions Needed:</b> BRE_RULE_ENGINE_CATEGORIES_USER
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -285,6 +286,7 @@ open class BRERuleEngineCategoriesAPI: APIBase {
     /**
      Get a single category
      - GET /bre/categories/{name}
+     - <b>Permissions Needed:</b> BRE_RULE_ENGINE_CATEGORIES_USER
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -330,6 +332,7 @@ open class BRERuleEngineCategoriesAPI: APIBase {
     /**
      Get a single BRE category template
      - GET /bre/categories/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or BRE_RULE_ENGINE_CATEGORIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -468,6 +471,7 @@ open class BRERuleEngineCategoriesAPI: APIBase {
     /**
      List and search BRE category templates
      - GET /bre/categories/templates
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or BRE_RULE_ENGINE_CATEGORIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -734,6 +738,7 @@ open class BRERuleEngineCategoriesAPI: APIBase {
     /**
      Update a category
      - PUT /bre/categories/{name}
+     - <b>Permissions Needed:</b> BRE_RULE_ENGINE_CATEGORIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -781,6 +786,7 @@ open class BRERuleEngineCategoriesAPI: APIBase {
     /**
      Update a BRE category template
      - PUT /bre/categories/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

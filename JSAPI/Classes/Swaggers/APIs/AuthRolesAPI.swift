@@ -25,6 +25,7 @@ open class AuthRolesAPI: APIBase {
     /**
      Create a new role
      - POST /auth/roles
+     - <b>Permissions Needed:</b> ROLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -86,6 +87,7 @@ open class AuthRolesAPI: APIBase {
     /**
      Delete a role
      - DELETE /auth/roles/{role}
+     - <b>Permissions Needed:</b> ROLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -126,6 +128,7 @@ open class AuthRolesAPI: APIBase {
     /**
      Get roles for a client
      - GET /auth/clients/{client_key}/roles
+     - <b>Permissions Needed:</b> ROLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -211,6 +214,7 @@ open class AuthRolesAPI: APIBase {
     /**
      Get a single role
      - GET /auth/roles/{role}
+     - <b>Permissions Needed:</b> ROLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -276,6 +280,7 @@ open class AuthRolesAPI: APIBase {
     /**
      List and search roles
      - GET /auth/roles
+     - <b>Permissions Needed:</b> ROLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -395,6 +400,7 @@ open class AuthRolesAPI: APIBase {
     /**
      Get roles for a user
      - GET /auth/users/{user_id}/roles
+     - <b>Permissions Needed:</b> ROLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -481,6 +487,7 @@ open class AuthRolesAPI: APIBase {
     /**
      Set roles for a client
      - PUT /auth/clients/{client_key}/roles
+     - <b>Permissions Needed:</b> ROLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -531,6 +538,7 @@ open class AuthRolesAPI: APIBase {
     /**
      Set permissions for a role
      - PUT /auth/roles/{role}/permissions
+     - <b>Permissions Needed:</b> ROLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -594,6 +602,7 @@ open class AuthRolesAPI: APIBase {
     /**
      Set roles for a user
      - PUT /auth/users/{user_id}/roles
+     - <b>Permissions Needed:</b> ROLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -696,6 +705,7 @@ open class AuthRolesAPI: APIBase {
     /**
      Update a role
      - PUT /auth/roles/{role}
+     - <b>Permissions Needed:</b> ROLES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

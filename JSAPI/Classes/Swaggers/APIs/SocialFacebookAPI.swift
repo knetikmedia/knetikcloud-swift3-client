@@ -25,7 +25,7 @@ open class SocialFacebookAPI: APIBase {
     /**
      Link facebook account
      - POST /social/facebook/users
-     - Links the current user account to a facebook account, using the acccess token from facebook. Can also be used to update the access token after it has expired.
+     - Links the current user account to a facebook account, using the acccess token from facebook. Can also be used to update the access token after it has expired. <br><br><b>Permissions Needed:</b> Non-facebook user token
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

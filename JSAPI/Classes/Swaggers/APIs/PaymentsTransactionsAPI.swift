@@ -25,6 +25,7 @@ open class PaymentsTransactionsAPI: APIBase {
     /**
      Get the details for a single transaction
      - GET /transactions/{id}
+     - <b>Permissions Needed:</b> TRANSACTIONS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -79,6 +80,7 @@ open class PaymentsTransactionsAPI: APIBase {
     /**
      List and search transactions
      - GET /transactions
+     - <b>Permissions Needed:</b> TRANSACTIONS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -177,7 +179,7 @@ open class PaymentsTransactionsAPI: APIBase {
     /**
      Refund a payment transaction, in full or in part
      - POST /transactions/{id}/refunds
-     - Will not allow for refunding more than the full amount even with multiple partial refunds. Money is refunded to the payment method used to make the original payment. Payment method must support refunds.
+     - Will not allow for refunding more than the full amount even with multiple partial refunds. Money is refunded to the payment method used to make the original payment. Payment method must support refunds. <br><br><b>Permissions Needed:</b> PAYMENTS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

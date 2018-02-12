@@ -511,9 +511,21 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: [Int32].self, source: sourceDictionary["bans"] as AnyObject?) {
+                
+                case let .success(value): result.bans = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["challenge_activity_id"] as AnyObject?) {
                 
                 case let .success(value): result.challengeActivityId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: CoreActivityOccurrenceSettings.self, source: sourceDictionary["core_settings"] as AnyObject?) {
+                
+                case let .success(value): result.coreSettings = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -532,6 +544,12 @@ class Decoders {
                 switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["event_id"] as AnyObject?) {
                 
                 case let .success(value): result.eventId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["host"] as AnyObject?) {
+                
+                case let .success(value): result.host = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -618,6 +636,27 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "ActivityOccurrenceResultsResource", actual: "\(source)"))
             }
         }
+        // Decoder for ActivityOccurrenceSettingsResource
+        Decoders.addDecoder(clazz: ActivityOccurrenceSettingsResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ActivityOccurrenceSettingsResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? ActivityOccurrenceSettingsResource() : instance as! ActivityOccurrenceSettingsResource
+                switch Decoders.decodeOptional(clazz: CoreActivityOccurrenceSettings.self, source: sourceDictionary["core_settings"] as AnyObject?) {
+                
+                case let .success(value): result.coreSettings = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [SelectedSettingRequest].self, source: sourceDictionary["settings"] as AnyObject?) {
+                
+                case let .success(value): result.settings = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "ActivityOccurrenceSettingsResource", actual: "\(source)"))
+            }
+        }
         // Decoder for ActivityResource
         Decoders.addDecoder(clazz: ActivityResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ActivityResource> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
@@ -625,6 +664,12 @@ class Decoders {
                 switch Decoders.decodeOptional(clazz: [String:Property].self, source: sourceDictionary["additional_properties"] as AnyObject?) {
                 
                 case let .success(value): result.additionalProperties = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: CoreActivitySettings.self, source: sourceDictionary["core_settings"] as AnyObject?) {
+                
+                case let .success(value): result.coreSettings = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -1540,6 +1585,33 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "BooleanResource", actual: "\(source)"))
             }
         }
+        // Decoder for BreActionLog
+        Decoders.addDecoder(clazz: BreActionLog.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<BreActionLog> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? BreActionLog() : instance as! BreActionLog
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
+                
+                case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["runtime"] as AnyObject?) {
+                
+                case let .success(value): result.runtime = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["status"] as AnyObject?) {
+                
+                case let .success(value): result.status = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "BreActionLog", actual: "\(source)"))
+            }
+        }
         // Decoder for BreCategoryResource
         Decoders.addDecoder(clazz: BreCategoryResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<BreCategoryResource> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
@@ -1808,6 +1880,12 @@ class Decoders {
         Decoders.addDecoder(clazz: BreRuleLog.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<BreRuleLog> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let result = instance == nil ? BreRuleLog() : instance as! BreRuleLog
+                switch Decoders.decodeOptional(clazz: [BreActionLog].self, source: sourceDictionary["actions"] as AnyObject?) {
+                
+                case let .success(value): result.actions = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["ran"] as AnyObject?) {
                 
                 case let .success(value): result.ran = value
@@ -2775,6 +2853,12 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: CoreChallengeActivitySettings.self, source: sourceDictionary["core_settings"] as AnyObject?) {
+                
+                case let .success(value): result.coreSettings = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: ActivityEntitlementResource.self, source: sourceDictionary["entitlement"] as AnyObject?) {
                 
                 case let .success(value): result.entitlement = value
@@ -3003,6 +3087,231 @@ class Decoders {
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "ChallengeResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for ChatBlacklistResource
+        Decoders.addDecoder(clazz: ChatBlacklistResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ChatBlacklistResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? ChatBlacklistResource() : instance as! ChatBlacklistResource
+                switch Decoders.decodeOptional(clazz: SimpleUserResource.self, source: sourceDictionary["blacklisted_user"] as AnyObject?) {
+                
+                case let .success(value): result.blacklistedUser = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?) {
+                
+                case let .success(value): result.createdDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?) {
+                
+                case let .success(value): result.id = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?) {
+                
+                case let .success(value): result.userId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "ChatBlacklistResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for ChatMessageRequest
+        Decoders.addDecoder(clazz: ChatMessageRequest.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ChatMessageRequest> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? ChatMessageRequest() : instance as! ChatMessageRequest
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message_type"] as AnyObject?) {
+                
+                case let .success(value): result.messageType = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "ChatMessageRequest", actual: "\(source)"))
+            }
+        }
+        // Decoder for ChatMessageResource
+        Decoders.addDecoder(clazz: ChatMessageResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ChatMessageResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? ChatMessageResource() : instance as! ChatMessageResource
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?) {
+                
+                case let .success(value): result.createdDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["edited"] as AnyObject?) {
+                
+                case let .success(value): result.edited = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?) {
+                
+                case let .success(value): result.id = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message_type"] as AnyObject?) {
+                
+                case let .success(value): result.messageType = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["recipient_id"] as AnyObject?) {
+                
+                case let .success(value): result.recipientId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: ChatMessageResource.RecipientType.self, source: sourceDictionary["recipient_type"] as AnyObject?) {
+                
+                case let .success(value): result.recipientType = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["sender_id"] as AnyObject?) {
+                
+                case let .success(value): result.senderId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["thread_id"] as AnyObject?) {
+                
+                case let .success(value): result.threadId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?) {
+                
+                case let .success(value): result.updatedDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "ChatMessageResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for ChatThreadResource
+        Decoders.addDecoder(clazz: ChatThreadResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ChatThreadResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? ChatThreadResource() : instance as! ChatThreadResource
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["active_users"] as AnyObject?) {
+                
+                case let .success(value): result.activeUsers = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["count"] as AnyObject?) {
+                
+                case let .success(value): result.count = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?) {
+                
+                case let .success(value): result.createdDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?) {
+                
+                case let .success(value): result.id = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["recipient_id"] as AnyObject?) {
+                
+                case let .success(value): result.recipientId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: ChatThreadResource.RecipientType.self, source: sourceDictionary["recipient_type"] as AnyObject?) {
+                
+                case let .success(value): result.recipientType = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["subject"] as AnyObject?) {
+                
+                case let .success(value): result.subject = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?) {
+                
+                case let .success(value): result.updatedDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "ChatThreadResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for ChatUserThreadResource
+        Decoders.addDecoder(clazz: ChatUserThreadResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ChatUserThreadResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? ChatUserThreadResource() : instance as! ChatUserThreadResource
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?) {
+                
+                case let .success(value): result.createdDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["read_count"] as AnyObject?) {
+                
+                case let .success(value): result.readCount = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: ChatThreadResource.self, source: sourceDictionary["thread"] as AnyObject?) {
+                
+                case let .success(value): result.thread = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["thread_id"] as AnyObject?) {
+                
+                case let .success(value): result.threadId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?) {
+                
+                case let .success(value): result.updatedDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?) {
+                
+                case let .success(value): result.userId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "ChatUserThreadResource", actual: "\(source)"))
             }
         }
         // Decoder for ClientResource
@@ -3263,6 +3572,201 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "ContributionResource", actual: "\(source)"))
             }
         }
+        // Decoder for CoreActivityOccurrenceSettings
+        Decoders.addDecoder(clazz: CoreActivityOccurrenceSettings.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CoreActivityOccurrenceSettings> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? CoreActivityOccurrenceSettings() : instance as! CoreActivityOccurrenceSettings
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["boot_in_play"] as AnyObject?) {
+                
+                case let .success(value): result.bootInPlay = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["custom_launch_address"] as AnyObject?) {
+                
+                case let .success(value): result.customLaunchAddress = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["host_status_control"] as AnyObject?) {
+                
+                case let .success(value): result.hostStatusControl = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["join_in_play"] as AnyObject?) {
+                
+                case let .success(value): result.joinInPlay = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["leave_in_play"] as AnyObject?) {
+                
+                case let .success(value): result.leaveInPlay = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_players"] as AnyObject?) {
+                
+                case let .success(value): result.maxPlayers = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_players"] as AnyObject?) {
+                
+                case let .success(value): result.minPlayers = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["non_host_status_control"] as AnyObject?) {
+                
+                case let .success(value): result.nonHostStatusControl = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: CoreActivityOccurrenceSettings.ResultsTrust.self, source: sourceDictionary["results_trust"] as AnyObject?) {
+                
+                case let .success(value): result.resultsTrust = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "CoreActivityOccurrenceSettings", actual: "\(source)"))
+            }
+        }
+        // Decoder for CoreActivitySettings
+        Decoders.addDecoder(clazz: CoreActivitySettings.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CoreActivitySettings> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? CoreActivitySettings() : instance as! CoreActivitySettings
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["boot_in_play"] as AnyObject?) {
+                
+                case let .success(value): result.bootInPlay = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["custom_launch_address_allowed"] as AnyObject?) {
+                
+                case let .success(value): result.customLaunchAddressAllowed = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: CoreActivitySettings.HostOption.self, source: sourceDictionary["host_option"] as AnyObject?) {
+                
+                case let .success(value): result.hostOption = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["host_status_control"] as AnyObject?) {
+                
+                case let .success(value): result.hostStatusControl = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["join_in_play"] as AnyObject?) {
+                
+                case let .success(value): result.joinInPlay = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["leave_in_play"] as AnyObject?) {
+                
+                case let .success(value): result.leaveInPlay = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_players"] as AnyObject?) {
+                
+                case let .success(value): result.maxPlayers = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_players"] as AnyObject?) {
+                
+                case let .success(value): result.minPlayers = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: CoreActivitySettings.ResultsTrust.self, source: sourceDictionary["results_trust"] as AnyObject?) {
+                
+                case let .success(value): result.resultsTrust = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "CoreActivitySettings", actual: "\(source)"))
+            }
+        }
+        // Decoder for CoreChallengeActivitySettings
+        Decoders.addDecoder(clazz: CoreChallengeActivitySettings.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CoreChallengeActivitySettings> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? CoreChallengeActivitySettings() : instance as! CoreChallengeActivitySettings
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["boot_in_play"] as AnyObject?) {
+                
+                case let .success(value): result.bootInPlay = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["custom_launch_address"] as AnyObject?) {
+                
+                case let .success(value): result.customLaunchAddress = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["custom_launch_address_allowed"] as AnyObject?) {
+                
+                case let .success(value): result.customLaunchAddressAllowed = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: CoreChallengeActivitySettings.HostOption.self, source: sourceDictionary["host_option"] as AnyObject?) {
+                
+                case let .success(value): result.hostOption = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["host_status_control"] as AnyObject?) {
+                
+                case let .success(value): result.hostStatusControl = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["join_in_play"] as AnyObject?) {
+                
+                case let .success(value): result.joinInPlay = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["leave_in_play"] as AnyObject?) {
+                
+                case let .success(value): result.leaveInPlay = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["max_players"] as AnyObject?) {
+                
+                case let .success(value): result.maxPlayers = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["min_players"] as AnyObject?) {
+                
+                case let .success(value): result.minPlayers = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: CoreChallengeActivitySettings.ResultsTrust.self, source: sourceDictionary["results_trust"] as AnyObject?) {
+                
+                case let .success(value): result.resultsTrust = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "CoreChallengeActivitySettings", actual: "\(source)"))
+            }
+        }
         // Decoder for Country
         Decoders.addDecoder(clazz: Country.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Country> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
@@ -3471,6 +3975,12 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: CoreActivityOccurrenceSettings.self, source: sourceDictionary["core_settings"] as AnyObject?) {
+                
+                case let .success(value): result.coreSettings = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: ItemIdRequest.self, source: sourceDictionary["entitlement"] as AnyObject?) {
                 
                 case let .success(value): result.entitlement = value
@@ -3480,6 +3990,12 @@ class Decoders {
                 switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["event_id"] as AnyObject?) {
                 
                 case let .success(value): result.eventId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["host"] as AnyObject?) {
+                
+                case let .success(value): result.host = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -3642,12 +4158,6 @@ class Decoders {
                 switch Decoders.decodeOptional(clazz: DatabaseConfig.self, source: sourceDictionary["database"] as AnyObject?) {
                 
                 case let .success(value): result.database = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: IOConfig.self, source: sourceDictionary["io"] as AnyObject?) {
-                
-                case let .success(value): result.io = value
                 case let .failure(error): return .failure(error)
                 
                 }
@@ -4845,39 +5355,6 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "GroupResource", actual: "\(source)"))
             }
         }
-        // Decoder for IOConfig
-        Decoders.addDecoder(clazz: IOConfig.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<IOConfig> in
-            if let sourceDictionary = source as? [AnyHashable: Any] {
-                let result = instance == nil ? IOConfig() : instance as! IOConfig
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?) {
-                
-                case let .success(value): result.customer = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["enabled"] as AnyObject?) {
-                
-                case let .success(value): result.enabled = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["environment"] as AnyObject?) {
-                
-                case let .success(value): result.environment = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["product"] as AnyObject?) {
-                
-                case let .success(value): result.product = value
-                case let .failure(error): return .failure(error)
-                
-                }
-                return .success(result)
-            } else {
-                return .failure(.typeMismatch(expected: "IOConfig", actual: "\(source)"))
-            }
-        }
         // Decoder for IdRef
         Decoders.addDecoder(clazz: IdRef.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<IdRef> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
@@ -6046,6 +6523,138 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "MapResource", actual: "\(source)"))
             }
         }
+        // Decoder for MessageContentResource
+        Decoders.addDecoder(clazz: MessageContentResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<MessageContentResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? MessageContentResource() : instance as! MessageContentResource
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?) {
+                
+                case let .success(value): result.email = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["push"] as AnyObject?) {
+                
+                case let .success(value): result.push = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sms"] as AnyObject?) {
+                
+                case let .success(value): result.sms = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: TemplatedEmail.self, source: sourceDictionary["templated_email"] as AnyObject?) {
+                
+                case let .success(value): result.templatedEmail = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["websocket"] as AnyObject?) {
+                
+                case let .success(value): result.websocket = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "MessageContentResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for MessageResource
+        Decoders.addDecoder(clazz: MessageResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<MessageResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? MessageResource() : instance as! MessageResource
+                switch Decoders.decodeOptional(clazz: MessageContentResource.self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["recipient"] as AnyObject?) {
+                
+                case let .success(value): result.recipient = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: MessageResource.RecipientType.self, source: sourceDictionary["recipient_type"] as AnyObject?) {
+                
+                case let .success(value): result.recipientType = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["subject"] as AnyObject?) {
+                
+                case let .success(value): result.subject = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?) {
+                
+                case let .success(value): result.type = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "MessageResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for MessageTemplateBulkRequest
+        Decoders.addDecoder(clazz: MessageTemplateBulkRequest.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<MessageTemplateBulkRequest> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? MessageTemplateBulkRequest() : instance as! MessageTemplateBulkRequest
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["data"] as AnyObject?) {
+                
+                case let .success(value): result.data = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["ids"] as AnyObject?) {
+                
+                case let .success(value): result.ids = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "MessageTemplateBulkRequest", actual: "\(source)"))
+            }
+        }
+        // Decoder for MessageTemplateResource
+        Decoders.addDecoder(clazz: MessageTemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<MessageTemplateResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? MessageTemplateResource() : instance as! MessageTemplateResource
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?) {
+                
+                case let .success(value): result.id = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
+                
+                case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["tags"] as AnyObject?) {
+                
+                case let .success(value): result.tags = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "MessageTemplateResource", actual: "\(source)"))
+            }
+        }
         // Decoder for MetricResource
         Decoders.addDecoder(clazz: MetricResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<MetricResource> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
@@ -6164,6 +6773,135 @@ class Decoders {
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "NewPasswordRequest", actual: "\(source)"))
+            }
+        }
+        // Decoder for NotificationResource
+        Decoders.addDecoder(clazz: NotificationResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<NotificationResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? NotificationResource() : instance as! NotificationResource
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["data"] as AnyObject?) {
+                
+                case let .success(value): result.data = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["notification_id"] as AnyObject?) {
+                
+                case let .success(value): result.notificationId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["notification_type_id"] as AnyObject?) {
+                
+                case let .success(value): result.notificationTypeId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["recipient"] as AnyObject?) {
+                
+                case let .success(value): result.recipient = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: NotificationResource.RecipientType.self, source: sourceDictionary["recipient_type"] as AnyObject?) {
+                
+                case let .success(value): result.recipientType = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["send_date"] as AnyObject?) {
+                
+                case let .success(value): result.sendDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "NotificationResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for NotificationTypeResource
+        Decoders.addDecoder(clazz: NotificationTypeResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<NotificationTypeResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? NotificationTypeResource() : instance as! NotificationTypeResource
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?) {
+                
+                case let .success(value): result.createdDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["email_body_template_external"] as AnyObject?) {
+                
+                case let .success(value): result.emailBodyTemplateExternal = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email_body_template_id"] as AnyObject?) {
+                
+                case let .success(value): result.emailBodyTemplateId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email_subject_template_id"] as AnyObject?) {
+                
+                case let .success(value): result.emailSubjectTemplateId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?) {
+                
+                case let .success(value): result.id = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
+                
+                case let .success(value): result.name = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sms_template_id"] as AnyObject?) {
+                
+                case let .success(value): result.smsTemplateId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?) {
+                
+                case let .success(value): result.updatedDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "NotificationTypeResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for NotificationUserTypeResource
+        Decoders.addDecoder(clazz: NotificationUserTypeResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<NotificationUserTypeResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? NotificationUserTypeResource() : instance as! NotificationUserTypeResource
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["silenced"] as AnyObject?) {
+                
+                case let .success(value): result.silenced = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?) {
+                
+                case let .success(value): result.type = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?) {
+                
+                case let .success(value): result.userId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "NotificationUserTypeResource", actual: "\(source)"))
             }
         }
         // Decoder for OAuth2Resource
@@ -7824,6 +8562,132 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "PageResourceChallengeResource", actual: "\(source)"))
             }
         }
+        // Decoder for PageResourceChatMessageResource
+        Decoders.addDecoder(clazz: PageResourceChatMessageResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PageResourceChatMessageResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? PageResourceChatMessageResource() : instance as! PageResourceChatMessageResource
+                switch Decoders.decodeOptional(clazz: [ChatMessageResource].self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?) {
+                
+                case let .success(value): result.first = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?) {
+                
+                case let .success(value): result.last = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?) {
+                
+                case let .success(value): result.number = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?) {
+                
+                case let .success(value): result.numberOfElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?) {
+                
+                case let .success(value): result.size = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [Order].self, source: sourceDictionary["sort"] as AnyObject?) {
+                
+                case let .success(value): result.sort = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?) {
+                
+                case let .success(value): result.totalElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?) {
+                
+                case let .success(value): result.totalPages = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "PageResourceChatMessageResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for PageResourceChatUserThreadResource
+        Decoders.addDecoder(clazz: PageResourceChatUserThreadResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PageResourceChatUserThreadResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? PageResourceChatUserThreadResource() : instance as! PageResourceChatUserThreadResource
+                switch Decoders.decodeOptional(clazz: [ChatUserThreadResource].self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?) {
+                
+                case let .success(value): result.first = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?) {
+                
+                case let .success(value): result.last = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?) {
+                
+                case let .success(value): result.number = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?) {
+                
+                case let .success(value): result.numberOfElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?) {
+                
+                case let .success(value): result.size = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [Order].self, source: sourceDictionary["sort"] as AnyObject?) {
+                
+                case let .success(value): result.sort = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?) {
+                
+                case let .success(value): result.totalElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?) {
+                
+                case let .success(value): result.totalPages = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "PageResourceChatUserThreadResource", actual: "\(source)"))
+            }
+        }
         // Decoder for PageResourceClientResource
         Decoders.addDecoder(clazz: PageResourceClientResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PageResourceClientResource> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
@@ -9082,6 +9946,195 @@ class Decoders {
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "PageResourceLocationLogResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for PageResourceMessageTemplateResource
+        Decoders.addDecoder(clazz: PageResourceMessageTemplateResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PageResourceMessageTemplateResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? PageResourceMessageTemplateResource() : instance as! PageResourceMessageTemplateResource
+                switch Decoders.decodeOptional(clazz: [MessageTemplateResource].self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?) {
+                
+                case let .success(value): result.first = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?) {
+                
+                case let .success(value): result.last = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?) {
+                
+                case let .success(value): result.number = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?) {
+                
+                case let .success(value): result.numberOfElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?) {
+                
+                case let .success(value): result.size = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [Order].self, source: sourceDictionary["sort"] as AnyObject?) {
+                
+                case let .success(value): result.sort = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?) {
+                
+                case let .success(value): result.totalElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?) {
+                
+                case let .success(value): result.totalPages = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "PageResourceMessageTemplateResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for PageResourceNotificationTypeResource
+        Decoders.addDecoder(clazz: PageResourceNotificationTypeResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PageResourceNotificationTypeResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? PageResourceNotificationTypeResource() : instance as! PageResourceNotificationTypeResource
+                switch Decoders.decodeOptional(clazz: [NotificationTypeResource].self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?) {
+                
+                case let .success(value): result.first = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?) {
+                
+                case let .success(value): result.last = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?) {
+                
+                case let .success(value): result.number = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?) {
+                
+                case let .success(value): result.numberOfElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?) {
+                
+                case let .success(value): result.size = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [Order].self, source: sourceDictionary["sort"] as AnyObject?) {
+                
+                case let .success(value): result.sort = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?) {
+                
+                case let .success(value): result.totalElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?) {
+                
+                case let .success(value): result.totalPages = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "PageResourceNotificationTypeResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for PageResourceNotificationUserTypeResource
+        Decoders.addDecoder(clazz: PageResourceNotificationUserTypeResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PageResourceNotificationUserTypeResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? PageResourceNotificationUserTypeResource() : instance as! PageResourceNotificationUserTypeResource
+                switch Decoders.decodeOptional(clazz: [NotificationUserTypeResource].self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?) {
+                
+                case let .success(value): result.first = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?) {
+                
+                case let .success(value): result.last = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?) {
+                
+                case let .success(value): result.number = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?) {
+                
+                case let .success(value): result.numberOfElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?) {
+                
+                case let .success(value): result.size = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [Order].self, source: sourceDictionary["sort"] as AnyObject?) {
+                
+                case let .success(value): result.sort = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?) {
+                
+                case let .success(value): result.totalElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?) {
+                
+                case let .success(value): result.totalPages = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "PageResourceNotificationUserTypeResource", actual: "\(source)"))
             }
         }
         // Decoder for PageResourceOauthAccessTokenResource
@@ -10407,6 +11460,132 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "PageResourceTemplateResource", actual: "\(source)"))
             }
         }
+        // Decoder for PageResourceTopicResource
+        Decoders.addDecoder(clazz: PageResourceTopicResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PageResourceTopicResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? PageResourceTopicResource() : instance as! PageResourceTopicResource
+                switch Decoders.decodeOptional(clazz: [TopicResource].self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?) {
+                
+                case let .success(value): result.first = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?) {
+                
+                case let .success(value): result.last = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?) {
+                
+                case let .success(value): result.number = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?) {
+                
+                case let .success(value): result.numberOfElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?) {
+                
+                case let .success(value): result.size = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [Order].self, source: sourceDictionary["sort"] as AnyObject?) {
+                
+                case let .success(value): result.sort = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?) {
+                
+                case let .success(value): result.totalElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?) {
+                
+                case let .success(value): result.totalPages = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "PageResourceTopicResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for PageResourceTopicSubscriberResource
+        Decoders.addDecoder(clazz: PageResourceTopicSubscriberResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PageResourceTopicSubscriberResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? PageResourceTopicSubscriberResource() : instance as! PageResourceTopicSubscriberResource
+                switch Decoders.decodeOptional(clazz: [TopicSubscriberResource].self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?) {
+                
+                case let .success(value): result.first = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?) {
+                
+                case let .success(value): result.last = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?) {
+                
+                case let .success(value): result.number = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?) {
+                
+                case let .success(value): result.numberOfElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?) {
+                
+                case let .success(value): result.size = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [Order].self, source: sourceDictionary["sort"] as AnyObject?) {
+                
+                case let .success(value): result.sort = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?) {
+                
+                case let .success(value): result.totalElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?) {
+                
+                case let .success(value): result.totalPages = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "PageResourceTopicSubscriberResource", actual: "\(source)"))
+            }
+        }
         // Decoder for PageResourceTransactionResource
         Decoders.addDecoder(clazz: PageResourceTransactionResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PageResourceTransactionResource> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
@@ -10909,6 +12088,69 @@ class Decoders {
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "PageResourceUserLevelingResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for PageResourceUserNotificationResource
+        Decoders.addDecoder(clazz: PageResourceUserNotificationResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<PageResourceUserNotificationResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? PageResourceUserNotificationResource() : instance as! PageResourceUserNotificationResource
+                switch Decoders.decodeOptional(clazz: [UserNotificationResource].self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["first"] as AnyObject?) {
+                
+                case let .success(value): result.first = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["last"] as AnyObject?) {
+                
+                case let .success(value): result.last = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number"] as AnyObject?) {
+                
+                case let .success(value): result.number = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["number_of_elements"] as AnyObject?) {
+                
+                case let .success(value): result.numberOfElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["size"] as AnyObject?) {
+                
+                case let .success(value): result.size = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [Order].self, source: sourceDictionary["sort"] as AnyObject?) {
+                
+                case let .success(value): result.sort = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["total_elements"] as AnyObject?) {
+                
+                case let .success(value): result.totalElements = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["total_pages"] as AnyObject?) {
+                
+                case let .success(value): result.totalPages = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "PageResourceUserNotificationResource", actual: "\(source)"))
             }
         }
         // Decoder for PageResourceUserRelationshipResource
@@ -14184,6 +15426,12 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 
                 }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["subject"] as AnyObject?) {
+                
+                case let .success(value): result.subject = value
+                case let .failure(error): return .failure(error)
+                
+                }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["template_key"] as AnyObject?) {
                 
                 case let .success(value): result.templateKey = value
@@ -14306,6 +15554,27 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "TemplateSMSResource", actual: "\(source)"))
             }
         }
+        // Decoder for TemplatedEmail
+        Decoders.addDecoder(clazz: TemplatedEmail.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TemplatedEmail> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? TemplatedEmail() : instance as! TemplatedEmail
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["external_template_id"] as AnyObject?) {
+                
+                case let .success(value): result.externalTemplateId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["template_data"] as AnyObject?) {
+                
+                case let .success(value): result.templateData = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "TemplatedEmail", actual: "\(source)"))
+            }
+        }
         // Decoder for TierResource
         Decoders.addDecoder(clazz: TierResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TierResource> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
@@ -14358,6 +15627,204 @@ class Decoders {
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "TokenDetailsResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for Topic
+        Decoders.addDecoder(clazz: Topic.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Topic> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? Topic() : instance as! Topic
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?) {
+                
+                case let .success(value): result.createdDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?) {
+                
+                case let .success(value): result.displayName = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?) {
+                
+                case let .success(value): result.id = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?) {
+                
+                case let .success(value): result.locked = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["tags"] as AnyObject?) {
+                
+                case let .success(value): result.tags = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["topic_map"] as AnyObject?) {
+                
+                case let .success(value): result.topicMap = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?) {
+                
+                case let .success(value): result.updatedDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_count"] as AnyObject?) {
+                
+                case let .success(value): result.userCount = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "Topic", actual: "\(source)"))
+            }
+        }
+        // Decoder for TopicResource
+        Decoders.addDecoder(clazz: TopicResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TopicResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? TopicResource() : instance as! TopicResource
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["created_date"] as AnyObject?) {
+                
+                case let .success(value): result.createdDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["display_name"] as AnyObject?) {
+                
+                case let .success(value): result.displayName = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?) {
+                
+                case let .success(value): result.id = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["locked"] as AnyObject?) {
+                
+                case let .success(value): result.locked = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["tags"] as AnyObject?) {
+                
+                case let .success(value): result.tags = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updated_date"] as AnyObject?) {
+                
+                case let .success(value): result.updatedDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_count"] as AnyObject?) {
+                
+                case let .success(value): result.userCount = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "TopicResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for TopicSubscriber
+        Decoders.addDecoder(clazz: TopicSubscriber.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TopicSubscriber> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? TopicSubscriber() : instance as! TopicSubscriber
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["disabled"] as AnyObject?) {
+                
+                case let .success(value): result.disabled = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?) {
+                
+                case let .success(value): result.email = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["join_date"] as AnyObject?) {
+                
+                case let .success(value): result.joinDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["mobile_number"] as AnyObject?) {
+                
+                case let .success(value): result.mobileNumber = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["topic_id"] as AnyObject?) {
+                
+                case let .success(value): result.topicId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["topic_subscriber_map"] as AnyObject?) {
+                
+                case let .success(value): result.topicSubscriberMap = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?) {
+                
+                case let .success(value): result.userId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?) {
+                
+                case let .success(value): result.username = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "TopicSubscriber", actual: "\(source)"))
+            }
+        }
+        // Decoder for TopicSubscriberResource
+        Decoders.addDecoder(clazz: TopicSubscriberResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TopicSubscriberResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? TopicSubscriberResource() : instance as! TopicSubscriberResource
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["disabled"] as AnyObject?) {
+                
+                case let .success(value): result.disabled = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["topic_id"] as AnyObject?) {
+                
+                case let .success(value): result.topicId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?) {
+                
+                case let .success(value): result.userId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?) {
+                
+                case let .success(value): result.username = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "TopicSubscriberResource", actual: "\(source)"))
             }
         }
         // Decoder for TransactionResource
@@ -15011,6 +16478,69 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "UserLevelingResource", actual: "\(source)"))
             }
         }
+        // Decoder for UserNotificationResource
+        Decoders.addDecoder(clazz: UserNotificationResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<UserNotificationResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? UserNotificationResource() : instance as! UserNotificationResource
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["data"] as AnyObject?) {
+                
+                case let .success(value): result.data = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["notification_id"] as AnyObject?) {
+                
+                case let .success(value): result.notificationId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["notification_type_id"] as AnyObject?) {
+                
+                case let .success(value): result.notificationTypeId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["recipient"] as AnyObject?) {
+                
+                case let .success(value): result.recipient = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: UserNotificationResource.RecipientType.self, source: sourceDictionary["recipient_type"] as AnyObject?) {
+                
+                case let .success(value): result.recipientType = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["retrieve_date"] as AnyObject?) {
+                
+                case let .success(value): result.retrieveDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["send_date"] as AnyObject?) {
+                
+                case let .success(value): result.sendDate = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: UserNotificationResource.Status.self, source: sourceDictionary["status"] as AnyObject?) {
+                
+                case let .success(value): result.status = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["user_id"] as AnyObject?) {
+                
+                case let .success(value): result.userId = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "UserNotificationResource", actual: "\(source)"))
+            }
+        }
         // Decoder for UserRelationshipReferenceResource
         Decoders.addDecoder(clazz: UserRelationshipReferenceResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<UserRelationshipReferenceResource> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
@@ -15315,6 +16845,36 @@ class Decoders {
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "UsernameLookupResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for ValueWrapperboolean
+        Decoders.addDecoder(clazz: ValueWrapperboolean.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ValueWrapperboolean> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? ValueWrapperboolean() : instance as! ValueWrapperboolean
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["value"] as AnyObject?) {
+                
+                case let .success(value): result.value = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "ValueWrapperboolean", actual: "\(source)"))
+            }
+        }
+        // Decoder for ValueWrapperstring
+        Decoders.addDecoder(clazz: ValueWrapperstring.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ValueWrapperstring> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? ValueWrapperstring() : instance as! ValueWrapperstring
+                switch Decoders.decodeOptional(clazz: ValueWrapperstring.Value.self, source: sourceDictionary["value"] as AnyObject?) {
+                
+                case let .success(value): result.value = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "ValueWrapperstring", actual: "\(source)"))
             }
         }
         // Decoder for VariableTypeResource
@@ -15882,6 +17442,33 @@ class Decoders {
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "WalletTransactionResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for WebsocketMessageResource
+        Decoders.addDecoder(clazz: WebsocketMessageResource.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WebsocketMessageResource> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? WebsocketMessageResource() : instance as! WebsocketMessageResource
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message_type"] as AnyObject?) {
+                
+                case let .success(value): result.messageType = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [Int32].self, source: sourceDictionary["recipients"] as AnyObject?) {
+                
+                case let .success(value): result.recipients = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "WebsocketMessageResource", actual: "\(source)"))
             }
         }
         // Decoder for XsollaPaymentRequest
@@ -18351,6 +19938,390 @@ class Decoders {
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "VideoPropertyDefinitionResource", actual: "\(source)"))
+            }
+        }
+        // Decoder for WebsocketRemoveTopicEvent
+        Decoders.addDecoder(clazz: WebsocketRemoveTopicEvent.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WebsocketRemoveTopicEvent> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? WebsocketRemoveTopicEvent() : instance as! WebsocketRemoveTopicEvent
+                if decoders["\(BroadcastableEvent.self)"] != nil {
+                  _ = Decoders.decode(clazz: BroadcastableEvent.self, source: source, instance: result)
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?) {
+                
+                case let .success(value): result.client = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?) {
+                
+                case let .success(value): result.customer = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?) {
+                
+                case let .success(value): result.doNotBroadcast = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?) {
+                
+                case let .success(value): result.section = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?) {
+                
+                case let .success(value): result.source = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?) {
+                
+                case let .success(value): result.specifics = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?) {
+                
+                case let .success(value): result.synchronous = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?) {
+                
+                case let .success(value): result.timestamp = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?) {
+                
+                case let .success(value): result.type = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Topic.self, source: sourceDictionary["topic"] as AnyObject?) {
+                
+                case let .success(value): result.topic = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "WebsocketRemoveTopicEvent", actual: "\(source)"))
+            }
+        }
+        // Decoder for WebsocketSendMessageEvent
+        Decoders.addDecoder(clazz: WebsocketSendMessageEvent.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WebsocketSendMessageEvent> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? WebsocketSendMessageEvent() : instance as! WebsocketSendMessageEvent
+                if decoders["\(BroadcastableEvent.self)"] != nil {
+                  _ = Decoders.decode(clazz: BroadcastableEvent.self, source: source, instance: result)
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?) {
+                
+                case let .success(value): result.client = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?) {
+                
+                case let .success(value): result.customer = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?) {
+                
+                case let .success(value): result.doNotBroadcast = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?) {
+                
+                case let .success(value): result.section = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?) {
+                
+                case let .success(value): result.source = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?) {
+                
+                case let .success(value): result.specifics = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?) {
+                
+                case let .success(value): result.synchronous = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?) {
+                
+                case let .success(value): result.timestamp = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?) {
+                
+                case let .success(value): result.type = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["usernames"] as AnyObject?) {
+                
+                case let .success(value): result.usernames = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "WebsocketSendMessageEvent", actual: "\(source)"))
+            }
+        }
+        // Decoder for WebsocketSendTopicMessageEvent
+        Decoders.addDecoder(clazz: WebsocketSendTopicMessageEvent.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WebsocketSendTopicMessageEvent> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? WebsocketSendTopicMessageEvent() : instance as! WebsocketSendTopicMessageEvent
+                if decoders["\(BroadcastableEvent.self)"] != nil {
+                  _ = Decoders.decode(clazz: BroadcastableEvent.self, source: source, instance: result)
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?) {
+                
+                case let .success(value): result.client = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?) {
+                
+                case let .success(value): result.customer = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?) {
+                
+                case let .success(value): result.doNotBroadcast = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?) {
+                
+                case let .success(value): result.section = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?) {
+                
+                case let .success(value): result.source = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?) {
+                
+                case let .success(value): result.specifics = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?) {
+                
+                case let .success(value): result.synchronous = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?) {
+                
+                case let .success(value): result.timestamp = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?) {
+                
+                case let .success(value): result.type = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["content"] as AnyObject?) {
+                
+                case let .success(value): result.content = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["topic"] as AnyObject?) {
+                
+                case let .success(value): result.topic = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "WebsocketSendTopicMessageEvent", actual: "\(source)"))
+            }
+        }
+        // Decoder for WebsocketSubscribeEvent
+        Decoders.addDecoder(clazz: WebsocketSubscribeEvent.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WebsocketSubscribeEvent> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? WebsocketSubscribeEvent() : instance as! WebsocketSubscribeEvent
+                if decoders["\(BroadcastableEvent.self)"] != nil {
+                  _ = Decoders.decode(clazz: BroadcastableEvent.self, source: source, instance: result)
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?) {
+                
+                case let .success(value): result.client = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?) {
+                
+                case let .success(value): result.customer = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?) {
+                
+                case let .success(value): result.doNotBroadcast = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?) {
+                
+                case let .success(value): result.section = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?) {
+                
+                case let .success(value): result.source = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?) {
+                
+                case let .success(value): result.specifics = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?) {
+                
+                case let .success(value): result.synchronous = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?) {
+                
+                case let .success(value): result.timestamp = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?) {
+                
+                case let .success(value): result.type = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Topic.self, source: sourceDictionary["topic"] as AnyObject?) {
+                
+                case let .success(value): result.topic = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: UserResource.self, source: sourceDictionary["user_resource"] as AnyObject?) {
+                
+                case let .success(value): result.userResource = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "WebsocketSubscribeEvent", actual: "\(source)"))
+            }
+        }
+        // Decoder for WebsocketUnsubscribeEvent
+        Decoders.addDecoder(clazz: WebsocketUnsubscribeEvent.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<WebsocketUnsubscribeEvent> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? WebsocketUnsubscribeEvent() : instance as! WebsocketUnsubscribeEvent
+                if decoders["\(BroadcastableEvent.self)"] != nil {
+                  _ = Decoders.decode(clazz: BroadcastableEvent.self, source: source, instance: result)
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?) {
+                
+                case let .success(value): result.client = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["customer"] as AnyObject?) {
+                
+                case let .success(value): result.customer = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["do_not_broadcast"] as AnyObject?) {
+                
+                case let .success(value): result.doNotBroadcast = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["section"] as AnyObject?) {
+                
+                case let .success(value): result.section = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Any.self, source: sourceDictionary["source"] as AnyObject?) {
+                
+                case let .success(value): result.source = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["specifics"] as AnyObject?) {
+                
+                case let .success(value): result.specifics = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["synchronous"] as AnyObject?) {
+                
+                case let .success(value): result.synchronous = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?) {
+                
+                case let .success(value): result.timestamp = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?) {
+                
+                case let .success(value): result.type = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: Topic.self, source: sourceDictionary["topic"] as AnyObject?) {
+                
+                case let .success(value): result.topic = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: TopicSubscriber.self, source: sourceDictionary["topic_subscriber"] as AnyObject?) {
+                
+                case let .success(value): result.topicSubscriber = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "WebsocketUnsubscribeEvent", actual: "\(source)"))
             }
         }
         // Decoder for AudioGroupProperty

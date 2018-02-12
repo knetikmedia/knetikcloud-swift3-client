@@ -26,6 +26,7 @@ open class PaymentsAPI: APIBase {
     /**
      Create a new payment method for a user
      - POST /users/{user_id}/payment-methods
+     - <b>Permissions Needed:</b> PAYMENTS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -91,6 +92,7 @@ open class PaymentsAPI: APIBase {
     /**
      Delete an existing payment method for a user
      - DELETE /users/{user_id}/payment-methods/{id}
+     - <b>Permissions Needed:</b> PAYMENTS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -130,6 +132,7 @@ open class PaymentsAPI: APIBase {
     /**
      Get a single payment method for a user
      - GET /users/{user_id}/payment-methods/{id}
+     - <b>Permissions Needed:</b> PAYMENTS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -195,6 +198,7 @@ open class PaymentsAPI: APIBase {
     /**
      Get a single payment method type
      - GET /payment/types/{id}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -243,6 +247,7 @@ open class PaymentsAPI: APIBase {
     /**
      Get all payment method types
      - GET /payment/types
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -343,6 +348,7 @@ open class PaymentsAPI: APIBase {
     /**
      Get all payment methods for a user
      - GET /users/{user_id}/payment-methods
+     - <b>Permissions Needed:</b> PAYMENTS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -448,6 +454,7 @@ open class PaymentsAPI: APIBase {
     /**
      Authorize payment of an invoice for later capture
      - POST /payment/authorizations
+     - <b>Permissions Needed:</b> PAYMENTS_ADMIN or PAYMENTS_USER
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -494,6 +501,7 @@ open class PaymentsAPI: APIBase {
     /**
      Capture an existing invoice payment authorization
      - POST /payment/authorizations/{id}/capture
+     - <b>Permissions Needed:</b> PAYMENTS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -532,6 +540,7 @@ open class PaymentsAPI: APIBase {
     /**
      Update an existing payment method for a user
      - PUT /users/{user_id}/payment-methods/{id}
+     - <b>Permissions Needed:</b> PAYMENTS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

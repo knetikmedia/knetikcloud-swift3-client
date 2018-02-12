@@ -26,6 +26,7 @@ open class PaymentsWalletsAPI: APIBase {
     /**
      Returns the user's wallet for the given currency code
      - GET /users/{user_id}/wallets/{currency_code}
+     - <b>Permissions Needed:</b> WALLETS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -79,6 +80,7 @@ open class PaymentsWalletsAPI: APIBase {
     /**
      Retrieve a user's wallet transactions
      - GET /users/{user_id}/wallets/{currency_code}/transactions
+     - <b>Permissions Needed:</b> WALLETS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -122,7 +124,7 @@ open class PaymentsWalletsAPI: APIBase {
     "create_date" : 6,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -144,7 +146,7 @@ open class PaymentsWalletsAPI: APIBase {
     "create_date" : 6,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -202,6 +204,7 @@ open class PaymentsWalletsAPI: APIBase {
     /**
      List all of a user's wallets
      - GET /users/{user_id}/wallets
+     - <b>Permissions Needed:</b> WALLETS_ADMIN or owner
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -250,6 +253,7 @@ open class PaymentsWalletsAPI: APIBase {
     /**
      Retrieves a summation of wallet balances by currency code
      - GET /wallets/totals
+     - <b>Permissions Needed:</b> WALLETS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -333,6 +337,7 @@ open class PaymentsWalletsAPI: APIBase {
     /**
      Retrieve wallet transactions across the system
      - GET /wallets/transactions
+     - <b>Permissions Needed:</b> WALLETS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -376,7 +381,7 @@ open class PaymentsWalletsAPI: APIBase {
     "create_date" : 6,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -398,7 +403,7 @@ open class PaymentsWalletsAPI: APIBase {
     "create_date" : 6,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -462,6 +467,7 @@ open class PaymentsWalletsAPI: APIBase {
     /**
      Retrieve a list of wallets across the system
      - GET /wallets
+     - <b>Permissions Needed:</b> WALLETS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -543,6 +549,7 @@ open class PaymentsWalletsAPI: APIBase {
     /**
      Updates the balance for a user's wallet
      - PUT /users/{user_id}/wallets/{currency_code}/balance
+     - <b>Permissions Needed:</b> WALLETS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -564,7 +571,7 @@ open class PaymentsWalletsAPI: APIBase {
   "create_date" : 6,
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },

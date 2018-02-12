@@ -24,6 +24,7 @@ open class UtilVersionAPI: APIBase {
     /**
      Get current version info
      - GET /version
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

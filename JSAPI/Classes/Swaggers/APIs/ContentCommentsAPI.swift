@@ -25,6 +25,7 @@ open class ContentCommentsAPI: APIBase {
     /**
      Add a new comment
      - POST /comments
+     - <b>Permissions Needed:</b> COMMENTS_USER or COMMENTS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -39,7 +40,7 @@ open class ContentCommentsAPI: APIBase {
   "updated_date" : 5,
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -75,6 +76,7 @@ open class ContentCommentsAPI: APIBase {
     /**
      Delete a comment
      - DELETE /comments/{id}
+     - <b>Permissions Needed:</b> COMMENTS_USER or COMMENTS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -111,6 +113,7 @@ open class ContentCommentsAPI: APIBase {
     /**
      Return a comment
      - GET /comments/{id}
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -125,7 +128,7 @@ open class ContentCommentsAPI: APIBase {
   "updated_date" : 5,
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -165,6 +168,7 @@ open class ContentCommentsAPI: APIBase {
     /**
      Returns a page of comments
      - GET /comments
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -201,7 +205,7 @@ open class ContentCommentsAPI: APIBase {
     "updated_date" : 5,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -215,7 +219,7 @@ open class ContentCommentsAPI: APIBase {
     "updated_date" : 5,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -263,6 +267,7 @@ open class ContentCommentsAPI: APIBase {
     /**
      Update a comment
      - PUT /comments/{id}/content
+     - <b>Permissions Needed:</b> COMMENTS_USER or COMMENTS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

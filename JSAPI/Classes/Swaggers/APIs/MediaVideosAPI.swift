@@ -26,7 +26,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Adds a user to a video's whitelist
      - POST /media/videos/{id}/whitelist
-     - Whitelisted users can view video regardless of privacy setting.
+     - Whitelisted users can view video regardless of privacy setting. <br><br><b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -64,6 +64,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Adds a new video in the system
      - POST /media/videos
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -77,7 +78,7 @@ open class MediaVideosAPI: APIBase {
   "privacy" : "private",
   "uploader" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -101,7 +102,7 @@ open class MediaVideosAPI: APIBase {
     "updated_date" : 5,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -115,7 +116,7 @@ open class MediaVideosAPI: APIBase {
     "updated_date" : 5,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -195,6 +196,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Add a new video comment
      - POST /media/videos/{video_id}/comments
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -209,7 +211,7 @@ open class MediaVideosAPI: APIBase {
   "updated_date" : 5,
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -248,6 +250,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Adds a contributor to a video
      - POST /media/videos/{video_id}/contributors
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -286,6 +289,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Add a new flag
      - POST /media/videos/{video_id}/moderation
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -300,7 +304,7 @@ open class MediaVideosAPI: APIBase {
   "updated_date" : 1,
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   }
@@ -338,6 +342,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Adds one or more existing videos as related to this one
      - POST /media/videos/{video_id}/related
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -388,6 +393,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Create a video disposition
      - POST /media/videos/{video_id}/dispositions
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -401,7 +407,7 @@ open class MediaVideosAPI: APIBase {
   "id" : 6,
   "user" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   }
@@ -438,7 +444,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Create a video template
      - POST /media/videos/templates
-     - Video Templates define a type of video and the properties they have
+     - Video Templates define a type of video and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -574,6 +580,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Deletes a video from the system if no resources are attached to it
      - DELETE /media/videos/{id}
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -611,6 +618,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Delete a video comment
      - DELETE /media/videos/{video_id}/comments/{id}
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -649,6 +657,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Delete a video disposition
      - DELETE /media/videos/{video_id}/dispositions/{disposition_id}
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -685,6 +694,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Delete a flag
      - DELETE /media/videos/{video_id}/moderation
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -722,6 +732,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Delete a video's relationship
      - DELETE /media/videos/{video_id}/related/{id}
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -761,7 +772,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Delete a video template
      - DELETE /media/videos/templates/{id}
-     - If cascade = 'detach', it will force delete the template even if it's attached to other objects
+     - If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -805,6 +816,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Get user videos
      - GET /users/{user_id}/videos
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -840,7 +852,7 @@ open class MediaVideosAPI: APIBase {
     "privacy" : "private",
     "uploader" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -864,7 +876,7 @@ open class MediaVideosAPI: APIBase {
       "updated_date" : 5,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
@@ -878,7 +890,7 @@ open class MediaVideosAPI: APIBase {
       "updated_date" : 5,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
@@ -934,7 +946,7 @@ open class MediaVideosAPI: APIBase {
     "privacy" : "private",
     "uploader" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -958,7 +970,7 @@ open class MediaVideosAPI: APIBase {
       "updated_date" : 5,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
@@ -972,7 +984,7 @@ open class MediaVideosAPI: APIBase {
       "updated_date" : 5,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
@@ -1062,6 +1074,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Loads a specific video details
      - GET /media/videos/{id}
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1075,7 +1088,7 @@ open class MediaVideosAPI: APIBase {
   "privacy" : "private",
   "uploader" : {
     "avatar_url" : "avatar_url",
-    "id" : 1,
+    "id" : 9,
     "display_name" : "display_name",
     "username" : "username"
   },
@@ -1099,7 +1112,7 @@ open class MediaVideosAPI: APIBase {
     "updated_date" : 5,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -1113,7 +1126,7 @@ open class MediaVideosAPI: APIBase {
     "updated_date" : 5,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -1195,6 +1208,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Returns a page of comments for a video
      - GET /media/videos/{video_id}/comments
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1231,7 +1245,7 @@ open class MediaVideosAPI: APIBase {
     "updated_date" : 5,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -1245,7 +1259,7 @@ open class MediaVideosAPI: APIBase {
     "updated_date" : 5,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -1292,6 +1306,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Returns a page of dispositions for a video
      - GET /media/videos/{video_id}/dispositions
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1327,7 +1342,7 @@ open class MediaVideosAPI: APIBase {
     "id" : 6,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     }
@@ -1339,7 +1354,7 @@ open class MediaVideosAPI: APIBase {
     "id" : 6,
     "user" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     }
@@ -1385,6 +1400,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Returns a page of video relationships
      - GET /media/videos/{video_id}/related
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1474,6 +1490,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Get a single video template
      - GET /media/videos/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1612,6 +1629,7 @@ open class MediaVideosAPI: APIBase {
     /**
      List and search video templates
      - GET /media/videos/templates
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1891,6 +1909,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Search videos using the documented filters
      - GET /media/videos
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1926,7 +1945,7 @@ open class MediaVideosAPI: APIBase {
     "privacy" : "private",
     "uploader" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -1950,7 +1969,7 @@ open class MediaVideosAPI: APIBase {
       "updated_date" : 5,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
@@ -1964,7 +1983,7 @@ open class MediaVideosAPI: APIBase {
       "updated_date" : 5,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
@@ -2020,7 +2039,7 @@ open class MediaVideosAPI: APIBase {
     "privacy" : "private",
     "uploader" : {
       "avatar_url" : "avatar_url",
-      "id" : 1,
+      "id" : 9,
       "display_name" : "display_name",
       "username" : "username"
     },
@@ -2044,7 +2063,7 @@ open class MediaVideosAPI: APIBase {
       "updated_date" : 5,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
@@ -2058,7 +2077,7 @@ open class MediaVideosAPI: APIBase {
       "updated_date" : 5,
       "user" : {
         "avatar_url" : "avatar_url",
-        "id" : 1,
+        "id" : 9,
         "display_name" : "display_name",
         "username" : "username"
       },
@@ -2171,7 +2190,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Removes a user from a video's whitelist
      - DELETE /media/videos/{video_id}/whitelist/{id}
-     - Remove the user with the id given in the path from the whitelist of users that can view this video regardless of privacy setting.
+     - Remove the user with the id given in the path from the whitelist of users that can view this video regardless of privacy setting. <br><br><b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2211,6 +2230,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Removes a contributor from a video
      - DELETE /media/videos/{video_id}/contributors/{id}
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2250,6 +2270,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Modifies a video's details
      - PUT /media/videos/{id}
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2289,6 +2310,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Update a video comment
      - PUT /media/videos/{video_id}/comments/{id}/content
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2330,6 +2352,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Update a video's relationship details
      - PUT /media/videos/{video_id}/related/{id}/relationship_details
+     - <b>Permissions Needed:</b> VIDEOS_USER or VIDEOS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2370,6 +2393,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Update a video template
      - PUT /media/videos/templates/{id}
+     - <b>Permissions Needed:</b> TEMPLATE_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2507,6 +2531,7 @@ open class MediaVideosAPI: APIBase {
     /**
      Increment a video's view count
      - POST /media/videos/{id}/views
+     - <b>Permissions Needed:</b> ANY
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

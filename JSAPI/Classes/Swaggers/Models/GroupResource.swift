@@ -16,7 +16,7 @@ open class GroupResource: JSONEncodable {
     }
     /** A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type */
     public var additionalProperties: [String:Property]?
-    /** A description of the group. Max 250 characters */
+    /** A description of the group */
     public var description: String?
     /** The number of users in the group */
     public var memberCount: Int32?

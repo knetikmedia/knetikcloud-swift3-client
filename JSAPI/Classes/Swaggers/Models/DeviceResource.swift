@@ -16,9 +16,9 @@ open class DeviceResource: JSONEncodable {
     public var createdDate: Int64?
     /** The description of the device */
     public var description: String?
-    /** The type of device. Use mobile to specifically register mobile devices. This particular type will be used to send and receive notifications */
+    /** The type of device. Use mobile_device to specifically register mobile devices. This particular type will be used to send and receive notifications */
     public var deviceType: String?
-    /** The unique ID for this device */
+    /** The unique ID for this device. Cannot be changed after creation. Default: random */
     public var id: String?
     /** The physical location of the device, coordinates or named place (office, living room, etc) */
     public var location: String?

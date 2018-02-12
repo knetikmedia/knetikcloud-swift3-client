@@ -25,7 +25,7 @@ open class BRERuleEngineGlobalsAPI: APIBase {
     /**
      Create a global definition
      - POST /bre/globals/definitions
-     - Once created you can then use in a custom rule. Note that global definitions cannot be modified or deleted if in use.
+     - Once created you can then use in a custom rule. Note that global definitions cannot be modified or deleted if in use. <br><br><b>Permissions Needed:</b> BRE_RULE_ENGINE_GLOBALS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -76,7 +76,7 @@ open class BRERuleEngineGlobalsAPI: APIBase {
     /**
      Delete a global
      - DELETE /bre/globals/definitions/{id}
-     - May fail if there are existing rules against it. Cannot delete core globals
+     - May fail if there are existing rules against it. Cannot delete core globals. <br><br><b>Permissions Needed:</b> BRE_RULE_ENGINE_GLOBALS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -113,6 +113,7 @@ open class BRERuleEngineGlobalsAPI: APIBase {
     /**
      Get a single global definition
      - GET /bre/globals/definitions/{id}
+     - <b>Permissions Needed:</b> BRE_RULE_ENGINE_GLOBALS_USER
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -166,6 +167,7 @@ open class BRERuleEngineGlobalsAPI: APIBase {
     /**
      List global definitions
      - GET /bre/globals/definitions
+     - <b>Permissions Needed:</b> BRE_RULE_ENGINE_GLOBALS_USER
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -262,7 +264,7 @@ open class BRERuleEngineGlobalsAPI: APIBase {
     /**
      Update a global definition
      - PUT /bre/globals/definitions/{id}
-     - May fail if new parameters mismatch requirements of existing rules. Cannot update core globals
+     - May fail if new parameters mismatch requirements of existing rules. Cannot update core globals. <br><br><b>Permissions Needed:</b> BRE_RULE_ENGINE_GLOBALS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

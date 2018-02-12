@@ -43,7 +43,7 @@ open class ReportingUsersAPI: APIBase {
     /**
      Get user registration info
      - GET /reporting/users/registrations
-     - Get user registration counts grouped by time range
+     - Get user registration counts grouped by time range. <br><br><b>Permissions Needed:</b> REPORTING_USER_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
