@@ -892,7 +892,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Load a single activity occurrence details
      - GET /activity-occurrences/{activity_occurrence_id}
-     - <b>Permissions Needed:</b> ACTIVITIES_ADMIN
+     - <b>Permissions Needed:</b> ACTIVITIES_USER or ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1425,7 +1425,7 @@ open class ActivitiesAPI: APIBase {
     /**
      List activity occurrences
      - GET /activity-occurrences
-     - <b>Permissions Needed:</b> ACTIVITIES_ADMIN
+     - <b>Permissions Needed:</b> ACTIVITIES_USER or ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1717,7 +1717,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Sets the status of an activity occurrence to FINISHED and logs metrics
      - POST /activity-occurrences/{activity_occurrence_id}/results
-     - In addition to user permissions requirements there is security based on the core_settings.results_trust setting.
+     - In addition to user permissions requirements there is security based on the core_settings.results_trust setting. <br><br><b>Permissions Needed:</b> ACTIVITIES_USER or ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1839,6 +1839,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Sets the settings of an activity occurrence
      - PUT /activity-occurrences/{activity_occurrence_id}/settings
+     - <b>Permissions Needed:</b> ACTIVITIES_USER and host or ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -1953,7 +1954,7 @@ open class ActivitiesAPI: APIBase {
      - parameter status: (body) The new status (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func setUserStatus(activityOccurrenceId: Int64, userId: String, status: String? = nil, completion: @escaping ((_ data: ActivityUserResource?, _ error: ErrorResponse?) -> Void)) {
+    open class func setUserStatus(activityOccurrenceId: Int64, userId: String, status: ActivityUserStatusWrapper? = nil, completion: @escaping ((_ data: ActivityUserResource?, _ error: ErrorResponse?) -> Void)) {
         setUserStatusWithRequestBuilder(activityOccurrenceId: activityOccurrenceId, userId: userId, status: status).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
@@ -1992,7 +1993,7 @@ open class ActivitiesAPI: APIBase {
      - parameter status: (body) The new status (optional)
      - returns: RequestBuilder<ActivityUserResource> 
      */
-    open class func setUserStatusWithRequestBuilder(activityOccurrenceId: Int64, userId: String, status: String? = nil) -> RequestBuilder<ActivityUserResource> {
+    open class func setUserStatusWithRequestBuilder(activityOccurrenceId: Int64, userId: String, status: ActivityUserStatusWrapper? = nil) -> RequestBuilder<ActivityUserResource> {
         var path = "/activity-occurrences/{activity_occurrence_id}/users/{user_id}/status"
         path = path.replacingOccurrences(of: "{activity_occurrence_id}", with: "\(activityOccurrenceId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{user_id}", with: "\(userId)", options: .literal, range: nil)
@@ -2161,7 +2162,7 @@ open class ActivitiesAPI: APIBase {
      - parameter activityOccurrenceStatus: (body) The activity occurrence status object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateActivityOccurrenceStatus(activityOccurrenceId: Int64, activityOccurrenceStatus: ValueWrapperstring? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+    open class func updateActivityOccurrenceStatus(activityOccurrenceId: Int64, activityOccurrenceStatus: ActivityOccurrenceStatusWrapper? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateActivityOccurrenceStatusWithRequestBuilder(activityOccurrenceId: activityOccurrenceId, activityOccurrenceStatus: activityOccurrenceStatus).execute { (response, error) -> Void in
             completion(error)
         }
@@ -2171,7 +2172,7 @@ open class ActivitiesAPI: APIBase {
     /**
      Update the status of an activity occurrence
      - PUT /activity-occurrences/{activity_occurrence_id}/status
-     - If setting to 'FINISHED' reward will be run based on current metrics that have been recorded already. Alternatively, see results endpoint to finish and record all metrics at once. Can be called by non-host participants if non_host_status_control is true
+     - If setting to 'FINISHED' reward will be run based on current metrics that have been recorded already. Alternatively, see results endpoint to finish and record all metrics at once. Can be called by non-host participants if non_host_status_control is true. <br><br><b>Permissions Needed:</b> ACTIVITIES_USER and host or ACTIVITIES_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:
@@ -2181,7 +2182,7 @@ open class ActivitiesAPI: APIBase {
      - parameter activityOccurrenceStatus: (body) The activity occurrence status object (optional)
      - returns: RequestBuilder<Void> 
      */
-    open class func updateActivityOccurrenceStatusWithRequestBuilder(activityOccurrenceId: Int64, activityOccurrenceStatus: ValueWrapperstring? = nil) -> RequestBuilder<Void> {
+    open class func updateActivityOccurrenceStatusWithRequestBuilder(activityOccurrenceId: Int64, activityOccurrenceStatus: ActivityOccurrenceStatusWrapper? = nil) -> RequestBuilder<Void> {
         var path = "/activity-occurrences/{activity_occurrence_id}/status"
         path = path.replacingOccurrences(of: "{activity_occurrence_id}", with: "\(activityOccurrenceId)", options: .literal, range: nil)
         let URLString = JSAPIAPI.basePath + path

@@ -25,7 +25,7 @@ open class ConfigsAPI: APIBase {
     /**
      Create a new config
      - POST /configs
-     - <b>Permissions Needed:</b> TOPICS_ADMIN
+     - <b>Permissions Needed:</b> CONFIGS_ADMIN
      - OAuth:
        - type: oauth2
        - name: oauth2_client_credentials_grant     - OAuth:

@@ -18,7 +18,7 @@ open class UserActivityResults: JSONEncodable {
     public var rank: Int64?
     /** The raw score in this leaderboard. Null means non-compete or disqualification */
     public var score: Int64?
-    /** Any tags for the metric. Each unique tag will translate into a unique leaderboard. Maximum 5 tags and 50 characters each */
+    /** Any tags for the metric. Each unique tag will translate into a unique leaderboard. Maximum 10 tags and 50 characters each */
     public var tags: [String]?
     /** The number of users tied at this rank, including this user. 1 means no tie */
     public var ties: Int32?

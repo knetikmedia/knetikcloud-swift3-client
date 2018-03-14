@@ -704,8 +704,8 @@ open class ChatAPI: APIBase {
      - parameter chatMessageResource: (body) The chat message resource (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func sendMessage(chatMessageResource: ChatMessageResource? = nil, completion: @escaping ((_ data: ChatMessageResource?, _ error: ErrorResponse?) -> Void)) {
-        sendMessageWithRequestBuilder(chatMessageResource: chatMessageResource).execute { (response, error) -> Void in
+    open class func sendChatMessage(chatMessageResource: ChatMessageResource? = nil, completion: @escaping ((_ data: ChatMessageResource?, _ error: ErrorResponse?) -> Void)) {
+        sendChatMessageWithRequestBuilder(chatMessageResource: chatMessageResource).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -735,7 +735,7 @@ open class ChatAPI: APIBase {
      - parameter chatMessageResource: (body) The chat message resource (optional)
      - returns: RequestBuilder<ChatMessageResource> 
      */
-    open class func sendMessageWithRequestBuilder(chatMessageResource: ChatMessageResource? = nil) -> RequestBuilder<ChatMessageResource> {
+    open class func sendChatMessageWithRequestBuilder(chatMessageResource: ChatMessageResource? = nil) -> RequestBuilder<ChatMessageResource> {
         let path = "/chat/messages"
         let URLString = JSAPIAPI.basePath + path
         let parameters = chatMessageResource?.encodeToJSON() as? [String:AnyObject]
